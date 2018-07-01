@@ -1,0 +1,70 @@
+<level grid_width="8" grid_height="8">
+	<hole_list>
+		<hole grid_x="0" grid_y="5"/>
+		<hole grid_x="1" grid_y="5"/>
+		<hole grid_x="2" grid_y="5"/>
+		<hole grid_x="3" grid_y="5"/>
+		<hole grid_x="4" grid_y="2"/>
+		<hole grid_x="4" grid_y="3"/>
+		<hole grid_x="4" grid_y="4"/>
+		<hole grid_x="4" grid_y="5"/>
+		<hole grid_x="5" grid_y="2"/>
+		<hole grid_x="6" grid_y="2"/>
+		<hole grid_x="7" grid_y="2"/>
+	</hole_list>
+	<tile_list>
+		<tile tile_type="1" grid_x="0" grid_y="0"/>
+		<tile tile_type="1" grid_x="0" grid_y="1" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="0" grid_y="2"/>
+		<tile tile_type="1" grid_x="0" grid_y="3"/>
+		<tile tile_type="1" grid_x="0" grid_y="4"/>
+		<tile tile_type="1" grid_x="0" grid_y="6"/>
+		<tile tile_type="1" grid_x="0" grid_y="7"/>
+		<tile tile_type="1" grid_x="1" grid_y="0"/>
+		<tile tile_type="1" grid_x="1" grid_y="1" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="1" grid_y="2"/>
+		<tile tile_type="1" grid_x="1" grid_y="3"/>
+		<tile tile_type="1" grid_x="1" grid_y="4"/>
+		<tile tile_type="1" grid_x="1" grid_y="6"/>
+		<tile tile_type="1" grid_x="1" grid_y="7"/>
+		<tile tile_type="1" grid_x="2" grid_y="0"/>
+		<tile tile_type="1" grid_x="2" grid_y="1" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="2" grid_y="2"/>
+		<tile tile_type="1" grid_x="2" grid_y="3"/>
+		<tile tile_type="1" grid_x="2" grid_y="4"/>
+		<tile tile_type="1" grid_x="2" grid_y="6"/>
+		<tile tile_type="1" grid_x="2" grid_y="7" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="3" grid_y="0"/>
+		<tile tile_type="1" grid_x="3" grid_y="1"/>
+		<tile tile_type="1" grid_x="3" grid_y="2"/>
+		<tile tile_type="1" grid_x="3" grid_y="3"/>
+		<tile tile_type="1" grid_x="3" grid_y="4"/>
+		<tile tile_type="1" grid_x="3" grid_y="6" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="3" grid_y="7" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="4" grid_y="0"/>
+		<tile tile_type="1" grid_x="4" grid_y="1"/>
+		<tile tile_type="1" grid_x="4" grid_y="6" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="4" grid_y="7" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="5" grid_y="0"/>
+		<tile tile_type="1" grid_x="5" grid_y="1" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="5" grid_y="3"/>
+		<tile tile_type="1" grid_x="5" grid_y="4"/>
+		<tile tile_type="1" grid_x="5" grid_y="5"/>
+		<tile tile_type="1" grid_x="5" grid_y="6"/>
+		<tile tile_type="1" grid_x="5" grid_y="7" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="6" grid_y="0"/>
+		<tile tile_type="1" grid_x="6" grid_y="1"/>
+		<tile tile_type="1" grid_x="6" grid_y="3"/>
+		<tile tile_type="1" grid_x="6" grid_y="4"/>
+		<tile tile_type="1" grid_x="6" grid_y="5"/>
+		<tile tile_type="1" grid_x="6" grid_y="6"/>
+		<tile tile_type="1" grid_x="6" grid_y="7" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="7" grid_y="0"/>
+		<tile tile_type="1" grid_x="7" grid_y="1"/>
+		<tile tile_type="1" grid_x="7" grid_y="3"/>
+		<tile tile_type="1" grid_x="7" grid_y="4"/>
+		<tile tile_type="1" grid_x="7" grid_y="5" special_index="0" background_index="0"/>
+		<tile tile_type="1" grid_x="7" grid_y="6"/>
+		<tile tile_type="1" grid_x="7" grid_y="7"/>
+	</tile_list>
+</level>

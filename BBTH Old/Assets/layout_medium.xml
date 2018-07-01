@@ -1,0 +1,10 @@
+<layout_info>
+	<menu_list>
+		<menu_info id="canvas" x="520.0f" y="361.0f" width="340.0f" height="419.0f" expanded="true"/>
+		<menu_info id="node_main" x="709.0f" y="113.0f" width="340.0f" height="327.0f" expanded="true"/>
+		<menu_info id="particles" x="611.0f" y="439.0f" width="480.0f" height="729.0f" expanded="true"/>
+		<menu_info id="parent" x="700.0f" y="54.0f" width="340.0f" height="335.0f" expanded="true"/>
+		<menu_info id="timeline" x="0.0f" y="426.0f" width="540.0f" height="306.0f" expanded="true"/>
+		<menu_info id="xform" x="24.0f" y="547.0f" width="500.0f" height="247.0f" expanded="true"/>
+	</menu_list>
+</layout_info>

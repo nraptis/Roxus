@@ -1,0 +1,34 @@
+<jiggle_file target_all="true" mode="0" mode_edit="0" mode_view="0">
+	<jiggle_point_list>
+		<jiggle_point>
+			<x>1133117440</x>
+			<y>1137737727</y>
+			<scale>1065353216</scale>
+			<rotation>0</rotation>
+			<speed>1056964608</speed>
+			<power>1056964608</power>
+			<bulge_index>1</bulge_index>
+			<spline>
+				<control_point x="-1049624640" y="1129054208"/>
+				<control_point x="1119617024" y="1099956227"/>
+				<control_point x="1090519033" y="-1027342332"/>
+				<control_point x="-1026162688" y="1097859064"/>
+			</spline>
+		</jiggle_point>
+		<jiggle_point>
+			<x>1139212285</x>
+			<y>1137213440</y>
+			<scale>1065353216</scale>
+			<rotation>0</rotation>
+			<speed>1056964608</speed>
+			<power>1056964608</power>
+			<bulge_index>1</bulge_index>
+			<spline>
+				<control_point x="1093664800" y="1127481344"/>
+				<control_point x="1120403456" y="1082130436"/>
+				<control_point x="1065353305" y="-1025376252"/>
+				<control_point x="-1027080192" y="-1465551450"/>
+			</spline>
+		</jiggle_point>
+	</jiggle_point_list>
+</jiggle_file>

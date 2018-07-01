@@ -1,0 +1,60 @@
+<jiggle_file target_all="true" mode="2" mode_edit="1" mode_view="0" selected_index="-1">
+	<display_data>
+		<fade_img>true</fade_img>
+		<display_img>true</display_img>
+		<display_centers>true</display_centers>
+		<display_markers>true</display_markers>
+		<display_grid>true</display_grid>
+		<display_weights>true</display_weights>
+		<display_animation_markers>true</display_animation_markers>
+	</display_data>
+	<jiggle_container>
+		<center_x>1133903872</center_x>
+		<center_y>1138819072</center_y>
+		<zoom_scale>1065353216</zoom_scale>
+		<zoom_scale_min>1059481190</zoom_scale_min>
+		<zoom_scale_max>1077936128</zoom_scale_max>
+	</jiggle_container>
+	<jiggle_point_list>
+		<jiggle_point>
+			<x>1141522432</x>
+			<y>1136951296</y>
+			<scale>1065353216</scale>
+			<rotation>0</rotation>
+			<speed>1056964608</speed>
+			<power>1056964608</power>
+			<bulge_index>1</bulge_index>
+			<spline>
+				<control_point x="-1042808833" y="1122107392"/>
+				<control_point x="1115721402" y="1117336954"/>
+				<control_point x="1120204328" y="1099623206"/>
+				<control_point x="1121006718" y="-1029963774"/>
+				<control_point x="1112329951" y="-1023938491"/>
+				<control_point x="-1031248014" y="-1023215583"/>
+				<control_point x="-1020618175" y="-1030750208"/>
+				<control_point x="-1019380972" y="1110275476"/>
+				<control_point x="-1023391908" y="1121531261"/>
+			</spline>
+		</jiggle_point>
+		<jiggle_point>
+			<x>1132331010</x>
+			<y>1136656384</y>
+			<scale>1065353216</scale>
+			<rotation>0</rotation>
+			<speed>1056964608</speed>
+			<power>1056964608</power>
+			<bulge_index>1</bulge_index>
+			<spline>
+				<control_point x="1111490568" y="1122500608"/>
+				<control_point x="1125074780" y="1116157304"/>
+				<control_point x="1126071060" y="-1036613009"/>
+				<control_point x="1124440642" y="-1022820351"/>
+				<control_point x="1119119214" y="-1017055201"/>
+				<control_point x="-1031772307" y="-1020004320"/>
+				<control_point x="-1025952638" y="-1023148032"/>
+				<control_point x="-1027934680" y="-1048958530"/>
+				<control_point x="-1033036424" y="1116419448"/>
+			</spline>
+		</jiggle_point>
+	</jiggle_point_list>
+</jiggle_file>
