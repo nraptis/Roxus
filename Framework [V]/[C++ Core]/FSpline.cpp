@@ -184,10 +184,10 @@ void FSpline::SetPoint(int theIndex,float x, float y)
 int FSpline::GetClosestControlIndex(float x, float y, float &dist)
 {
 	dist=-1;
-	int aReturn=-1;
+	int aResult=-1;
 	if(mPointCount>1)
 	{
-		aReturn=0;
+		aResult=0;
 		float aDiffX=mX[0]-x;
 		float aDiffY=mY[0]-y;
 		dist=aDiffX*aDiffX+aDiffY*aDiffY;
@@ -200,11 +200,11 @@ int FSpline::GetClosestControlIndex(float x, float y, float &dist)
 			if(aDist<dist)
 			{
 				dist=aDist;
-				aReturn=i;
+				aResult=i;
 			}
 		}
 	}
-	return aReturn;
+	return aResult;
 }
 
 void FSpline::Insert(int theIndex,float x, float y)
@@ -871,7 +871,7 @@ float FSpline::GetLength(float pStart,float pEnd)
         pEnd = pStart;
     }
     
-    float aReturn=0;
+    float aResult=0;
     
     for(float i=pStart;i<=pEnd;i+=0.01f)
     {
@@ -888,7 +888,7 @@ float FSpline::GetLength(float pStart,float pEnd)
 
 float FSpline::LengthPredict(float pStepSpeed)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     
     float aMax = Max();
     
@@ -918,13 +918,13 @@ float FSpline::LengthPredict(float pStepSpeed)
         
         if(aDist > 0.01f)aDist = sqrtf(aDist);
         
-        aReturn += aDist;
+        aResult += aDist;
         
         aLastX = aX;
         aLastY = aY;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float FSpline::GetLength(float start,float end)
@@ -944,7 +944,7 @@ float FSpline::GetLength(float start,float end)
 	if(start<0)start=0;
 	if(end<=start||!mXCoef)return 0;
 	float aLastX,aLastY,aX,aY,aDiffX,aDiffY,aDist,aPos;
-	float aReturn=0;
+	float aResult=0;
 	int aIndex;
     /*
 	if(mProperties&SPLINE_LINEAR)
@@ -953,15 +953,15 @@ float FSpline::GetLength(float start,float end)
 		int aEnd=(int)end;
 		if(aStart==aEnd)
 		{
-			aReturn=mArcLength[aStart]*(end-start);
+			aResult=mArcLength[aStart]*(end-start);
 		}
 		else
 		{
 			float aStartFactor=1-(start-(float)aStart);
 			float aEndFactor=end-(float)aEnd;
-			aReturn=mArcLength[aStart]*aStartFactor + mArcLength[aEnd]*aEndFactor;
+			aResult=mArcLength[aStart]*aStartFactor + mArcLength[aEnd]*aEndFactor;
 			aStart++;
-			while(aStart<aEnd)aReturn+=mArcLength[aStart++];
+			while(aStart<aEnd)aResult+=mArcLength[aStart++];
 		}
 	}
 	else
@@ -1047,17 +1047,17 @@ float FSpline::GetLength(float start,float end)
 				else aSeek=aMid;
 				aMid=(aSeek+aMin)*0.5f;
 			}
-			aReturn+=aDist;
+			aResult+=aDist;
 			aLastX=aX;
 			aLastY=aY;
 		}
-		if((mProperties&SPLINE_CLOSED)&&end==(float)mMax&&start==(float)0)aReturn++;
+		if((mProperties&SPLINE_CLOSED)&&end==(float)mMax&&start==(float)0)aResult++;
 	//}
 	if((end=(float)mMax)&&(start==0))
 	{
-		mLength=aReturn;
+		mLength=aResult;
 	}
-	return aReturn;
+	return aResult;
 }
 
 void FSpline::SetCoefs(int theIndex, float xa, float xb, float xc, float ya, float yb, float yc)
@@ -1473,10 +1473,10 @@ void FSpline3D::SetPoint(int theIndex,float x, float y, float z)
 int FSpline3D::GetClosestControlIndex(float x, float y, float z, float &dist)
 {
     dist=-1;
-    int aReturn=-1;
+    int aResult=-1;
     if(mPointCount>1)
     {
-        aReturn=0;
+        aResult=0;
         float aDiffX=mX[0]-x;
         float aDiffY=mY[0]-y;
         float aDiffZ=mZ[0]-z;
@@ -1492,11 +1492,11 @@ int FSpline3D::GetClosestControlIndex(float x, float y, float z, float &dist)
             if(aDist<dist)
             {
                 dist=aDist;
-                aReturn=i;
+                aResult=i;
             }
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 void FSpline3D::Insert(int theIndex,float x, float y, float z)

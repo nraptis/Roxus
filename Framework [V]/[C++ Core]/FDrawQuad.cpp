@@ -435,7 +435,7 @@ void FDrawQuad::ColorMultiplyAlpha(float pAlpha)
 
 bool FDrawQuad::ContainsPoint(float pX, float pY)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
     for(int aStart=0,aEnd=3;aStart<4;aEnd=aStart++)
@@ -445,11 +445,11 @@ bool FDrawQuad::ContainsPoint(float pX, float pY)
            (pX < (mVertex[aEnd].mX - mVertex[aStart].mX) * (pY - mVertex[aStart].mY)
             / (mVertex[aEnd].mY - mVertex[aStart].mY) + mVertex[aStart].mX))
         {
-            aReturn = !aReturn;
+            aResult = !aResult;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FDrawQuad::SetTextureAspectFit(FSprite *pSprite) {
@@ -653,20 +653,20 @@ void FDrawQuadRay::ComputeCorners()
      //    aRotation = fmodf(aRotation, 360.0f);
      //}
      
-     aReturn.mX = pCenter.mX + Sin(180.0f -aRotation) * pScale * aDist;
-     aReturn.mY = pCenter.mY + Cos(180.0f -aRotation) * pScale * aDist;
+     aResult.mX = pCenter.mX + Sin(180.0f -aRotation) * pScale * aDist;
+     aResult.mY = pCenter.mY + Cos(180.0f -aRotation) * pScale * aDist;
      
      }
      else
      {
-     aReturn = pPoint;
+     aResult = pPoint;
      
      aDiffX=0.0f;
      aDiffY=0.0f;
      
      aDist=0.0f;
      }
-     return aReturn;
+     return aResult;
      
      */
 }

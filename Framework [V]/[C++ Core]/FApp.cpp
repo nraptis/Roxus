@@ -14,7 +14,7 @@ FApp *gAppBase = 0;
 FApp::FApp()
 {
     gAppBase = this;
-    
+
     mDidInitialize = false;
     mDidLoadStart = false;
     mDidLoad = false;
@@ -29,7 +29,12 @@ FApp::FApp()
     mTimeSinceLastInteraction = 0;
     
     mViewControllerTouch = 0;
-    
+
+
+    mWindowMain.mRoot.mName = "root-main";
+    mWindowModal.mRoot.mName = "root-modal";
+    mWindowTools.mRoot.mName = "root-tools";
+
     
     mViewController.mRoot.mName = "Root";
     mViewControllerModal.mRoot.mName = "Root_Modal";
@@ -57,29 +62,35 @@ void FApp::BaseSetDeviceSize(float pWidth, float pHeight)
 {
 	Graphics::ViewportSet(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 	Graphics::ClipSetAppFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
-    mViewControllerTools.DeviceSizeChanged(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
-    mWindowMain.SetDeviceSize(gDeviceWidth, gDeviceHeight);
-    //mWindowModal.SetDeviceSize(gDeviceWidth, gDeviceHeight);
-    //mWindowTools.SetDeviceSize(gDeviceWidth, gDeviceHeight);
-
+    //mViewControllerTools.DeviceSizeChanged(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
 	SetDeviceSize(pWidth, pHeight);
+
+    mWindowTools.SetVirtualFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
+
+    mWindowTools.SetDeviceSize(gDeviceWidth, gDeviceHeight);
+    mWindowModal.SetDeviceSize(gDeviceWidth, gDeviceHeight);
+    mWindowMain.SetDeviceSize(gDeviceWidth, gDeviceHeight);
+
+
 }
 
 void FApp::BaseSetVirtualFrame(float pX, float pY, float pWidth, float pHeight)
 {
     Log("----    ----    ----    ----\n");
     Log("--  Virtual Frame Changed --\n");
-    Log("----    ----    ----    ----\n");
+
+    Log("----Old:[%.2f, %.2f  %.2f, %.2f]  Dev[%.2f, %.2f]----\n", gVirtualDevX, gVirtualDevY, gVirtualDevWidth, gVirtualDevHeight, gDeviceWidth, gDeviceHeight);
+    Log("----New:[%.2f, %.2f  %.2f, %.2f] ----\n", pX, pY, pWidth, pHeight);
     
-    mViewController.DeviceSizeChanged(pX, pY, pWidth, pHeight);
-    mViewControllerModal.DeviceSizeChanged(pX, pY, pWidth, pHeight);
-    mViewControllerTools.DeviceSizeChanged(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
+    //mViewController.DeviceSizeChanged(pX, pY, pWidth, pHeight);
+    //mViewControllerModal.DeviceSizeChanged(pX, pY, pWidth, pHeight);
+    //mViewControllerTools.DeviceSizeChanged(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
     mWindowMain.SetVirtualFrame(pX, pY, pWidth, pHeight);
-    //mWindowModal.SetVirtualFrame(pX, pY, pWidth, pHeight);
-    //mWindowTools.SetVirtualFrame(pX, pY, pWidth, pHeight);
+    mWindowModal.SetVirtualFrame(pX, pY, pWidth, pHeight);
+    mWindowTools.SetVirtualFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
     
 	SetVirtualFrame(pX, pY, pWidth, pHeight);
@@ -109,9 +120,12 @@ void FApp::BaseUpdate()
     Update();
 
     mWindowMain.Update();
-    //mWindowModal.Update();
-    //mWindowTools.Update();
+    mWindowModal.Update();
+    mWindowTools.Update();
 
+
+
+    /*
     mViewController.mIsPerformingTouchAction = false;
     mViewControllerModal.mIsPerformingTouchAction = true;
     mViewControllerTools.mIsPerformingTouchAction = true;
@@ -122,13 +136,9 @@ void FApp::BaseUpdate()
         mTimeSinceLastInteraction++;
     }
     mViewControllerTools.Update();
-
-
-    
-
-    
     mViewController.Update();
     mViewControllerModal.Update();
+    */
 
 
     
@@ -155,15 +165,15 @@ void FApp::BaseDraw()
 
 
 
-    mViewController.Draw();
-    mViewControllerModal.Draw();
-    mViewControllerTools.Draw();
+    //mViewController.Draw();
+    //mViewControllerModal.Draw();
+    //mViewControllerTools.Draw();
 
     //Graphics::SetMatrixProjection(aScreenProjection);
     //Graphics::ResetMatrixModelView();
     mWindowMain.Draw();
-    //mWindowModal.Draw();
-    //mWindowTools.Draw();
+    mWindowModal.Draw();
+    mWindowTools.Draw();
 
 
 
@@ -224,14 +234,13 @@ void FApp::BaseLoadComplete()
         mDidLoad = true;
     }
 
-    mViewController.RealizeFitType();
-    mViewControllerModal.RealizeFitType();
-    mViewControllerTools.RealizeFitType();
+    //mViewController.RealizeFitType();
+    //mViewControllerModal.RealizeFitType();
+    //mViewControllerTools.RealizeFitType();
     
-    mViewController.mAppFitRefresh = true;
-    mViewControllerModal.mAppFitRefresh = true;
-    mViewControllerTools.mAppFitRefresh = true;
-    
+    //mViewController.mAppFitRefresh = true;
+    //mViewControllerModal.mAppFitRefresh = true;
+    //mViewControllerTools.mAppFitRefresh = true;
     
     mSysFont.SetKern(32, 65, -13);mSysFont.SetKern(32, 84, -4);
     mSysFont.SetKern(32, 89, -4);mSysFont.SetKern(121, 46, -17);
@@ -533,58 +542,33 @@ void FApp::BaseLoadComplete()
     mSysFontBold.SetStride(54, -7, 125);
     mSysFontBold.SetStride(55, -7, 125);
     mSysFontBold.SetStride(56, -8, 125);
-    mSysFontBold.SetStride(57, -10, 125);
-    mSysFontBold.SetStride(58, 5, 75);
-    mSysFontBold.SetStride(59, 2, 75);
-    mSysFontBold.SetStride(60, -6, 131);
-    mSysFontBold.SetStride(61, -7, 131);
-    mSysFontBold.SetStride(62, -6, 131);
-    mSysFontBold.SetStride(63, -5, 137);
-    mSysFontBold.SetStride(64, -10, 218);
-    mSysFontBold.SetStride(65, -17, 162);
-    mSysFontBold.SetStride(66, 0, 162);
-    mSysFontBold.SetStride(67, -6, 162);
-    mSysFontBold.SetStride(68, -1, 162);
-    mSysFontBold.SetStride(69, -1, 149);
-    mSysFontBold.SetStride(70, 0, 137);
-    mSysFontBold.SetStride(71, -6, 174);
-    mSysFontBold.SetStride(72, 0, 162);
-    mSysFontBold.SetStride(73, -2, 62);
-    mSysFontBold.SetStride(74, -13, 125);
-    mSysFontBold.SetStride(75, 0, 162);
-    mSysFontBold.SetStride(76, 0, 137);
-    mSysFontBold.SetStride(77, -1, 187);
-    mSysFontBold.SetStride(78, 0, 162);
-    mSysFontBold.SetStride(79, -7, 174);
-    mSysFontBold.SetStride(80, -1, 149);
-    mSysFontBold.SetStride(81, -7, 174);
-    mSysFontBold.SetStride(82, 0, 162);
-    mSysFontBold.SetStride(83, -9, 149);
-    mSysFontBold.SetStride(84, -11, 137);
-    mSysFontBold.SetStride(85, -1, 162);
-    mSysFontBold.SetStride(86, -17, 149);
-    mSysFontBold.SetStride(87, -16, 211);
-    mSysFontBold.SetStride(88, -16, 149);
-    mSysFontBold.SetStride(89, -17, 149);
-    mSysFontBold.SetStride(90, -14, 137);
-    mSysFontBold.SetStride(91, -1, 75);
-    mSysFontBold.SetStride(92, -17, 62);
-    mSysFontBold.SetStride(93, -12, 75);
-    mSysFontBold.SetStride(94, -4, 131);
-    mSysFontBold.SetStride(95, -19, 125);
-    mSysFontBold.SetStride(96, -12, 75);
-    mSysFontBold.SetStride(97, -9, 125);
-    mSysFontBold.SetStride(98, -2, 137);
-    mSysFontBold.SetStride(99, -7, 125);
-    mSysFontBold.SetStride(100, -8, 137);
-    mSysFontBold.SetStride(101, -10, 125);
-    mSysFontBold.SetStride(102, -14, 75);
-    mSysFontBold.SetStride(103, -8, 137);
-    mSysFontBold.SetStride(104, -1, 137);
-    mSysFontBold.SetStride(105, -1, 62);
-    mSysFontBold.SetStride(106, -27, 62);
-    mSysFontBold.SetStride(107, -2, 125);
-    mSysFontBold.SetStride(108, -1, 62);
+    mSysFontBold.SetStride(57, -10, 125);mSysFontBold.SetStride(58, 5, 75);
+    mSysFontBold.SetStride(59, 2, 75);mSysFontBold.SetStride(60, -6, 131);
+    mSysFontBold.SetStride(61, -7, 131);mSysFontBold.SetStride(62, -6, 131);
+    mSysFontBold.SetStride(63, -5, 137);mSysFontBold.SetStride(64, -10, 218);
+    mSysFontBold.SetStride(65, -17, 162);mSysFontBold.SetStride(66, 0, 162);
+    mSysFontBold.SetStride(67, -6, 162);mSysFontBold.SetStride(68, -1, 162);
+    mSysFontBold.SetStride(69, -1, 149);mSysFontBold.SetStride(70, 0, 137);
+    mSysFontBold.SetStride(71, -6, 174);mSysFontBold.SetStride(72, 0, 162);
+    mSysFontBold.SetStride(73, -2, 62);mSysFontBold.SetStride(74, -13, 125);
+    mSysFontBold.SetStride(75, 0, 162);mSysFontBold.SetStride(76, 0, 137);
+    mSysFontBold.SetStride(77, -1, 187);mSysFontBold.SetStride(78, 0, 162);
+    mSysFontBold.SetStride(79, -7, 174);mSysFontBold.SetStride(80, -1, 149);
+    mSysFontBold.SetStride(81, -7, 174);mSysFontBold.SetStride(82, 0, 162);
+    mSysFontBold.SetStride(83, -9, 149);mSysFontBold.SetStride(84, -11, 137);
+    mSysFontBold.SetStride(85, -1, 162);mSysFontBold.SetStride(86, -17, 149);
+    mSysFontBold.SetStride(87, -16, 211);mSysFontBold.SetStride(88, -16, 149);
+    mSysFontBold.SetStride(89, -17, 149);mSysFontBold.SetStride(90, -14, 137);
+    mSysFontBold.SetStride(91, -1, 75);mSysFontBold.SetStride(92, -17, 62);
+    mSysFontBold.SetStride(93, -12, 75);mSysFontBold.SetStride(94, -4, 131);
+    mSysFontBold.SetStride(95, -19, 125);mSysFontBold.SetStride(96, -12, 75);
+    mSysFontBold.SetStride(97, -9, 125);mSysFontBold.SetStride(98, -2, 137);
+    mSysFontBold.SetStride(99, -7, 125);mSysFontBold.SetStride(100, -8, 137);
+    mSysFontBold.SetStride(101, -10, 125);mSysFontBold.SetStride(102, -14, 75);
+    mSysFontBold.SetStride(103, -8, 137);mSysFontBold.SetStride(104, -1, 137);
+    mSysFontBold.SetStride(105, -1, 62);mSysFontBold.SetStride(106, -27, 62);
+
+    mSysFontBold.SetStride(107, -2, 125);mSysFontBold.SetStride(108, -1, 62);
     mSysFontBold.SetStride(109, -3, 199);mSysFontBold.SetStride(110, -1, 137);
     mSysFontBold.SetStride(111, -8, 137);mSysFontBold.SetStride(112, -2, 137);
     mSysFontBold.SetStride(113, -7, 137);mSysFontBold.SetStride(114, -2, 87);
@@ -724,15 +708,23 @@ void FApp::ProcessMouseUp(float pX, float pY, int pButton) {
 
 void FApp::ProcessMouseWheel(int pDir) {
     MouseWheel(pDir);
-    mViewController.MouseWheel(pDir);
-    mViewControllerModal.MouseWheel(pDir);
-    mViewControllerTools.MouseWheel(pDir);
-    if (mSelectedInputWindow != 0) {
-        mSelectedInputWindow->MouseWheel(pDir);
-    }
+
+    mWindowTools.MouseWheel(pDir);
+    mWindowModal.MouseWheel(pDir);
+    mWindowMain.MouseWheel(pDir);
+
+
+    //mViewController.MouseWheel(pDir);
+    //mViewControllerModal.MouseWheel(pDir);
+    //mViewControllerTools.MouseWheel(pDir);
+    //if (mSelectedInputWindow != 0) {
+    //    mSelectedInputWindow->MouseWheel(pDir);
+    //}
 }
 
 void FApp::ProcessTouchDown(float pX, float pY, void *pData) {
+
+    /*
     mTouchX = pX;
     mTouchY = pY;
     mViewController.mRoot.mTransform.Transform(mTouchX, mTouchY);
@@ -741,6 +733,7 @@ void FApp::ProcessTouchDown(float pX, float pY, void *pData) {
     if(mViewControllerModal.ViewExists())mViewControllerModal.TouchDown(pX, pY, pData);
     else mViewController.TouchDown(pX, pY, pData);
     mViewControllerTools.TouchDown(pX, pY, pData);
+    */
 
     if (mWindowTools.TouchDown(pX, pY, pData)) {
         mSelectedInputWindow = &mWindowTools;
@@ -754,6 +747,8 @@ void FApp::ProcessTouchDown(float pX, float pY, void *pData) {
 }
 
 void FApp::ProcessTouchMove(float pX, float pY, void *pData) {
+
+    /*
     mTouchX = pX;
     mTouchY = pY;
     mViewController.mRoot.mTransform.Transform(mTouchX, mTouchY);
@@ -762,36 +757,38 @@ void FApp::ProcessTouchMove(float pX, float pY, void *pData) {
     if(mViewControllerModal.ViewExists())mViewControllerModal.TouchMove(pX, pY, pData);
     else mViewController.TouchMove(pX, pY, pData);
     mViewControllerTools.TouchMove(pX, pY, pData);
+    */
 
-    if (mSelectedInputWindow != 0) {
-        mSelectedInputWindow->TouchMove(pX, pY, pData);
-    } else {
-        if (mWindowTools.TouchMove(pX, pY, pData)) {
-        } else if (mWindowModal.TouchMove(pX, pY, pData)) {
-        } else if (mWindowMain.TouchMove(pX, pY, pData)) { }
-    }
+
+    mWindowTools.TouchMove(pX, pY, pData);
+    mWindowModal.TouchMove(pX, pY, pData);
+    mWindowMain.TouchMove(pX, pY, pData);
+
 }
 
 void FApp::ProcessTouchUp(float pX, float pY, void *pData) {
     mTouchX = pX;
     mTouchY = pY;
+
+    /*
     mViewController.mRoot.mTransform.Transform(mTouchX, mTouchY);
     TouchUp(mTouchX, mTouchY, pData);
     
     if(mViewControllerModal.ViewExists())mViewControllerModal.TouchUp(pX, pY, pData);
     else mViewController.TouchUp(pX, pY, pData);
     mViewControllerTools.TouchUp(pX, pY, pData);
+    */
 
-    if (mSelectedInputWindow != 0) {
-        mSelectedInputWindow->TouchUp(pX, pY, pData);
-    }
+    mWindowTools.TouchUp(pX, pY, pData);
+    mWindowModal.TouchUp(pX, pY, pData);
+    mWindowMain.TouchUp(pX, pY, pData);
 }
 
 void FApp::ProcessTouchFlush() {
     TouchFlush();
-    mViewController.TouchFlush();
-    mViewControllerModal.TouchFlush();
-    mViewControllerTools.TouchFlush();
+    //mViewController.TouchFlush();
+    //mViewControllerModal.TouchFlush();
+    //mViewControllerTools.TouchFlush();
 
     mWindowMain.TouchFlush();
     mWindowModal.TouchFlush();
@@ -800,9 +797,9 @@ void FApp::ProcessTouchFlush() {
 
 void FApp::ProcessKeyDown(int pKey) {
     KeyDown(pKey);
-    mViewController.KeyDown(pKey);
-    mViewControllerModal.KeyDown(pKey);
-    mViewControllerTools.KeyDown(pKey);
+    //mViewController.KeyDown(pKey);
+    //mViewControllerModal.KeyDown(pKey);
+    //mViewControllerTools.KeyDown(pKey);
 
     mWindowMain.KeyDown(pKey);
     mWindowModal.KeyDown(pKey);
@@ -811,9 +808,9 @@ void FApp::ProcessKeyDown(int pKey) {
 
 void FApp::ProcessKeyUp(int pKey) {
     KeyUp(pKey);
-    mViewController.KeyUp(pKey);
-    mViewControllerModal.KeyUp(pKey);
-    mViewControllerTools.KeyUp(pKey);
+    //mViewController.KeyUp(pKey);
+    //mViewControllerModal.KeyUp(pKey);
+    //mViewControllerTools.KeyUp(pKey);
 
     mWindowMain.KeyUp(pKey);
     mWindowModal.KeyUp(pKey);

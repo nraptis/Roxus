@@ -96,11 +96,11 @@ void FFloatList::AddValuesReset(int pCount, float pFloat1, float pFloat2, float 
 }
 
 float FFloatList::Get(int pSlot) {
-    float aReturn = 0;
+    float aResult = 0;
     if ((pSlot >= 0) && (pSlot < mCount)) {
-        aReturn = mData[pSlot];
+        aResult = mData[pSlot];
     }
-    return aReturn;
+    return aResult;
 }
 
 void FFloatList::Set(int pSlot, float pFloat)
@@ -244,9 +244,9 @@ int FFloatList::GetPrintLineCount()
 
 FString FFloatList::GetPrintLine(int pLineNumber)
 {
-    FString aReturn = "AddValues(";
+    FString aResult = "AddValues(";
     
-    if(pLineNumber == 0)aReturn = "AddValuesReset(";
+    if(pLineNumber == 0)aResult = "AddValuesReset(";
     
     
     int aStartIndex = pLineNumber * 15;
@@ -266,44 +266,44 @@ FString FFloatList::GetPrintLine(int pLineNumber)
     FString aLineCountString = FString(aLineCount);
     if(aLineCountString.mLength <= 1)aLineCountString += " ";
     
-    aReturn += aLineCountString;
-    aReturn += ", ";
+    aResult += aLineCountString;
+    aResult += ", ";
     
     while (aLineCount > 0)
     {
         int aIndex = mData[aStartIndex];
         FString aIndexString = FString(aIndex);
         
-        aReturn += aIndexString;
+        aResult += aIndexString;
         
         aStartIndex++;
         aLineCount--;
         
         if(aLineCount > 0)
         {
-            aReturn += FString(", ");
+            aResult += FString(", ");
         }
         else
         {
-            aReturn += FString(")");
+            aResult += FString(")");
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FString FFloatList::GetPrintString(const char *pVariableName)
 {
-    FString aReturn = "";
+    FString aResult = "";
     
     int aLineCount = GetPrintLineCount();
     for(int i = 0; i<aLineCount; i++)
     {
         FString aLine = GetPrintLine(i);
         aLine = FString(FString(pVariableName) + FString(".") + FString(aLine.c()) + FString(";\n")).c();
-        aReturn += aLine;
+        aResult += aLine;
     }
     
-    return aReturn;
+    return aResult;
 }
 

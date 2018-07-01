@@ -83,14 +83,14 @@ bool FLine::SegmentSegmentIntersection(float pL_1_x1, float pL_1_y1, float pL_1_
         aPlaneDirY /= aPlaneLength;
     }
     
-    bool aReturn = false;
+    bool aResult = false;
     
     if(SegmentPlaneIntersection(pL_1_x1, pL_1_y1, pL_2_x2, pL_2_y2, aPlaneX, aPlaneY, aPlaneDirX, aPlaneDirY, pCollideX, pCollideY, pCollideDistance))
     {
-        aReturn = true;
+        aResult = true;
     }
     
-    return aReturn;
+    return aResult;
     
 }
 
@@ -152,7 +152,7 @@ bool FLine::SegmentPlaneIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2
 
 bool FLine::SegmentClosestPoint(float pLineX1, float pLineY1, float pLineX2, float pLineY2, float pPointX, float pPointY, float &pClosestX, float &pClosestY)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     pClosestX = pLineX1;
     pClosestY = pLineY1;
@@ -194,11 +194,11 @@ bool FLine::SegmentClosestPoint(float pLineX1, float pLineY1, float pLineX2, flo
             pClosestX = pLineX1 + aFactor2X * aScalar;
             pClosestY = pLineY1 + aFactor2Y * aScalar;
             
-            aReturn = true;
+            aResult = true;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool FLine::SegmentRayIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
@@ -316,7 +316,7 @@ float FLine::GetDist(float x, float y, int &pIndex)
 
 int FLine::GetPoint(float x, float y, float pDist)
 {
-    int aReturn=-1;
+    int aResult=-1;
     
     float aDiffX, aDiffY, aDist1, aDist2;
     
@@ -334,18 +334,18 @@ int FLine::GetPoint(float x, float y, float pDist)
     {
         if(aDist1 < pDist*pDist)
         {
-            aReturn=0;
+            aResult=0;
         }
     }
     else
     {
         if(aDist2 < pDist*pDist)
         {
-            aReturn=1;
+            aResult=1;
         }
     }
     
-    return aReturn;
+    return aResult;
     
 }
 

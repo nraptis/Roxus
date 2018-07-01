@@ -304,16 +304,16 @@ void FView::Notify(void *pSender, int pID, void *pObject)
 
 bool FView::ShouldReceieveTouch(FView *pTopView, bool pInside)
 {
-    bool aReturn = true;
+    bool aResult = true;
     
     if(pTopView)
     {
         
-        //Log("[%s] Base => [%s] Should Receive Touch[%d] = (%d)\n", mName.c(), pTopView->mName.c(), pInside, aReturn);
+        //Log("[%s] Base => [%s] Should Receive Touch[%d] = (%d)\n", mName.c(), pTopView->mName.c(), pInside, aResult);
         
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FView::DrawTransform()
@@ -701,17 +701,17 @@ bool FView::ModalViewExists()
 
 int FView::ModalViewCount()
 {
-    int aReturn = 0;
+    int aResult = 0;
     
     EnumList(FView, aView, mSubviews)
     {
         if((aView->GetContainer()->mKill == 0) && (aView->GetContainer()->mModal == true))
         {
-            aReturn++;
+            aResult++;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FView *FView::ModalViewGetNext()
@@ -721,17 +721,17 @@ FView *FView::ModalViewGetNext()
 
 FView *FView::ModalViewGetNextExcluding(FView *pExclude)
 {
-    FView *aReturn = 0;
+    FView *aResult = 0;
     
     EnumListReverse(FView, aView, mSubviews)
     {
-        if((aView->GetContainer()->mKill == 0) && (aView->GetContainer()->mModal == true) && (aReturn == 0) && (aView != pExclude))
+        if((aView->GetContainer()->mKill == 0) && (aView->GetContainer()->mModal == true) && (aResult == 0) && (aView != pExclude))
         {
-            aReturn = aView;
+            aResult = aView;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 */
 
@@ -820,13 +820,13 @@ float FView::GetAbsoluteTransformRotation()
 
 FVec2 FView::Convert(float pX, float pY, FView *pFromView, FView *pToView)
 {
-    FVec2 aReturn;
-    aReturn.mX = pX;
-    aReturn.mY = pY;
+    FVec2 aResult;
+    aResult.mX = pX;
+    aResult.mY = pY;
     
-    ConvertPoint(aReturn.mX, aReturn.mY, pFromView, pToView);
+    ConvertPoint(aResult.mX, aResult.mY, pFromView, pToView);
     
-    return aReturn;
+    return aResult;
 }
 
 void FView::ConvertPoint(float &pX, float &pY, FView *pFromView, FView *pToView) {
@@ -842,15 +842,15 @@ void FView::ConvertPoint(float &pX, float &pY, FView *pFromView, FView *pToView)
 }
 
 float FView::ConvertScale(float pScale, FView *pFromView, FView *pToView) {
-    float aReturn = pScale;
-    if(pFromView)aReturn /= pFromView->GetContainer()->mTransformAbsolute.mScale;
-    if(pToView)aReturn *= pToView->GetContainer()->mTransformAbsolute.mScale;
-    return aReturn;
+    float aResult = pScale;
+    if(pFromView)aResult /= pFromView->GetContainer()->mTransformAbsolute.mScale;
+    if(pToView)aResult *= pToView->GetContainer()->mTransformAbsolute.mScale;
+    return aResult;
 }
 
 float FView::ConvertRotation(float pDegrees, FView *pFromView, FView *pToView) {
-    float aReturn = pDegrees;
-    if(pFromView)aReturn -= pFromView->GetContainer()->mTransformAbsolute.mRotation;
-    if(pToView)aReturn += pToView->GetContainer()->mTransformAbsolute.mRotation;
-    return aReturn;
+    float aResult = pDegrees;
+    if(pFromView)aResult -= pFromView->GetContainer()->mTransformAbsolute.mRotation;
+    if(pToView)aResult += pToView->GetContainer()->mTransformAbsolute.mRotation;
+    return aResult;
 }

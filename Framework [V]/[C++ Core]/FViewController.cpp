@@ -123,7 +123,7 @@ void FViewController::Draw()
 
 bool FViewController::TouchDown(float pX, float pY, void *pData)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     mTouchConsumed = false;
     FViewContainer *aContainer = mRoot.GetContainer()->TouchDown(pX, pY, pX, pY, pData, false, mTouchConsumed);
@@ -132,11 +132,11 @@ bool FViewController::TouchDown(float pX, float pY, void *pData)
     {
         if(aContainer != mRoot.GetContainer())
         {
-            aReturn = true;
+            aResult = true;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FViewController::TouchMove(float pX, float pY, void *pData)
@@ -238,13 +238,13 @@ void FViewController::MemoryWarning(bool pSevere)
 
 bool FViewController::IsLocked()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    if(mIsUpdating)aReturn = true;
-    if(mIsDrawing)aReturn = true;
-    if(mIsPerformingTouchAction)aReturn = true;
+    if(mIsUpdating)aResult = true;
+    if(mIsDrawing)aResult = true;
+    if(mIsPerformingTouchAction)aResult = true;
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -271,17 +271,17 @@ void FViewController::ViewAdd(FView &pView)
 
 bool FViewController::ViewExists()
 {
-    bool aReturn = false;
-    if(mRoot.mSubviews.mCount > 0)aReturn = true;
-    return aReturn;
+    bool aResult = false;
+    if(mRoot.mSubviews.mCount > 0)aResult = true;
+    return aResult;
 }
 
 bool FViewController::ViewExists(FView *pView)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 //void FViewController::ViewAdd(FView *pView, int pZIndex)
@@ -881,7 +881,7 @@ void FViewController::Refresh()
 
 bool FViewController::RefreshAll(FViewContainer *pContainer)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pContainer)
     {
@@ -892,7 +892,7 @@ bool FViewController::RefreshAll(FViewContainer *pContainer)
         
         if(pContainer->mRefresh == true)
         {
-            aReturn = true;
+            aResult = true;
         }
         
         for(int i = 0; i<pContainer->mView->mSubviews.mCount; i++)
@@ -901,23 +901,23 @@ bool FViewController::RefreshAll(FViewContainer *pContainer)
             
             if(RefreshAll(aCtr))
             {
-                aReturn = true;
+                aResult = true;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool FViewController::AnyViewRefreshed(FViewContainer *pContainer)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pContainer)
     {
         if((pContainer->mRefreshTransformations == true) || (pContainer->mRefresh == true))
         {
-            aReturn = true;
+            aResult = true;
         }
         
         for(int i = 0; i<pContainer->mView->mSubviews.mCount; i++)
@@ -925,17 +925,17 @@ bool FViewController::AnyViewRefreshed(FViewContainer *pContainer)
             FViewContainer *aCtr = ((FView *)(pContainer->mView->mSubviews.Fetch(i)))->GetContainer();
             if(AnyViewRefreshed(aCtr))
             {
-                aReturn = true;
+                aResult = true;
             }
         }
     }
     
     if(mRefresh == true)
     {
-        aReturn = true;
+        aResult = true;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 

@@ -459,15 +459,15 @@ void FMotionPathTemplate::Clear()
 
 FMotionPathTemplateNode *FMotionPathTemplate::Get(int pIndex)
 {
-	FMotionPathTemplateNode *aReturn = 0;
+	FMotionPathTemplateNode *aResult = 0;
 
 	if(pIndex < 0)
 	{
-		aReturn = 0;
+		aResult = 0;
 	}
 	else if(pIndex < mList.mCount)
 	{
-		aReturn = (FMotionPathTemplateNode *)(mList.Fetch(pIndex));
+		aResult = (FMotionPathTemplateNode *)(mList.Fetch(pIndex));
 	}
 	else
 
@@ -480,7 +480,7 @@ FMotionPathTemplateNode *FMotionPathTemplate::Get(int pIndex)
 		return (FMotionPathTemplateNode *)(mList.Last());
 	}
 
-    return aReturn;
+    return aResult;
 }
 
 
@@ -644,11 +644,11 @@ void FMotionPathTemplate::Size(int pSize)
 
 int FMotionPathTemplate::GetClosestPointIndex(float pX, float pY, float &pDist)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     if(mList.mCount > 0)
     {
-        aReturn = 0;
+        aResult = 0;
         
         float aDiffX = Get(0)->mX - pX;
         float aDiffY = Get(0)->mY - pY;
@@ -665,17 +665,17 @@ int FMotionPathTemplate::GetClosestPointIndex(float pX, float pY, float &pDist)
             if(aDist < pDist)
             {
                 pDist = aDist;
-                aReturn = i;
+                aResult = i;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::GetClosestTanInIndex(float pX, float pY, float &pDist)
 {
-    int aReturn = -1;
+    int aResult = -1;
     if(mList.mCount > 0)
     {
         float aX = Get(0)->mX + Get(0)->mTanInX;
@@ -683,7 +683,7 @@ int FMotionPathTemplate::GetClosestTanInIndex(float pX, float pY, float &pDist)
         float aDiffX = aX - pX;
         float aDiffY = aY - pY;
         float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
-        aReturn = 0;
+        aResult = 0;
         pDist = aDist;
         for(int i=1;i< mList.mCount;i++)
         {
@@ -695,16 +695,16 @@ int FMotionPathTemplate::GetClosestTanInIndex(float pX, float pY, float &pDist)
             if(aDist < pDist)
             {
                 pDist = aDist;
-                aReturn = i;
+                aResult = i;
             }
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::GetClosestTanOutIndex(float pX, float pY, float &pDist)
 {
-    int aReturn = -1;
+    int aResult = -1;
     if(mList.mCount > 0)
     {
         float aX = Get(0)->mX + Get(0)->mTanOutX;
@@ -712,7 +712,7 @@ int FMotionPathTemplate::GetClosestTanOutIndex(float pX, float pY, float &pDist)
         float aDiffX = aX - pX;
         float aDiffY = aY - pY;
         float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
-        aReturn = 0;
+        aResult = 0;
         pDist = aDist;
         for(int i=1;i< mList.mCount;i++)
         {
@@ -724,16 +724,16 @@ int FMotionPathTemplate::GetClosestTanOutIndex(float pX, float pY, float &pDist)
             if(aDist < pDist)
             {
                 pDist = aDist;
-                aReturn = i;
+                aResult = i;
             }
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::GetClosestTanIndex(float pX, float pY, float &pDist)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     float aDistIn = pDist;
     float aDistOut = pDist;
@@ -743,21 +743,21 @@ int FMotionPathTemplate::GetClosestTanIndex(float pX, float pY, float &pDist)
     
     if(aDistOut < aDistIn)
     {
-        aReturn = aIndexOut;
+        aResult = aIndexOut;
         pDist = aDistOut;
     }
     else
     {
-        aReturn = aIndexIn;
+        aResult = aIndexIn;
         pDist = aDistIn;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::GetClosestTanSide(float pX, float pY)
 {
-    int aReturn = 0;
+    int aResult = 0;
     
     float aDistIn = 512.0f * 512.0f;
     float aDistOut = aDistIn;
@@ -767,10 +767,10 @@ int FMotionPathTemplate::GetClosestTanSide(float pX, float pY)
     
     if(aDistOut < aDistIn)
     {
-        aReturn = 1;
+        aResult = 1;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FMotionPathTemplate::Clone(FMotionPathTemplate *pPath)
@@ -966,44 +966,44 @@ void FMotionPathTemplate::Load(FFile *pFile)
 
 float FMotionPathTemplate::GetPointX(int pIndex)
 {
-    float aReturn = 0.0f;
-    if((pIndex >= 0) && (pIndex < mList.mCount))aReturn = Get(pIndex)->mX;
-    return aReturn;
+    float aResult = 0.0f;
+    if((pIndex >= 0) && (pIndex < mList.mCount))aResult = Get(pIndex)->mX;
+    return aResult;
 }
 
 float FMotionPathTemplate::GetPointY(int pIndex)
 {
-    float aReturn = 0.0f;
-    if((pIndex >= 0) && (pIndex < mList.mCount))aReturn = Get(pIndex)->mY;
-    return aReturn;
+    float aResult = 0.0f;
+    if((pIndex >= 0) && (pIndex < mList.mCount))aResult = Get(pIndex)->mY;
+    return aResult;
 }
 
 float FMotionPathTemplate::GetAbsoluteTanInX(int pIndex)
 {
-    float aReturn = 0.0f;
-    if((pIndex >= 0) && (pIndex < mList.mCount))aReturn = Get(pIndex)->mX + Get(pIndex)->mTanInX;
-    return aReturn;
+    float aResult = 0.0f;
+    if((pIndex >= 0) && (pIndex < mList.mCount))aResult = Get(pIndex)->mX + Get(pIndex)->mTanInX;
+    return aResult;
 }
 
 float FMotionPathTemplate::GetAbsoluteTanInY(int pIndex)
 {
-    float aReturn = 0.0f;
-    if((pIndex >= 0) && (pIndex < mList.mCount))aReturn = Get(pIndex)->mY + Get(pIndex)->mTanInY;
-    return aReturn;
+    float aResult = 0.0f;
+    if((pIndex >= 0) && (pIndex < mList.mCount))aResult = Get(pIndex)->mY + Get(pIndex)->mTanInY;
+    return aResult;
 }
 
 float FMotionPathTemplate::GetAbsoluteTanOutX(int pIndex)
 {
-    float aReturn = 0.0f;
-    if((pIndex >= 0) && (pIndex < mList.mCount))aReturn = Get(pIndex)->mX + Get(pIndex)->mTanOutX;
-    return aReturn;
+    float aResult = 0.0f;
+    if((pIndex >= 0) && (pIndex < mList.mCount))aResult = Get(pIndex)->mX + Get(pIndex)->mTanOutX;
+    return aResult;
 }
 
 float FMotionPathTemplate::GetAbsoluteTanOutY(int pIndex)
 {
-    float aReturn = 0.0f;
-    if((pIndex >= 0) && (pIndex < mList.mCount))aReturn = Get(pIndex)->mY + Get(pIndex)->mTanOutY;
-    return aReturn;
+    float aResult = 0.0f;
+    if((pIndex >= 0) && (pIndex < mList.mCount))aResult = Get(pIndex)->mY + Get(pIndex)->mTanOutY;
+    return aResult;
 }
 
 float FMotionPathTemplate::GetAbsoluteTanX(int pIndex, int pSide)
@@ -1021,31 +1021,31 @@ float FMotionPathTemplate::GetAbsoluteTanY(int pIndex, int pSide)
 
 int FMotionPathTemplate::GetNextIndex(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     if(mList.mCount > 0)
     {
-        aReturn = (pIndex + 1);
-        if(aReturn >= mList.mCount)aReturn = 0;
-        else if(aReturn < 0) aReturn = (mList.mCount - 1);
+        aResult = (pIndex + 1);
+        if(aResult >= mList.mCount)aResult = 0;
+        else if(aResult < 0) aResult = (mList.mCount - 1);
     }
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::GetPrevIndex(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     if(mList.mCount > 0)
     {
-        aReturn = (pIndex - 1);
-        if(aReturn < 0) aReturn = (mList.mCount - 1);
-        else if(aReturn >= mList.mCount)aReturn = 0;
+        aResult = (pIndex - 1);
+        if(aResult < 0) aResult = (mList.mCount - 1);
+        else if(aResult >= mList.mCount)aResult = 0;
     }
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::NodeDelete(int pIndex)
 {
-    int aReturn = pIndex;
+    int aResult = pIndex;
     
     if((pIndex >= 0) && (pIndex < mList.mCount))
     {
@@ -1058,40 +1058,40 @@ int FMotionPathTemplate::NodeDelete(int pIndex)
     if(mList.mCount > 0)
     {
         
-        if(aReturn < 0)
+        if(aResult < 0)
         {
-            aReturn = (mList.mCount - 1);
+            aResult = (mList.mCount - 1);
         }
-        else if(aReturn >= mList.mCount)
+        else if(aResult >= mList.mCount)
         {
-            aReturn = 0;
+            aResult = 0;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FMotionPathTemplateNode	*FMotionPathTemplate::GetNodeForTime(int pTime)
 {
-	FMotionPathTemplateNode *aReturn = 0;
+	FMotionPathTemplateNode *aResult = 0;
 
 
 	EnumList(FMotionPathTemplateNode, aNode, mList)
 	{
 		if(aNode->mTime == pTime)
 		{
-			aReturn = aNode;
+			aResult = aNode;
 		}
 	}
 
-	if(aReturn == 0)
+	if(aResult == 0)
 	{
-		aReturn = new FMotionPathTemplateNode();
-		aReturn->mTime = pTime;
-		mList.Add(aReturn);
+		aResult = new FMotionPathTemplateNode();
+		aResult->mTime = pTime;
+		mList.Add(aResult);
 	}
 
-	return aReturn;
+	return aResult;
 }
 
 FMotionPathTemplateNode	*FMotionPathTemplate::Interpolate(int pTime)
@@ -1207,11 +1207,11 @@ FMotionPathTemplateNode	*FMotionPathTemplate::Interpolate(int pTime)
 
 int FMotionPathTemplate::NodeInsert(FMotionPathTemplateNode *pNode, int pIndex)
 {
-	int aReturn = pIndex;
+	int aResult = pIndex;
 
 	mList.Insert(pNode, pIndex);
 	/*
-    int aReturn = 0;
+    int aResult = 0;
     if(mList.mCount <= 0)
     {
         if(mSize <= 0)Size(1);
@@ -1227,12 +1227,12 @@ int FMotionPathTemplate::NodeInsert(FMotionPathTemplateNode *pNode, int pIndex)
         {
             mNode[1] = mNode[0];
             mNode[0] = pNode;
-            aReturn = 0;
+            aResult = 0;
         }
         else
         {
             mNode[1] = pNode;
-            aReturn = 1;
+            aResult = 1;
         }
     }
     else
@@ -1256,18 +1256,18 @@ int FMotionPathTemplate::NodeInsert(FMotionPathTemplateNode *pNode, int pIndex)
         }
         
         mNode[pIndex] = pNode;
-        aReturn = pIndex;
+        aResult = pIndex;
         
         mList.mCount++;
     }
     //if()
 	*/
-    return aReturn;
+    return aResult;
 }
 
 int FMotionPathTemplate::NodeInsert(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     
 	FMotionPathTemplateNode *aNode = new FMotionPathTemplateNode();
 	aNode->mX = 255.0f;
@@ -1288,7 +1288,7 @@ int FMotionPathTemplate::NodeInsert(int pIndex)
             aNode = mNode[0];
             aNode.mY += 33.0f;
             
-            aReturn = NodeInsert(aNode, pIndex);
+            aResult = NodeInsert(aNode, pIndex);
         }
         else
         {
@@ -1322,11 +1322,11 @@ int FMotionPathTemplate::NodeInsert(int pIndex)
             
 			NodeBlend(&(Get(aInd1), Get(aInd2), &(aNode), 0.25f);
             
-            aReturn = NodeInsert(aNode, aInsertIndex);// aInsertIndex);
+            aResult = NodeInsert(aNode, aInsertIndex);// aInsertIndex);
             
         }
     }
-    return aReturn;
+    return aResult;
 	*/
 }
 

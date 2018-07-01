@@ -62,10 +62,10 @@ float FRect::Bottom()
 
 FRect FRect::FitAspectFit(FRect pRect, float pObjectWidth, float pObjectHeight, float pBorder)
 {
-    FRect aReturn;
+    FRect aResult;
     float aScale = 1.0f;
-    aReturn = FitAspectFit(pRect, pObjectWidth, pObjectHeight, pBorder, aScale);
-    return aReturn;
+    aResult = FitAspectFit(pRect, pObjectWidth, pObjectHeight, pBorder, aScale);
+    return aResult;
 }
 
 //
@@ -110,10 +110,10 @@ FRect FRect::FitAspectFit(FRect pRect, float pObjectWidth, float pObjectHeight, 
 
 FRect FRect::FitAspectFill(FRect pRect, float pObjectWidth, float pObjectHeight, float pBorder)
 {
-    FRect aReturn;
+    FRect aResult;
     float aScale = 1.0f;
-    aReturn = FitAspectFill(pRect, pObjectWidth, pObjectHeight, pBorder, aScale);
-    return aReturn;
+    aResult = FitAspectFill(pRect, pObjectWidth, pObjectHeight, pBorder, aScale);
+    return aResult;
 }
 
 FRect FRect::FitAspectFill(FRect pRect, float pObjectWidth, float pObjectHeight, float pBorder, float &pScale)
@@ -154,37 +154,6 @@ FRect FRect::FitAspectFill(FRect pRect, float pObjectWidth, float pObjectHeight,
     
     return FRect(aX, aY, aWidth, aHeight);
 }
-
-float FRect::PinRight(FRect pFrame, FRect pRect, float pBorder)
-{
-    return ((pFrame.mX + (pFrame.mWidth - pBorder)) - pRect.mWidth);
-}
-
-float FRect::PinLeft(FRect pFrame, FRect pRect, float pBorder)
-{
-    return (pFrame.mX + pBorder);
-}
-
-float FRect::PinCenterX(FRect pFrame, FRect pRect)
-{
-    return ((pFrame.mX + (pFrame.mWidth / 2.0f)) - (pRect.mWidth / 2.0f));
-}
-
-float FRect::PinTop(FRect pFrame, FRect pRect, float pBorder)
-{
-    return (pFrame.mY + pBorder);
-}
-
-float FRect::PinBottom(FRect pFrame, FRect pRect, float pBorder)
-{
-    return ((pFrame.mY + (pFrame.mHeight - pBorder)) - pRect.mHeight);
-}
-
-float FRect::PinCenterY(FRect pFrame, FRect pRect)
-{
-    return ((pFrame.mY + (pFrame.mHeight / 2.0f)) - (pRect.mWidth / 2.0f));
-}
-
 
 bool FRect::Contains(float pX, float pY)
 {

@@ -207,7 +207,7 @@ void *sound_load_ios(const char *theFilename, int *theDataSize, int *theDataForm
 
 bool core_sound_load(FSound *pSound, const char *pFileName, int pInstanceCount)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if((pSound != 0) && (pFileName != 0))
     {
@@ -292,7 +292,7 @@ bool core_sound_load(FSound *pSound, const char *pFileName, int pInstanceCount)
                     
                     if(aFail == false)
                     {
-                        aReturn = true;
+                        aResult = true;
                     }
                     
                 }
@@ -300,7 +300,7 @@ bool core_sound_load(FSound *pSound, const char *pFileName, int pInstanceCount)
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void core_sound_play(FSound *pSound)
@@ -395,7 +395,7 @@ void core_sound_clear(FSound *pSound)
 
 bool core_sound_isPlaying(FSound *pSound)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pSound)
     {
@@ -403,18 +403,18 @@ bool core_sound_isPlaying(FSound *pSound)
         {
             if(core_sound_instance_isPlaying(aInstance))
             {
-                aReturn = true;
+                aResult = true;
                 break;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool core_sound_didLoad(FSound *pSound)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pSound)
     {
@@ -423,12 +423,12 @@ bool core_sound_didLoad(FSound *pSound)
         {
             if(aInstance->mDidLoad == true)
             {
-                aReturn = true;
+                aResult = true;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void core_sound_setVolume(float pVolume)
@@ -593,11 +593,11 @@ void core_sound_musicStop()
 
 bool core_sound_musicIsPlaying()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    aReturn = [gMusicPlayer musicIsPlaying];
+    aResult = [gMusicPlayer musicIsPlaying];
     
-    return aReturn;
+    return aResult;
 }
 
 void core_sound_musicSetVolume(float pVolume)

@@ -285,10 +285,10 @@ void FMotionObject::ModifierRemoveAt(int pSlot)
 
 FMotionObjectModifier *FMotionObject::ModifierReplace(FMotionObjectModifier *pOriginalModifier, FMotionObjectModifier *pNewModifier)
 {
-    FMotionObjectModifier *aReturn = 0;
+    FMotionObjectModifier *aResult = 0;
     
     
-    return aReturn;
+    return aResult;
 }
  
 */
@@ -350,23 +350,23 @@ void FMotionObject::ModifierReplaceUnique(int pIndexCategory, int pIndexGroup, F
 
 FMotionObjectModifier *FMotionObject::ModifierGet(int pIndexCategory, int pIndexGroup)
 {
-    FMotionObjectModifier *aReturn = 0;
-    for(int i=0;((i<mModCount) && (aReturn == 0));i++)
+    FMotionObjectModifier *aResult = 0;
+    for(int i=0;((i<mModCount) && (aResult == 0));i++)
     {
         if((mMod[i]->mIndexCategory == pIndexCategory) && (mMod[i]->Alive()))
         {
             if(mMod[i]->mIndexGroup == pIndexGroup)
             {
-                aReturn = mMod[i];
+                aResult = mMod[i];
             }
             else if(mMod[i]->mIndexType == MOT_TYPE_BUCKET)
             {
-                aReturn = ((FMotionObjectModifierBucket *)(mMod[i]))->GetFromGroup(pIndexGroup);
+                aResult = ((FMotionObjectModifierBucket *)(mMod[i]))->GetFromGroup(pIndexGroup);
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FMotionObject::ObjectAdd(FMotionObject *pObject)
@@ -724,7 +724,7 @@ void FMotionObject::GeometrySetUnknown()
 FString FMotionObject::ExportGeometry(const char *pName)
 {
     
-    FString aReturn = "";
+    FString aResult = "";
     
 
     if(mSpawnSourceType == SPAWN_SOURCE_POINT)
@@ -755,8 +755,8 @@ FString FMotionObject::ExportGeometry(const char *pName)
             {
                 FPointList aPointList;aPathAbs->WritePointsToList(&aPointList);
                 FString aPointListName = FString(pName) + FString("Points") + FString((int)(i + 1));
-                aReturn += FString("FPointList ") + aPointListName + FString(";\n");
-                aReturn += aPointList.GetPrintString(aPointListName.c());
+                aResult += FString("FPointList ") + aPointListName + FString(";\n");
+                aResult += aPointList.GetPrintString(aPointListName.c());
                 FString aSpawnString = FString("ApplySpawnSourcePointCloud(&gRand, &") + aPointListName + FString(");");
                 aParamList += new FString(aSpawnString);
             }
@@ -772,8 +772,8 @@ FString FMotionObject::ExportGeometry(const char *pName)
             {
                 FPointList aPointList;aPathAbs->WritePointsToList(&aPointList);
                 FString aPointListName = FString(pName) + FString("Poly") + FString((int)(i + 1));
-                aReturn += FString("FPointList ") + aPointListName + FString(";\n");
-                aReturn += aPointList.GetPrintString(aPointListName.c());
+                aResult += FString("FPointList ") + aPointListName + FString(";\n");
+                aResult += aPointList.GetPrintString(aPointListName.c());
                 FString aSpawnString = FString("ApplySpawnSourcePolygon(&gRand, &") + aPointListName + FString(");");
                 aParamList += new FString(aSpawnString);
             }
@@ -786,18 +786,18 @@ FString FMotionObject::ExportGeometry(const char *pName)
     {
         if(aName.mLength > 0)
         {
-            aReturn += FString(pName);
-            aReturn += "->";
+            aResult += FString(pName);
+            aResult += "->";
         }
-        aReturn += aString->c();
-        aReturn += "\n";
+        aResult += aString->c();
+        aResult += "\n";
     }
     
     FreeList(FString, aParamList);
      
 
     
-    return aReturn;
+    return aResult;
 }
  
 

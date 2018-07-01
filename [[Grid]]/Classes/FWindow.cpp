@@ -15,8 +15,8 @@ FWindow::FWindow() {
     mRoot.mName = "root";
     mRoot.mClipsContent = false;
     mRoot.mConsumesTouches = false;
-    mRoot.mRecievesConsumedTouches = true;
-    mRoot.mRecievesOutsideTouches = true;
+    //mRoot.mRecievesConsumedTouches = false;
+    //mRoot.mRecievesOutsideTouches = false;
     mRoot.mDeleteWhenParentIsDeleted = false;
 }
 
@@ -92,26 +92,29 @@ void FWindow::Update() {
 }
 
 void FWindow::Draw() {
-    Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.66f);
-    Graphics::DrawRect(mVirtualFrameX, mVirtualFrameY, mVirtualFrameWidth, mVirtualFrameHeight);
-    
     mRoot.BaseDraw();
 }
 
 bool FWindow::TouchDown(float pX, float pY, void *pData) {
+    bool aConsumed = false;
+    FCanvas *aCollider = mRoot.BaseTouchDown(pX, pY, pX, pY, pData, false, aConsumed);
+    if (aCollider) {
+        printf("Touch Landed: {{%s}} [C: %d]\n", aCollider->mName.c(), aCollider->mTouchCount);
+        return aConsumed;
+    }
     return false;
 }
 
-bool FWindow::TouchMove(float pX, float pY, void *pData) {
-    return false;
+void FWindow::TouchMove(float pX, float pY, void *pData) {
+    mRoot.BaseTouchMove(pX, pY, pX, pY, pData, false);
 }
 
 void FWindow::TouchUp(float pX, float pY, void *pData) {
-
+    mRoot.BaseTouchUp(pX, pY, pX, pY, pData, false);
 }
 
 void FWindow::TouchFlush() {
-
+    mRoot.BaseTouchFlush();
 }
 
 bool FWindow::MouseDown(float pX, float pY, int pButton) {
@@ -141,6 +144,7 @@ void FWindow::KeyUp(int pKey) {
 void FWindow::SetDeviceSize(int pWidth, int pHeight) {
     mDeviceWidth = pWidth;
     mDeviceHeight = pHeight;
+    RegisterTransformDidUpdate(&mRoot);
 }
 
 void FWindow::SetVirtualFrame(int pX, int pY, int pWidth, int pHeight) {

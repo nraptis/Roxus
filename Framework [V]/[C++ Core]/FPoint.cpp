@@ -32,8 +32,8 @@ void FPoint::Normalize() {
 }
 
 FPoint FPointLerp(FPoint vectorStart, FPoint vectorEnd, float t) {
-    FPoint aReturn;
-    aReturn.mX = vectorStart.mX + ((vectorEnd.mX - vectorStart.mX) * t);
-    aReturn.mY = vectorStart.mY + ((vectorEnd.mY - vectorStart.mY) * t);
-    return aReturn;
+    FPoint aResult;
+    aResult.mX = vectorStart.mX + ((vectorEnd.mX - vectorStart.mX) * t);
+    aResult.mY = vectorStart.mY + ((vectorEnd.mY - vectorStart.mY) * t);
+    return aResult;
 }

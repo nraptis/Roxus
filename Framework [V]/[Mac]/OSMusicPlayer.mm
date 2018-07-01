@@ -233,9 +233,9 @@
 
 - (BOOL)musicIsPlaying
 {
-    BOOL aReturn = NO;
+    BOOL aResult = NO;
     
-    return aReturn;
+    return aResult;
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag

@@ -46,15 +46,15 @@ bool IsPowerOfTwo(int pNumber){return(pNumber&-pNumber)==pNumber;}
 int ClosestPowerOfTwo(int pNumber)
 {
     
-    int aReturn=1;
+    int aResult=1;
     
-    while ((aReturn < pNumber) && (aReturn < 4096))
+    while ((aResult < pNumber) && (aResult < 4096))
     {
-        aReturn = (aReturn * 2);
+        aResult = (aResult * 2);
     }
     
-	//while((unsigned int)pNumber<aReturn&&aReturn!=0x40000000)aReturn=(aReturn<<1);
-	return (int)aReturn;
+	//while((unsigned int)pNumber<aResult&&aResult!=0x40000000)aResult=(aResult<<1);
+	return (int)aResult;
 }
 
 int SideOfLine(float pTestX, float pTestY, float pLineX1, float pLineY1, float pLineX2, float pLineY2)
@@ -74,12 +74,12 @@ float Tan(float pDegrees){return tan(D_R*pDegrees);}
 
 float LoopAngle(float &pDegrees, float pSpeed)
 {
-    float aReturn = pDegrees + pSpeed;
+    float aResult = pDegrees + pSpeed;
     
-    if(aReturn >= 360.0f)aReturn -= 360.0f;
-    if(aReturn < 0.0f)aReturn += 360.0f;
+    if(aResult >= 360.0f)aResult -= 360.0f;
+    if(aResult < 0.0f)aResult += 360.0f;
     
-    return aReturn;
+    return aResult;
 }
 
 float DistanceBetweenAngles(float theDegrees1, float theDegrees2)
@@ -100,10 +100,10 @@ float FaceTarget(float pOriginX, float pOriginY, float pTargetX, float pTargetY)
 
 float Trim(float pNum, float pMin, float pMax)
 {
-	float aReturn=pNum;
-	if(aReturn<pMin)aReturn=pMin;
-	if(aReturn>pMax)aReturn=pMax;
-	return aReturn;
+	float aResult=pNum;
+	if(aResult<pMin)aResult=pMin;
+	if(aResult>pMax)aResult=pMax;
+	return aResult;
 }
 
 float MinC(float pNum, float pMin)
@@ -138,7 +138,7 @@ bool QuadContainsPoint(float pPointX, float pPointY, float pX1, float pY1, float
     aY[2]=pY3;
     aY[3]=pY4;
     
-    bool aReturn = false;
+    bool aResult = false;
 	for(int aStart=0,aEnd=3;aStart<4;aEnd=aStart++)
 	{
 		if((((aY[aStart]<=pPointY) && (pPointY<aY[aEnd]))||
@@ -146,18 +146,18 @@ bool QuadContainsPoint(float pPointX, float pPointY, float pX1, float pY1, float
 			(pPointX < (aX[aEnd] - aX[aStart])*(pPointY - aY[aStart])
              /(aY[aEnd] - aY[aStart]) + aX[aStart]))
         {
-			aReturn=!aReturn;
+			aResult=!aResult;
         }
     }
     
-	return aReturn;
+	return aResult;
     
 }
 
 FVec2 PivotPoint(FVec2 pPoint, float pDegrees, FVec2 pCenter, float pScaleX, float pScaleY)
 {
     
-    FVec2 aReturn;
+    FVec2 aResult;
     
     float aDiffX = pCenter.mX - pPoint.mX;
     float aDiffY = pCenter.mY - pPoint.mY;
@@ -177,23 +177,23 @@ FVec2 PivotPoint(FVec2 pPoint, float pDegrees, FVec2 pCenter, float pScaleX, flo
         //    aRotation = fmodf(aRotation, 360.0f);
         //}
         
-        aReturn.mX = pCenter.mX + Sin(180.0f -aRotation) * pScaleX * aDist;
-        aReturn.mY = pCenter.mY + Cos(180.0f -aRotation) * pScaleY * aDist;
+        aResult.mX = pCenter.mX + Sin(180.0f -aRotation) * pScaleX * aDist;
+        aResult.mY = pCenter.mY + Cos(180.0f -aRotation) * pScaleY * aDist;
         
     }
     else
     {
-        aReturn = pPoint;
+        aResult = pPoint;
         
         aDiffX=0.0f;
         aDiffY=0.0f;
         
         aDist=0.0f;
     }
-    return aReturn;
+    return aResult;
     
     /*
-    FVec2 aReturn;
+    FVec2 aResult;
     
     float aDiffX = pPoint.mX - pCenter.mX;
     float aDiffY = pPoint.mY - pCenter.mY;
@@ -213,27 +213,27 @@ FVec2 PivotPoint(FVec2 pPoint, float pDegrees, FVec2 pCenter, float pScaleX, flo
         //    aRotation = fmodf(aRotation, 360.0f);
         //}
         
-        aReturn.mX = pCenter.mX + Sin(aRotation) * pScaleX * aDist;
-        aReturn.mY = pCenter.mY - Cos(aRotation) * pScaleY * aDist;
+        aResult.mX = pCenter.mX + Sin(aRotation) * pScaleX * aDist;
+        aResult.mY = pCenter.mY - Cos(aRotation) * pScaleY * aDist;
         
     }
     else
     {
-        aReturn = pPoint;
+        aResult = pPoint;
         
         aDiffX=0.0f;
         aDiffY=0.0f;
         
         aDist=0.0f;
     }
-    return aReturn;
+    return aResult;
     */
 }
 
 
 FVec2 PivotPoint(FVec2 pPoint, float pDegrees, FVec2 pCenter, float pScale)
 {
-    FVec2 aReturn;
+    FVec2 aResult;
     
     float aDiffX = pCenter.mX - pPoint.mX;
     float aDiffY = pCenter.mY - pPoint.mY;
@@ -253,20 +253,20 @@ FVec2 PivotPoint(FVec2 pPoint, float pDegrees, FVec2 pCenter, float pScale)
         //    aRotation = fmodf(aRotation, 360.0f);
         //}
         
-        aReturn.mX = pCenter.mX + Sin(180.0f -aRotation) * pScale * aDist;
-        aReturn.mY = pCenter.mY + Cos(180.0f -aRotation) * pScale * aDist;
+        aResult.mX = pCenter.mX + Sin(180.0f -aRotation) * pScale * aDist;
+        aResult.mY = pCenter.mY + Cos(180.0f -aRotation) * pScale * aDist;
         
     }
     else
     {
-        aReturn = pPoint;
+        aResult = pPoint;
         
         aDiffX=0.0f;
         aDiffY=0.0f;
         
         aDist=0.0f;
     }
-    return aReturn;
+    return aResult;
 }
 
 FVec2 PivotPoint(FVec2 pPoint, float pDegrees)

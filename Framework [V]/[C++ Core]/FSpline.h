@@ -211,12 +211,12 @@ public:
 	float					GetX(float pos);//{float aX,aY;Get(pos,aX,aY);return aX;}
 	float					GetY(float pos);//{float aX,aY;Get(pos,aX,aY);return aY;}
 	//Framework specific.
-	inline FVec2			Get(float pos){FVec2 aReturn;Get(pos,aReturn.mX,aReturn.mY);return aReturn;}
-	inline FVec2			Get(int pos){FVec2 aReturn;Get(pos,aReturn.mX,aReturn.mY);return aReturn;}
+	inline FVec2			Get(float pos){FVec2 aResult;Get(pos,aResult.mX,aResult.mY);return aResult;}
+	inline FVec2			Get(int pos){FVec2 aResult;Get(pos,aResult.mX,aResult.mY);return aResult;}
 	inline void				GetPoint(float pos,float &x,float &y){Get(pos,x,y);}
 	inline void				GetPoint(int pos,float &x,float &y){Get(pos,x,y);}
-	inline FVec2			GetPoint(float pos){FVec2 aReturn;Get(pos,aReturn.mX,aReturn.mY);return aReturn;}
-	inline FVec2			GetPoint(int pos){FVec2 aReturn;Get(pos,aReturn.mX,aReturn.mY);return aReturn;}
+	inline FVec2			GetPoint(float pos){FVec2 aResult;Get(pos,aResult.mX,aResult.mY);return aResult;}
+	inline FVec2			GetPoint(int pos){FVec2 aResult;Get(pos,aResult.mX,aResult.mY);return aResult;}
 	inline FVec2			operator[](float theSlot){return Get(theSlot);}
 	inline FVec2			operator[](int theSlot){return Get(theSlot);}
 	//
@@ -245,8 +245,8 @@ public:
 	void					Tan(float pos,float &x,float &y);
 	void					Tan(int pos,float &x,float &y);
 	//Framework specific.
-	inline FVec2			Tan(int pos){FVec2 aReturn;Tan(pos,aReturn.mX,aReturn.mY);return aReturn;}
-	inline FVec2			Tan(float pos){FVec2 aReturn;Tan(pos,aReturn.mX,aReturn.mY);return aReturn;}
+	inline FVec2			Tan(int pos){FVec2 aResult;Tan(pos,aResult.mX,aResult.mY);return aResult;}
+	inline FVec2			Tan(float pos){FVec2 aResult;Tan(pos,aResult.mX,aResult.mY);return aResult;}
 	//
 
 	//Get the length of the spline between two points
@@ -392,7 +392,7 @@ public:
     float					GetZ(float pos);//{float aX,aY;Get(pos,aX,aY);return aY;}
     
     //Framework specific.
-    inline FVec3			Get(float pos){FVec3 aReturn;Get(pos,aReturn.mX,aReturn.mY,aReturn.mZ);return aReturn;}
+    inline FVec3			Get(float pos){FVec3 aResult;Get(pos,aResult.mX,aResult.mY,aResult.mZ);return aResult;}
     
     //
     int						GetClosestControlIndex(float x, float y, float z, float &dist);

@@ -482,7 +482,7 @@ bool FPolyPath::Interpolate(float pLength)
 
 bool FPolyPath::Interpolate(FPolyPathInterp *pInterp, float pLength)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(mRefresh)
     {
@@ -559,7 +559,7 @@ bool FPolyPath::Interpolate(FPolyPathInterp *pInterp, float pLength)
             if(aRange > SQRT_EPSILON)aPercent = (float)(((double)(pLength - aLengthStart)) / aRange);
             
             pInterp->mValid = true;
-            aReturn = true;
+            aResult = true;
             
             pInterp->mPercentInterp = aPercent;
             
@@ -603,7 +603,7 @@ bool FPolyPath::Interpolate(FPolyPathInterp *pInterp, float pLength)
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -630,7 +630,7 @@ void FPolyPath::GetRandom(float &pX, float &pY)
 /*
 float FPolyPath::Interpolate(float *pArray, float pLength, bool pWrap)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     
     if((mLength > 0.025f) && (mCount > 1))
     {
@@ -694,10 +694,10 @@ float FPolyPath::Interpolate(float *pArray, float pLength, bool pWrap)
             aPercent = (float)(((double)(pLength - aLengthStart)) / aRange);
         }
         
-        aReturn = pArray[aIndexStart] + ((pArray[aIndexEnd] - pArray[aIndexStart]) * aPercent);
+        aResult = pArray[aIndexStart] + ((pArray[aIndexEnd] - pArray[aIndexStart]) * aPercent);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float FPolyPath::GetX(float pLength, bool pWrap)

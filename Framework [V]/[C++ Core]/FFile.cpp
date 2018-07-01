@@ -118,46 +118,46 @@ bool FFile::ReadBool()
 
 char FFile::ReadChar()
 {
-    char aReturn = 0;
+    char aResult = 0;
     if((mCursorRead + 1) < mLength)
     {
-        aReturn = *(char*)(&(mData[mCursorRead]));
+        aResult = *(char*)(&(mData[mCursorRead]));
         mCursorRead += 1;
     }
-    return aReturn;
+    return aResult;
 }
 
 short FFile::ReadShort()
 {
-    short aReturn = 0;
+    short aResult = 0;
     if((mCursorRead + 2) < mLength)
     {
-        aReturn = *(short*)(&(mData[mCursorRead]));
+        aResult = *(short*)(&(mData[mCursorRead]));
         mCursorRead += 2;
     }
-    return aReturn;
+    return aResult;
 }
 
 int FFile::ReadInt()
 {
-    int aReturn = 0;
+    int aResult = 0;
     if((mCursorRead + 4) < mLength)
     {
-        aReturn = *(int*)(&(mData[mCursorRead]));
+        aResult = *(int*)(&(mData[mCursorRead]));
         mCursorRead += 4;
     }
-    return aReturn;
+    return aResult;
 }
 
 float FFile::ReadFloat()
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     if((mCursorRead + 4) < mLength)
     {
-        aReturn = *(float*)(&(mData[mCursorRead]));
+        aResult = *(float*)(&(mData[mCursorRead]));
         mCursorRead += 4;
     }
-    return aReturn;
+    return aResult;
 }
 
 void FFile::WriteColor(FColor pColor)
@@ -170,12 +170,12 @@ void FFile::WriteColor(FColor pColor)
 
 FColor FFile::ReadColor()
 {
-    FColor aReturn;
-    aReturn.mRed = ReadFloat();
-    aReturn.mGreen = ReadFloat();
-    aReturn.mBlue = ReadFloat();
-    aReturn.mAlpha = ReadFloat();
-    return aReturn;
+    FColor aResult;
+    aResult.mRed = ReadFloat();
+    aResult.mGreen = ReadFloat();
+    aResult.mBlue = ReadFloat();
+    aResult.mAlpha = ReadFloat();
+    return aResult;
 }
 
 void FFile::WriteString(char *pString)
@@ -194,7 +194,7 @@ void FFile::WriteString(char *pString)
 
 FString FFile::ReadString()
 {
-	FString aReturn;
+	FString aResult;
 
     short aLengthShort = ReadShort();
     int aLength = (int)aLengthShort;
@@ -203,7 +203,7 @@ FString FFile::ReadString()
 		aLength = 0;
 
 
-		aReturn = "<Err>";
+		aResult = "<Err>";
 	}
 	else
 	{
@@ -218,16 +218,16 @@ FString FFile::ReadString()
 				aData[i] = ReadChar();
 			}
 
-			aReturn.Set(aData);
+			aResult.Set(aData);
 			delete[] aData;
 		}
 		else
 		{
-			aReturn = "";
+			aResult = "";
 		}
 	}
     
-	return aReturn;
+	return aResult;
 }
 
 void FFile::Print()
@@ -400,7 +400,7 @@ FFileSequence::~FFileSequence()
 
 bool FFileSequence::LoadSequence(const char *pFileBase, const char *pExtension, FList &pList, int pStartIndex, int pEndIndex, int pLeadingZeroCount)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     FString aFileBase = pFileBase;
     FString aExtension = pExtension;
@@ -417,32 +417,32 @@ bool FFileSequence::LoadSequence(const char *pFileBase, const char *pExtension, 
     if(os_fileExists(aCheck.c()))
     {
         pList += new FString(aCheck);
-        aReturn=true;
+        aResult=true;
     }
     
-    if((aReturn == false) && (gDirBundle.mLength > 0))
+    if((aResult == false) && (gDirBundle.mLength > 0))
     {
         aCheck = (gDirBundle + aFileBase + aNumberString + FString(".") + aExtension);
         if(os_fileExists(aCheck.c()))
         {
             pList += new FString(aCheck);
             aFileBase = (gDirBundle + aFileBase);
-            aReturn=true;
+            aResult=true;
         }
     }
     
-    if((aReturn == false) && (gDirDocuments.mLength > 0))
+    if((aResult == false) && (gDirDocuments.mLength > 0))
     {
         aCheck = (gDirDocuments + aFileBase + aNumberString + FString(".") + aExtension);
         if(os_fileExists(aCheck.c()))
         {
             pList += new FString(aCheck);
             aFileBase = (gDirDocuments + aFileBase);
-            aReturn=true;
+            aResult=true;
         }
     }
     
-    if(aReturn)
+    if(aResult)
     {
         for(int aIndex=pStartIndex+1;((aIndex<=pEndIndex) || (pEndIndex == -1));aIndex++)
         {
@@ -468,39 +468,39 @@ bool FFileSequence::LoadSequence(const char *pFileBase, const char *pExtension, 
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool FFileSequence::LoadSequence(const char *pFileBase, const char *pExtension, FList &pList, int pStartIndex, int pEndIndex)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    for(int aLeadingZeros=1;((aLeadingZeros<8) && (aReturn==false));aLeadingZeros++)
+    for(int aLeadingZeros=1;((aLeadingZeros<8) && (aResult==false));aLeadingZeros++)
     {
-        aReturn = LoadSequence(pFileBase, pExtension, pList, pStartIndex, pEndIndex, aLeadingZeros);
+        aResult = LoadSequence(pFileBase, pExtension, pList, pStartIndex, pEndIndex, aLeadingZeros);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool FFileSequence::LoadSequence(const char *pFileBase, FList &pList, int pStartIndex, int pEndIndex)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    if(!aReturn)
+    if(!aResult)
     {
-        aReturn = LoadSequence(pFileBase, "png", pList, pStartIndex, pEndIndex);
+        aResult = LoadSequence(pFileBase, "png", pList, pStartIndex, pEndIndex);
     }
-    if(!aReturn)
+    if(!aResult)
     {
-        aReturn = LoadSequence(pFileBase, "jpg", pList, pStartIndex, pEndIndex);
+        aResult = LoadSequence(pFileBase, "jpg", pList, pStartIndex, pEndIndex);
     }
-    if(!aReturn)
+    if(!aResult)
     {
-        aReturn = LoadSequence(pFileBase, "obj", pList, pStartIndex, pEndIndex);
+        aResult = LoadSequence(pFileBase, "obj", pList, pStartIndex, pEndIndex);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool FFileSequence::LoadSequence(const char *pFileBase, const char *pExtension, int pStartIndex, int pEndIndex, int pLeadingZeroCount)

@@ -50,15 +50,15 @@ FTexture::~FTexture()
 
 bool FTexture::IsValid()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     //(mBindIndex >= 0) && 
     if((mExpandedWidth > 0) && (mExpandedHeight > 0))
     {
-        aReturn = true;
+        aResult = true;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FTexture::Initialize(const char *pFilePath)
@@ -154,42 +154,42 @@ void FTexture::Unload()
 
 float FTexture::GetStartU()
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     if(mExpandedWidth > 0)
     {
-        aReturn = ((float)mOffsetX) / ((float)mExpandedWidth);
+        aResult = ((float)mOffsetX) / ((float)mExpandedWidth);
     }
-    return aReturn;
+    return aResult;
 }
 
 float FTexture::GetStartV()
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     if(mExpandedHeight > 0)
     {
-        aReturn = ((float)(mOffsetY)) / ((float)mExpandedHeight);
+        aResult = ((float)(mOffsetY)) / ((float)mExpandedHeight);
     }
-    return aReturn;
+    return aResult;
 }
 
 float FTexture::GetEndU()
 {
-    float aReturn = 1.0f;
+    float aResult = 1.0f;
     if(mExpandedWidth > 0)
     {
-        aReturn = ((float)(mOffsetX + mWidth)) / ((float)mExpandedWidth);
+        aResult = ((float)(mOffsetX + mWidth)) / ((float)mExpandedWidth);
     }
-    return aReturn;
+    return aResult;
 }
 
 float FTexture::GetEndV()
 {
-    float aReturn = 1.0f;
+    float aResult = 1.0f;
     if(mExpandedHeight > 0)
     {
-        aReturn = ((float)(mOffsetY + mHeight)) / ((float)mExpandedHeight);
+        aResult = ((float)(mOffsetY + mHeight)) / ((float)mExpandedHeight);
     }
-    return aReturn;
+    return aResult;
 }
 
 

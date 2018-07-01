@@ -147,7 +147,7 @@ void FString::AddCommas()
 
 FString FString::GetNumber(int thePosition)
 {
-	FString aReturn;
+	FString aResult;
 	if(mData && thePosition < mLength && thePosition >= 0)
 	{
 		char *aSeek = &mData[thePosition];
@@ -190,12 +190,12 @@ FString FString::GetNumber(int thePosition)
 		char *aNumber = new char[aLength + 1];
 		aNumber[aLength] = 0;
 		memcpy(aNumber, aStart, aLength);
-		aReturn.mData = aNumber;
-		aReturn.mLength = aLength;
+		aResult.mData = aNumber;
+		aResult.mLength = aLength;
 		mCursor=aSeek;
 	}
 RETURN:;
-	return aReturn;
+	return aResult;
 }
 
 void FString::Free()
@@ -249,14 +249,14 @@ void FString::Size(int pSize)
 
 int	FString::Length(const char *pString)
 {
-	int aReturn = 0;
+	int aResult = 0;
 	if(pString)
 	{
 		const char *aPtr = pString;
 		while (*aPtr)aPtr++;
-		aReturn = (aPtr - pString);
+		aResult = (aPtr - pString);
 	}
-	return aReturn;
+	return aResult;
 }
 
 void FString::FillNull(int pIndex)
@@ -401,18 +401,18 @@ void FString::InsChars(char pChar, int pCount, int pSlot)
 
 FString FString::GetLastNumber()
 {
-    FString aReturn = "";
+    FString aResult = "";
     
     FString aNumberString = GetNumber();
     
     while(aNumberString.mLength > 0)
     {
-        aReturn = aNumberString;
+        aResult = aNumberString;
         aNumberString = GetNextNumber();
     }
     
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -484,45 +484,45 @@ FString FString::RemovePath(bool pRemoveExtension)
 		}
 	}
     
-    FString aReturn = GetSubString(aStartIndex, aEndIndex-aStartIndex+1);
+    FString aResult = GetSubString(aStartIndex, aEndIndex-aStartIndex+1);
     
     *this = GetSubString(aStartIndex, aEndIndex-aStartIndex+1);
     
-    return aReturn;
+    return aResult;
 }
 */
 
 FString FString::GetExtension()
 {
-    FString aReturn;
+    FString aResult;
     
     int aIndex = GetExtensionIndex();
     
     if((aIndex >= 0) && (aIndex < mLength))
     {
         aIndex++;
-        aReturn = GetSubString(aIndex, (mLength - aIndex));
+        aResult = GetSubString(aIndex, (mLength - aIndex));
         //Delete(aIndex);
         //Truncate(aIndex);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FString FString::ChopExtension()
 {
-    FString aReturn;
+    FString aResult;
     
     int aIndex = GetExtensionIndex();
     
     if((aIndex >= 0) && (aIndex < mLength))
     {
         aIndex++;
-        aReturn = GetSubString(aIndex, (mLength - aIndex));
+        aResult = GetSubString(aIndex, (mLength - aIndex));
         Delete(aIndex);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FString::RemovePath() {
@@ -595,27 +595,27 @@ void FString::RemoveLastNumber()
 }
 
 int FString::GetExtensionIndex() {
-    int aReturn = -1;
+    int aResult = -1;
     bool aFail = false;
-    for (int aIndex=mLength-1;((aIndex>=0) && (aFail == false) && (aReturn == -1));aIndex--) {
+    for (int aIndex=mLength-1;((aIndex>=0) && (aFail == false) && (aResult == -1));aIndex--) {
         if(mData[aIndex] == '/')aFail = true;
         if(mData[aIndex] == '\\')aFail = true;
-        if(mData[aIndex] == '.')aReturn = aIndex;
+        if(mData[aIndex] == '.')aResult = aIndex;
     }
-    return aReturn;
+    return aResult;
 }
 
 int FString::GetPathIndex()
 {
-    int aReturn = -1;
+    int aResult = -1;
     
-    for(int aIndex=mLength-1;((aIndex>=0) && (aReturn == -1));aIndex--)
+    for(int aIndex=mLength-1;((aIndex>=0) && (aResult == -1));aIndex--)
     {
-        if(mData[aIndex] == '/')aReturn = aIndex;
-        if(mData[aIndex] == '\\')aReturn = aIndex;
+        if(mData[aIndex] == '/')aResult = aIndex;
+        if(mData[aIndex] == '\\')aResult = aIndex;
     }
     
-    return (aReturn + 1);
+    return (aResult + 1);
 }
 
 void FString::Encrypt(char *theKey)
@@ -652,30 +652,30 @@ bool FString::IsNumber()
 {
 	if(!mData)return false;
 	char *aChar = mData;
-	bool aReturn = false;
+	bool aResult = false;
 	if(*aChar == '-' || *aChar == '+')aChar++;
 	if(*aChar >= '0' && *aChar <= '9')
 	{
-		aReturn=true;
+		aResult=true;
 		while(*aChar >= '0' && *aChar <= '9')aChar++;
 	}
 	if(*aChar == '.')aChar++;
 	if(*aChar >= '0' && *aChar <= '9')
 	{
-		aReturn=true;
+		aResult=true;
 		while(*aChar >= '0' && *aChar <= '9')aChar++;
 	}
-	aReturn &= *aChar == 0;
-	return aReturn;
+	aResult &= *aChar == 0;
+	return aResult;
 }
 
 int FString::CountCharacter(char c)
 {
-	int aReturn=0;
+	int aResult=0;
 	char *aStart = mData;
 	char *aEnd = &mData[mLength];
-	while(aStart < aEnd){if(*aStart++==c)aReturn++;}
-	return aReturn;
+	while(aStart < aEnd){if(*aStart++==c)aResult++;}
+	return aResult;
 }
 
 bool FString::ContainsDuplicateCharacters()
@@ -818,23 +818,23 @@ FString FString::GetSubString(int thePosition, int theLength)
 
 	int aLength = (aEndIndex - aStartIndex);
 
-	FString aReturn;
+	FString aResult;
 
 	if((aStartIndex < mLength) && (mLength > 0) && (aLength > 0))
 	{
-		aReturn.Size(aLength);
+		aResult.Size(aLength);
 		int aPaste = 0;
 
 		while (aStartIndex < aEndIndex)
 		{
-			aReturn.mData[aPaste] = mData[aStartIndex];
+			aResult.mData[aPaste] = mData[aStartIndex];
 			aStartIndex++;
 			aPaste++;
 		}
-		aReturn.mData[aPaste] = 0;
-		aReturn.mLength = aPaste;
+		aResult.mData[aPaste] = 0;
+		aResult.mLength = aPaste;
 	}
-	return aReturn;
+	return aResult;
 }
 
 void FString::RemoveLeadingSpaces()
@@ -886,17 +886,17 @@ void FString::RemoveTrailingSpaces()
 
 FString FString::operator+(FString theString)
 {
-	FString aReturn;
+	FString aResult;
     
     int aNewLength = mLength + theString.mLength;
-	aReturn.Size(aNewLength);
+	aResult.Size(aNewLength);
 
-	for(int i = 0; i < mLength; i++)aReturn.mData[i] = mData[i];
-	for(int i = 0; i < theString.mLength; i++)aReturn.mData[i + mLength] = theString.mData[i];
+	for(int i = 0; i < mLength; i++)aResult.mData[i] = mData[i];
+	for(int i = 0; i < theString.mLength; i++)aResult.mData[i + mLength] = theString.mData[i];
     
-    aReturn.mLength = aNewLength;
+    aResult.mLength = aNewLength;
     
-	return aReturn;
+	return aResult;
 }
 
 FString FString::operator+(const char *pString)
@@ -918,7 +918,7 @@ FString FString::operator+(char pChar)
 
 int FString::Compare(FString &theString)
 {
-	int aReturn = 0;
+	int aResult = 0;
 	int aLoops = mLength;
 	if(theString.mLength < aLoops)aLoops = theString.mLength;
 
@@ -941,15 +941,15 @@ int FString::Compare(FString &theString)
 	}
 	else
 	{
-		if(mLength < theString.mLength)aReturn = -1;
-		if(mLength > theString.mLength)aReturn = 1;
+		if(mLength < theString.mLength)aResult = -1;
+		if(mLength > theString.mLength)aResult = 1;
 	}
-	return aReturn;
+	return aResult;
 }
 
 int FString::CompareI(FString &theString)
 {
-	int aReturn = 0;
+	int aResult = 0;
 	int aLoops = mLength;
 	if(theString.mLength < aLoops)aLoops = theString.mLength;
 
@@ -977,10 +977,10 @@ int FString::CompareI(FString &theString)
 	}
 	else
 	{
-		if(mLength < theString.mLength)aReturn = -1;
-		if(mLength > theString.mLength)aReturn = 1;
+		if(mLength < theString.mLength)aResult = -1;
+		if(mLength > theString.mLength)aResult = 1;
 	}
-	return aReturn;
+	return aResult;
 }
 
 /*
@@ -1061,7 +1061,7 @@ bool FString::StartsWithI(char *pString)
 
 bool FString::EndsWith(char *pString)
 {
-    bool aReturn = true;
+    bool aResult = true;
     int aLength = Length(pString);
     if((aLength > 0) && (aLength <= mLength))
     {
@@ -1072,14 +1072,14 @@ bool FString::EndsWith(char *pString)
             pString++;
         }
         
-        if(*pString!=0)aReturn = false;
+        if(*pString!=0)aResult = false;
     }
-    return aReturn;
+    return aResult;
 }
 
 bool FString::EndsWithI(char *pString)
 {
-    bool aReturn = true;
+    bool aResult = true;
     int aLength = Length(pString);
     if((aLength > 0) && (aLength <= mLength))
     {
@@ -1089,9 +1089,9 @@ bool FString::EndsWithI(char *pString)
             aChar++;
             pString++;
         }
-        if(*pString!=0)aReturn = false;
+        if(*pString!=0)aResult = false;
     }
-    return aReturn;
+    return aResult;
 }
 
 void FString::SetChar(int theIndex, char theChar)
@@ -1106,20 +1106,20 @@ void FString::SetChar(int theIndex, char theChar)
 
 int FString::FindReverse(char pChar, int pPosition)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     if((pPosition >= 0) && (pPosition < mLength))
     {
-        for(int i=pPosition;((i>=0) && (aReturn == -1));i--)
+        for(int i=pPosition;((i>=0) && (aResult == -1));i--)
         {
             if(mData[i] == pChar)
             {
-                aReturn = i;
+                aResult = i;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FString::FindReverse(char pChar)
@@ -1234,14 +1234,14 @@ bool FString::ToBool()
 
 int FString::i(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     if((pIndex >= 0) && (pIndex < mLength))
     {
         
-        aReturn = ((int)((unsigned int)((unsigned char)(mData[pIndex]))));
+        aResult = ((int)((unsigned int)((unsigned char)(mData[pIndex]))));
         
     }
-    return aReturn;
+    return aResult;
 }
 
 int FString::FindI(char *theString, int thePosition)
@@ -1281,69 +1281,69 @@ int FString::FindI(char *theString, int thePosition)
 int FString::GetHash(char *theString, int theCount, int theTableSize)//, int &theLength)
 {
 	if(!theString || theTableSize < 1)return 0;
-	unsigned long aReturn = 5381;
+	unsigned long aResult = 5381;
 	char *aString=theString;
-	while(int aChar = *aString++ != 0 && theCount--)aReturn=((aReturn<< 5)+aReturn)^aChar;
+	while(int aChar = *aString++ != 0 && theCount--)aResult=((aResult<< 5)+aResult)^aChar;
 	//theLength = (int)(aString - theString);
-	return aReturn % theTableSize;
+	return aResult % theTableSize;
 }
 
 int FString::GetHashI(char *theString, int theCount, int theTableSize)//, int &theLength)
 {
 	if(!theString || theTableSize < 1)return 0;
-	unsigned long aReturn = 5381;
+	unsigned long aResult = 5381;
 	char *aString=theString;
 	while(int aChar = *aString++ != 0 && theCount--)
 	{
 		if(aChar >= 'A' && aChar <= 'Z')aChar+=32;
-		aReturn=((aReturn<< 5)+aReturn)^aChar;
+		aResult=((aResult<< 5)+aResult)^aChar;
 	}
 	//theLength = (int)(aString - theString);
-	return aReturn % theTableSize;
+	return aResult % theTableSize;
 }
 
 int FString::GetHash(char *theString, int theTableSize)
 {
 	if(!theString || theTableSize < 1)return 0;
-	unsigned long aReturn = 5381;
+	unsigned long aResult = 5381;
 	char *aString=theString;
-	while(int aChar = *aString++)aReturn=((aReturn<< 5)+aReturn)^aChar;
-	return aReturn % theTableSize;
+	while(int aChar = *aString++)aResult=((aResult<< 5)+aResult)^aChar;
+	return aResult % theTableSize;
 }
 
 int FString::GetHashI(char *theString, int theTableSize)
 {
 	if(!theString || theTableSize < 1)return 0;
-	unsigned long aReturn = 5381;
+	unsigned long aResult = 5381;
 	char *aString=theString;
 	while(int aChar = *aString++)
 	{
 		if(aChar >= 'A' && aChar <= 'Z')aChar+=32;
-		aReturn=((aReturn<< 5)+aReturn)^aChar;
+		aResult=((aResult<< 5)+aResult)^aChar;
 	}
-	return aReturn % theTableSize;
+	return aResult % theTableSize;
 }
 
 int FString::GetHash(int theTableSize)
 {
 	if(!mData || theTableSize < 1)return 0;
-	unsigned long aReturn = 5381;
+	unsigned long aResult = 5381;
 	char *aString = mData;
-	while (int aChar = *aString++)aReturn = ((aReturn << 5) + aReturn) ^ aChar;
-	return aReturn % theTableSize;
+	while (int aChar = *aString++)aResult = ((aResult << 5) + aResult) ^ aChar;
+	return aResult % theTableSize;
 }
 
 int FString::GetHashI(int theTableSize)
 {
 	if(!mData || theTableSize < 1)return 0;
-	unsigned long aReturn = 5381;
+	unsigned long aResult = 5381;
 	char *aString=mData;
 	while(int aChar = *aString++)
 	{
 		if(aChar >= 'A' && aChar <= 'Z')aChar+=32;
-		aReturn=((aReturn<< 5)+aReturn)^aChar;
+		aResult=((aResult<< 5)+aResult)^aChar;
 	}
-	return aReturn % theTableSize;
+	return aResult % theTableSize;
 }
 */
 
@@ -1359,40 +1359,40 @@ unsigned int FString::GetHashI()
 
 unsigned int FString::GetHash(char *theString)
 {
-	unsigned long aReturn = 0;
+	unsigned long aResult = 0;
 
 	if(theString)
 	{
 		if(*theString)
 		{
-			aReturn = 5381;
+			aResult = 5381;
 			char *aString = theString;
-			while (int aChar = *aString++)aReturn = ((aReturn << 5) + aReturn) ^ aChar;
+			while (int aChar = *aString++)aResult = ((aResult << 5) + aResult) ^ aChar;
 		}
 	}
 
-	return (unsigned int)aReturn;
+	return (unsigned int)aResult;
 }
 
 unsigned int FString::GetHashI(char *theString)
 {
-	unsigned long aReturn = 0;
+	unsigned long aResult = 0;
 
 	if(theString)
 	{
 		if(*theString)
 		{
-			aReturn = 5381;
+			aResult = 5381;
 			char *aString = theString;
 			while (int aChar = *aString++)
 			{
 				if(aChar >= 'A' && aChar <= 'Z')aChar += 32;
-				aReturn = ((aReturn << 5) + aReturn) ^ aChar;
+				aResult = ((aResult << 5) + aResult) ^ aChar;
 			}
 		}
 	}
 
-	return (unsigned int)aReturn;
+	return (unsigned int)aResult;
 }
 
 void FString::Replace(char theOriginal, char theNew)

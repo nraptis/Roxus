@@ -29,7 +29,7 @@ FViewTransform::~FViewTransform() {
 }
 
 bool FViewTransform::ApplyAbsoluteTransformation(FViewTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FViewTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
-    bool aReturn = true;
+    bool aResult = true;
     float aStartX = mX;
     float aStartY = mY;
     float aStartScale = mScale;
@@ -124,19 +124,19 @@ bool FViewTransform::ApplyAbsoluteTransformation(FViewTransform *pParentTransfor
         mCornerX[3] = aCornerStartX + aWidth;
         mCornerY[3] = aCornerStartY;
     }
-    if(aStartX != mX)aReturn = false;
-    if(aStartY != mY)aReturn = false;
-    if(aStartScale != mScale)aReturn = false;
-    if(aStartScaleX != mScaleX)aReturn = false;
-    if(aStartScaleY != mScaleY)aReturn = false;
-    if(aStartRotation != mRotation)aReturn = false;
-    if(aStartAnchorX != mAnchorX)aReturn = false;
-    if(aStartAnchorY != mAnchorY)aReturn = false;
-    return aReturn;
+    if(aStartX != mX)aResult = false;
+    if(aStartY != mY)aResult = false;
+    if(aStartScale != mScale)aResult = false;
+    if(aStartScaleX != mScaleX)aResult = false;
+    if(aStartScaleY != mScaleY)aResult = false;
+    if(aStartRotation != mRotation)aResult = false;
+    if(aStartAnchorX != mAnchorX)aResult = false;
+    if(aStartAnchorY != mAnchorY)aResult = false;
+    return aResult;
 }
 
 bool FViewTransform::ApplyAbsoluteTransformation(FViewTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
-    bool aReturn = true;
+    bool aResult = true;
     float aStartX = mX;
     float aStartY = mY;
     float aStartScale = mScale;
@@ -196,32 +196,32 @@ bool FViewTransform::ApplyAbsoluteTransformation(FViewTransform *pTransform, flo
             mCornerY[3] = aCornerStartY;
         }
     }
-    if(aStartX != mX)aReturn = false;
-    if(aStartY != mY)aReturn = false;
-    if(aStartScale != mScale)aReturn = false;
-    if(aStartScaleX != mScaleX)aReturn = false;
-    if(aStartScaleY != mScaleY)aReturn = false;
-    if(aStartRotation != mRotation)aReturn = false;
-    if(aStartAnchorX != mAnchorX)aReturn = false;
-    if(aStartAnchorY != mAnchorY)aReturn = false;
-    return aReturn;
+    if(aStartX != mX)aResult = false;
+    if(aStartY != mY)aResult = false;
+    if(aStartScale != mScale)aResult = false;
+    if(aStartScaleX != mScaleX)aResult = false;
+    if(aStartScaleY != mScaleY)aResult = false;
+    if(aStartRotation != mRotation)aResult = false;
+    if(aStartAnchorX != mAnchorX)aResult = false;
+    if(aStartAnchorY != mAnchorY)aResult = false;
+    return aResult;
 }
 
 bool FViewTransform::ContainsPoint(float pX, float pY) {
-    bool aReturn = false;
+    bool aResult = false;
     if(mRotation != 0) {
         for(int aStart=0,aEnd=3;aStart<4;aEnd=aStart++) {
             if((((mCornerY[aStart] <= pY) && (pY < mCornerY[aEnd]))||
                  ((mCornerY[aEnd] <= pY) && (pY < mCornerY[aStart])))&&
                 (pX < (mCornerX[aEnd] - mCornerX[aStart]) * (pY - mCornerY[aStart])
                  / (mCornerY[aEnd] - mCornerY[aStart]) + mCornerX[aStart])) {
-                aReturn = !aReturn;
+                aResult = !aResult;
             }
         }
     } else {
-        aReturn = ((pX >= mCornerX[0]) && (pY >= mCornerY[0]) && (pX <= mCornerX[2]) && (pY <= mCornerY[2]));
+        aResult = ((pX >= mCornerX[0]) && (pY >= mCornerY[0]) && (pX <= mCornerX[2]) && (pY <= mCornerY[2]));
     }
-    return aReturn;
+    return aResult;
 }
 
 void FViewTransform::Untransform(float &pX, float &pY, float pWidth, float pHeight) {

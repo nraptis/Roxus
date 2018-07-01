@@ -13,7 +13,7 @@
 /*
 bool PolyPath::ContainsPoint(float pX, float pY)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(mPointCount > 1)
     {
@@ -29,23 +29,23 @@ bool PolyPath::ContainsPoint(float pX, float pY)
                (pX < (aEndX - aStartX)*(pY - aStartY)
                 /(aEndY - aStartY) + aStartX))
             {
-                aReturn=!aReturn;
+                aResult=!aResult;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float PolygonPath::Get(float pPercent, float *pArray)
 {
     if(mChanged==true)Finalize();
     
-    float aReturn=0;
+    float aResult=0;
     
     if(mCount==1)
     {
-        aReturn=pArray[0];
+        aResult=pArray[0];
     }
     if(mCount>1)
     {
@@ -57,11 +57,11 @@ float PolygonPath::Get(float pPercent, float *pArray)
         
         if(pPercent<0)
         {
-            aReturn=pArray[0];
+            aResult=pArray[0];
         }
         else if(pPercent>1)
         {
-            aReturn=pArray[mCount-1];
+            aResult=pArray[mCount-1];
         }
         else
         {
@@ -105,11 +105,11 @@ float PolygonPath::Get(float pPercent, float *pArray)
             
             if(pPercent<aStartPercent)
             {
-                aReturn=pArray[aStartIndex];
+                aResult=pArray[aStartIndex];
             }
             else if(pPercent>aEndPercent)
             {
-                aReturn=pArray[aEndIndex];
+                aResult=pArray[aEndIndex];
             }
             else
             {
@@ -121,17 +121,17 @@ float PolygonPath::Get(float pPercent, float *pArray)
                     if(aPercent>1)aPercent=1;
                     if(aPercent<0)aPercent=0;
                     
-                    aReturn=pArray[aStartIndex]+(pArray[aEndIndex]-pArray[aStartIndex])*aPercent;
+                    aResult=pArray[aStartIndex]+(pArray[aEndIndex]-pArray[aStartIndex])*aPercent;
                 }
                 else
                 {
-                    aReturn=pArray[aStartIndex];
+                    aResult=pArray[aStartIndex];
                 }
             }
         }
         
     }
-    return aReturn;
+    return aResult;
 }
 */
 
@@ -679,11 +679,11 @@ int FDrawNodeList::GetClosestNode(float pX, float pY, float &pDist)
 {
     pDist = 0.0f;
     
-    int aReturn = -1;
+    int aResult = -1;
     
     if(mCountNodes > 0)
     {
-        aReturn = 0;
+        aResult = 0;
         
         float aDiffX = mData[0].mX - pX;
         float aDiffY = mData[0].mY - pY;
@@ -701,21 +701,21 @@ int FDrawNodeList::GetClosestNode(float pX, float pY, float &pDist)
             if(aDist < pDist)
             {
                 pDist = aDist;
-                aReturn = i;
+                aResult = i;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FDrawNodeList::GetClosestNode(float pX, float pY)
 {
     float aDist = 200.0f;
     
-    int aReturn = GetClosestNode(pX, pY, aDist);
+    int aResult = GetClosestNode(pX, pY, aDist);
     
-    return aReturn;
+    return aResult;
 }
 
 

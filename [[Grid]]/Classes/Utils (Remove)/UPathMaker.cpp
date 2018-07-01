@@ -1466,42 +1466,42 @@ void UPathMaker::FindSelectablePaths()
 
 bool UPathMaker::IsSelectable(FMotionPathTemplate *pPath)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pPath)
     {
         if(mSelectedPathLockTarget != 0)
         {
-            if(pPath == mSelectedPathLockTarget)aReturn = true;
-            else aReturn = false;
+            if(pPath == mSelectedPathLockTarget)aResult = true;
+            else aResult = false;
         }
         else
         {
-            aReturn = true;
+            aResult = true;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool UPathMaker::IsSelected(FMotionPathTemplate *pPath)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pPath)
     {
         if(mSelectedPath != 0)
         {
-            if(pPath == mSelectedPath)aReturn = true;
-            else aReturn = false;
+            if(pPath == mSelectedPath)aResult = true;
+            else aResult = false;
         }
         else
         {
-            aReturn = false;
+            aResult = false;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 

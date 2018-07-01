@@ -35,6 +35,8 @@ void CNVWorldContainerContainer::Layout() {
 
     SetFrame(20.0f, 20.0f, gAppWidth - 40.0f, gAppHeight - 40.0f);
 
+    printf("App Width: %f App Height: %f\n\n", gAppWidth, gAppHeight);
+
     if (mWorldContainer) {
         float aWidth = 1536.0f;
         float aHeight = 1536.0f;

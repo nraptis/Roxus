@@ -50,14 +50,14 @@ FTexture *FTextureCache::GetTexture(const char *pFileName)
         mNodeList.Add(aNode);
     }
     
-    FTexture *aReturn = aNode->mTexture;
+    FTexture *aResult = aNode->mTexture;
     
-    if(aReturn)
+    if(aResult)
     {
-        aReturn->Realize();
+        aResult->Realize();
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FTextureCache::UnloadAllTextures()
@@ -87,7 +87,7 @@ void FTextureCache::ReloadAllTextures()
 }
 
 FTextureCacheNode *FTextureCache::GetNodeForTexture(FTexture *pTexture) {
-    FTextureCacheNode *aReturn = 0;
+    FTextureCacheNode *aResult = 0;
     if (pTexture) {
         FHashTableNode *aHashNode = mTableNodes.GetNode(pTexture->mFileName.c());
         
@@ -96,7 +96,7 @@ FTextureCacheNode *FTextureCache::GetNodeForTexture(FTexture *pTexture) {
             aNode = (FTextureCacheNode *)(aHashNode->mObject);
             if(aNode) {
                 if(aNode->mTexture == pTexture) {
-                    aReturn = aNode;
+                    aResult = aNode;
                     break;
                 }
             }
@@ -106,7 +106,7 @@ FTextureCacheNode *FTextureCache::GetNodeForTexture(FTexture *pTexture) {
         
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FTextureCache::TextureBindAdd(FTexture *pTexture)

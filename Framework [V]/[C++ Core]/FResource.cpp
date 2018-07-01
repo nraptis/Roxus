@@ -48,7 +48,7 @@ FResourceManager::~FResourceManager()
 
 FResource *FResourceManager::AddResource(const char *pResourcePath, bool pPrint)
 {
-    FResource *aReturn = 0;
+    FResource *aResult = 0;
     
 	FString aName = ResourceName(pResourcePath);
     FString aFullPath = FString(pResourcePath);
@@ -58,80 +58,80 @@ FResource *FResourceManager::AddResource(const char *pResourcePath, bool pPrint)
     
     if((aName.mLength > 0) && (aFullPath.mLength > 0) && (aExtension.mLength > 0))
     {
-        aReturn = new FResource();
-        aReturn->mName = aName;
-        aReturn->mExtension = aExtension;
-        aReturn->mResourceType = 0;
+        aResult = new FResource();
+        aResult->mName = aName;
+        aResult->mExtension = aExtension;
+        aResult->mResourceType = 0;
 
         if((aExtension == "png") || (aExtension == "jpg") || (aExtension == "jpeg") || (aExtension == "gif") || (aExtension == "tga") || (aExtension == "bmp"))
         {
-            (aReturn->mResourceType) |= RESOURCE_TYPE_IMAGE;
+            (aResult->mResourceType) |= RESOURCE_TYPE_IMAGE;
         }
         else if((aExtension == "caf") || (aExtension == "aif") || (aExtension == "aiff") || (aExtension == "wav") || (aExtension == "ogg") || (aExtension == "pcm"))
         {
-            (aReturn->mResourceType) |= RESOURCE_TYPE_SOUND_EFFECT;
-            (aReturn->mResourceType) |= RESOURCE_TYPE_AUDIO;
+            (aResult->mResourceType) |= RESOURCE_TYPE_SOUND_EFFECT;
+            (aResult->mResourceType) |= RESOURCE_TYPE_AUDIO;
             
         }
         else if((aExtension == "mp3") || (aExtension == "mod") || (aExtension == "midi"))
         {
-            (aReturn->mResourceType) |= RESOURCE_TYPE_MUSIC;
-            (aReturn->mResourceType) |= RESOURCE_TYPE_AUDIO;
+            (aResult->mResourceType) |= RESOURCE_TYPE_MUSIC;
+            (aResult->mResourceType) |= RESOURCE_TYPE_AUDIO;
         }
         else if((aExtension == "xml") || (aExtension == "cml"))
         {
-            (aReturn->mResourceType) |= RESOURCE_TYPE_XML;
+            (aResult->mResourceType) |= RESOURCE_TYPE_XML;
         }
         else if((aExtension == "dat") || (aExtension == "sav"))
         {
-            (aReturn->mResourceType) |= RESOURCE_TYPE_BINARY;
+            (aResult->mResourceType) |= RESOURCE_TYPE_BINARY;
         }
         
-        mTable.Add(aName.c(), pResourcePath, aReturn);
-        mResourceList.Add(aReturn);
+        mTable.Add(aName.c(), pResourcePath, aResult);
+        mResourceList.Add(aResult);
 
         if(pPrint)
         {
             FString aTypeString = "";
             //Log("+++[New Recource]+++ (%s) [%s]", aName.c(), aExtension.c());
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_IMAGE) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_IMAGE) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "IMG";
                 else aTypeString += ", IMG";
             }
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_AUDIO) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_AUDIO) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "AUDIO";
                 else aTypeString += ", AUDIO";
             }
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_SOUND_EFFECT) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_SOUND_EFFECT) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "SFX";
                 else aTypeString += ", SFX";
             }
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_MUSIC) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_MUSIC) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "MUSIC";
                 else aTypeString += ", MUSIC";
             }
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_BINARY) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_BINARY) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "BIN";
                 else aTypeString += ", BIN";
             }
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_CONFIG) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_CONFIG) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "CONFIG";
                 else aTypeString += ", CONFIG";
             }
             
-            if(((aReturn->mResourceType) & RESOURCE_TYPE_BUNDLE) != 0)
+            if(((aResult->mResourceType) & RESOURCE_TYPE_BUNDLE) != 0)
             {
                 if(aTypeString.mLength <= 0)aTypeString += "BUNDLE";
                 else aTypeString += ", BUNDLE";
@@ -152,7 +152,7 @@ FResource *FResourceManager::AddResource(const char *pResourcePath, bool pPrint)
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FString FResourceManager::ResourceName(const char *pFilePath)
@@ -170,25 +170,25 @@ FString FResourceManager::ResourceName(const char *pFilePath)
 
 const char *FResourceManager::GetResourcePath(const char *pFileName)
 {
-	const char *aReturn = 0;
+	const char *aResult = 0;
     FString aName = ResourceName(pFileName);
     mTable.GetAllNodes(aName.c(), mSearchResults);
     FHashTableNode *aNode = (FHashTableNode *)(mSearchResults.Fetch(0));
     if(aNode)
     {
         mSearchIndex = 1;
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
     }
     else
     {
         mSearchIndex = 0;
     }
-	return aReturn;
+	return aResult;
 }
 
 const char *FResourceManager::GetResourcePathOfType(const char *pFileName, int pType)
 {
-    const char *aReturn = 0;
+    const char *aResult = 0;
     
     GetResourcePath(pFileName);
     
@@ -216,14 +216,14 @@ const char *FResourceManager::GetResourcePathOfType(const char *pFileName, int p
     if(aNode)
     {
         mSearchIndex = 1;
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
     }
     else
     {
         mSearchIndex = 0;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 const char *FResourceManager::GetResourcePathImage(const char *pFileName)
@@ -232,7 +232,7 @@ const char *FResourceManager::GetResourcePathImage(const char *pFileName)
     return GetResourcePathOfType(pFileName, RESOURCE_TYPE_IMAGE);
     
     /*
-	const char *aReturn = 0;
+	const char *aResult = 0;
     
     GetResourcePath(pFileName);
     
@@ -260,10 +260,10 @@ const char *FResourceManager::GetResourcePathImage(const char *pFileName)
     if(aNode)
     {
         mSearchIndex = 1;
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
     }
     else mSearchIndex = 0;
-    return aReturn;
+    return aResult;
     */
     
 }
@@ -274,7 +274,7 @@ const char *FResourceManager::GetResourcePathSound(const char *pFileName)
     return GetResourcePathOfType(pFileName, RESOURCE_TYPE_SOUND_EFFECT);
     
     /*
-    const char *aReturn = 0;
+    const char *aResult = 0;
     
     GetResourcePath(pFileName);
     mSearchResultsFilter.RemoveAll();
@@ -295,10 +295,10 @@ const char *FResourceManager::GetResourcePathSound(const char *pFileName)
     if(aNode)
     {
         mSearchIndex = 1;
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
     }
     else mSearchIndex = 0;
-    return aReturn;
+    return aResult;
     */
 }
 
@@ -307,7 +307,7 @@ const char *FResourceManager::GetResourcePathMusic(const char *pFileName)
     return GetResourcePathOfType(pFileName, RESOURCE_TYPE_MUSIC);
     
     /*
-    const char *aReturn = 0;
+    const char *aResult = 0;
     
     GetResourcePath(pFileName);
     mSearchResultsFilter.RemoveAll();
@@ -328,16 +328,16 @@ const char *FResourceManager::GetResourcePathMusic(const char *pFileName)
     if(aNode)
     {
         mSearchIndex = 1;
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
     }
     else mSearchIndex = 0;
-    return aReturn;
+    return aResult;
     */
 }
 
 const char *FResourceManager::GetResourcePathFile(const char *pFileName)
 {
-    const char *aReturn = 0;
+    const char *aResult = 0;
     
     GetResourcePath(pFileName);
     
@@ -370,28 +370,28 @@ const char *FResourceManager::GetResourcePathFile(const char *pFileName)
     if(aNode)
     {
         mSearchIndex = 1;
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
     }
     else
     {
         mSearchIndex = 0;
     }
-    return aReturn;
+    return aResult;
 }
 
 const char *FResourceManager::GetNextResourcePath()
 {
-    const char *aReturn = 0;
+    const char *aResult = 0;
     
     FHashTableNode *aNode = (FHashTableNode *)(mSearchResults.Fetch(mSearchIndex));
     
     if(aNode)
     {
-        aReturn = aNode->mKeyFull.c();
+        aResult = aNode->mKeyFull.c();
         mSearchIndex++;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 

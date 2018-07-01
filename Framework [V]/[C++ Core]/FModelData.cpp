@@ -586,7 +586,7 @@ void FModelData::LoadOBJ(FFile *pFile)
     if(pFile == 0)return;
     if(pFile->mLength <= 0)return;
     
-    //FModelData *aReturn = new FModelData();
+    //FModelData *aResult = new FModelData();
     
     FModelDataIndexed *aTemp = new FModelDataIndexed();
     
@@ -1072,7 +1072,7 @@ void FModelDataIndexed::GetCentroid(float &pCentroidX, float &pCentroidY, float 
 
 FModelData *FModelDataIndexed::GetData()
 {
-    FModelData *aReturn = new FModelData();
+    FModelData *aResult = new FModelData();
     
     if(mIndexCount > 0)
     {
@@ -1086,7 +1086,7 @@ FModelData *FModelDataIndexed::GetData()
                 float aX = mXYZ[aIndex + 0];
                 float aY = mXYZ[aIndex + 1];
                 float aZ = mXYZ[aIndex + 2];
-                aReturn->AddXYZ(aX, aY, aZ);
+                aResult->AddXYZ(aX, aY, aZ);
             }
         }
         
@@ -1098,7 +1098,7 @@ FModelData *FModelDataIndexed::GetData()
                 float aU = mUVW[aIndex + 0];
                 float aV = mUVW[aIndex + 1];
                 float aW = mUVW[aIndex + 2];
-                aReturn->AddUVW(aU, aV, aW);
+                aResult->AddUVW(aU, aV, aW);
             }
         }
         
@@ -1110,21 +1110,21 @@ FModelData *FModelDataIndexed::GetData()
                 float aNormX = mNormal[aIndex + 0];
                 float aNormY = mNormal[aIndex + 1];
                 float aNormZ = mNormal[aIndex + 2];
-                aReturn->AddNormal(aNormX, aNormY, aNormZ);
+                aResult->AddNormal(aNormX, aNormY, aNormZ);
             }
         }
         
     }
     else
     {
-        aReturn->CopyXYZ(mXYZ, mXYZCount);
-        aReturn->CopyXYZ(mUVW, mUVWCount);
-        aReturn->CopyXYZ(mNormal, mNormalCount);
+        aResult->CopyXYZ(mXYZ, mXYZCount);
+        aResult->CopyXYZ(mUVW, mUVWCount);
+        aResult->CopyXYZ(mNormal, mNormalCount);
         
         
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FModelDataIndexed::DiscardIndeces()
@@ -1490,14 +1490,14 @@ FModelDataOptimizer::~FModelDataOptimizer()
 
 unsigned int FModelDataOptimizer::HashFloat(unsigned int pRunningSum, float pFloat)
 {
-    unsigned int aReturn = pRunningSum;
+    unsigned int aResult = pRunningSum;
     float aFloat = pFloat;
     char *aChar = ((char*)(&aFloat));
     for(int i=0;i<4;i++)
     {
-        aReturn=((aReturn << 5) + aReturn) ^ ((int)(aChar[i]));
+        aResult=((aResult << 5) + aResult) ^ ((int)(aChar[i]));
     }
-    return aReturn;
+    return aResult;
 }
 
 int FModelDataOptimizer::Hash(float pX, float pY, float pZ,
@@ -1534,7 +1534,7 @@ int FModelDataOptimizer::PushNode(int pMapToIndex, float pX, float pY, float pZ,
                                   float pU, float pV, float pW,
                                   float pNormX, float pNormY, float pNormZ, FList *pList)
 {
-    int aReturn = 0;
+    int aResult = 0;
     
     int aCount = pList->mCount;
     
@@ -1592,7 +1592,7 @@ int FModelDataOptimizer::PushNode(int pMapToIndex, float pX, float pY, float pZ,
             if(aFound)
             {
                 aNode->mCount++;
-                aReturn = aNode->mIndex;
+                aResult = aNode->mIndex;
             }
             else
             {
@@ -1608,8 +1608,8 @@ int FModelDataOptimizer::PushNode(int pMapToIndex, float pX, float pY, float pZ,
         
         aNode->mCount = 0;
         
-        aReturn = pList->mCount;
-        aNode->mIndex = aReturn;
+        aResult = pList->mCount;
+        aNode->mIndex = aResult;
         
         aNode->mX=pX;
         aNode->mY=pY;
@@ -1639,7 +1639,7 @@ int FModelDataOptimizer::PushNode(int pMapToIndex, float pX, float pY, float pZ,
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -1849,7 +1849,7 @@ void FModelDataOptimizer::Convert(FModelData *pData, FModelDataIndexed *pTarget)
     
     if((pData != 0) && (pTarget != 0))
     {
-        //FModelDataIndexed *aReturn = new FModelDataIndexed();
+        //FModelDataIndexed *aResult = new FModelDataIndexed();
         
         if(mCypherCount <= 0)
         {
@@ -1884,9 +1884,9 @@ void FModelDataOptimizer::Convert(FModelData *pData, FModelDataIndexed *pTarget)
 FModelDataIndexed *FModelDataOptimizer::Convert(FModelData *pData)
 {
     
-    FModelDataIndexed *aReturn = new FModelDataIndexed();
+    FModelDataIndexed *aResult = new FModelDataIndexed();
     
-    Convert(pData, aReturn);
+    Convert(pData, aResult);
     
     /*
      
@@ -1896,20 +1896,20 @@ FModelDataIndexed *FModelDataOptimizer::Convert(FModelData *pData)
      {
      int aWrapIndex = mCypher[i];
      
-     aReturn->AddXYZ(pData->GetX(aWrapIndex), pData->GetY(aWrapIndex), pData->GetZ(aWrapIndex));
-     aReturn->AddUVW(pData->GetU(aWrapIndex), pData->GetV(aWrapIndex), pData->GetW(aWrapIndex));
-     aReturn->AddNormal(pData->GetNormX(aWrapIndex),pData->GetNormY(aWrapIndex),pData->GetNormZ(aWrapIndex));
+     aResult->AddXYZ(pData->GetX(aWrapIndex), pData->GetY(aWrapIndex), pData->GetZ(aWrapIndex));
+     aResult->AddUVW(pData->GetU(aWrapIndex), pData->GetV(aWrapIndex), pData->GetW(aWrapIndex));
+     aResult->AddNormal(pData->GetNormX(aWrapIndex),pData->GetNormY(aWrapIndex),pData->GetNormZ(aWrapIndex));
      }
      
      for(int i=0;i<mIndexCount;i++)
      {
-     aReturn->AddIndex(mIndex[i]);
+     aResult->AddIndex(mIndex[i]);
      }
      
-     aReturn->PrintOverview();
+     aResult->PrintOverview();
      */
     
-    return aReturn;
+    return aResult;
 }
 
 

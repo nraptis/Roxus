@@ -12,6 +12,11 @@
 #include "FApp.h"
 
 Util_ScreenFrame::Util_ScreenFrame() {
+    mConsumesTouches = false;
+    mRecievesOutsideTouches = true;
+    mRecievesConsumedTouches = true;
+    mClipsContent = false;
+
     SetFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     mPanDragData = 0;
     mPanWindowStartX = 0.0f;
@@ -39,7 +44,7 @@ Util_ScreenFrame::Util_ScreenFrame() {
 
 Util_ScreenFrame::~Util_ScreenFrame() { }
 
-void Util_ScreenFrame::PositionContent() {
+void Util_ScreenFrame::Layout() {
     SetFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     if (mPanDragData == 0) {
         mScreenResizeCornerX[0] = gVirtualDevX;
@@ -51,9 +56,14 @@ void Util_ScreenFrame::PositionContent() {
         mScreenResizeCornerX[3] = gVirtualDevX + gVirtualDevWidth;
         mScreenResizeCornerY[3] = gVirtualDevY + gVirtualDevHeight;
     }
+
+
+
 }
 
-void Util_ScreenFrame::Update() { }
+void Util_ScreenFrame::Update() {
+
+}
 
 void Util_ScreenFrame::Draw() {
     Graphics::SetColor(0.99f, 0.94f, 1.0f, 0.60f);
@@ -81,9 +91,6 @@ void Util_ScreenFrame::Draw() {
     }
     Graphics::SetColor();
 }
-
-
-
 
 void Util_ScreenFrame::TouchDown(float pX, float pY, void *pData) {
     mPanDragData = pData;

@@ -399,16 +399,16 @@ void FScrollView::ScrollFinished()
 
 bool FScrollView::ScrollIsAnimating()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    if(mScrollFlingSpeed > 0)aReturn = true;
+    if(mScrollFlingSpeed > 0)aResult = true;
     
     for(int i=0;i<2;i++)
     {
-        if(mScrollBounceBackTimeTotal[i] > 0)aReturn = true;
+        if(mScrollBounceBackTimeTotal[i] > 0)aResult = true;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FScrollView::ScrollBounce(int pIndex)
@@ -649,7 +649,7 @@ void FScrollView::ComputeAbsoluteTransformations()
 
 float FScrollView::ScrollGetBounceDragShift(float pAmount)
 {
-    float aReturn = pAmount;
+    float aResult = pAmount;
     
     float aMaxShift = mScrollMaxDistance;
     float aMaxDrag = (gDeviceWidth * 0.75f);
@@ -663,19 +663,19 @@ float FScrollView::ScrollGetBounceDragShift(float pAmount)
     
     if(pAmount >= aMaxDrag)
     {
-        aReturn = aMaxShift;
+        aResult = aMaxShift;
     }
     else
     {
         float aPercent = (pAmount / aMaxDrag);
         
         float aRads = (3.1415926535897932384626433832795028841968f / 2.0f) * aPercent;
-        aReturn = sin(aRads) * aMaxShift;
+        aResult = sin(aRads) * aMaxShift;
     }
     
-    if(aNegative)aReturn = (-aReturn);
+    if(aNegative)aResult = (-aResult);
     
-    return aReturn;
+    return aResult;
 }
 
 bool FScrollView::PositionIsOutOfBoundsOver(float pValue, int pIndex)

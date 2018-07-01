@@ -769,17 +769,17 @@ void Graphics::TextureDelete(int pIndex)
 
 bool Graphics::TextureValid(FTexture *pTexture)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(pTexture)
     {
         if(pTexture->IsValid())
         {
-            aReturn = true;
+            aResult = true;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void Graphics::TextureSetData(int pIndex, unsigned int *pData, int pWidth, int pHeight)
@@ -1240,15 +1240,15 @@ void Graphics::ResetMatrixModelView() {
 }
 
 FMatrix Graphics::GetMatrixProjection() {
-    FMatrix aReturn;
-    glGetFloatv(GL_PROJECTION_MATRIX, aReturn.m);
-    return aReturn;
+    FMatrix aResult;
+    glGetFloatv(GL_PROJECTION_MATRIX, aResult.m);
+    return aResult;
 }
 
 FMatrix Graphics::GetMatrixModelView() {
-    FMatrix aReturn;
-    glGetFloatv(GL_MODELVIEW_MATRIX, aReturn.m);
-    return aReturn;
+    FMatrix aResult;
+    glGetFloatv(GL_MODELVIEW_MATRIX, aResult.m);
+    return aResult;
 }
 
 void Graphics::MatrixGoProjection(bool pLoadIdentity) {

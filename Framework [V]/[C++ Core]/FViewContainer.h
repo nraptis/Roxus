@@ -37,9 +37,9 @@ public:
     //Theoretical Rule - If the touch didn't begin in a view, the touch
     //won't trickle down the move or up functions either..
     
-    FViewContainer                              *TouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pClippedByParent, bool &pConsumed);
-	void                                        TouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pClippedByParent);
-    void                                        TouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pClippedByParent);
+    FViewContainer                              *TouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed);
+	void                                        TouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
+    void                                        TouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
     void                                        TouchFlush();
 
 	void										MouseWheel(int pDirection);

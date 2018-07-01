@@ -86,74 +86,74 @@ void social_FacebookLogOut()
 
 bool social_FacebookLogInDidComplete()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 bool social_FacebookLogInDidSucceed()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 bool social_FacebookLogInDidFail()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 bool social_FacebookIsBusy()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 bool social_FacebookIsLoggingIn()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 bool social_FacebookIsLoggedIn()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
-    return aReturn;
+    return aResult;
 }
 
 char *social_FacebookGetName()
 {
-    char *aReturn = 0;
+    char *aResult = 0;
     
     
-    return aReturn;
+    return aResult;
 }
 
 char *social_FacebookGetEmail()
 {
-    char *aReturn = 0;
+    char *aResult = 0;
     
     
-    return aReturn;
+    return aResult;
 }
 
 char *social_FacebookGetAccessToken()
 {
-    char *aReturn = 0;
+    char *aResult = 0;
     
     
-    return aReturn;
+    return aResult;
 }
 
 void social_FacebookPullFriends()

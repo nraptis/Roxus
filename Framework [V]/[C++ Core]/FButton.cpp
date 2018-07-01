@@ -421,70 +421,70 @@ void FButton::SetListener(FView *pListener)
 /*
 FSprite *FButton::GetButtonImage()
 {
-    FSprite *aReturn = 0;
+    FSprite *aResult = 0;
     
     if(mTouchDownInside)
     {
         if(mSpriteDown)
         {
-            aReturn = mSpriteDown;
+            aResult = mSpriteDown;
         }
         else
         {
-            aReturn = mSpriteOver;
+            aResult = mSpriteOver;
         }
     }
     //else if(mIsOver)
     //{
-    //    aReturn = mSpriteOver;
+    //    aResult = mSpriteOver;
     //}
     else
     {
-        aReturn = mSpriteUp;
+        aResult = mSpriteUp;
     }
     
-    if(aReturn == 0)
+    if(aResult == 0)
     {
-        if(mSpriteUp)aReturn = mSpriteUp;
-        else if(mSpriteOver)aReturn = mSpriteOver;
-        else if(mSpriteDown)aReturn = mSpriteDown;
+        if(mSpriteUp)aResult = mSpriteUp;
+        else if(mSpriteOver)aResult = mSpriteOver;
+        else if(mSpriteDown)aResult = mSpriteDown;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FSprite *FButton::GetOverlayImage()
 {
-    FSprite *aReturn = 0;
+    FSprite *aResult = 0;
     
     if(mTouchDownInside)
     {
         if(mSpriteOverlayDown)
         {
-            aReturn = mSpriteOverlayDown;
+            aResult = mSpriteOverlayDown;
         }
         else
         {
-            aReturn = mSpriteOverlayOver;
+            aResult = mSpriteOverlayOver;
         }
     }
     //else if(mIsOver)
     //{
-    //    aReturn = mSpriteOverlayOver;
+    //    aResult = mSpriteOverlayOver;
     //}
     else
     {
-        aReturn = mSpriteOverlayUp;
+        aResult = mSpriteOverlayUp;
     }
     
-    if(aReturn == 0)
+    if(aResult == 0)
     {
-        if(mSpriteOverlayUp)aReturn = mSpriteOverlayUp;
-        else if(mSpriteOverlayOver)aReturn = mSpriteOverlayOver;
-        else if(mSpriteOverlayDown)aReturn = mSpriteOverlayDown;
+        if(mSpriteOverlayUp)aResult = mSpriteOverlayUp;
+        else if(mSpriteOverlayOver)aResult = mSpriteOverlayOver;
+        else if(mSpriteOverlayDown)aResult = mSpriteOverlayDown;
     }
     
-    return aReturn;
+    return aResult;
 }
 */
 

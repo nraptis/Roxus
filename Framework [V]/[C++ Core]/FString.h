@@ -348,8 +348,8 @@ public:
 	//
 	//Get a copy of the FString with a certain case.
 	//
-	FString							ToUpper(){FString aReturn = *this;aReturn.Uppercase();return aReturn;}
-	FString							ToLower(){FString aReturn = *this;aReturn.Lowercase();return aReturn;}
+	FString							ToUpper(){FString aResult = *this;aResult.Uppercase();return aResult;}
+	FString							ToLower(){FString aResult = *this;aResult.Lowercase();return aResult;}
 
 	//
 	//Get a copy of the character array.

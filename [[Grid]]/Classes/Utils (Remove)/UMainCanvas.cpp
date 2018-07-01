@@ -638,7 +638,7 @@ FVec2 UMainCanvas::MenuGoodPlacement(float pWidth, float pHeight)
     float aMaxX = mWidth - (pWidth + 16.0f);
     float aMaxY = (mHeight - mToolbar->mHeight);
     
-    FVec2 aReturn = FVec2(aMinX + gRand.GetFloat(aMaxX - aMinX), aMinY + gRand.GetFloat(aMaxY - aMinY));
+    FVec2 aResult = FVec2(aMinX + gRand.GetFloat(aMaxX - aMinX), aMinY + gRand.GetFloat(aMaxY - aMinY));
     
     for(int n=0;n<20;n++)
     {
@@ -687,8 +687,8 @@ FVec2 UMainCanvas::MenuGoodPlacement(float pWidth, float pHeight)
                 
                 if((aCollides == false) && (aFound == false))
                 {
-                    aReturn.mX = aPos->mX;
-                    aReturn.mY = aPos->mY;
+                    aResult.mX = aPos->mX;
+                    aResult.mY = aPos->mY;
                     
                     aFound = true;
                     
@@ -703,7 +703,7 @@ FVec2 UMainCanvas::MenuGoodPlacement(float pWidth, float pHeight)
     }
     
     FreeList(FVec2, aPosList);
-    return aReturn;
+    return aResult;
 }
 
 void UMainCanvas::MenuAdd(UMenu *pMenu)
@@ -1431,12 +1431,12 @@ void UMainCanvas::WorkspaceEnable()
 
 bool UMainCanvas::WorkspaceHasFocus()
 {
-    bool aReturn = true;
+    bool aResult = true;
     
-    if(mOverlayView != 0)aReturn = false;
-    //if(mIsExpanded == false)aReturn = false;
+    if(mOverlayView != 0)aResult = false;
+    //if(mIsExpanded == false)aResult = false;
     
-    return aReturn;
+    return aResult;
 }
 
 

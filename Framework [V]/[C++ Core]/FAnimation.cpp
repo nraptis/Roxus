@@ -385,23 +385,23 @@ void FAnimation::CreateDeceleration(FVec2 pStart, FVec2 pEnd, FVec2 pStartSpeed,
 
 float FAnimation::ApplyFunction(int pFunction, float pPercent)
 {
-    float aReturn = pPercent;
+    float aResult = pPercent;
     
     
-    if(pFunction == ANIMATION_TYPE_EASE_OUT_SIN)aReturn = EaseOutSine(pPercent);
+    if(pFunction == ANIMATION_TYPE_EASE_OUT_SIN)aResult = EaseOutSine(pPercent);
     
-    else if(pFunction == ANIMATION_TYPE_EASE_OUT_IN_SIN)aReturn = EaseOutInSine(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_CURVE)aReturn = EaseInCurve(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_OUT_IN_SIN)aResult = EaseOutInSine(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_CURVE)aResult = EaseInCurve(pPercent);
     
     //Smooth Speed-Ups
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_SIN)aReturn = EaseInSine(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_OUT_SIN)aReturn = EaseInOutSine(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_OUT_CURVE)aReturn = EaseOutCurve(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_SIN)aResult = EaseInSine(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_OUT_SIN)aResult = EaseInOutSine(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_OUT_CURVE)aResult = EaseOutCurve(pPercent);
     
     //Smooth Stuck, ZOOM, Stuck..
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_OUT_EXPO)aReturn = EaseInOutExpo(pPercent);
-    else if(pFunction == EASE_IN_OUT_QUART)aReturn = EaseInOutQuart(pPercent);
-    else if(pFunction == EASE_OUT_IN_QUART)aReturn = EaseOutInQuart(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_OUT_EXPO)aResult = EaseInOutExpo(pPercent);
+    else if(pFunction == EASE_IN_OUT_QUART)aResult = EaseInOutQuart(pPercent);
+    else if(pFunction == EASE_OUT_IN_QUART)aResult = EaseOutInQuart(pPercent);
     //
     /////////////////////////////
     
@@ -411,15 +411,15 @@ float FAnimation::ApplyFunction(int pFunction, float pPercent)
     //      Slow Down Group
     //
     //Slowing Down..
-    else if(pFunction == ANIMATION_TYPE_EASE_OUT_CIRC)aReturn = EaseOutCirc(pPercent);
-    else if(pFunction == ANIMATION_EASE_OUT_ELASTIC)aReturn = EaseOutElastic(pPercent);
-    //else if(pFunction == ANIMATION_TYPE_EASE_OUT_BACK)aReturn = EaseOutBack(pPercent);
-    else if(pFunction == ANIMATION_TYPE_OVERSHOOT)aReturn = Overshoot(pPercent);
-    else if(pFunction == ANIMATION_TYPE_OVERSHOOT_MORE)aReturn = OvershootMore(pPercent);
-    else if(pFunction == ANIMATION_TYPE_BOUNCE)aReturn =  Bounce(pPercent);
-    else if(pFunction == ANIMATION_TYPE_BOUNCE_MORE)aReturn = BounceMore(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_OUT_QUART)aReturn = EaseOutQuart(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_OUT_EXPO)aReturn = EaseOutExpo(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_OUT_CIRC)aResult = EaseOutCirc(pPercent);
+    else if(pFunction == ANIMATION_EASE_OUT_ELASTIC)aResult = EaseOutElastic(pPercent);
+    //else if(pFunction == ANIMATION_TYPE_EASE_OUT_BACK)aResult = EaseOutBack(pPercent);
+    else if(pFunction == ANIMATION_TYPE_OVERSHOOT)aResult = Overshoot(pPercent);
+    else if(pFunction == ANIMATION_TYPE_OVERSHOOT_MORE)aResult = OvershootMore(pPercent);
+    else if(pFunction == ANIMATION_TYPE_BOUNCE)aResult =  Bounce(pPercent);
+    else if(pFunction == ANIMATION_TYPE_BOUNCE_MORE)aResult = BounceMore(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_OUT_QUART)aResult = EaseOutQuart(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_OUT_EXPO)aResult = EaseOutExpo(pPercent);
     //
     /////////////////////////////
     
@@ -429,17 +429,17 @@ float FAnimation::ApplyFunction(int pFunction, float pPercent)
     //      Speed Up Group
     //
     //Speeding Up.. (Slow, then FAST)
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_CIRC)aReturn = EaseInCirc(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_OUT_CIRC)aReturn = EaseInOutCirc(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_EXPO)aReturn = EaseInExpo(pPercent);
-    else if(pFunction == ANIMATION_TYPE_EASE_IN_QUART)aReturn = EaseInQuart(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_CIRC)aResult = EaseInCirc(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_OUT_CIRC)aResult = EaseInOutCirc(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_EXPO)aResult = EaseInExpo(pPercent);
+    else if(pFunction == ANIMATION_TYPE_EASE_IN_QUART)aResult = EaseInQuart(pPercent);
     //Sticky like tar, then ZEWWWWWWW!!!
     //
     /////////////////////////////
     
     
     
-    return aReturn;
+    return aResult;
 }
 
 FString FAnimation::GetFunctionNameExtended(int pFunction)
@@ -472,11 +472,11 @@ FString FAnimation::GetFunctionNameExtended(int pFunction)
 
 
 
-	FString aReturn = aGroupName;
-	aReturn += " - ";
-	aReturn += ".....!";
+	FString aResult = aGroupName;
+	aResult += " - ";
+	aResult += ".....!";
 
-	return aReturn;
+	return aResult;
 }
 
 float FAnimation::EaseInOutQuad(float pPercent)

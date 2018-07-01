@@ -947,41 +947,41 @@ char FXMLTag::GetParamChar(const char* pName)
 
 int FXMLTag::GetParamInt(const char* pName, int pDefault)
 {
-	int aReturn = pDefault;
-	EnumParamsMatching(this, aCheck, pName)aReturn = FString(aCheck->mValue).ToInt();
-	return aReturn;
+	int aResult = pDefault;
+	EnumParamsMatching(this, aCheck, pName)aResult = FString(aCheck->mValue).ToInt();
+	return aResult;
 }
 
 float FXMLTag::GetParamFloat(const char* pName, float pDefault)
 {
-	float aReturn = pDefault;
-	EnumParamsMatching(this, aCheck, pName)aReturn = FString(aCheck->mValue).ToFloat();
-	return aReturn;
+	float aResult = pDefault;
+	EnumParamsMatching(this, aCheck, pName)aResult = FString(aCheck->mValue).ToFloat();
+	return aResult;
 }
 
 float FXMLTag::GetParamSafeFloat(const char* pName, float pDefault)
 {
-	float aReturn = pDefault;
+	float aResult = pDefault;
 	EnumParamsMatching(this, aCheck, pName)
 	{
 		int aData = FString(aCheck->mValue).ToInt();
-		aReturn = IntToFloat(aData);
+		aResult = IntToFloat(aData);
 	}
-	return aReturn;
+	return aResult;
 }
 
 bool FXMLTag::GetParamBool(const char* pName, bool pDefault)
 {
-	bool aReturn = pDefault;
-	EnumParamsMatching(this, aCheck, pName)aReturn = FString(aCheck->mValue).ToBool();
-	return aReturn;
+	bool aResult = pDefault;
+	EnumParamsMatching(this, aCheck, pName)aResult = FString(aCheck->mValue).ToBool();
+	return aResult;
 }
 
 char FXMLTag::GetParamChar(const char* pName, char pDefault)
 {
-	char aReturn = pDefault;
-	EnumParamsMatching(this, aCheck, pName)aReturn = FString(aCheck->mValue).ToChar();
-	return aReturn;
+	char aResult = pDefault;
+	EnumParamsMatching(this, aCheck, pName)aResult = FString(aCheck->mValue).ToChar();
+	return aResult;
 }
 
 

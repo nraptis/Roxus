@@ -9,6 +9,8 @@
 #ifndef FRAMEWORK_CANVAS_HPP
 #define FRAMEWORK_CANVAS_HPP
 
+#define CANVAS_TRACKED_TOUCH_COUNT 6
+
 #include "FList.h"
 #include "FRect.h"
 #include "FColor.h"
@@ -64,7 +66,7 @@ public:
     
     FString                                 mName;
     
-    FCanvasTTTransform                      mTransform;
+    FCanvasTransform                        mTransform;
     FCanvasAbsoluteTransform                mTransformAbsolute;
     
     FColor                                  mColor;
@@ -122,18 +124,18 @@ public:
     void                                    SetWidth(float pWidth);
     void                                    SetHeight(float pHeight);
 
-    float                                   GetX() { float aReturn = mX;return aReturn; }
-    float                                   GetY() { float aReturn = mY;return aReturn; }
+    float                                   GetX() { float aResult = mX;return aResult; }
+    float                                   GetY() { float aResult = mY;return aResult; }
     float                                   GetLeft() { return GetX(); }
     float                                   GetTop() { return GetY(); }
-    float                                   GetWidth() { float aReturn = mWidth;return aReturn; }
-    float                                   GetHeight(){ float aReturn = mHeight;return aReturn; }
+    float                                   GetWidth() { float aResult = mWidth;return aResult; }
+    float                                   GetHeight(){ float aResult = mHeight;return aResult; }
     float                                   GetWidth2(){ float aResult = mWidth2;return aResult; }
     float                                   GetHeight2(){ float aResult = mHeight2;return aResult; }
     float                                   GetCenterX(){ return GetWidth2(); }
     float                                   GetCenterY(){ return GetHeight2(); }
-    float                                   GetRight(){ float aReturn = mWidth;return aReturn; }
-    float                                   GetBottom(){ float aReturn = mHeight;return aReturn; }
+    float                                   GetRight(){ float aResult = mWidth;return aResult; }
+    float                                   GetBottom(){ float aResult = mHeight;return aResult; }
     FVec2                                   GetCenter() { FVec2 aResult;aResult.mX=GetCenterX();aResult.mY=GetCenterY();return aResult; }
 
     void                                    SetTransformTranslate(float pX, float pY);
@@ -187,6 +189,9 @@ public:
 
 private:
 
+    void                                    *mTouchData[CANVAS_TRACKED_TOUCH_COUNT];
+    bool                                    mTouchInside[CANVAS_TRACKED_TOUCH_COUNT];
+
     void                                    ComputeAbsoluteTransformation();
 
     int                                     mKill;
@@ -206,11 +211,9 @@ private:
     //When the transform updates, we do not need to re-layout the
     //parent or children.
     void                                    TransformDidUpdate();
-    bool                                    mTransformDidUpdate;
 
     //When the frame updates, we need to re-layout the parent and children.
     void                                    FrameDidUpdate();
-    bool                                    mFrameDidUpdate;
 
     //When our children change, we need to re-layout.
     //void                                    ChildredDidUpdate();
@@ -219,9 +222,19 @@ private:
     virtual void                            BaseLayout();
     virtual void                            BaseUpdate();
     virtual void                            BaseDraw();
-    virtual void                            BaseTouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData);
-    virtual void                            BaseTouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData);
-    virtual void                            BaseTouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData);
+
+
+    /*
+    FViewContainer                              *TouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed);
+    void                                        TouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
+    void                                        TouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
+    */
+
+
+
+    virtual FCanvas                         *BaseTouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed);
+    virtual void                            BaseTouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
+    virtual void                            BaseTouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
     virtual void                            BaseTouchFlush();
 
     virtual void                            BaseMouseDown(float pX, float pY, float pOriginalX, float pOriginalY, int pButton);

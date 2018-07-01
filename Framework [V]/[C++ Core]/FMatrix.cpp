@@ -180,9 +180,9 @@ void FMatrix::Translate(float pX, float pY, float pZ)
 
 FVec2 FMatrix::ProcessVec2(FVec2 pVec)
 {
-    FVec2 aReturn = pVec;
+    FVec2 aResult = pVec;
     
-    return aReturn;
+    return aResult;
 }
 
 FVec3 FMatrix::ProcessVec3(FVec3 pVec)

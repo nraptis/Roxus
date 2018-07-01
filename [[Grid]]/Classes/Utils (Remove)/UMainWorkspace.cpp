@@ -832,7 +832,7 @@ void UMainWorkspace::FindSelectableNodes()
 
 UNode *UMainWorkspace::GetTouchNode(float pX, float pY, UNode *pIgnoreNode)
 {
-	UNode *aReturn = 0;
+	UNode *aResult = 0;
 	UNode *aCenterNode = 0;
 
 	FindSelectableNodes();
@@ -843,13 +843,13 @@ UNode *UMainWorkspace::GetTouchNode(float pX, float pY, UNode *pIgnoreNode)
 	{
 		if(aNode != pIgnoreNode)
 		{
-			if(aReturn == 0)
+			if(aResult == 0)
 			{
 				float aCheckDist = 0.0f;
 
 				if(aNode->Contains1(pX, pY, aCheckDist))
 				{
-					aReturn = aNode;
+					aResult = aNode;
 				}
 			}
 		}
@@ -859,18 +859,18 @@ UNode *UMainWorkspace::GetTouchNode(float pX, float pY, UNode *pIgnoreNode)
 	{
 		if(aNode != pIgnoreNode)
 		{
-			if(aReturn == 0)
+			if(aResult == 0)
 			{
 				float aCheckDist = 0.0f;
 				if(aNode->Contains2(pX, pY, aCheckDist))
 				{
-					aReturn = aNode;
+					aResult = aNode;
 				}
 			}
 		}
 	}
 
-	return aReturn;
+	return aResult;
 
 }
 
@@ -1975,38 +1975,38 @@ void UMainWorkspace::ExportReset()
 
 FString	UMainWorkspace::ExportPassDeclarations(UNode *pNode)
 {
-    FString aReturn = "";
+    FString aResult = "";
     
     
     if(pNode)
     {
-    aReturn += FString(pNode->mExportTypeName.c()) + FString(" *") + FString(pNode->mExportName.c()) + FString(" = new ") + FString(pNode->mExportTypeName.c())
+    aResult += FString(pNode->mExportTypeName.c()) + FString(" *") + FString(pNode->mExportName.c()) + FString(" = new ") + FString(pNode->mExportTypeName.c())
     + FString("(");
     
     if(pNode->mSpriteSequence)
     {
-        aReturn += FString("&(gApp->") + FString(pNode->mSpriteSequence->mFilePrefix.c()) + FString("));\n");
+        aResult += FString("&(gApp->") + FString(pNode->mSpriteSequence->mFilePrefix.c()) + FString("));\n");
     }
     else if(pNode->mSprite)
     {
-        aReturn += FString("&(gApp->") + FString(pNode->mSprite->mFileName.c()) + FString("));\n");
+        aResult += FString("&(gApp->") + FString(pNode->mSprite->mFileName.c()) + FString("));\n");
     }
     else
     {
-        aReturn += FString(");\n");
+        aResult += FString(");\n");
     }
     
     }
     
     
-    return aReturn;
+    return aResult;
 }
 
 
 
 FString	UMainWorkspace::ExportPassInfo(UNode *pNode)
 {
-	FString aReturn = "";FString aString="";FList aList;
+	FString aResult = "";FString aString="";FList aList;
 	if(pNode)
 	{
         if(pNode->mParticleSource == false)
@@ -2114,8 +2114,8 @@ FString	UMainWorkspace::ExportPassInfo(UNode *pNode)
                 {
                     FPointList aPointList;aPathAbs->WritePointsToList(&aPointList);
                     FString aPointListName = FString(pName) + FString("Points") + FString((int)(i + 1));
-                    aReturn += FString("FPointList ") + aPointListName + FString(";\n");
-                    aReturn += aPointList.GetPrintString(aPointListName.c());
+                    aResult += FString("FPointList ") + aPointListName + FString(";\n");
+                    aResult += aPointList.GetPrintString(aPointListName.c());
                     FString aSpawnString = FString("ApplySpawnSourcePointCloud(&gRand, &") + aPointListName + FString(");");
                     aParamList += new FString(aSpawnString);
                 }
@@ -2131,8 +2131,8 @@ FString	UMainWorkspace::ExportPassInfo(UNode *pNode)
                 {
                     FPointList aPointList;aPathAbs->WritePointsToList(&aPointList);
                     FString aPointListName = FString(pName) + FString("Poly") + FString((int)(i + 1));
-                    aReturn += FString("FPointList ") + aPointListName + FString(";\n");
-                    aReturn += aPointList.GetPrintString(aPointListName.c());
+                    aResult += FString("FPointList ") + aPointListName + FString(";\n");
+                    aResult += aPointList.GetPrintString(aPointListName.c());
                     FString aSpawnString = FString("ApplySpawnSourcePolygon(&gRand, &") + aPointListName + FString(");");
                     aParamList += new FString(aSpawnString);
                 }
@@ -2153,24 +2153,24 @@ FString	UMainWorkspace::ExportPassInfo(UNode *pNode)
         */
         
         
-        aReturn += ExportApplyActions(pNode, &aList);
+        aResult += ExportApplyActions(pNode, &aList);
 	}
 
-	return aReturn;
+	return aResult;
 }
 
 FString	UMainWorkspace::ExportPassParticleData(UNode *pNode)
 {
-    FString aReturn = "";
+    FString aResult = "";
     if(pNode)
     {
         if(pNode->mParticleSource)
         {
-            aReturn += FString(pNode->mTemplate.ExportString(pNode->mExportName.c()));
-            aReturn += "\n";
+            aResult += FString(pNode->mTemplate.ExportString(pNode->mExportName.c()));
+            aResult += "\n";
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 
@@ -2178,40 +2178,40 @@ FString	UMainWorkspace::ExportPassParticleData(UNode *pNode)
 
 FString	UMainWorkspace::ExportPassLinkWorld(UNode *pNode)
 {
-    FString aReturn = "";
+    FString aResult = "";
     if(pNode)
     {
         if(pNode->mExportAddTarget == 0)
         {
-            aReturn += FString("mAnimations.Add(") + FString(pNode->mExportName) + FString(");");
+            aResult += FString("mAnimations.Add(") + FString(pNode->mExportName) + FString(");");
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 FString	UMainWorkspace::ExportPassLinkParents(UNode *pNode)
 {
-    FString aReturn = "";
+    FString aResult = "";
     if(pNode)
     {
         if(pNode->mExportAddTarget != 0)
         {
-            aReturn += FString(pNode->mExportAddTarget->mExportName) + FString("->ObjectAdd");
+            aResult += FString(pNode->mExportAddTarget->mExportName) + FString("->ObjectAdd");
             bool aUnder = false;
             int aIndexAdd = mNodeList.Find(pNode->mExportAddTarget);
             int aIndex = mNodeList.Find(pNode);
             if(aIndex < aIndexAdd)aUnder = true;
-            if(aUnder)aReturn += "Under";
-            aReturn += FString("(") + FString(pNode->mExportName) + FString(");\n");
+            if(aUnder)aResult += "Under";
+            aResult += FString("(") + FString(pNode->mExportName) + FString(");\n");
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 
 FString	UMainWorkspace::ExportPassLinkTracking(UNode *pNode)
 {
-    FString aReturn = "";
+    FString aResult = "";
     
     FList aList;
     FString aString = "";
@@ -2255,39 +2255,39 @@ FString	UMainWorkspace::ExportPassLinkTracking(UNode *pNode)
         }
     }
     
-    aReturn += ExportApplyActions(pNode, &aList);
-    return aReturn;
+    aResult += ExportApplyActions(pNode, &aList);
+    return aResult;
 }
 
 
 FString	UMainWorkspace::ExportPassFinalize(UNode *pNode)
 {
-    FString aReturn = "";FString aString="";FList aList;
+    FString aResult = "";FString aString="";FList aList;
     if(pNode)
     {
         if(pNode->mExportAddTarget == 0)
         {
-            //aReturn += FString("Finalize(");
+            //aResult += FString("Finalize(");
             //+ FString(pNode->mExportName) +//
-            //aReturn += FString(");");
+            //aResult += FString(");");
             
         }
         
         aList += new FString("Finalize(pX, pY)");
     }
-    aReturn += ExportApplyActions(pNode, &aList);
-    return aReturn;
+    aResult += ExportApplyActions(pNode, &aList);
+    return aResult;
 }
 
 int UMainWorkspace::ExportPrepare(UNode *pNode, int pIndex)
 {
-	int aReturn = pIndex;
+	int aResult = pIndex;
 	if(pNode != 0)
 	{
 		if(pNode->mDidExport == false)
 		{
-			pNode->mExportIndex = aReturn;
-			aReturn++;
+			pNode->mExportIndex = aResult;
+			aResult++;
 
 			int aTabs = pNode->mExportDepth;
 
@@ -2332,21 +2332,21 @@ int UMainWorkspace::ExportPrepare(UNode *pNode, int pIndex)
 
 			EnumList(UNode, aNode, aNext)
 			{
-				aReturn = ExportPrepare(aNode, aReturn);
+				aResult = ExportPrepare(aNode, aResult);
 			}
 
 			aNext.Clear();
 		}
 	}
 
-	return aReturn;
+	return aResult;
 }
 
 
 
 FString	UMainWorkspace::ExportApplyActions(UNode *pNode, FList *pList)
 {
-    FString aReturn = "";
+    FString aResult = "";
     FString aName = "mUnknown";
     
     if(pNode)aName = pNode->mExportName;
@@ -2355,25 +2355,25 @@ FString	UMainWorkspace::ExportApplyActions(UNode *pNode, FList *pList)
     {
         EnumList(FString, aString, *pList)
         {
-            aReturn += aName;
-            aReturn += "->";
+            aResult += aName;
+            aResult += "->";
             
             FString aActionString = aString->c();
             if(aActionString.EndsWith(";") == false)aActionString += ";";
             if(aActionString.EndsWith("\n") == false)aActionString += "\n";
             
-            aReturn += FString(aActionString);
+            aResult += FString(aActionString);
         }
     }
     
     FreeList(FString, (*pList));
-    return aReturn;
+    return aResult;
 }
 
 /*
 FString	UNode::ExportString()
 {
-	FString aReturn = "";
+	FString aResult = "";
 	FString aName = ExportGetName();
 
 
@@ -2393,7 +2393,7 @@ FString	UNode::ExportString()
 	}
 
 
-	aReturn = aVariableType + FString(" *") + aVariableName + FString(" = new ") + aVariableType + FString("();\n");
+	aResult = aVariableType + FString(" *") + aVariableName + FString(" = new ") + aVariableType + FString("();\n");
 
 
 
@@ -2409,18 +2409,18 @@ FString	UNode::ExportString()
 
 	EnumList(UNodeExportStat, aStat, aStats)
 	{
-		aReturn += FString(aStat->Get()).c();
+		aResult += FString(aStat->Get()).c();
 		delete aStat;
 	}
 	aStats.Clear();
 
 
-	aReturn += ExportColorString("mColor", mTemplate.mSpawnColor);
+	aResult += ExportColorString("mColor", mTemplate.mSpawnColor);
 
 
 
 
-	return aReturn;
+	return aResult;
 }
 */
 

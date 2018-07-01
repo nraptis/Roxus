@@ -37,7 +37,7 @@ void FInterp::Clear()
 
 float FInterp::Get(float pPercent, float pMaxPercent, int &pIndexStart, int &pIndexEnd)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     
     pIndexStart = 0;
     pIndexEnd = 0;
@@ -138,14 +138,14 @@ float FInterp::Get(float pPercent, float pMaxPercent, int &pIndexStart, int &pIn
         
         if(aRange > 0.0025f)
         {
-            aReturn = (float)(((double)(pPercent - aPercentStart)) / aRange);
+            aResult = (float)(((double)(pPercent - aPercentStart)) / aRange);
             
         }
     }
     
     
     
-    return aReturn;
+    return aResult;
 }
 
 

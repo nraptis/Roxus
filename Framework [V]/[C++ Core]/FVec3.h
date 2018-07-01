@@ -67,11 +67,11 @@ public:
 	inline float Dot(FVec3 &pVector){return mX*pVector.mX+mY*pVector.mY+mZ*pVector.mZ;}
 	FVec3 Cross(FVec3 &pVector)
     {
-        FVec3 aReturn;
-        aReturn.mX = (mY*pVector.mZ)-(pVector.mY*mZ);
-        aReturn.mY = -(mX*pVector.mZ)+(pVector.mX*mZ);
-        aReturn.mZ = (mX*pVector.mY)-(mY*pVector.mX);
-        return aReturn;
+        FVec3 aResult;
+        aResult.mX = (mY*pVector.mZ)-(pVector.mY*mZ);
+        aResult.mY = -(mX*pVector.mZ)+(pVector.mX*mZ);
+        aResult.mZ = (mX*pVector.mY)-(mY*pVector.mX);
+        return aResult;
     }
     
 	

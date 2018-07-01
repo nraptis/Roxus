@@ -59,6 +59,13 @@ void CNVMiniWindow::Draw() {
     Graphics::OutlineRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f, 2.0f);
 
 
+    if (mTouchX > 0.0f || mTouchY >= 0.0f) {
+        Graphics::SetColor(mTouchMarkerColor1);
+        Graphics::DrawPoint(mTouchX, mTouchY, 14.0f);
+
+        Graphics::SetColor(mTouchMarkerColor2);
+        Graphics::DrawPoint(mTouchX, mTouchY, 10.0f);
+    }
 
     /*
     

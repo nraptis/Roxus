@@ -36,7 +36,7 @@ int FRandomizer::Get(int pMax, bool pNegative)
 {
     mPings++;
     
-	int aReturn=0;
+	int aResult=0;
 	if(pMax<0)
 	{
 		pMax=-pMax;
@@ -49,30 +49,30 @@ int FRandomizer::Get(int pMax, bool pNegative)
 		int aFinalMask[2]={0,0x9908b0d};
 		for(;i<624-397;i++)
 		{
-			aReturn=(mData[i]&0x80000000)|(mData[i+1]&0x7fffffff);
-			mData[i]=mData[i+397]^(aReturn>>1)^(aFinalMask[aReturn&1]);
+			aResult=(mData[i]&0x80000000)|(mData[i+1]&0x7fffffff);
+			mData[i]=mData[i+397]^(aResult>>1)^(aFinalMask[aResult&1]);
         }
 		for(;i<624;i++)
 		{
 	
-			aReturn=(mData[i]&0x80000000)|(mData[i+1]&0x7fffffff);
-			mData[i]=mData[i+(397-624)]^(aReturn>>1)^(aFinalMask[aReturn&1]);
+			aResult=(mData[i]&0x80000000)|(mData[i+1]&0x7fffffff);
+			mData[i]=mData[i+(397-624)]^(aResult>>1)^(aFinalMask[aResult&1]);
 		}
 		mIndex=0;
 	}
 	
 	pNegative=pNegative&&((mData[mIndex]&0x8)==0);
 	
-	aReturn = mData[mIndex++];
-	aReturn ^= aReturn>>11;
-	aReturn ^= (aReturn<<7)&0x9d2c5680;
-	aReturn ^= (aReturn<<15)&0xefc60000;
-	aReturn ^= (aReturn>>18);
-	if(aReturn&&pMax>0)aReturn %= pMax;
-	if(pMax==0)aReturn=0;
-	if(pNegative)aReturn=-aReturn;
+	aResult = mData[mIndex++];
+	aResult ^= aResult>>11;
+	aResult ^= (aResult<<7)&0x9d2c5680;
+	aResult ^= (aResult<<15)&0xefc60000;
+	aResult ^= (aResult>>18);
+	if(aResult&&pMax>0)aResult %= pMax;
+	if(pMax==0)aResult=0;
+	if(pNegative)aResult=-aResult;
 	
-	return aReturn;
+	return aResult;
 }
 
 int FRandomizer::Get(int pMin, int pMax)
@@ -110,8 +110,8 @@ float FRandomizer::GetFloatWithSpan(float pValue, float pSpan, bool pNegative)
 float FRandomizer::GetFloat(float pMin, float pMax, bool pNegative)
 {
 	pNegative=pNegative&&((mData[mIndex]&0x8)==0);
-	float aReturn=pMin+(pMax-pMin)*GetFloat();
-	if(pNegative)aReturn=-aReturn;
-	return aReturn;
+	float aResult=pMin+(pMax-pMin)*GetFloat();
+	if(pNegative)aResult=-aResult;
+	return aResult;
 }
 

@@ -82,11 +82,8 @@ FViewAnimation::~FViewAnimation()
 }
 
 
-bool FViewAnimation::Update()
-{
+bool FViewAnimation::Update() {
     bool aComplete = false;
-    
-    
     float aAnimationPercent = 0.0f;
     
     mTimerTick++;
@@ -223,7 +220,7 @@ void FViewAnimation::SetUp(FView *pView)
 
 float FViewAnimation::Percent()
 {
-    float aReturn = 0;
+    float aResult = 0;
     
     if((mTimerTick >= 0) && (mTime > 0))
     {
@@ -231,27 +228,27 @@ float FViewAnimation::Percent()
         {
             if(mTimerTick >= mTime)
             {
-                aReturn = 1.0f;
+                aResult = 1.0f;
             }
             else
             {
-                aReturn = mPercent[mTimerTick];
+                aResult = mPercent[mTimerTick];
             }
             
             
         }
         else
         {
-            aReturn = ((float)mTimerTick) / ((float)mTime);
+            aResult = ((float)mTimerTick) / ((float)mTime);
             
         }
     }
     
-    if(aReturn > 1.0f)aReturn = 1.0f;
-    if(aReturn < 0.0f)aReturn = 0.0f;
+    if(aResult > 1.0f)aResult = 1.0f;
+    if(aResult < 0.0f)aResult = 0.0f;
     
     
-    return aReturn;
+    return aResult;
 }
 
 void FViewAnimation::Generate(int pFunction, int pTicks)

@@ -156,7 +156,7 @@ void FHashTable::Add(const char *pKey, void *pObject)
 
 void *FHashTable::Get(const char *pKey)
 {
-    void *aReturn = 0;
+    void *aResult = 0;
     if(mTableSize > 0)
     {
         unsigned int aHash = (Hash(pKey) % mTableSize);
@@ -170,21 +170,21 @@ void *FHashTable::Get(const char *pKey)
             aNode = aNode->mNext;
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 
 FHashTableNode *FHashTable::GetNode(const char *pKey)
 {
-    FHashTableNode *aReturn = 0;
+    FHashTableNode *aResult = 0;
     
     if(mTableSize > 0)
     {
         unsigned int aHash = (Hash(pKey) % mTableSize);
-        aReturn = mTable[aHash];
+        aResult = mTable[aHash];
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FHashTable::GetAllNodes(const char *pKey, FList &pList)
@@ -270,7 +270,7 @@ void FHashTable::SetTableSize(int pSize)
 
 FTexture *FHashTable::Load(const char *pFileName, FImage *pImage, bool pRetainImage)
 {
-    FTexture *aReturn = 0;
+    FTexture *aResult = 0;
  
     int aHashBase = Hash(pFileName);
  
@@ -286,12 +286,12 @@ FTexture *FHashTable::Load(const char *pFileName, FImage *pImage, bool pRetainIm
         
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FTexture *FHashTable::GetTexture(const char *pFileName, bool pRetainImage)
 {
-    FTexture *aReturn = 0;
+    FTexture *aResult = 0;
     
     unsigned int aHashBase = 0;
     unsigned int aHash = 0;
@@ -440,7 +440,7 @@ FTexture *FHashTable::GetTexture(const char *pFileName, bool pRetainImage)
     
     
     
-    return aReturn;
+    return aResult;
 }
 
 */
@@ -498,6 +498,6 @@ void FHashTable::Print()
 
 //unsigned int FHashTable::Hash(void *pData)
 //{
-//    unsigned long aReturn = ((unsigned long)pData);
-//    return (unsigned int)aReturn;
+//    unsigned long aResult = ((unsigned long)pData);
+//    return (unsigned int)aResult;
 //}

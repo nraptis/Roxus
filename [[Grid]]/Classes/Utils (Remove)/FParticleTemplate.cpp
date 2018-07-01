@@ -321,7 +321,7 @@ void FParticleTemplate::SetSpawnSource(int pSourceType)
 
 FString FParticleTemplate::ExportString(const char *pName)
 {
-    FString aReturn = "";
+    FString aResult = "";
     FColor aColor = mSpawnColor;
     aColor += mSpawnColorExtra;
     
@@ -488,15 +488,15 @@ FString FParticleTemplate::ExportString(const char *pName)
     {
         if(aName.mLength > 0)
         {
-            aReturn += FString(pName);
-            aReturn += "->";
+            aResult += FString(pName);
+            aResult += "->";
         }
-        aReturn += aString->c();
-        aReturn += "\n";
+        aResult += aString->c();
+        aResult += "\n";
     }
     
     FreeList(FString, aParamList);
-    return aReturn;
+    return aResult;
 }
 
 

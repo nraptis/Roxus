@@ -16,9 +16,9 @@ void core_web_openURL(const char *pURL)
 
 bool core_web_hasConnection()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
     
-    return aReturn;
+    return aResult;
 }

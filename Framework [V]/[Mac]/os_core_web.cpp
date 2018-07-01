@@ -29,32 +29,32 @@ void os_web_HTTPRequestMake(const char *pURL, int pRequestID)
 
 bool os_web_HTTPRequestDidComplete(int pRequestID)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    return aReturn;
+    return aResult;
 }
 
 bool os_web_HTTPRequestDidFail(int pRequestID)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    return aReturn;
+    return aResult;
 }
 
 bool os_web_HTTPRequestDidSucceed(int pRequestID)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
-    return aReturn;
+    return aResult;
 }
 
 char *os_web_HTTPRequestData(int pRequestID)
 {
-    char *aReturn = 0;
+    char *aResult = 0;
     
     
     
-    return aReturn;
+    return aResult;
 }
 
 void os_web_HTTPRequestPurge(int pRequestID)

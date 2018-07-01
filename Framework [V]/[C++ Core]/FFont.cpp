@@ -227,7 +227,7 @@ void FFont::Center(const char *pText, float pX, float pY, float pScale)
 
 float FFont::Width(const char *pText, float pScale)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     unsigned char aChar = 0;
     int aCharIndex = -1;
     int aCharIndexPrev = -1;
@@ -244,11 +244,11 @@ float FFont::Width(const char *pText, float pScale)
             aCharIndexPrev = aCharIndex;
             aCharIndex = aChar;
             if(aCharIndexPrev != -1)aKern = mKern[aCharIndexPrev][aCharIndex];
-            aReturn += ((mCharacterStrideX[aCharIndex] + aKern) * aScale);
+            aResult += ((mCharacterStrideX[aCharIndex] + aKern) * aScale);
             aPtr++;
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 
@@ -580,23 +580,23 @@ int FFont::LineCount(char *pString, float pWidth)
 
 FString FFont::CharToFileSafe(char c)
 {
-    FString aReturn;
+    FString aResult;
     
     if((c >= 'a') && (c <= 'z'))
     {
-        aReturn = FString(c);
+        aResult = FString(c);
     }
     else if((c >= 'A') && (c <= 'Z'))
     {
-        aReturn = FString(c);
+        aResult = FString(c);
     }
     else if((c >= '0') && (c <= '9'))
     {
-        aReturn = FString(c);
+        aResult = FString(c);
     }
     else if((c == '$') || (c <= '_') || (c <= '-') || (c <= '+') || (c <= '(') || (c <= ')') || (c <= '[') || (c <= ']') || (c <= '|') || (c <= ','))
     {
-        aReturn = FString(c);
+        aResult = FString(c);
     }
     else
     {
@@ -607,44 +607,44 @@ FString FFont::CharToFileSafe(char c)
         int aInt = aChar;//(int)(((unsigned int)((unsigned char)c)));
         
         
-        aReturn = FString(aInt);
+        aResult = FString(aInt);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FString FFont::CharToReadable(char pChar)
 {
     
-    FString aReturn = FString(pChar);
+    FString aResult = FString(pChar);
     
-    if(pChar == 0x07)aReturn = "\a";
-    else if(pChar == 0x08)aReturn = "\b";
-    else if(pChar == 0x0C)aReturn = "\f";
-    else if(pChar == 0x0A)aReturn = "\n";
-    else if(pChar == 0x0D)aReturn = "\r";
-    else if(pChar == 0x09)aReturn = "\t";
-    else if(pChar == 0x0B)aReturn = "\v";
-    else if(pChar == 0x5C)aReturn = "\\";
-    else if(pChar == 0x27)aReturn = "\'";
-    else if(pChar == 0x22)aReturn = "\"";
-    else if(pChar == 0x3F)aReturn = "\?";
-    else if(pChar == 0x00)aReturn = "\0";
-    else if(pChar == 0x01)aReturn = "\1";
-    else if(pChar == 0x02)aReturn = "\2";
-    else if(pChar == 0x03)aReturn = "\3";
-    else if(pChar == 0x04)aReturn = "\4";
-    else if(pChar == 0x05)aReturn = "\5";
-    else if(pChar == 0x06)aReturn = "\6";
-    else if(pChar == 0x07)aReturn = "\7";
+    if(pChar == 0x07)aResult = "\a";
+    else if(pChar == 0x08)aResult = "\b";
+    else if(pChar == 0x0C)aResult = "\f";
+    else if(pChar == 0x0A)aResult = "\n";
+    else if(pChar == 0x0D)aResult = "\r";
+    else if(pChar == 0x09)aResult = "\t";
+    else if(pChar == 0x0B)aResult = "\v";
+    else if(pChar == 0x5C)aResult = "\\";
+    else if(pChar == 0x27)aResult = "\'";
+    else if(pChar == 0x22)aResult = "\"";
+    else if(pChar == 0x3F)aResult = "\?";
+    else if(pChar == 0x00)aResult = "\0";
+    else if(pChar == 0x01)aResult = "\1";
+    else if(pChar == 0x02)aResult = "\2";
+    else if(pChar == 0x03)aResult = "\3";
+    else if(pChar == 0x04)aResult = "\4";
+    else if(pChar == 0x05)aResult = "\5";
+    else if(pChar == 0x06)aResult = "\6";
+    else if(pChar == 0x07)aResult = "\7";
     
     
     
-    //else aReturn = FString(c);
+    //else aResult = FString(c);
     
-    aReturn = FString(FString("'") + aReturn + FString("'")).c();
+    aResult = FString(FString("'") + aResult + FString("'")).c();
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -1409,7 +1409,7 @@ void FFont::BitmapDataExportReadable(FFontImportData *pImport, const char *pFile
      
      for(int aIndex=0;aIndex<256;aIndex++)
      {
-     FFontImportGlyph *aInfo = ((FFontImportGlyph *)(aReturn->Fetch(aIndex)));
+     FFontImportGlyph *aInfo = ((FFontImportGlyph *)(aResult->Fetch(aIndex)));
      
      if(aInfo)
      {
@@ -1445,9 +1445,9 @@ void FFont::BitmapDataExportReadable(FFontImportData *pImport, const char *pFile
      aWriteFile.WriteShort(aTotalKernCount);
      aWriteFile.WriteShort(aMaxKernPairs);
      
-     for(int aIndex=0;aIndex<(aReturn->mCount);aIndex++)
+     for(int aIndex=0;aIndex<(aResult->mCount);aIndex++)
      {
-     FFontImportGlyph *aInfo = ((FFontImportGlyph *)(aReturn->Fetch(aIndex)));
+     FFontImportGlyph *aInfo = ((FFontImportGlyph *)(aResult->Fetch(aIndex)));
      
      if(aInfo)
      {
@@ -1565,14 +1565,14 @@ void FFontImportGlyph::Clear()
 
 bool FFontImportGlyph::Valid()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if((mAllowed == true) && (mLoadSuccess == true))
     {
-        aReturn = true;
+        aResult = true;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -1632,19 +1632,19 @@ void FFontImportData::Clear()
 
 FFontImportGlyph *FFontImportData::GetGlyph(int pIndex)
 {
-    FFontImportGlyph *aReturn = 0;
+    FFontImportGlyph *aResult = 0;
     if((pIndex >= 0) && (pIndex < 256))
     {
         if(mGlyph[pIndex] == 0)mGlyph[pIndex] = new FFontImportGlyph();
-        aReturn = mGlyph[pIndex];
+        aResult = mGlyph[pIndex];
         
-        if(aReturn)
+        if(aResult)
         {
-            aReturn->mIndex = pIndex;
-            aReturn->mChar = ((char)(pIndex));
+            aResult->mIndex = pIndex;
+            aResult->mChar = ((char)(pIndex));
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 

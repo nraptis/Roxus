@@ -254,9 +254,9 @@ void FImage::Load(char *pFile)
 
 FTexture *FImage::GetTexture()
 {
-    FTexture *aReturn = 0;
-    aReturn = gTextureCache.GetTexture(mFileName.c());
-    return aReturn;
+    FTexture *aResult = 0;
+    aResult = gTextureCache.GetTexture(mFileName.c());
+    return aResult;
 }
 
 
@@ -564,10 +564,10 @@ unsigned int FImage::GetColor(int x, int y)
 {
     x+=mOffsetX;
     y+=mOffsetY;
-    int aReturn=0;
+    int aResult=0;
     int aIndex=x+y*mExpandedWidth;
-    if(aIndex>=0&&aIndex<mExpandedWidth*mExpandedHeight)aReturn=mData[aIndex];
-    return aReturn;
+    if(aIndex>=0&&aIndex<mExpandedWidth*mExpandedHeight)aResult=mData[aIndex];
+    return aResult;
 }
 
 void FImage::WhiteToAlpha()
@@ -1243,7 +1243,7 @@ void FImage::RotateLeft()
 
 int FImage::GetRight(int pCol)
 {
-    int aReturn = -1;
+    int aResult = -1;
     if(pCol>=0&&pCol<mHeight)
     {
         unsigned int*aStart=&mData[pCol*mWidth];
@@ -1254,17 +1254,17 @@ int FImage::GetRight(int pCol)
         {
             if((*aSeek & IMAGE_ALPHA_BITS)!=0)
             {
-                aReturn=(int)(aSeek-aStart);
+                aResult=(int)(aSeek-aStart);
             }
             aSeek++;
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 int FImage::GetLeft(int pCol)
 {
-    int aReturn = -1;
+    int aResult = -1;
     if(pCol>=0&&pCol<mHeight)
     {
         unsigned int*aStart=&mData[pCol*mWidth];
@@ -1273,15 +1273,15 @@ int FImage::GetLeft(int pCol)
         
         while (aSeek<aCap)
         {
-            if(((*aSeek & IMAGE_ALPHA_BITS)!=0)&&(aReturn==-1))
+            if(((*aSeek & IMAGE_ALPHA_BITS)!=0)&&(aResult==-1))
             {
-                aReturn=(int)(aSeek-aStart);
+                aResult=(int)(aSeek-aStart);
             }
             aSeek++;
         }
         
     }
-    return aReturn;
+    return aResult;
 }
 
 void FImage::GetEdges(int &pLeft, int &pRight, int &pTop, int &pBottom)
@@ -1842,13 +1842,13 @@ FImage *FImage::Clone()
 
 FImage *FImage::Crop(int x, int y, int pWidth, int pHeight)
 {
-    FImage *aReturn=new FImage();
-    aReturn->mFileName = mFileName;
+    FImage *aResult=new FImage();
+    aResult->mFileName = mFileName;
     
-    if(pWidth <= 0 || pHeight <= 0)return aReturn;
-    if(pWidth > 4096 || pHeight > 4096)return aReturn;
+    if(pWidth <= 0 || pHeight <= 0)return aResult;
+    if(pWidth > 4096 || pHeight > 4096)return aResult;
     
-    aReturn->Make(pWidth, pHeight, IMAGE_RGBA(255, 255, 255, 0));
+    aResult->Make(pWidth, pHeight, IMAGE_RGBA(255, 255, 255, 0));
     
     if(mExpandedWidth > 0 && mExpandedHeight > 0)
     {
@@ -1938,12 +1938,12 @@ FImage *FImage::Crop(int x, int y, int pWidth, int pHeight)
                         aPtr+=mExpandedWidth;
                     }
                     
-                    unsigned int **aNewData=new unsigned int*[aReturn->mExpandedHeight];
-                    aPtr=aReturn->mData;
-                    for(int n=0;n<aReturn->mExpandedHeight;n++)
+                    unsigned int **aNewData=new unsigned int*[aResult->mExpandedHeight];
+                    aPtr=aResult->mData;
+                    for(int n=0;n<aResult->mExpandedHeight;n++)
                     {
                         aNewData[n]=aPtr;
-                        aPtr+=aReturn->mExpandedWidth;
+                        aPtr+=aResult->mExpandedWidth;
                     }
                     
                     for(int aCopyX=aStartCopyX, aPasteX=aStartPasteX;aCopyX<aEndCopyX;)
@@ -1973,7 +1973,7 @@ FImage *FImage::Crop(int x, int y, int pWidth, int pHeight)
             }
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 
@@ -2406,27 +2406,27 @@ void FImage::SetPixelBlendMax(int x, int y, unsigned int pColor)
 
 bool FImage::IsBlank()
 {
-    bool aReturn=true;
+    bool aResult=true;
     unsigned int *aSearch=mData;
     unsigned int *aCap=&mData[mExpandedWidth*mExpandedHeight];
     while(aSearch<aCap)
     {
-        if((IMAGE_ALPHA(*aSearch)))aReturn=false;
+        if((IMAGE_ALPHA(*aSearch)))aResult=false;
         aSearch++;
     }
-    return aReturn;
+    return aResult;
 }
 
 bool FImage::DidLoad()
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if((mWidth > 0) && (mHeight > 0) && (mExpandedWidth > 0) && (mExpandedHeight > 0))
     {
-        aReturn = true;
+        aResult = true;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 //void				Flood(int pColor=0x000000FF){Flood(0,0,mExpandedWidth,mHeight,pColor);}

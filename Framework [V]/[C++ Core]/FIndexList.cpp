@@ -103,13 +103,13 @@ void FIndexList::AddIndecesReset(int pCount, GFX_MODEL_INDEX_TYPE pIndex1, GFX_M
 
 GFX_MODEL_INDEX_TYPE FIndexList::Get(int pIndex)
 {
-    GFX_MODEL_INDEX_TYPE aReturn = 0;
+    GFX_MODEL_INDEX_TYPE aResult = 0;
     if((pIndex >= 0) && (pIndex < mCount))
     {
-        aReturn = mIndex[pIndex];
+        aResult = mIndex[pIndex];
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FIndexList::Set(int pSlot, GFX_MODEL_INDEX_TYPE pIndex)
@@ -264,9 +264,9 @@ int FIndexList::GetPrintLineCount()
 
 FString FIndexList::GetPrintLine(int pLineNumber)
 {
-    FString aReturn = "AddIndeces(";
+    FString aResult = "AddIndeces(";
     
-    if(pLineNumber == 0)aReturn = "AddIndecesReset(";
+    if(pLineNumber == 0)aResult = "AddIndecesReset(";
     
     
     int aStartIndex = pLineNumber * 15;
@@ -286,44 +286,44 @@ FString FIndexList::GetPrintLine(int pLineNumber)
     FString aLineCountString = FString(aLineCount);
     if(aLineCountString.mLength <= 1)aLineCountString += " ";
     
-    aReturn += aLineCountString;
-    aReturn += ", ";
+    aResult += aLineCountString;
+    aResult += ", ";
     
     while (aLineCount > 0)
     {
         int aIndex = mIndex[aStartIndex];
         FString aIndexString = FString(aIndex);
         
-        aReturn += aIndexString;
+        aResult += aIndexString;
         
         aStartIndex++;
         aLineCount--;
         
         if(aLineCount > 0)
         {
-            aReturn += FString(", ");
+            aResult += FString(", ");
         }
         else
         {
-            aReturn += FString(")");
+            aResult += FString(")");
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 FString FIndexList::GetPrintString(const char *pVariableName)
 {
-    FString aReturn = "";
+    FString aResult = "";
     
     int aLineCount = GetPrintLineCount();
     for(int i = 0; i<aLineCount; i++)
     {
         FString aLine = GetPrintLine(i);
         aLine = FString(FString(pVariableName) + FString(".") + FString(aLine.c()) + FString(";\n")).c();
-        aReturn += aLine;
+        aResult += aLine;
     }
     
-    return aReturn;
+    return aResult;
 }
 

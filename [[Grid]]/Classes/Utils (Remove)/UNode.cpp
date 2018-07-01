@@ -689,14 +689,14 @@ void UNode::ExportGenerateNames()
 
 FString	UNode::ExportPointList(const char *pName, FPointList *pPointList)
 {
-    FString aReturn = FString(pName);
-    return aReturn;
+    FString aResult = FString(pName);
+    return aResult;
 }
 
 FString	UNode::ExportMotionPath(const char *pName, FMotionPathTemplate *pPath)
 {
-    FString aReturn = FString(pName);
-    return aReturn;
+    FString aResult = FString(pName);
+    return aResult;
 }
 
 float UNode::GetTouchX()
@@ -780,7 +780,7 @@ void UNode::HeirarchyFind()
 
 bool UNode::TrackingFind(bool pForce)
 {
-    bool aReturn = true;
+    bool aResult = true;
     
     mObject->mRed = mColor.mRed;
     mObject->mGreen = mColor.mGreen;
@@ -801,14 +801,14 @@ bool UNode::TrackingFind(bool pForce)
             }
             else
             {
-                aReturn = false;
+                aResult = false;
             }
         }
         else
         {
-            aReturn = false;
+            aResult = false;
         }
-        if((aReturn == false) && (pForce == true))
+        if((aResult == false) && (pForce == true))
         {
             mObject->TrackTargetSetPosition(mWorldX, mWorldY);
         }
@@ -827,25 +827,25 @@ bool UNode::TrackingFind(bool pForce)
         mObject->TrackTargetSetPosition(mWorldX, mWorldY);
     }
     
-    if(aReturn == true)
+    if(aResult == true)
     {
         mObject->ModifiersApplyUpdate();
     }
     */
     
-    return aReturn;
+    return aResult;
 }
 
 bool UNode::Contains1(float pX, float pY, float &pDist)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(mIsSelectable == true)
     {
     
     if(DistanceSquared(mWorldX, mWorldY, pX, pY) < (10.0f * 10.0f))
     {
-        aReturn = true;
+        aResult = true;
     }
     else
     {
@@ -871,7 +871,7 @@ bool UNode::Contains1(float pX, float pY, float &pDist)
                 if(aClosestPointDist < aBestClosestPointDist)
                 {
                     aBestClosestPointDist = aClosestPointDist;
-                    aReturn = true;
+                    aResult = true;
                 }
                 
                 if(aClosestEdgeDist < aBestClosestEdgeDist)
@@ -883,27 +883,27 @@ bool UNode::Contains1(float pX, float pY, float &pDist)
             {
                 if(aSel->mPoints.ContainsPoint(pX, pY))
                 {
-                    aReturn = true;
+                    aResult = true;
                 }
             }
         }
     }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 
 bool UNode::Contains2(float pX, float pY, float &pDist)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(mIsSelectable == true)
     {
     
     if(DistanceSquared(mWorldX, mWorldY, pX, pY) < (60.0f * 60.0f))
     {
-        aReturn = true;
+        aResult = true;
     }
     else
     {
@@ -928,7 +928,7 @@ bool UNode::Contains2(float pX, float pY, float &pDist)
             if(aClosestPointDist < aBestClosestPointDist)
             {
                 aBestClosestPointDist = aClosestPointDist;
-                aReturn = true;
+                aResult = true;
             }
             
             if(aClosestEdgeDist < aBestClosestEdgeDist)
@@ -944,14 +944,14 @@ bool UNode::Contains2(float pX, float pY, float &pDist)
             {
                 if(aSel->mPoints.ContainsPoint(pX, pY))
                 {
-                    aReturn = true;
+                    aResult = true;
                 }
             }
         }
     }
         
     }
-    return aReturn;
+    return aResult;
 }
 
 void UNode::SelectionPathAdd(FMotionPathTemplate *pPath, int pType)
@@ -1787,15 +1787,15 @@ UNodeExportStat::~UNodeExportStat()
 
 FString	UNodeExportStat::Get()
 {
-    FString aReturn = "";
+    FString aResult = "";
     
     
-    aReturn += mStatName;
-    aReturn += " = ";
-    aReturn += mValueString;
-    aReturn += ";\n";
+    aResult += mStatName;
+    aResult += " = ";
+    aResult += mValueString;
+    aResult += ";\n";
     
-    return aReturn;
+    return aResult;
     
 }
 */

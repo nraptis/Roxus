@@ -237,9 +237,8 @@ void AppShellSetVirtualFrame(int pX, int pY, int pWidth, int pHeight)
     gAppWidth = (float)pWidth;
     gAppHeight = (float)pHeight;
 
-	FApp *aApp = (gAppBase);
-	if(aApp)
-	{
+	FApp *aApp = gAppBase;
+	if (aApp) {
         aApp->BaseSetVirtualFrame(gVirtualDevX, gVirtualDevY, gVirtualDevWidth, gVirtualDevHeight);
 	}
 }

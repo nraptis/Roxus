@@ -402,42 +402,42 @@ void FSprite::Clone(FSprite *pSprite)
 
 bool FSprite::DidLoad()
 {
-    bool aReturn = true;
+    bool aResult = true;
     
-    if(mTexture == 0)aReturn = false;
-    if((mWidth <= 0.0f) || (mHeight <= 0.0f))aReturn = false;
+    if(mTexture == 0)aResult = false;
+    if((mWidth <= 0.0f) || (mHeight <= 0.0f))aResult = false;
     
-    return aReturn;
+    return aResult;
 }
 
 float FSprite::ScaleFitH(float pWidth)
 {
-    float aReturn = 1.0f;
+    float aResult = 1.0f;
     
     if(mWidth > 0.0f)
     {
         if(pWidth >= 0.25f)
         {
-            aReturn = pWidth / mWidth;
+            aResult = pWidth / mWidth;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float FSprite::ScaleFitV(float pHeight)
 {
-    float aReturn = 1.0f;
+    float aResult = 1.0f;
     
     if(mHeight > 0.0f)
     {
         if(pHeight >= 0.25f)
         {
-            aReturn = pHeight / mHeight;
+            aResult = pHeight / mHeight;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float FSprite::ScaleFitH(float pWidth, float pOffset)

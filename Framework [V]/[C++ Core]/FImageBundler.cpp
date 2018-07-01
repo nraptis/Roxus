@@ -845,7 +845,7 @@ void FImageBundler::Load(char *pName)
 
 bool FImageBundler::SliceUpBundle(FImage *pImage, FList *pImageList, int pTolerance)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     
     if((pImage != 0) && (pImageList != 0))
@@ -1082,12 +1082,12 @@ bool FImageBundler::SliceUpBundle(FImage *pImage, FList *pImageList, int pTolera
     delete[]aData;
     
     
-    return aReturn;
+    return aResult;
 }
 
 bool FImageBundler::FindSequenceCrop(FList *pFileList, int &pCropX, int &pCropY, int &pCropWidth, int &pCropHeight)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     pCropX = 0;
     pCropY = 0;
@@ -1140,7 +1140,7 @@ bool FImageBundler::FindSequenceCrop(FList *pFileList, int &pCropX, int &pCropY,
 
 							aImage.Kill();
 
-							aReturn = false;
+							aResult = false;
 
 							break;
 						}
@@ -1208,19 +1208,19 @@ bool FImageBundler::FindSequenceCrop(FList *pFileList, int &pCropX, int &pCropY,
 	pCropWidth = aSequenceWidth - (aMinInsetRight + aMinInsetLeft);
 	pCropHeight = aSequenceHeight - (aMinInsetTop + aMinInsetBottom);
     
-    return aReturn;
+    return aResult;
 }
 
 
 FImageBundlerLoadNode *FImageBundler::FetchNode(char *pName)
 {
-    FImageBundlerLoadNode *aReturn=0;
+    FImageBundlerLoadNode *aResult=0;
     
     if(mLoadSequential && false)
     {
         if(mSequentialLoadIndex >= 0 && mSequentialLoadIndex < mLoadNodeList.mCount)
         {
-            aReturn = ((FImageBundlerLoadNode*)mLoadNodeList.Fetch(mSequentialLoadIndex));
+            aResult = ((FImageBundlerLoadNode*)mLoadNodeList.Fetch(mSequentialLoadIndex));
         }
         mSequentialLoadIndex++;
     }
@@ -1231,12 +1231,12 @@ FImageBundlerLoadNode *FImageBundler::FetchNode(char *pName)
         {
             if(aNode->mName == pName)
             {
-                aReturn = aNode;
+                aResult = aNode;
                 break;
             }
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 FImageBundlerLoadNode::FImageBundlerLoadNode()
@@ -1268,43 +1268,43 @@ FImageBundlerLoadNode::~FImageBundlerLoadNode()
 
 FImageBundlerLoadNode *FImageBundlerLoadNode::Clone()
 {
-    FImageBundlerLoadNode *aReturn = new FImageBundlerLoadNode();
+    FImageBundlerLoadNode *aResult = new FImageBundlerLoadNode();
     
-    //aReturn->mBundleWidth = mBundleWidth;
-    //aReturn->mBundleHeight = mBundleHeight;
+    //aResult->mBundleWidth = mBundleWidth;
+    //aResult->mBundleHeight = mBundleHeight;
     
-    aReturn->mX=mX;
-    aReturn->mY=mY;
+    aResult->mX=mX;
+    aResult->mY=mY;
     
-    aReturn->mWidth=mWidth;
-    aReturn->mHeight=mHeight;
+    aResult->mWidth=mWidth;
+    aResult->mHeight=mHeight;
     
-    aReturn->mOffsetX=mOffsetX;
-    aReturn->mOffsetY=mOffsetY;
+    aResult->mOffsetX=mOffsetX;
+    aResult->mOffsetY=mOffsetY;
     
-    aReturn->mOriginalWidth=mOriginalWidth;
-    aReturn->mOriginalHeight=mOriginalHeight;
+    aResult->mOriginalWidth=mOriginalWidth;
+    aResult->mOriginalHeight=mOriginalHeight;
     
     
-    aReturn->mSpriteLeft=mSpriteLeft;
-    aReturn->mSpriteRight=mSpriteRight;
-    aReturn->mSpriteTop=mSpriteTop;
-    aReturn->mSpriteBottom=mSpriteBottom;
+    aResult->mSpriteLeft=mSpriteLeft;
+    aResult->mSpriteRight=mSpriteRight;
+    aResult->mSpriteTop=mSpriteTop;
+    aResult->mSpriteBottom=mSpriteBottom;
     
-    aReturn->mSpriteUStart=mSpriteUStart;
-    aReturn->mSpriteUEnd=mSpriteUEnd;
+    aResult->mSpriteUStart=mSpriteUStart;
+    aResult->mSpriteUEnd=mSpriteUEnd;
     
-    aReturn->mSpriteVStart=mSpriteVStart;
-    aReturn->mSpriteVEnd=mSpriteVEnd;
+    aResult->mSpriteVStart=mSpriteVStart;
+    aResult->mSpriteVEnd=mSpriteVEnd;
     
-    aReturn->mSpriteWidth=mSpriteWidth;
-    aReturn->mSpriteHeight=mSpriteHeight;
+    aResult->mSpriteWidth=mSpriteWidth;
+    aResult->mSpriteHeight=mSpriteHeight;
     
-    aReturn->mRotated=mRotated;
+    aResult->mRotated=mRotated;
     
-    aReturn->mName=mName;
+    aResult->mName=mName;
     
-    return aReturn;
+    return aResult;
 }
 
 

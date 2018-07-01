@@ -268,11 +268,11 @@ void FSpriteSequence::ComputeBounds()
 
 FList *FSpriteSequence::GetList(const char *pFilePrefix)
 {
-    FList *aReturn = new FList();
+    FList *aResult = new FList();
     
-    GetList(aReturn, pFilePrefix);
+    GetList(aResult, pFilePrefix);
     
-    return aReturn;
+    return aResult;
 }
 
 bool FSpriteSequence::GetList(FList *pList, const char *pFilePrefix)
@@ -280,7 +280,7 @@ bool FSpriteSequence::GetList(FList *pList, const char *pFilePrefix)
     
         gSpriteListEnabled = false;
     
-    bool aReturn = false;
+    bool aResult = false;
     if(pList)
     {
         FString aFilePrefix = pFilePrefix;
@@ -375,12 +375,12 @@ bool FSpriteSequence::GetList(FList *pList, const char *pFilePrefix)
         
         aCheckImage.Kill();
     
-        if(pList->mCount > 0)aReturn = true;
+        if(pList->mCount > 0)aResult = true;
     }
     
     gSpriteListEnabled = true;
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -396,21 +396,21 @@ float FSpriteSequence::GetMaxFrame()
 
 float FSpriteSequence::LoopFrame(float pFrame, float pFrameSpeed)
 {
-    float aReturn = pFrame;
+    float aResult = pFrame;
     
     if(mList.mCount <= 0)
     {
-        aReturn = 0.0f;
+        aResult = 0.0f;
     }
     else
     {
-        aReturn += pFrameSpeed;
+        aResult += pFrameSpeed;
         
-        if(aReturn < 0.0f)aReturn += GetMaxFrame();
-        if(aReturn >= GetMaxFrame())aReturn -= GetMaxFrame();
+        if(aResult < 0.0f)aResult += GetMaxFrame();
+        if(aResult >= GetMaxFrame())aResult -= GetMaxFrame();
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FSpriteSequence::Draw(float pFrame)
@@ -479,7 +479,7 @@ FSprite *FSpriteSequence::GetRandom()
 
 FSprite *FSpriteSequence::GetSprite(float pFrame)
 {
-    FSprite *aReturn = 0;
+    FSprite *aResult = 0;
     
     int aIndex = (int)(pFrame + 0.01f);
     
@@ -488,10 +488,10 @@ FSprite *FSpriteSequence::GetSprite(float pFrame)
         if(aIndex < 0)aIndex = 0;
         if(aIndex >= mList.mCount)aIndex = (mList.mCount - 1);
         
-        aReturn = (FSprite *)(mList.mData[aIndex]);
+        aResult = (FSprite *)(mList.mData[aIndex]);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FSpriteSequence::FindAllFileSequences(FList &pFileList, FList &pSearchBucketList) {

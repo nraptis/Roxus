@@ -244,12 +244,12 @@ public:
     
 	void                                    SetStaticTransform(bool pIsStatic);
     
-    float                                   GetX(){float aReturn = mX;return aReturn;}
-    float                                   GetY(){float aReturn = mY;return aReturn;}
+    float                                   GetX(){float aResult = mX;return aResult;}
+    float                                   GetY(){float aResult = mY;return aResult;}
     float                                   GetLeft(){return GetX();}
     float                                   GetTop(){return GetY();}
-    float                                   GetWidth(){float aReturn = mWidth;return aReturn;}
-    float                                   GetHeight(){float aReturn = mHeight;return aReturn;}
+    float                                   GetWidth(){float aResult = mWidth;return aResult;}
+    float                                   GetHeight(){float aResult = mHeight;return aResult;}
     float                                   GetWidth2(){return mWidth2;}
     float                                   GetHeight2(){return mHeight2;}
     
@@ -257,7 +257,7 @@ public:
     float                                   GetCenterY(){return mY + mHeight2;}
     float                                   GetRight(){return GetX() + GetWidth();}
     float                                   GetBottom(){return GetY() + GetHeight();}
-    FVec2                                   GetCenter(){FVec2 aReturn;aReturn.mX=GetCenterX();aReturn.mY=GetCenterY();return aReturn;}
+    FVec2                                   GetCenter(){FVec2 aResult;aResult.mX=GetCenterX();aResult.mY=GetCenterY();return aResult;}
     
     
     void                                    SetX(float pX);

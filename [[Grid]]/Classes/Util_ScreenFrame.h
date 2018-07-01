@@ -9,15 +9,15 @@
 #ifndef UTILITY_VIRTUAL_FRAME_RESIZE_TOOL_H
 #define UTILITY_VIRTUAL_FRAME_RESIZE_TOOL_H
 
-#include "FView.h"
+#include "FCanvas.hpp"
 
-class Util_ScreenFrame : public FView
+class Util_ScreenFrame : public FCanvas
 {
 public:
     Util_ScreenFrame();
     virtual ~Util_ScreenFrame();
     
-    virtual void                            PositionContent();
+    virtual void                            Layout();
     
     virtual void                            Update();
     virtual void                            Draw();
@@ -35,7 +35,6 @@ public:
     float                                   mScreenResizeCornerY[4];
     float                                   mScreenResizeCornerDragStartX[4];
     float                                   mScreenResizeCornerDragStartY[4];
-    
     
     float                                   mResizeLeft;
     float                                   mResizeTop;

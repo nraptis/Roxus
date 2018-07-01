@@ -146,15 +146,15 @@ void *FList::FetchCircular(int pIndex) {
 }
 
 void *FList::Pop() {
-	void *aReturn = 0;
+	void *aResult = 0;
 	if (mCount > 0) {
-		aReturn=mData[0];
+		aResult=mData[0];
 		for (int i=1;i<mCount;i++) {
 			mData[i-1]=mData[i];
 		}
 		mCount--;
 	}
-	return aReturn;
+	return aResult;
 }
 
 void FList::RemoveFirst(void *pItem)
@@ -258,9 +258,9 @@ int FList::Find(void *pItem) {
 		if (*aSeek == pItem) break;
 		aSeek++;
 	}
-	int aReturn=-1;
-	if (aSeek<aShelf) aReturn = (int)(aSeek-mData);
-	return aReturn;
+	int aResult=-1;
+	if (aSeek<aShelf) aResult = (int)(aSeek-mData);
+	return aResult;
 }
 
 bool FList::Exists(void *pItem) {
@@ -417,9 +417,9 @@ void FList::Swap(void *pItem1, void *pItem2)
 
 void *FList::FetchRandom()
 {
-	void *aReturn = 0;
-	if(mCount>0)aReturn=mData[gRand.Get(mCount)];
-	return aReturn;
+	void *aResult = 0;
+	if(mCount>0)aResult=mData[gRand.Get(mCount)];
+	return aResult;
 }
 
 void FList::Shuffle()

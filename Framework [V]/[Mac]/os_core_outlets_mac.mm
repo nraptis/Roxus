@@ -67,13 +67,13 @@ void os_log(const char *pMessage)
 
 unsigned long os_system_time()
 {
-    unsigned long aReturn = (unsigned long)(CFAbsoluteTimeGetCurrent() * 10000.0f);
-    return aReturn;
+    unsigned long aResult = (unsigned long)(CFAbsoluteTimeGetCurrent() * 10000.0f);
+    return aResult;
 }
 
 unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
 {
-    unsigned char *aReturn = 0;
+    unsigned char *aResult = 0;
     pLength = 0;
     
     if(os_fileExists(pFileName))
@@ -92,14 +92,14 @@ unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
             {
                 unsigned char *aFileData = (unsigned char *)[aData bytes];
                 
-                aReturn = new unsigned char[pLength];
+                aResult = new unsigned char[pLength];
                 
                 for(int i=0;i<pLength;i++)
                 {
-                    //aReturn[i] = aFileData[i];
+                    //aResult[i] = aFileData[i];
                 }
                 
-                memcpy(aReturn, aFileData, pLength);
+                memcpy(aResult, aFileData, pLength);
                 
                 
             }
@@ -150,16 +150,16 @@ unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
          
          //*pSize = ftell(fp);
          fseek(aFile,0,SEEK_SET);
-         aReturn = new unsigned char[pLength];
+         aResult = new unsigned char[pLength];
          
          //pLength = (int)(
-         fread(aReturn,sizeof(unsigned char), pLength, aFile);//);
+         fread(aResult,sizeof(unsigned char), pLength, aFile);//);
          
-         if(aReturn != 0)
+         if(aResult != 0)
          {
          for(int i=0;(i<8) && (i<pLength);i++)
          {
-         Log("Read File[%d] = [%d]\n", i, (int)((aReturn[i])));
+         Log("Read File[%d] = [%d]\n", i, (int)((aResult[i])));
          }
          
          }
@@ -170,12 +170,12 @@ unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
          */
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool os_write_file(const char *pFileName, unsigned char *pData, unsigned int pLength)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     FString aPath = FString(pFileName);
     
@@ -196,7 +196,7 @@ bool os_write_file(const char *pFileName, unsigned char *pData, unsigned int pLe
             //gRes.AddResource(pFileName, true);
             gRes.AddResource(pFileName);
             
-            aReturn = true;
+            aResult = true;
         }
         
     }
@@ -312,7 +312,7 @@ bool os_write_file(const char *pFileName, unsigned char *pData, unsigned int pLe
      fclose(aFile);
      */
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -412,7 +412,7 @@ void os_load_image_to_buffer(char *pFile, unsigned int *pData)
 
 unsigned int *os_load_image(char *pFile,int &pWidth, int &pHeight)
 {
-    unsigned int *aReturn = 0;
+    unsigned int *aResult = 0;
     
     FFile aFile;
     aFile.LoadDirect(pFile);
@@ -438,9 +438,9 @@ unsigned int *os_load_image(char *pFile,int &pWidth, int &pHeight)
             }
             else
             {
-                aReturn = new unsigned int[(unsigned int)(pWidth*pHeight)];
+                aResult = new unsigned int[(unsigned int)(pWidth*pHeight)];
                 CGColorSpaceRef aColorSpace=CGColorSpaceCreateDeviceRGB();
-                CGContextRef aCGContext=CGBitmapContextCreate(aReturn, pWidth, pHeight, 8, pWidth*4, aColorSpace, kCGImageAlphaPremultipliedLast);
+                CGContextRef aCGContext=CGBitmapContextCreate(aResult, pWidth, pHeight, 8, pWidth*4, aColorSpace, kCGImageAlphaPremultipliedLast);
                 CGContextClearRect(aCGContext, CGRectMake(0, 0, pWidth, pHeight));
                 CGContextDrawImage(aCGContext,CGRectMake(0, 0, pWidth, pHeight),aCGImage);
                 CGContextRelease(aCGContext);
@@ -450,7 +450,7 @@ unsigned int *os_load_image(char *pFile,int &pWidth, int &pHeight)
             CFRelease(aSource);
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 

@@ -25,7 +25,7 @@ public:
     void                                            Draw();
 
     bool                                            TouchDown(float pX, float pY, void *pData);
-    bool                                            TouchMove(float pX, float pY, void *pData);
+    void                                            TouchMove(float pX, float pY, void *pData);
     void                                            TouchUp(float pX, float pY, void *pData);
     void                                            TouchFlush();
 

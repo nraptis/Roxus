@@ -144,7 +144,7 @@ void FPointList::Set(int pIndex, float pX, float pY)
 
 int FPointList::Remove(int pIndex)
 {
-    int aReturn = pIndex;
+    int aResult = pIndex;
     
     if((pIndex >= 0) && (pIndex < mCount))
     {
@@ -159,11 +159,11 @@ int FPointList::Remove(int pIndex)
     if(mCount > 0)
     {
         
-        if(aReturn < 0)aReturn = (mCount - 1);
-        else if(aReturn >= mCount)aReturn = 0;
+        if(aResult < 0)aResult = (mCount - 1);
+        else if(aResult >= mCount)aResult = 0;
     }
     
-    return aReturn;
+    return aResult;
     
     /*
      if(pIndex < 0 || pIndex >= mCount)return;
@@ -462,7 +462,7 @@ void FPointList::GenerateCircle(float pRadius, float pMinDist)
 
 bool FPointList::ContainsPoint(float pX, float pY)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     for(int aStart=0,aEnd=(mCount - 1);aStart<mCount;aEnd=aStart++)
     {
@@ -471,11 +471,11 @@ bool FPointList::ContainsPoint(float pX, float pY)
             (pX < (mX[aEnd] - mX[aStart]) * (pY - mY[aStart])
              / (mY[aEnd] - mY[aStart]) + mX[aStart]))
         {
-            aReturn = !aReturn;
+            aResult = !aResult;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 bool FPointList::IsClockwise()
@@ -640,28 +640,28 @@ void FPointList::CloneOffset(FPointList *pPointList, float pOffset)
 
 int FPointList::LoopIndex(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     
     if(mCount > 1)
     {
-        aReturn = pIndex;
+        aResult = pIndex;
         
-        if(aReturn < 0)aReturn += mCount;
-        if(aReturn >= mCount)aReturn -= mCount;
+        if(aResult < 0)aResult += mCount;
+        if(aResult >= mCount)aResult -= mCount;
         
-        if(((aReturn >= 0) && (aReturn < mCount)) == false)
+        if(((aResult >= 0) && (aResult < mCount)) == false)
         {
-            aReturn = (aReturn % mCount);
-            if(aReturn < 0)aReturn += mCount;
-            if(aReturn >= mCount)aReturn -= mCount;
+            aResult = (aResult % mCount);
+            if(aResult < 0)aResult += mCount;
+            if(aResult >= mCount)aResult -= mCount;
         }
     }
     else
     {
-        aReturn = 0;
+        aResult = 0;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float FPointList::LoopX(int pIndex)
@@ -676,7 +676,7 @@ float FPointList::LoopY(int pIndex)
 
 float FPointList::LoopAngleNext(int pIndex)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     
     if(mCount > 1)
     {
@@ -687,16 +687,16 @@ float FPointList::LoopAngleNext(int pIndex)
         float aDiffX = mX[aIndex2] - mX[aIndex1];
         float aDiffY = mY[aIndex2] - mY[aIndex1];
         
-        aReturn = -atan2f(-aDiffX, -aDiffY) * 57.2957795130823208767981548141052;
+        aResult = -atan2f(-aDiffX, -aDiffY) * 57.2957795130823208767981548141052;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 
 float FPointList::LoopAnglePrev(int pIndex)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     
     if(mCount > 1)
     {
@@ -707,34 +707,34 @@ float FPointList::LoopAnglePrev(int pIndex)
         float aDiffX = mX[aIndex2] - mX[aIndex1];
         float aDiffY = mY[aIndex2] - mY[aIndex1];
         
-        aReturn = -atan2f(-aDiffX, -aDiffY) * 57.2957795130823208767981548141052;
+        aResult = -atan2f(-aDiffX, -aDiffY) * 57.2957795130823208767981548141052;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 float FPointList::LoopAngleBetween(int pIndex)
 {
-    float aReturn = 0.0f;
+    float aResult = 0.0f;
     
     if(mCount > 2)
     {
         float aNext = LoopAngleNext(pIndex);
         float aPrev = LoopAnglePrev(pIndex);
         
-        aReturn = ((aNext + aPrev) / 2.0f);
+        aResult = ((aNext + aPrev) / 2.0f);
     }
     else if(mCount > 1)
     {
-    aReturn = LoopAngleNext(pIndex);
+    aResult = LoopAngleNext(pIndex);
         
     }
-    return aReturn;
+    return aResult;
 }
 
 float FPointList::LoopAngleBetweenInside(int pIndex)
 {
-    float aReturn = LoopAngleBetween(pIndex);
+    float aResult = LoopAngleBetween(pIndex);
     
     if(mCount > 2)
     {
@@ -743,7 +743,7 @@ float FPointList::LoopAngleBetweenInside(int pIndex)
         
         float aProbeLength = 0.5f;
         
-        float aAngle = aReturn - 180.0f;
+        float aAngle = aResult - 180.0f;
         if(aAngle < 0.0)aAngle += 360.0f;
         
         float aDirX = Sin(aAngle);
@@ -754,38 +754,38 @@ float FPointList::LoopAngleBetweenInside(int pIndex)
         
         if(ContainsPoint(aCheckX1, aCheckY1) == true)
         {
-            aReturn = aAngle;
+            aResult = aAngle;
         }
         
         
         
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FPointList::GetNextIndex(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     if(mCount > 0)
     {
-        aReturn = (pIndex + 1);
-        if(aReturn >= mCount)aReturn = 0;
-        else if(aReturn < 0) aReturn = (mCount - 1);
+        aResult = (pIndex + 1);
+        if(aResult >= mCount)aResult = 0;
+        else if(aResult < 0) aResult = (mCount - 1);
     }
-    return aReturn;
+    return aResult;
 }
 
 int FPointList::GetPrevIndex(int pIndex)
 {
-    int aReturn = 0;
+    int aResult = 0;
     if(mCount > 0)
     {
-        aReturn = (pIndex - 1);
-        if(aReturn < 0) aReturn = (mCount - 1);
-        else if(aReturn >= mCount)aReturn = 0;
+        aResult = (pIndex - 1);
+        if(aResult < 0) aResult = (mCount - 1);
+        else if(aResult >= mCount)aResult = 0;
     }
-    return aReturn;
+    return aResult;
 }
 
 void FPointList::Transform(FPointList *pPointList, float pX, float pY, float pScaleX, float pScaleY, float pRotation)
@@ -863,7 +863,7 @@ void FPointList::UntransformTranslate(float pX, float pY)
 
 int FPointList::GetClosestIndex(float pX, float pY, float &pDist, int pIgnoreIndex1, int pIgnoreIndex2, int pIgnoreIndex3)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     if(mCount > 0)
     {
@@ -885,7 +885,7 @@ int FPointList::GetClosestIndex(float pX, float pY, float &pDist, int pIgnoreInd
                 if((i != pIgnoreIndex1) && (i != pIgnoreIndex2) && (i != pIgnoreIndex3))
                 {
                     aBestDist = aDist;
-                    aReturn = i;
+                    aResult = i;
                 
                     pDist = aDist;
                 }
@@ -893,16 +893,16 @@ int FPointList::GetClosestIndex(float pX, float pY, float &pDist, int pIgnoreInd
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FPointList::GetClosestIndex(float pX, float pY, float &pDist)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     if(mCount > 0)
     {
-        aReturn = 0;
+        aResult = 0;
         float aDiffX = mX[0] - pX;
         float aDiffY = mY[0] - pY;
         float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
@@ -915,21 +915,21 @@ int FPointList::GetClosestIndex(float pX, float pY, float &pDist)
             if(aDist < pDist)
             {
                 pDist = aDist;
-                aReturn = i;
+                aResult = i;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int FPointList::GetClosestIndex(float pX, float pY)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     if(mCount > 0)
     {
-        aReturn = 0;
+        aResult = 0;
         float aDiffX = mX[0] - pX;
         float aDiffY = mY[0] - pY;
         float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
@@ -942,17 +942,17 @@ int FPointList::GetClosestIndex(float pX, float pY)
             if(aDist < aBestDist)
             {
                 aBestDist = aDist;
-                aReturn = i;
+                aResult = i;
             }
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int	FPointList::GetClosestEdge(float pX, float pY, bool pClosed, float &pDist)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     float aBestDist = 512.0f * 512.0f;
     
@@ -999,7 +999,7 @@ int	FPointList::GetClosestEdge(float pX, float pY, bool pClosed, float &pDist)
                 {
                     
                     aBestDist = aDist;
-                    aReturn = aIndex;
+                    aResult = aIndex;
                 }
                 
                 //if(aBestDist
@@ -1020,7 +1020,7 @@ int	FPointList::GetClosestEdge(float pX, float pY, bool pClosed, float &pDist)
         return GetClosestIndex(pX, pY, pDist);
     }
     
-    return aReturn;
+    return aResult;
 }
 
 
@@ -1189,9 +1189,9 @@ int FPointList::GetPrintLineCount()
 
 FString FPointList::GetPrintLine(int pLineNumber)
 {
-    FString aReturn = "AddValues(";
+    FString aResult = "AddValues(";
     
-    if(pLineNumber == 0)aReturn = "AddValuesReset(";
+    if(pLineNumber == 0)aResult = "AddValuesReset(";
     
     
     int aStartIndex = pLineNumber * 8;
@@ -1211,8 +1211,8 @@ FString FPointList::GetPrintLine(int pLineNumber)
     FString aLineCountString = FString(aLineCount);
     if(aLineCountString.mLength <= 1)aLineCountString += " ";
     
-    aReturn += aLineCountString;
-    aReturn += ", ";
+    aResult += aLineCountString;
+    aResult += ", ";
     
     while(aLineCount > 0)
     {
@@ -1250,47 +1250,47 @@ FString FPointList::GetPrintLine(int pLineNumber)
             aStringY.Replace("001f", "0f");
         }
         
-        aReturn += aStringX;
-        aReturn += FString(", ");
-        aReturn += aStringY;
+        aResult += aStringX;
+        aResult += FString(", ");
+        aResult += aStringY;
         
         aStartIndex++;
         aLineCount--;
         
         if(aLineCount > 0)
         {
-            aReturn += FString(", ");
+            aResult += FString(", ");
         }
         else
         {
-            aReturn += FString(")");
+            aResult += FString(")");
         }
     }
     
     
     //aEndIndex = mCount;
-    //aReturn += ;
-    //aReturn += ")";
+    //aResult += ;
+    //aResult += ")";
     
 
-    return aReturn;
+    return aResult;
 }
 
 FString FPointList::GetPrintString(const char *pVariableName)
 {
-    //FString aReturn = FString("FPointList ") + FString(pVariableName) + FString(";\n");
+    //FString aResult = FString("FPointList ") + FString(pVariableName) + FString(";\n");
     
-    FString aReturn = "";
+    FString aResult = "";
     
     int aLineCount = GetPrintLineCount();
     for(int i=0;i<aLineCount;i++)
     {
         FString aLine = GetPrintLine(i);
         aLine = FString(FString(pVariableName) + FString(".") + FString(aLine.c()) + FString(";\n")).c();
-        aReturn += aLine;
+        aResult += aLine;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 

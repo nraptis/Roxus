@@ -213,17 +213,17 @@ void FAchievementController::PerformAction(int pAction)
 
 FAchievement *FAchievementController::GetFAchievement(const char *pName)
 {
-    FAchievement *aReturn=0;
+    FAchievement *aResult=0;
     
     EnumList(FAchievement, aFAchievement, mFAchievementList)
     {
         if(aFAchievement->mName == pName)
         {
-            aReturn = aFAchievement;
+            aResult = aFAchievement;
         }
     }
     
-    if(aReturn == 0)
+    if(aResult == 0)
     {
         EnumList(FAchievementGroup, aGroup, mFAchievementGroupList)
         {
@@ -231,13 +231,13 @@ FAchievement *FAchievementController::GetFAchievement(const char *pName)
             {
                 if(aFAchievement->mName == pName)
                 {
-                    aReturn = aFAchievement;
+                    aResult = aFAchievement;
                 }
             }
         }
     }
     
-	return aReturn;
+	return aResult;
 }
 
 FAchievement *FAchievementController::GetFAchievement(char *pName)

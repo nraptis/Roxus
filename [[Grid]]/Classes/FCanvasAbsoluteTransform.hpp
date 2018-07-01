@@ -9,12 +9,10 @@
 #ifndef FRAMEWORK_CANVAS_TRANSFORM_H
 #define FRAMEWORK_CANVAS_TRANSFORM_H
 
-class FView;
-class FCanvasTTTransform
-{
+class FCanvasTransform {
 public:
-    FCanvasTTTransform();
-    ~FCanvasTTTransform();
+    FCanvasTransform();
+    ~FCanvasTransform();
 
     float                                       mX;
     float                                       mY;
@@ -30,8 +28,7 @@ public:
     float                                       mAnchorY;
 };
 
-class FCanvasAbsoluteTransform
-{
+class FCanvasAbsoluteTransform {
 public:
     FCanvasAbsoluteTransform();
     ~FCanvasAbsoluteTransform();
@@ -42,9 +39,9 @@ public:
     void                                        Transform(float &pX, float &pY, float pWidth, float pHeight);
     void                                        Untransform(float &pX, float &pY, float pWidth, float pHeight);
 
-    bool                                        ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTTTransform *pTransform, float pX, float pY, float pWidth, float pHeight);
+    bool                                        ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight);
 
-    bool                                        ApplyAbsoluteTransformation(FCanvasTTTransform *pTransform, float pX, float pY, float pWidth, float pHeight);
+    bool                                        ApplyAbsoluteTransformation(FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight);
 
     bool                                        ContainsPoint(float pX, float pY);
 

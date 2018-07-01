@@ -559,23 +559,21 @@ void GLApp::LoadComplete()
     */
 
 
-    //mCanvasContainer = new CNVWorldContainerContainer();
-    //mWindowMain.AddChild(mCanvasContainer);
-    //mCanvasContainer->SetTransformAnchor(0.25f, 0.5f);
+    mCanvasContainer = new CNVWorldContainerContainer();
+    mWindowMain.AddChild(mCanvasContainer);
+    mCanvasContainer->SetTransformAnchor(0.25f, 0.5f);
 
-    mContainer = new TestWorldContainerContainer();
-    mViewController.ViewAdd(mContainer);
-    mContainer->SetTransformAnchor(0.5f, 0.5f);
+    //mContainer = new TestWorldContainerContainer();
+    //mViewController.ViewAdd(mContainer);
+    //mContainer->SetTransformAnchor(0.5f, 0.5f);
 
 
     //UMainCanvas *aUtilCanvas = new UMainCanvas();
     //mViewControllerTools.ViewAdd(aUtilCanvas);
 
     Util_ScreenFrame *aScreenFrameUtil = new Util_ScreenFrame();
-    mViewControllerTools.ViewAdd(aScreenFrameUtil);
+    mWindowTools.AddChild(aScreenFrameUtil);
+    //mViewControllerTools.ViewAdd(aScreenFrameUtil);
 
-
-    //core_sound_musicPlay("music_loop.mp3", true);
-    
 }
 

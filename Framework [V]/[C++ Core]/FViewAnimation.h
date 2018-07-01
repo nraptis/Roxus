@@ -3,13 +3,10 @@
 
 class FView;
 
-class FViewAnimation
-{
+class FViewAnimation {
 public:
-    
     FViewAnimation();
     FViewAnimation(FView *pView);
-    //FViewAnimation();
     
     virtual ~FViewAnimation();
     
@@ -51,4 +48,5 @@ public:
     FView                           *mView;
 };
 
-#endif /* defined(___015_Fleet_XP__FViewAnimation__) */
+#endif
+

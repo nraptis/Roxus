@@ -10,7 +10,7 @@
 #include "core_includes.h"
 
 
-FCanvasTTTransform::FCanvasTTTransform() {
+FCanvasTransform::FCanvasTransform() {
     mX = 0.0f;
     mY = 0.0f;
     mScale = 1.0f;
@@ -21,7 +21,7 @@ FCanvasTTTransform::FCanvasTTTransform() {
     mAnchorY = 0.0f;
 }
 
-FCanvasTTTransform::~FCanvasTTTransform() {
+FCanvasTransform::~FCanvasTransform() {
 
 }
 
@@ -44,8 +44,8 @@ FCanvasAbsoluteTransform::~FCanvasAbsoluteTransform() {
 
 }
 
-bool FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTTTransform *pTransform, float pX, float pY, float pWidth, float pHeight){
-    bool aReturn = true;
+bool FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight){
+    bool aResult = true;
     float aStartX = mX;
     float aStartY = mY;
     float aStartScale = mScale;
@@ -140,19 +140,19 @@ bool FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransf
         mCornerX[3] = aCornerStartX + aWidth;
         mCornerY[3] = aCornerStartY;
     }
-    if(aStartX != mX)aReturn = false;
-    if(aStartY != mY)aReturn = false;
-    if(aStartScale != mScale)aReturn = false;
-    if(aStartScaleX != mScaleX)aReturn = false;
-    if(aStartScaleY != mScaleY)aReturn = false;
-    if(aStartRotation != mRotation)aReturn = false;
-    if(aStartAnchorX != mAnchorX)aReturn = false;
-    if(aStartAnchorY != mAnchorY)aReturn = false;
-    return aReturn;
+    if(aStartX != mX)aResult = false;
+    if(aStartY != mY)aResult = false;
+    if(aStartScale != mScale)aResult = false;
+    if(aStartScaleX != mScaleX)aResult = false;
+    if(aStartScaleY != mScaleY)aResult = false;
+    if(aStartRotation != mRotation)aResult = false;
+    if(aStartAnchorX != mAnchorX)aResult = false;
+    if(aStartAnchorY != mAnchorY)aResult = false;
+    return aResult;
 }
 
-bool FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasTTTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
-    bool aReturn = true;
+bool FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
+    bool aResult = true;
     float aStartX = mX;
     float aStartY = mY;
     float aStartScale = mScale;
@@ -212,32 +212,32 @@ bool FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasTTTransform *p
             mCornerY[3] = aCornerStartY;
         }
     }
-    if(aStartX != mX)aReturn = false;
-    if(aStartY != mY)aReturn = false;
-    if(aStartScale != mScale)aReturn = false;
-    if(aStartScaleX != mScaleX)aReturn = false;
-    if(aStartScaleY != mScaleY)aReturn = false;
-    if(aStartRotation != mRotation)aReturn = false;
-    if(aStartAnchorX != mAnchorX)aReturn = false;
-    if(aStartAnchorY != mAnchorY)aReturn = false;
-    return aReturn;
+    if(aStartX != mX)aResult = false;
+    if(aStartY != mY)aResult = false;
+    if(aStartScale != mScale)aResult = false;
+    if(aStartScaleX != mScaleX)aResult = false;
+    if(aStartScaleY != mScaleY)aResult = false;
+    if(aStartRotation != mRotation)aResult = false;
+    if(aStartAnchorX != mAnchorX)aResult = false;
+    if(aStartAnchorY != mAnchorY)aResult = false;
+    return aResult;
 }
 
 bool FCanvasAbsoluteTransform::ContainsPoint(float pX, float pY) {
-    bool aReturn = false;
+    bool aResult = false;
     if(mRotation != 0) {
         for(int aStart=0,aEnd=3;aStart<4;aEnd=aStart++) {
             if((((mCornerY[aStart] <= pY) && (pY < mCornerY[aEnd]))||
                 ((mCornerY[aEnd] <= pY) && (pY < mCornerY[aStart])))&&
                (pX < (mCornerX[aEnd] - mCornerX[aStart]) * (pY - mCornerY[aStart])
                 / (mCornerY[aEnd] - mCornerY[aStart]) + mCornerX[aStart])) {
-                   aReturn = !aReturn;
+                   aResult = !aResult;
                }
         }
     } else {
-        aReturn = ((pX >= mCornerX[0]) && (pY >= mCornerY[0]) && (pX <= mCornerX[2]) && (pY <= mCornerY[2]));
+        aResult = ((pX >= mCornerX[0]) && (pY >= mCornerY[0]) && (pX <= mCornerX[2]) && (pY <= mCornerY[2]));
     }
-    return aReturn;
+    return aResult;
 }
 
 void FCanvasAbsoluteTransform::Untransform(float &pX, float &pY, float pWidth, float pHeight) {

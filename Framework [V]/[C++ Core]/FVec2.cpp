@@ -32,8 +32,8 @@ void FVec2::Normalize() {
 }
 
 FVec2 FVec2Lerp(FVec2 vectorStart, FVec2 vectorEnd, float t) {
-    FVec2 aReturn;
-    aReturn.mX = vectorStart.mX + ((vectorEnd.mX - vectorStart.mX) * t);
-    aReturn.mY = vectorStart.mY + ((vectorEnd.mY - vectorStart.mY) * t);
-    return aReturn;
+    FVec2 aResult;
+    aResult.mX = vectorStart.mX + ((vectorEnd.mX - vectorStart.mX) * t);
+    aResult.mY = vectorStart.mY + ((vectorEnd.mY - vectorStart.mY) * t);
+    return aResult;
 }

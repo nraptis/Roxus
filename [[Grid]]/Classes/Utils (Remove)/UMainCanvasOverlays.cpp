@@ -181,11 +181,8 @@ void UMainCanvasPanOverlay::TouchMove(float pX, float pY, void *pData)
 		float aShiftY = (gVirtualDevY);// + gAppOffsetY);
         
         
-        if(gAppBase)
-        {
+        if (gAppBase) {
 			AppShellSetVirtualFrame(mResizeLeft, mResizeTop, mResizeWidth, mResizeHeight);
-
-            //gAppBase->BaseSetVirtualFrame(mResizeLeft - aShiftX, mResizeTop - aShiftY, mResizeWidth, mResizeHeight);
         }
 
     }
