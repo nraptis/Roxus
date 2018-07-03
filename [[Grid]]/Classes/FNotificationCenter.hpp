@@ -9,34 +9,38 @@
 #ifndef FNotificationCenter_hpp
 #define FNotificationCenter_hpp
 
-#include "FList.h"
-#include "FString.h"
 #include "FHashMap.hpp"
-#include "FNotificationBucket.hpp"
 #include "FHashTable.hpp"
 #include "FCanvas.hpp"
+#include "FNotificationTable.hpp"
+#include "FNotificationReceiverMap.hpp"
 
 class FCanvas;
 class FNotificationCenter {
 public:
-    
     FNotificationCenter();
-    virtual ~FNotificationCenter();
+    ~FNotificationCenter();
+    
+    void                            Register(FCanvas *pMenu, FCanvas *pButton, const char *pNotification);
 
-    void                            Register(FCanvas *pReciever, const char *pNotification);
-    void                            Unregister(FCanvas *pReciever, const char *pNotification);
-    void                            Unregister(FCanvas *pReciever);
+    void                            Unregister(FCanvas *pMenu, FCanvas *pButton, const char *pNotification);
+    void                            Unregister(FCanvas *pMenu);
 
-    void                            Post(FCanvas *pSender, const char *pNotification);
-    void                            Post(const char *pNotification);
-
+    void                            Post(FCanvas *pButton, const char *pNotification);
+    
     void                            Print();
 
 protected:
-    FHashTable                      mSendMap;
-    FNotificationBucket             mNotifyBucket;
 
+    //"Forward" map...
+    FNotificationTable              mSendTable;
+
+    //"Backward" map...
+    FNotificationReceiverMap        mRegisterTable;
+
+    //Used for processing...
     FList                           mNodeList;
+    FList                           mPostList;
 };
 
 #endif

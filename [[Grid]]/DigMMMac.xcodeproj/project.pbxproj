@@ -127,13 +127,18 @@
 		5082483320EAAFB10081C541 /* FHashMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483120EAAFB10081C541 /* FHashMap.cpp */; };
 		5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */; };
 		5082483F20EAEA800081C541 /* FNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */; };
-		5082484220EB049F0081C541 /* FNotificationBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082484020EB049F0081C541 /* FNotificationBucket.cpp */; };
 		5082484520EB103B0081C541 /* DragableCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082484320EB103B0081C541 /* DragableCanvas.cpp */; };
 		50971B6220D4402800381FBD /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5920D4402800381FBD /* FWindow.cpp */; };
 		50971B6320D4402800381FBD /* GLApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5B20D4402800381FBD /* GLApp.cpp */; };
 		50971B6420D4402800381FBD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5D20D4402800381FBD /* Grid.cpp */; };
 		50971B6520D4402800381FBD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5F20D4402800381FBD /* Tile.cpp */; };
 		50971B8C20D4480700381FBD /* FCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B8A20D4480700381FBD /* FCanvas.cpp */; };
+		50BB54D920EBAEA50000F79C /* ToolMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54D720EBAEA50000F79C /* ToolMenu.cpp */; };
+		50BB54DC20EBAEB30000F79C /* ToolMenuHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54DA20EBAEB30000F79C /* ToolMenuHeader.cpp */; };
+		50BB54DF20EBB12D0000F79C /* UIRoundedRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54DD20EBB12D0000F79C /* UIRoundedRect.cpp */; };
+		50BB54E220EBDE6E0000F79C /* UIButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54E020EBDE6E0000F79C /* UIButton.cpp */; };
+		50BB54E520EBE6AD0000F79C /* FNotificationTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54E320EBE6AD0000F79C /* FNotificationTable.cpp */; };
+		50BB54E820EC01780000F79C /* FNotificationReceiverMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54E620EC01780000F79C /* FNotificationReceiverMap.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -381,8 +386,6 @@
 		5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseTesterCanvas.hpp; sourceTree = "<group>"; };
 		5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationCenter.cpp; sourceTree = "<group>"; };
 		5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FNotificationCenter.hpp; sourceTree = "<group>"; };
-		5082484020EB049F0081C541 /* FNotificationBucket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationBucket.cpp; sourceTree = "<group>"; };
-		5082484120EB049F0081C541 /* FNotificationBucket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FNotificationBucket.hpp; sourceTree = "<group>"; };
 		5082484320EB103B0081C541 /* DragableCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DragableCanvas.cpp; sourceTree = "<group>"; };
 		5082484420EB103B0081C541 /* DragableCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DragableCanvas.hpp; sourceTree = "<group>"; };
 		50971B5920D4402800381FBD /* FWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FWindow.cpp; sourceTree = "<group>"; };
@@ -395,6 +398,18 @@
 		50971B6020D4402800381FBD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
 		50971B8A20D4480700381FBD /* FCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvas.cpp; sourceTree = "<group>"; };
 		50971B8B20D4480700381FBD /* FCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FCanvas.hpp; sourceTree = "<group>"; };
+		50BB54D720EBAEA50000F79C /* ToolMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenu.cpp; sourceTree = "<group>"; };
+		50BB54D820EBAEA50000F79C /* ToolMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenu.hpp; sourceTree = "<group>"; };
+		50BB54DA20EBAEB30000F79C /* ToolMenuHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuHeader.cpp; sourceTree = "<group>"; };
+		50BB54DB20EBAEB30000F79C /* ToolMenuHeader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuHeader.hpp; sourceTree = "<group>"; };
+		50BB54DD20EBB12D0000F79C /* UIRoundedRect.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIRoundedRect.cpp; sourceTree = "<group>"; };
+		50BB54DE20EBB12D0000F79C /* UIRoundedRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIRoundedRect.hpp; sourceTree = "<group>"; };
+		50BB54E020EBDE6E0000F79C /* UIButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIButton.cpp; sourceTree = "<group>"; };
+		50BB54E120EBDE6E0000F79C /* UIButton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIButton.hpp; sourceTree = "<group>"; };
+		50BB54E320EBE6AD0000F79C /* FNotificationTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationTable.cpp; sourceTree = "<group>"; };
+		50BB54E420EBE6AD0000F79C /* FNotificationTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FNotificationTable.hpp; sourceTree = "<group>"; };
+		50BB54E620EC01780000F79C /* FNotificationReceiverMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationReceiverMap.cpp; sourceTree = "<group>"; };
+		50BB54E720EC01780000F79C /* FNotificationReceiverMap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FNotificationReceiverMap.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -636,12 +651,12 @@
 			children = (
 				0DD70E4220DF039B00295D84 /* UValuePicker.cpp */,
 				0DD70E4320DF039B00295D84 /* UMenuStyleExtended.cpp */,
-				0DD70E4420DF039B00295D84 /* UMenuStyle.h */,
 				0DD70E4520DF039B00295D84 /* Image Picker */,
 				0DD70E4A20DF039B00295D84 /* UMenu.cpp */,
 				0DD70E4B20DF039B00295D84 /* UMenu.h */,
 				0DD70E4C20DF039B00295D84 /* UValuePicker.h */,
 				0DD70E4D20DF039B00295D84 /* UMenuStyleExtended.h */,
+				0DD70E4420DF039B00295D84 /* UMenuStyle.h */,
 				0DD70E4E20DF039B00295D84 /* UMenuStyle.cpp */,
 			);
 			path = "UI Elements";
@@ -740,6 +755,14 @@
 				5082482F20EAADE30081C541 /* PGMainToolbar.hpp */,
 				5082484320EB103B0081C541 /* DragableCanvas.cpp */,
 				5082484420EB103B0081C541 /* DragableCanvas.hpp */,
+				50BB54D720EBAEA50000F79C /* ToolMenu.cpp */,
+				50BB54D820EBAEA50000F79C /* ToolMenu.hpp */,
+				50BB54DA20EBAEB30000F79C /* ToolMenuHeader.cpp */,
+				50BB54DB20EBAEB30000F79C /* ToolMenuHeader.hpp */,
+				50BB54DD20EBB12D0000F79C /* UIRoundedRect.cpp */,
+				50BB54DE20EBB12D0000F79C /* UIRoundedRect.hpp */,
+				50BB54E020EBDE6E0000F79C /* UIButton.cpp */,
+				50BB54E120EBDE6E0000F79C /* UIButton.hpp */,
 			);
 			path = "[[Playground]]";
 			sourceTree = "<group>";
@@ -751,10 +774,12 @@
 				5006BA0820E7E2C400E329C1 /* Test Canvas */,
 				50971B5920D4402800381FBD /* FWindow.cpp */,
 				50971B5A20D4402800381FBD /* FWindow.hpp */,
+				50BB54E620EC01780000F79C /* FNotificationReceiverMap.cpp */,
+				50BB54E720EC01780000F79C /* FNotificationReceiverMap.hpp */,
+				50BB54E320EBE6AD0000F79C /* FNotificationTable.cpp */,
+				50BB54E420EBE6AD0000F79C /* FNotificationTable.hpp */,
 				5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */,
 				5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */,
-				5082484020EB049F0081C541 /* FNotificationBucket.cpp */,
-				5082484120EB049F0081C541 /* FNotificationBucket.hpp */,
 				50971B8A20D4480700381FBD /* FCanvas.cpp */,
 				50971B8B20D4480700381FBD /* FCanvas.hpp */,
 				0DD70E3F20DF039B00295D84 /* Utils (Remove) */,
@@ -832,12 +857,14 @@
 			files = (
 				5006BA3220E7E2C400E329C1 /* CNVBadgeDecor2.cpp in Sources */,
 				0DA0B1EE1C54500C005C75B2 /* FVertexBuffer.cpp in Sources */,
+				50BB54E220EBDE6E0000F79C /* UIButton.cpp in Sources */,
 				0DA0B1E21C54500C005C75B2 /* FSlider.cpp in Sources */,
 				0DA0B1C01C54500C005C75B2 /* FAnimation.cpp in Sources */,
 				0DA0B1CE1C54500C005C75B2 /* FJoystick.cpp in Sources */,
 				0DA0B1C31C54500C005C75B2 /* FColor.cpp in Sources */,
 				0DD70E7520DF039B00295D84 /* UValuePicker.cpp in Sources */,
 				5006BA3720E7E2C400E329C1 /* CNVGame.cpp in Sources */,
+				50BB54E820EC01780000F79C /* FNotificationReceiverMap.cpp in Sources */,
 				0DA0B1FE1C54500C005C75B2 /* os_core_social.cpp in Sources */,
 				0DA0B2011C54500C005C75B2 /* OSInputGrabber.mm in Sources */,
 				50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */,
@@ -865,7 +892,6 @@
 				0DA0B1C81C54500C005C75B2 /* FGestureView.cpp in Sources */,
 				0DD70E7E20DF039B00295D84 /* FMotionPath.cpp in Sources */,
 				0DA0B1CF1C54500C005C75B2 /* FLine.cpp in Sources */,
-				5082484220EB049F0081C541 /* FNotificationBucket.cpp in Sources */,
 				0DD70E8B20DF039B00295D84 /* UCanvasPane.cpp in Sources */,
 				0DD70E8120DF039B00295D84 /* UMainCanvas.cpp in Sources */,
 				5006BA3620E7E2C400E329C1 /* CNVFooter.cpp in Sources */,
@@ -908,9 +934,11 @@
 				0DD70E7A20DF039B00295D84 /* UMenuStyle.cpp in Sources */,
 				0DD70E7B20DF039B00295D84 /* FMotionKey.cpp in Sources */,
 				5006BA3420E7E2C400E329C1 /* CNVBadgeDecor4.cpp in Sources */,
+				50BB54D920EBAEA50000F79C /* ToolMenu.cpp in Sources */,
 				0DA0B1E91C54500C005C75B2 /* FTexture.cpp in Sources */,
 				0DD70E7920DF039B00295D84 /* UMenu.cpp in Sources */,
 				0DA0B1CA1C54500C005C75B2 /* FImage.cpp in Sources */,
+				50BB54DF20EBB12D0000F79C /* UIRoundedRect.cpp in Sources */,
 				0DD70E8220DF039B00295D84 /* UNode.cpp in Sources */,
 				5082482D20EAADCD0081C541 /* PGMainCanvas.cpp in Sources */,
 				5006BA3520E7E2C400E329C1 /* CNVBoard.cpp in Sources */,
@@ -924,11 +952,13 @@
 				5006BA3B20E7E2C400E329C1 /* CNVWorldContainer.cpp in Sources */,
 				5082484520EB103B0081C541 /* DragableCanvas.cpp in Sources */,
 				5006BA3920E7E2C400E329C1 /* CNVMiniWindow.cpp in Sources */,
+				50BB54DC20EBAEB30000F79C /* ToolMenuHeader.cpp in Sources */,
 				5006BA3020E7E2C400E329C1 /* CNVBadge.cpp in Sources */,
 				0DA0B1BC1C54500C005C75B2 /* core_graphics.cpp in Sources */,
 				5006BA3320E7E2C400E329C1 /* CNVBadgeDecor3.cpp in Sources */,
 				0DA0B1CC1C54500C005C75B2 /* FIndexList.cpp in Sources */,
 				0DA0B1D51C54500C005C75B2 /* FMotionObject.cpp in Sources */,
+				50BB54E520EBE6AD0000F79C /* FNotificationTable.cpp in Sources */,
 				0DA0B1BF1C54500C005C75B2 /* FAchievement.cpp in Sources */,
 				0DA0B1EB1C54500C005C75B2 /* FTouchManager.cpp in Sources */,
 				50971B6520D4402800381FBD /* Tile.cpp in Sources */,

@@ -341,8 +341,10 @@ void FButton::TouchDown(float pX, float pY, void *pData) {
         mClickData = pData;
     }
 
+    gNotify.Post(this, "down");
     if (mTriggerOnDown) {
-        gNotify.Post(this, "button");
+        gNotify.Post(this, "click");
+
     }
 }
 
@@ -353,12 +355,12 @@ void FButton::TouchMove(float pX, float pY, void *pData) {
 }
 
 void FButton::TouchUp(float pX, float pY, void *pData) {
-
     if (mClickData == pData) {
         if (pX >= 0 && pY >= 0 && pX <= mWidth && pY <= mHeight) {
             if (mTriggerOnUp) {
-                gNotify.Post(this, "button");
+                gNotify.Post(this, "click");
             }
+            gNotify.Post(this, "up");
         }
         mClickData = 0;
     }

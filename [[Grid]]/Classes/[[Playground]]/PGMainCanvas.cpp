@@ -9,52 +9,71 @@
 #include "PGMainCanvas.hpp"
 #include "GLApp.h"
 
+PGMainCanvas *gTool = 0;
+
+
 PGMainCanvas::PGMainCanvas() {
-    
-    mName = "PGMainCanvas";
+    gTool = this;
+    mName = "_Playground_";
 
     mClipsContent = false;
 
-    mBackQuad.Corner1SetColor(0.76f, 0.62f, 0.76f);
-    mBackQuad.Corner2SetColor(0.86f, 0.66f, 0.76f);
-    mBackQuad.Corner3SetColor(0.47f, 0.86f, 0.56f);
-    mBackQuad.Corner4SetColor(0.75f, 0.66f, 0.76f);
+    mBackQuad.Corner1SetColor(0.96f, 0.92f, 0.88f);
+    mBackQuad.Corner2SetColor(0.98f, 0.95f, 0.99f);
+    mBackQuad.Corner3SetColor(0.97f, 0.96f, 0.96f);
+    mBackQuad.Corner4SetColor(0.95f, 0.97f, 0.94f);
+    
+    //mDragCanvas1 = new DragableCanvas();
+    //mDragCanvas1->mName = "DR-1";
+    //mDragCanvas1->mColor = FColor(1.0f, 0.77, 0.9);
+    //AddChild(mDragCanvas1);
+    //mDragCanvas1->SetFrame(40.0f, 20.0f, 270.0f, 200.0f);
 
 
-    mDragCanvas1 = new DragableCanvas();
-    mDragCanvas1->mName = "DR-1";
-    mDragCanvas1->mColor = FColor(1.0f, 0.77, 0.9);
-    AddChild(mDragCanvas1);
-    mDragCanvas1->SetFrame(40.0f, 20.0f, 270.0f, 200.0f);
+    mToolMenu1 = new ToolMenu();
+    mToolMenu1->SetFrame(100.0f, 20.0f, 300.0f, 220.0f);
+    mToolMenu1->mName = "TM-1";
+    AddChild(mToolMenu1);
 
+    mToolMenu2 = new ToolMenu();
+    mToolMenu2->SetFrame(10.0f, 300.0f, 400.0f, 280.0f);
+    mToolMenu2->mName = "TM-2";
+    AddChild(mToolMenu2);
+
+    mToolMenu3 = new ToolMenu();
+    mToolMenu3->SetFrame(300.0f, 510.0f, 200.0f, 340.0f);
+    mToolMenu3->mName = "TM-3";
+    AddChild(mToolMenu3);
+
+    
+    mMenuIndex = 10;
+    
+
+    //gNotify.Register(this, mToolMenu1, "f1");
+    //gNotify.Register(this, mToolMenu2, "f1");
+    //gNotify.Register(this, mToolMenu3, "f1");
 
 
     /*
-    mDragCanvas2 = new DragableCanvas();
-    mDragCanvas2->mName = "DR-2";
-    mDragCanvas2->mColor = FColor(0.0f, 1.0f, 0.45);
-    AddChild(mDragCanvas2);
-    mDragCanvas2->SetFrame(50.0f, 260.0f, 80.0f, 300.0f);
+    gNotify.Print();
 
+    gNotify.Post(mToolMenu1, "f1");
 
-    mDragCanvas3 = new DragableCanvas();
-    mDragCanvas3->mName = "DR-3";
-    mDragCanvas3->mColor = FColor(0.26, 0.0f, 1.0f);
-    AddChild(mDragCanvas3);
-    mDragCanvas3->SetFrame(150.0f, 380.0f, 200.0f, 160.0f);
+    gNotify.Unregister(this, mToolMenu1, "f1");
+
+    gNotify.Print();
      */
 
+    
 }
 
 PGMainCanvas::~PGMainCanvas() {
-    Log("Free(PGMainCanvas)\n");
-
+    gTool = 0;
 }
 
 void PGMainCanvas::Layout() {
     SetFrame(6.0f, 6.0f, gDeviceWidth - 12.0f, gDeviceHeight - 12.0f);
     mBackQuad.SetRect(0.0f, 0.0f, mWidth, mHeight);
-
 }
 
 void PGMainCanvas::Update() {
@@ -63,11 +82,17 @@ void PGMainCanvas::Update() {
 
 void PGMainCanvas::Draw() {
     mBackQuad.Draw();
-
 }
 
 void PGMainCanvas::TouchDown(float pX, float pY, void *pData) {
-
+    if (pX <= 20 && pY >= (mHeight - 20)) {
+        EnumList(FCanvas, aCanvas, mChildren) {
+            if(gRand.Get(10) > 4) {
+                aCanvas->Kill();
+            }
+        }
+    }
+    gNotify.Print();
 }
 
 void PGMainCanvas::TouchMove(float pX, float pY, void *pData) {
@@ -81,7 +106,6 @@ void PGMainCanvas::TouchUp(float pX, float pY, void *pData) {
 void PGMainCanvas::TouchFlush() {
 
 }
-
 
 void PGMainCanvas::MouseDown(float pX, float pY, int pButton) {
 

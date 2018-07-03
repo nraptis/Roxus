@@ -91,18 +91,14 @@ void URoundedRect::Generate()
     float aEndX = X4();
     float aEndY = Y4();
     
-    if(mSquare)// || true)
-    {
+    if (mSquare) {
         mNodeList.SetXY(aWriteIndex++, aStartX, aStartY);
         mNodeList.SetXY(aWriteIndex++, aEndX, aStartY);
         mNodeList.SetXY(aWriteIndex++, aStartX, aEndY);
         mNodeList.SetXY(aWriteIndex++, aEndX, aEndY);
-    }
-    else
-    {
+    } else {
         mNodeList.SetXY(aWriteIndex++, aStartX + mCornerRadius, aStartY);
         mNodeList.SetXY(aWriteIndex++, aEndX - mCornerRadius, aStartY);
-        
         for(int i=0;i<mCornerPointCount;i++)
         {
             float aDX = aDirX[i];

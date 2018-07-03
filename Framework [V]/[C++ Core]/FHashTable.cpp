@@ -7,6 +7,7 @@
 //
 
 #include "FHashTable.hpp"
+#include "FHashMap.hpp"
 #include "core_includes.h"
 
 FHashTableNode::FHashTableNode() {
@@ -199,12 +200,17 @@ void *FHashTable::Get(const char *pKey) {
 }
 
 FHashTableNode *FHashTable::GetNode(const char *pKey) {
-    FHashTableNode *aResult = 0;
     if (mTableSize > 0) {
         unsigned int aHash = (FHashTable::Hash(pKey) % mTableSize);
-        aResult = mTable[aHash];
+        FHashTableNode *aNode = mTable[aHash];
+        while (aNode) {
+            if (aNode->mKey == pKey) {
+                return aNode;
+            }
+            aNode = (aNode->mNext);
+        }
     }
-    return aResult;
+    return 0;
 }
 
 void FHashTable::GetAllNodes(const char *pKey, FList &pList) {

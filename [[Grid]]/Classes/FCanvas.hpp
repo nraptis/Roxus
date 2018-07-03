@@ -243,12 +243,8 @@ public:
     static float                            ConvertRotation(float pDegrees, FCanvas *pFromCanvas, FCanvas &pToCanvas) { return ConvertRotation(pDegrees, pFromCanvas, &pToCanvas); }
     static float                            ConvertRotation(float pDegrees, FCanvas &pFromCanvas, FCanvas *pToCanvas) { return ConvertRotation(pDegrees, &pFromCanvas, pToCanvas); }
 
-
-//private:
-
     void                                    *mTouchData[CANVAS_TRACKED_TOUCH_COUNT];
     bool                                    mTouchInside[CANVAS_TRACKED_TOUCH_COUNT];
-
 
     void                                    ComputeAbsoluteTransformation();
 
@@ -257,6 +253,8 @@ public:
     bool                                    mDeleteWhenKilled;
 
     bool                                    mDidUpdate;
+
+    FList                                   mProcessChildren;
     
     //When the children update, we need to re-layout
     //void                                    ChildrenDidUpdate();
@@ -351,6 +349,8 @@ protected:
     FCanvasBucketNode                               **mTable;
     int                                             mTableCount;
     int                                             mTableSize;
+
+
 
     FList                                           mQueue;
 };

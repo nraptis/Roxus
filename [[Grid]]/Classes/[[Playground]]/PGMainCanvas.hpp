@@ -13,6 +13,9 @@
 #include "DragableCanvas.hpp"
 #include "FDrawQuad.h"
 
+#include "ToolMenu.hpp"
+
+
 class PGMainCanvas : public FCanvas {
 public:
     PGMainCanvas();
@@ -43,6 +46,14 @@ public:
 
     FDrawQuad                               mBackQuad;
 
+    ToolMenu                                *mToolMenu1;
+    ToolMenu                                *mToolMenu2;
+    ToolMenu                                *mToolMenu3;
+
+    int                                     mMenuIndex;
 };
+
+extern PGMainCanvas *gTool;
+
 
 #endif /* PGMainCanvas_hpp */

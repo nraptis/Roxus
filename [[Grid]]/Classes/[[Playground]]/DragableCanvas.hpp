@@ -40,6 +40,16 @@ public:
     float                                   mPanDragTouchX;
     float                                   mPanDragTouchY;
     void                                    *mPanDragData;
+
+    float                                   mSizeMinWidth;
+    float                                   mSizeMinHeight;
+
+    float                                   mResizeDragMinX;
+    float                                   mResizeDragMinY;
+    float                                   mResizeDragMaxX;
+    float                                   mResizeDragMaxY;
+
+
 };
 
 #endif /* DragableCanvas_hpp */

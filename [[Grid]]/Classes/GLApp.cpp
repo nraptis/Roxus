@@ -53,9 +53,9 @@ void GLApp::Update() {
     if (mSpawnNewWorldTimer > 0) {
         mSpawnNewWorldTimer -= 1;
         if (mSpawnNewWorldTimer == 0) {
-            mCanvasContainer = new CNVWorldContainerContainer();
-            mWindowMain.AddChild(mCanvasContainer);
-            mCanvasContainer->SetTransformAnchor(0.5f, 0.5f);
+            //mCanvasContainer = new CNVWorldContainerContainer();
+            //mWindowMain.AddChild(mCanvasContainer);
+            //mCanvasContainer->SetTransformAnchor(0.5f, 0.5f);
 
             mAnimation.mCanvas = 0;
         }

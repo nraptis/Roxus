@@ -40,11 +40,14 @@ DragableCanvas::DragableCanvas() {
     mPanDragTouchY = 0.0f;
     mPanDragData = 0;
 
+    mSizeMinWidth = 200.0f;
+    mSizeMinHeight = 120.0f;
+
     mClipsContent = false;
 }
 
 DragableCanvas::~DragableCanvas() {
-    Log("Free(DragableCanvas)\n");
+
 }
 
 
@@ -95,8 +98,8 @@ FCanvas *DragableCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
         return aChild;
     }
     ResetCorners();
+    float aCornerDist = 40.0f;
     if (!pConsumed && !pOutsideParent) {
-        float aCornerDist = 40.0f;
         for (int i=0;i<4;i++) {
             float aX = mResizeCornerX[i];
             float aY = mResizeCornerY[i];
@@ -111,6 +114,16 @@ FCanvas *DragableCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
     }
 
     if (mResizeCornerIndex != -1) {
+
+
+
+
+        //mResizeDragMinX;
+        //mResizeDragMinY;
+        //mResizeDragMaxX;
+        //mResizeDragMaxY;
+
+
         mDragFrameStartX = mX;
         mDragFrameStartY = mY;
         mDragFrameStartWidth = mWidth;
@@ -175,6 +188,14 @@ void DragableCanvas::UpdatePanDrag(float pX, float pY, void *pData) {
         float aNewY = mDragFrameStartY + (pY - mPanDragTouchY);
         float aNewWidth = mWidth;
         float aNewHeight = mHeight;
+        if (aNewX < 0) { aNewX = 0; }
+        if (aNewY < 0) { aNewY = 0; }
+        if (aNewX + aNewWidth > mParent->mWidth) {
+            aNewX = mParent->mWidth - aNewWidth;
+        }
+        if (aNewY + aNewHeight > mParent->mHeight) {
+            aNewY = mParent->mHeight - aNewHeight;
+        }
         SetX(aNewX);
         SetY(aNewY);
         SetWidth(aNewWidth);
@@ -214,6 +235,79 @@ void DragableCanvas::UpdateCornerDrag(float pX, float pY, void *pData) {
             if (mResizeCornerIndex == 3) {
                 aNewWidth = mDragFrameStartWidth + aDeltaX;
                 aNewHeight = mDragFrameStartHeight + aDeltaY;
+            }
+            if (mResizeCornerIndex == 0) {
+                if (aNewX < 0) {
+                    aNewWidth += aNewX;
+                    aNewX = 0;
+                }
+                if (aNewY < 0) {
+                    aNewHeight += aNewY;
+                    aNewY = 0;
+                }
+                if (aNewWidth < mSizeMinWidth) {
+                    aNewX -= (mSizeMinWidth - aNewWidth);
+                    aNewWidth = mSizeMinWidth;
+                }
+                if (aNewHeight < mSizeMinHeight) {
+                    aNewY -= (mSizeMinHeight - aNewHeight);
+                    aNewHeight = mSizeMinHeight;
+                }
+            }
+
+            if (mResizeCornerIndex == 1) {
+                if (aNewWidth + aNewX > mParent->mWidth) {
+                    aNewWidth -= (aNewWidth + aNewX) - mParent->mWidth;
+                    aNewX = mParent->mWidth - aNewWidth;
+                }
+                if (aNewY < 0) {
+                    aNewHeight += aNewY;
+                    aNewY = 0;
+                }
+                if (aNewWidth < mSizeMinWidth) {
+                    aNewX = mX;
+                    aNewWidth = mSizeMinWidth;
+                }
+                if (aNewHeight < mSizeMinHeight) {
+                    aNewY -= (mSizeMinHeight - aNewHeight);
+                    aNewHeight = mSizeMinHeight;
+                }
+            }
+
+            if (mResizeCornerIndex == 2) {
+                if (aNewX < 0) {
+                    aNewWidth += aNewX;
+                    aNewX = 0;
+                }
+                if (aNewHeight + aNewY > mParent->mHeight) {
+                    aNewHeight -= (aNewHeight + aNewY) - mParent->mHeight;
+                    aNewY = mParent->mHeight - aNewHeight;
+                }
+                if (aNewWidth < mSizeMinWidth) {
+                    aNewX -= (mSizeMinWidth - aNewWidth);
+                    aNewWidth = mSizeMinWidth;
+                }
+                if (aNewHeight < mSizeMinHeight) {
+                    aNewY = mY;
+                    aNewHeight = mSizeMinHeight;
+                }
+            }
+
+            if (mResizeCornerIndex == 3) {
+                if (aNewWidth + aNewX > mParent->mWidth) {
+                    aNewWidth -= (aNewWidth + aNewX) - mParent->mWidth;
+                    aNewX = mParent->mWidth - aNewWidth;
+                }
+                if (aNewHeight + aNewY > mParent->mHeight) {
+                    aNewHeight -= (aNewHeight + aNewY) - mParent->mHeight;
+                    aNewY = mParent->mHeight - aNewHeight;
+                }
+                if (aNewWidth < mSizeMinWidth) {
+                    aNewWidth = mSizeMinWidth;
+                }
+                if (aNewHeight < mSizeMinHeight) {
+                    aNewHeight = mSizeMinHeight;
+                }
             }
             SetX(aNewX);
             SetY(aNewY);

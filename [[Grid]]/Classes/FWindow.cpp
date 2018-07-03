@@ -8,6 +8,7 @@
 
 #include "FWindow.hpp"
 #include "core_graphics.h"
+#include "core_includes.h"
 
 FWindow::FWindow() {
     mRoot.mWindow = this;
@@ -31,9 +32,7 @@ void FWindow::AddChild(FCanvas &pCanvas) {
 }
 
 void FWindow::PrintTempList(const char *pName) {
-
     printf("List[%s] => {", pName);
-
     for (int i=0;i<mTemp.mCount;i++) {
         FCanvas *aCanvas = ((FCanvas *)mTemp.mData[i]);
         printf("%s", aCanvas->mName.c());
@@ -51,17 +50,27 @@ void FWindow::Update() {
     if (!mKillBucket.IsEmpty()) {
         mTemp.RemoveAll();
         mKillBucket.AddCanvasesAndChildrenRecursivelyToListAndRemoveAll(&mTemp);
+
         EnumList(FCanvas, aCanvas, mTemp) {
+            gNotify.Unregister(aCanvas);
+        }
+
+        EnumListReverse(FCanvas, aCanvas, mTemp) {
             mRealizeBucket.Remove(aCanvas);
             mLayoutBucket.Remove(aCanvas);
             mTransformUpdateBucket.Remove(aCanvas);
+            EnumList(FCanvas, aChild, aCanvas->mChildren) {
+                aChild->mParent = 0;
+            }
+
+            aCanvas->mWindow = 0;
+            aCanvas->mChildren.RemoveAll();
+
             if (aCanvas->mParent) {
                 aCanvas->mParent->mChildren.Remove(aCanvas);
                 aCanvas->mParent = 0;
             }
-            aCanvas->mWindow = 0;
-            aCanvas->mChildren.RemoveAll();
-            
+
             if (aCanvas->mDeleteWhenKilled == true) {
                 delete aCanvas;
             }

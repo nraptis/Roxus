@@ -475,7 +475,6 @@ void FTouchManager::BaseMouseUp(float pX, float pY, int pButton) {
 	if(pButton == 2)mMouseRightDown = false;
     EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_RELEASED, pButton);
     EnqueueMouseAction(pX, pY, MOUSE_UP, pButton, 0);
-
 }
 
 void FTouchManager::FlushTouches() {

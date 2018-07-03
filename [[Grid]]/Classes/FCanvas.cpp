@@ -50,10 +50,14 @@ FCanvas::FCanvas() {
 }
 
 FCanvas::~FCanvas() {
+
+    printf("Dealloc[%LX]\n", this);
+
+    gNotify.Unregister(this);
     if (mWindow) {
         FWindow *aWindow = mWindow;
         mWindow = 0;
-        aWindow->RegisterDealloc(this);
+        //aWindow->RegisterDealloc(this);
     }
 }
 
@@ -391,7 +395,10 @@ void FCanvas::BaseLayout() {
 void FCanvas::BaseUpdate() {
     mDidUpdate=true;
     Update();
-    EnumList(FCanvas, aCanvas, mChildren) { aCanvas->BaseUpdate(); }
+
+    mProcessChildren.RemoveAll();
+    mProcessChildren.Add(mChildren);
+    EnumList(FCanvas, aCanvas, mProcessChildren) { aCanvas->BaseUpdate(); }
 }
 
 void FCanvas::BaseDraw() {
@@ -404,7 +411,10 @@ void FCanvas::BaseDraw() {
             Graphics::ClipDisable();
         }
         Draw();
-        EnumList(FCanvas, aCanvas, mChildren) { aCanvas->BaseDraw(); }
+
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumList(FCanvas, aCanvas, mProcessChildren) { aCanvas->BaseDraw(); }
         if (mClipsContent) { Graphics::ClipDisable(); }
 
 
@@ -474,7 +484,9 @@ FCanvas *FCanvas::BaseMouseDown(float pX, float pY, float pOriginalX, float pOri
                 }
             }
         }
-        EnumListReverse(FCanvas, aChild, mChildren) {
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumListReverse(FCanvas, aChild, mProcessChildren) {
             aCollider = aChild->BaseMouseDown(pX, pY, pOriginalX, pOriginalY, pButton, pOutsideParent, pConsumed);
             if (aCollider) {
                 if (aCollider->mConsumesTouches) {
@@ -530,7 +542,9 @@ bool FCanvas::BaseMouseMove(float pX, float pY, float pOriginalX, float pOrigina
             }
         }
         bool aChildContainsMouse = false;
-        EnumListReverse (FCanvas, aChild, mChildren) {
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumListReverse (FCanvas, aChild, mProcessChildren) {
             if (aChildContainsMouse == false) {
                 if (aChild->BaseMouseMove(pX, pY, pOriginalX, pOriginalY, pOutsideParent)) {
                     aChildContainsMouse = true;
@@ -591,7 +605,9 @@ void FCanvas::BaseMouseUp(float pX, float pY, float pOriginalX, float pOriginalY
                 pOutsideParent = true;
             }
         }
-        EnumListReverse (FCanvas, aChild, mChildren) {
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumListReverse (FCanvas, aChild, mProcessChildren) {
             aChild->BaseMouseUp(pX, pY, pOriginalX, pOriginalY, pButton, pOutsideParent);
         }
         if (aContainsMouse) {
@@ -626,7 +642,10 @@ FCanvas *FCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, float pOri
                 }
             }
         }
-        EnumListReverse(FCanvas, aChild, mChildren) {
+
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumListReverse(FCanvas, aChild, mProcessChildren) {
             aCollider = aChild->BaseTouchDown(pX, pY, pOriginalX, pOriginalY, pData, pOutsideParent, pConsumed);
             if (aCollider) {
                 if (aCollider->mConsumesTouches) {
@@ -695,7 +714,10 @@ void FCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float pOrigina
                 pOutsideParent = true;
             }
         }
-        EnumListReverse (FCanvas, aChild, mChildren) {
+
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumListReverse (FCanvas, aChild, mProcessChildren) {
             aChild->BaseTouchMove(pX, pY, pOriginalX, pOriginalY, pData, pOutsideParent);
         }
         if (aTouchIndex >= 0) {
@@ -744,7 +766,9 @@ void FCanvas::BaseTouchUp(float pX, float pY, float pOriginalX, float pOriginalY
                 pOutsideParent = true;
             }
         }
-        EnumListReverse (FCanvas, aChild, mChildren) {
+        mProcessChildren.RemoveAll();
+        mProcessChildren.Add(mChildren);
+        EnumListReverse (FCanvas, aChild, mProcessChildren) {
             aChild->BaseTouchUp(pX, pY, pOriginalX, pOriginalY, pData, pOutsideParent);
         }
         if (mTouchCount <= 0) {
@@ -781,19 +805,25 @@ void FCanvas::BaseTouchFlush() {
     mMouseLeftDownInside = false;
     mMouseMiddleDownInside = false;
     mMouseRightDownInside = false;
-    EnumList(FCanvas, aChild, mChildren) {
+    mProcessChildren.RemoveAll();
+    mProcessChildren.Add(mChildren);
+    EnumList(FCanvas, aChild, mProcessChildren) {
         aChild->BaseTouchFlush();
     }
 }
 void FCanvas::BaseKeyDown(int pKey) {
     KeyDown(pKey);
-    EnumList(FCanvas, aChild, mChildren) {
+    mProcessChildren.RemoveAll();
+    mProcessChildren.Add(mChildren);
+    EnumList(FCanvas, aChild, mProcessChildren) {
         aChild->BaseKeyDown(pKey);
     }
 }
 void FCanvas::BaseKeyUp(int pKey) {
     KeyUp(pKey);
-    EnumList(FCanvas, aChild, mChildren) {
+    mProcessChildren.RemoveAll();
+    mProcessChildren.Add(mChildren);
+    EnumList(FCanvas, aChild, mProcessChildren) {
         aChild->BaseKeyUp(pKey);
     }
 }

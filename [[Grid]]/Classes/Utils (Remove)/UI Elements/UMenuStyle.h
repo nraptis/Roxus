@@ -87,7 +87,6 @@ public:
     void                                        Generate();
     
     FDrawNodeList                               mNodeList;
-    
 };
 
 class UButton : public UMenuItem
