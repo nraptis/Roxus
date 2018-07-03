@@ -12,12 +12,9 @@
 FWindow::FWindow() {
     mRoot.mWindow = this;
     mRoot.mParent = 0;
-    mRoot.mName = "root";
     mRoot.mClipsContent = false;
     mRoot.mConsumesTouches = false;
-    //mRoot.mRecievesConsumedTouches = false;
-    //mRoot.mRecievesOutsideTouches = false;
-    mRoot.mDeleteWhenParentIsDeleted = false;
+    mRoot.mDeleteWhenKilled = false;
 }
 
 FWindow::~FWindow() {
@@ -29,7 +26,7 @@ void FWindow::AddChild(FCanvas *pCanvas) {
 }
 
 void FWindow::AddChild(FCanvas &pCanvas) {
-    pCanvas.mDeleteWhenParentIsDeleted = false;
+    pCanvas.mDeleteWhenKilled = false;
     AddChild(&pCanvas);
 }
 
@@ -48,6 +45,29 @@ void FWindow::PrintTempList(const char *pName) {
 }
 
 void FWindow::Update() {
+    //Assumption: When a canvas is killed, all the children
+    //are also intended to be killed, and since we dump recursively,
+    //we can remove child / parent relationships as we go along.
+    if (!mKillBucket.IsEmpty()) {
+        mTemp.RemoveAll();
+        mKillBucket.AddCanvasesAndChildrenRecursivelyToListAndRemoveAll(&mTemp);
+        EnumList(FCanvas, aCanvas, mTemp) {
+            mRealizeBucket.Remove(aCanvas);
+            mLayoutBucket.Remove(aCanvas);
+            mTransformUpdateBucket.Remove(aCanvas);
+            if (aCanvas->mParent) {
+                aCanvas->mParent->mChildren.Remove(aCanvas);
+                aCanvas->mParent = 0;
+            }
+            aCanvas->mWindow = 0;
+            aCanvas->mChildren.RemoveAll();
+            
+            if (aCanvas->mDeleteWhenKilled == true) {
+                delete aCanvas;
+            }
+        }
+    }
+
     while (!(mRealizeBucket.IsEmpty() && mLayoutBucket.IsEmpty())) {
         if (!mRealizeBucket.IsEmpty()) {
             mTemp.RemoveAll();
@@ -64,8 +84,13 @@ void FWindow::Update() {
                 aCanvas->mWindow = this;
                 mLayoutBucket.Remove(aCanvas);
             }
-
-            EnumList(FCanvas, aCanvas, mTemp) { aCanvas->BaseLayout(); }
+            EnumList(FCanvas, aCanvas, mTemp) {
+                if (aCanvas->mKill) {
+                    RegisterKill(aCanvas);
+                } else {
+                    aCanvas->BaseLayout();
+                }
+            }
         }
 
         //"Layout" everything from layout-bucket, and they all
@@ -99,7 +124,6 @@ bool FWindow::TouchDown(float pX, float pY, void *pData) {
     bool aConsumed = false;
     FCanvas *aCollider = mRoot.BaseTouchDown(pX, pY, pX, pY, pData, false, aConsumed);
     if (aCollider) {
-        printf("Touch Landed: {{%s}} [C: %d]\n", aCollider->mName.c(), aCollider->mTouchCount);
         return aConsumed;
     }
     return false;
@@ -118,26 +142,45 @@ void FWindow::TouchFlush() {
 }
 
 bool FWindow::MouseDown(float pX, float pY, int pButton) {
+    bool aConsumed = false;
+    FCanvas *aCollider = mRoot.BaseMouseDown(pX, pY, pX, pY, pButton, false, aConsumed);
+    if (aCollider) {
+        return aConsumed;
+    }
     return false;
 }
 
 bool FWindow::MouseMove(float pX, float pY) {
+    mRoot.BaseMouseMove(pX, pY, pX, pY, false);
     return false;
 }
 
 void FWindow::MouseUp(float pX, float pY, int pButton) {
-
+    mRoot.BaseMouseUp(pX, pY, pX, pY, pButton, false);
 }
 
 void FWindow::MouseWheel(int pDirection) {
-
+    mRoot.BaseMouseWheel(pDirection);
 }
 
 void FWindow::KeyDown(int pKey) {
-
+    mRoot.BaseKeyDown(pKey);
 }
 
 void FWindow::KeyUp(int pKey) {
+    mRoot.BaseKeyUp(pKey);
+}
+
+void FWindow::Active() {
+    //mRoot.BaseActive();
+
+}
+
+void FWindow::Inactive() {
+
+}
+
+void FWindow::MemoryWarning(bool pSevere) {
     
 }
 
@@ -232,7 +275,12 @@ void FWindow::RegisterFrameDidUpdate(FCanvas *pCanvas) {
 
 void FWindow::RegisterKill(FCanvas *pCanvas) {
     if (pCanvas == 0) return;
-    mKillBucket.Add(pCanvas);
+    if (!mKillBucket.Exists(pCanvas)) {
+        if (!mKillBucket.ParentExists(pCanvas)) {
+            mKillBucket.RemoveAllChildren(pCanvas);
+            mKillBucket.Add(pCanvas);
+        }
+    }
 }
 
 void FWindow::RegisterDealloc(FCanvas *pCanvas) {

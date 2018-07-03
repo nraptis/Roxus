@@ -169,24 +169,19 @@ void FMatrix::Translate(float pX, float pY)
     }
 }
 
-void FMatrix::Translate(float pX, float pY, float pZ)
-{
-    if((pX != 0.0f) || (pY != 0.0f) || (pZ != 0.0f))
-    {
+void FMatrix::Translate(float pX, float pY, float pZ) {
+    if ((pX != 0.0f) || (pY != 0.0f) || (pZ != 0.0f)) {
         *this = FMatrixTranslate(*this, pX, pY, pZ);
     }
 }
 
 
-FVec2 FMatrix::ProcessVec2(FVec2 pVec)
-{
+FVec2 FMatrix::ProcessVec2(FVec2 pVec) {
     FVec2 aResult = pVec;
-    
     return aResult;
 }
 
-FVec3 FMatrix::ProcessVec3(FVec3 pVec)
-{
+FVec3 FMatrix::ProcessVec3(FVec3 pVec) {
     Log("VecIn[%f %f %f]\n", pVec.mX, pVec.mY, pVec.mZ);
     
     //float aX = m[0] * pVec.mX + m[4] * pVec.mY + m[8] * pVec.mZ;
@@ -263,36 +258,30 @@ GLK_INLINE GLKFVec3 GLKFVec3MultiplyScalar(GLKFVec3 vector, float value)
 */
 
 
-void FMatrix::Scale(float pScale)
-{
+void FMatrix::Scale(float pScale) {
     m[0] *= pScale;
     m[1] *= pScale;
     m[2] *= pScale;
     m[3] *= pScale;
-    
     m[4] *= pScale;
     m[5] *= pScale;
     m[6] *= pScale;
     m[7] *= pScale;
-    
     m[8] *= pScale;
     m[9] *= pScale;
     m[10] *= pScale;
     m[11] *= pScale;
 }
 
-void FMatrix::Scale(float pScaleX, float pScaleY, float pScaleZ)
-{
+void FMatrix::Scale(float pScaleX, float pScaleY, float pScaleZ) {
     m[0] *= pScaleX;
     m[1] *= pScaleX;
     m[2] *= pScaleX;
     m[3] *= pScaleX;
-    
     m[4] *= pScaleY;
     m[5] *= pScaleY;
     m[6] *= pScaleY;
     m[7] *= pScaleY;
-    
     m[8] *= pScaleZ;
     m[9] *= pScaleZ;
     m[10] *= pScaleZ;
@@ -300,8 +289,7 @@ void FMatrix::Scale(float pScaleX, float pScaleY, float pScaleZ)
 }
 
 
-void FMatrix::Invert()
-{
+void FMatrix::Invert() {
 	m[0]=m[6]*m[11]*m[13]-m[7]*m[10]*m[13]+m[7]*m[9]*m[14]-m[5]*m[11]*m[14]-m[6]*m[9]*m[15]+m[5]*m[10]*m[15];
 	m[1]=m[3]*m[10]*m[13]-m[2]*m[11]*m[13]-m[3]*m[9]*m[14]+m[1]*m[11]*m[14]+m[2]*m[9]*m[15]-m[1]*m[10]*m[15];
 	m[2]=m[2]*m[7]*m[13]-m[3]*m[6]*m[13]+m[3]*m[5]*m[14]-m[1]*m[7]*m[14]-m[2]*m[5]*m[15]+m[1]*m[6]*m[15];

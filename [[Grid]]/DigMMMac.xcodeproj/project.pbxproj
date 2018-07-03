@@ -65,11 +65,6 @@
 		0DA0B1EC1C54500C005C75B2 /* FVec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1791C54500C005C75B2 /* FVec2.cpp */; };
 		0DA0B1ED1C54500C005C75B2 /* FVec3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B17B1C54500C005C75B2 /* FVec3.cpp */; };
 		0DA0B1EE1C54500C005C75B2 /* FVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B17D1C54500C005C75B2 /* FVertexBuffer.cpp */; };
-		0DA0B1EF1C54500C005C75B2 /* FView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B17F1C54500C005C75B2 /* FView.cpp */; };
-		0DA0B1F01C54500C005C75B2 /* FViewAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1811C54500C005C75B2 /* FViewAnimation.cpp */; };
-		0DA0B1F11C54500C005C75B2 /* FViewContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1831C54500C005C75B2 /* FViewContainer.cpp */; };
-		0DA0B1F21C54500C005C75B2 /* FViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1851C54500C005C75B2 /* FViewController.cpp */; };
-		0DA0B1F31C54500C005C75B2 /* FViewTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1871C54500C005C75B2 /* FViewTransform.cpp */; };
 		0DA0B1F41C54500C005C75B2 /* FXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1891C54500C005C75B2 /* FXML.cpp */; };
 		0DA0B1FB1C54500C005C75B2 /* os_core_app_shell_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B19A1C54500C005C75B2 /* os_core_app_shell_mac.mm */; };
 		0DA0B1FC1C54500C005C75B2 /* os_core_includes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B19B1C54500C005C75B2 /* os_core_includes.cpp */; };
@@ -108,19 +103,6 @@
 		0DD70E8B20DF039B00295D84 /* UCanvasPane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DD70E6920DF039B00295D84 /* UCanvasPane.cpp */; };
 		0DD70E8C20DF039B00295D84 /* UMainToolbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DD70E7120DF039B00295D84 /* UMainToolbar.cpp */; };
 		0DD70E8D20DF039B00295D84 /* FParticleTemplate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DD70E7220DF039B00295D84 /* FParticleTemplate.cpp */; };
-		5006BA2320E7E2C400E329C1 /* TestBadge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9EE20E7E2C300E329C1 /* TestBadge.cpp */; };
-		5006BA2420E7E2C400E329C1 /* TestBadgeDecor1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9F020E7E2C300E329C1 /* TestBadgeDecor1.cpp */; };
-		5006BA2520E7E2C400E329C1 /* TestBadgeDecor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9F220E7E2C300E329C1 /* TestBadgeDecor2.cpp */; };
-		5006BA2620E7E2C400E329C1 /* TestBadgeDecor3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9F420E7E2C300E329C1 /* TestBadgeDecor3.cpp */; };
-		5006BA2720E7E2C400E329C1 /* TestBadgeDecor4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9F620E7E2C300E329C1 /* TestBadgeDecor4.cpp */; };
-		5006BA2820E7E2C400E329C1 /* TestBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9F820E7E2C300E329C1 /* TestBoard.cpp */; };
-		5006BA2920E7E2C400E329C1 /* TestFooter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9FA20E7E2C300E329C1 /* TestFooter.cpp */; };
-		5006BA2A20E7E2C400E329C1 /* TestGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9FC20E7E2C300E329C1 /* TestGame.cpp */; };
-		5006BA2B20E7E2C400E329C1 /* TestHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006B9FE20E7E2C300E329C1 /* TestHeader.cpp */; };
-		5006BA2C20E7E2C400E329C1 /* TestMiniWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0020E7E2C300E329C1 /* TestMiniWindow.cpp */; };
-		5006BA2D20E7E2C400E329C1 /* TestWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0220E7E2C300E329C1 /* TestWorld.cpp */; };
-		5006BA2E20E7E2C400E329C1 /* TestWorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0420E7E2C300E329C1 /* TestWorldContainer.cpp */; };
-		5006BA2F20E7E2C400E329C1 /* TestWorldContainerContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0620E7E2C300E329C1 /* TestWorldContainerContainer.cpp */; };
 		5006BA3020E7E2C400E329C1 /* CNVBadge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0920E7E2C400E329C1 /* CNVBadge.cpp */; };
 		5006BA3120E7E2C400E329C1 /* CNVBadgeDecor1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0B20E7E2C400E329C1 /* CNVBadgeDecor1.cpp */; };
 		5006BA3220E7E2C400E329C1 /* CNVBadgeDecor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA0D20E7E2C400E329C1 /* CNVBadgeDecor2.cpp */; };
@@ -134,16 +116,24 @@
 		5006BA3A20E7E2C400E329C1 /* CNVWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA1D20E7E2C400E329C1 /* CNVWorld.cpp */; };
 		5006BA3B20E7E2C400E329C1 /* CNVWorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA1F20E7E2C400E329C1 /* CNVWorldContainer.cpp */; };
 		5006BA3C20E7E2C400E329C1 /* CNVWorldContainerContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA2120E7E2C400E329C1 /* CNVWorldContainerContainer.cpp */; };
-		504047D420E3DB2A00B9F0A3 /* FCanvasBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504047D220E3DB2A00B9F0A3 /* FCanvasBucket.cpp */; };
-		504D337320DD9F0500AA55AF /* DemoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504D337120DD9F0500AA55AF /* DemoView.cpp */; };
 		50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */; };
-		50971B6120D4402800381FBD /* TempView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5720D4402800381FBD /* TempView.cpp */; };
+		5082482220EA96730081C541 /* FView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481820EA96730081C541 /* FView.cpp */; };
+		5082482320EA96730081C541 /* FViewAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481A20EA96730081C541 /* FViewAnimation.cpp */; };
+		5082482420EA96730081C541 /* FViewContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481C20EA96730081C541 /* FViewContainer.cpp */; };
+		5082482520EA96730081C541 /* FViewController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481E20EA96730081C541 /* FViewController.cpp */; };
+		5082482620EA96730081C541 /* FViewTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482020EA96730081C541 /* FViewTransform.cpp */; };
+		5082482D20EAADCD0081C541 /* PGMainCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482B20EAADCD0081C541 /* PGMainCanvas.cpp */; };
+		5082483020EAADE30081C541 /* PGMainToolbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482E20EAADE30081C541 /* PGMainToolbar.cpp */; };
+		5082483320EAAFB10081C541 /* FHashMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483120EAAFB10081C541 /* FHashMap.cpp */; };
+		5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */; };
+		5082483F20EAEA800081C541 /* FNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */; };
+		5082484220EB049F0081C541 /* FNotificationBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082484020EB049F0081C541 /* FNotificationBucket.cpp */; };
+		5082484520EB103B0081C541 /* DragableCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082484320EB103B0081C541 /* DragableCanvas.cpp */; };
 		50971B6220D4402800381FBD /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5920D4402800381FBD /* FWindow.cpp */; };
 		50971B6320D4402800381FBD /* GLApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5B20D4402800381FBD /* GLApp.cpp */; };
 		50971B6420D4402800381FBD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5D20D4402800381FBD /* Grid.cpp */; };
 		50971B6520D4402800381FBD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5F20D4402800381FBD /* Tile.cpp */; };
 		50971B8C20D4480700381FBD /* FCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B8A20D4480700381FBD /* FCanvas.cpp */; };
-		50971B8F20D463C400381FBD /* FCanvasAbsoluteTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B8D20D463C400381FBD /* FCanvasAbsoluteTransform.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -196,7 +186,7 @@
 		0DA0B1311C54500C005C75B2 /* FGestureView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FGestureView.cpp; sourceTree = "<group>"; };
 		0DA0B1321C54500C005C75B2 /* FGestureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGestureView.h; sourceTree = "<group>"; };
 		0DA0B1331C54500C005C75B2 /* FHashTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FHashTable.cpp; sourceTree = "<group>"; };
-		0DA0B1341C54500C005C75B2 /* FHashTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHashTable.h; sourceTree = "<group>"; };
+		0DA0B1341C54500C005C75B2 /* FHashTable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FHashTable.hpp; sourceTree = "<group>"; };
 		0DA0B1351C54500C005C75B2 /* FImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FImage.cpp; sourceTree = "<group>"; };
 		0DA0B1361C54500C005C75B2 /* FImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FImage.h; sourceTree = "<group>"; };
 		0DA0B1371C54500C005C75B2 /* FImageBundler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FImageBundler.cpp; sourceTree = "<group>"; };
@@ -271,16 +261,6 @@
 		0DA0B17C1C54500C005C75B2 /* FVec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVec3.h; sourceTree = "<group>"; };
 		0DA0B17D1C54500C005C75B2 /* FVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FVertexBuffer.cpp; sourceTree = "<group>"; };
 		0DA0B17E1C54500C005C75B2 /* FVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVertexBuffer.h; sourceTree = "<group>"; };
-		0DA0B17F1C54500C005C75B2 /* FView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FView.cpp; sourceTree = "<group>"; };
-		0DA0B1801C54500C005C75B2 /* FView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FView.h; sourceTree = "<group>"; };
-		0DA0B1811C54500C005C75B2 /* FViewAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewAnimation.cpp; sourceTree = "<group>"; };
-		0DA0B1821C54500C005C75B2 /* FViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewAnimation.h; sourceTree = "<group>"; };
-		0DA0B1831C54500C005C75B2 /* FViewContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewContainer.cpp; sourceTree = "<group>"; };
-		0DA0B1841C54500C005C75B2 /* FViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewContainer.h; sourceTree = "<group>"; };
-		0DA0B1851C54500C005C75B2 /* FViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewController.cpp; sourceTree = "<group>"; };
-		0DA0B1861C54500C005C75B2 /* FViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewController.h; sourceTree = "<group>"; };
-		0DA0B1871C54500C005C75B2 /* FViewTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewTransform.cpp; sourceTree = "<group>"; };
-		0DA0B1881C54500C005C75B2 /* FViewTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewTransform.h; sourceTree = "<group>"; };
 		0DA0B1891C54500C005C75B2 /* FXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FXML.cpp; sourceTree = "<group>"; };
 		0DA0B18A1C54500C005C75B2 /* FXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXML.h; sourceTree = "<group>"; };
 		0DA0B1991C54500C005C75B2 /* os_core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_core_app_shell.h; sourceTree = "<group>"; };
@@ -353,32 +333,6 @@
 		0DD70E7220DF039B00295D84 /* FParticleTemplate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FParticleTemplate.cpp; sourceTree = "<group>"; };
 		0DD70E7320DF039B00295D84 /* FMotionPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMotionPath.h; sourceTree = "<group>"; };
 		0DD70E7420DF039B00295D84 /* UMainWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMainWorkspace.h; sourceTree = "<group>"; };
-		5006B9EE20E7E2C300E329C1 /* TestBadge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBadge.cpp; sourceTree = "<group>"; };
-		5006B9EF20E7E2C300E329C1 /* TestBadge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestBadge.hpp; sourceTree = "<group>"; };
-		5006B9F020E7E2C300E329C1 /* TestBadgeDecor1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBadgeDecor1.cpp; sourceTree = "<group>"; };
-		5006B9F120E7E2C300E329C1 /* TestBadgeDecor1.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestBadgeDecor1.hpp; sourceTree = "<group>"; };
-		5006B9F220E7E2C300E329C1 /* TestBadgeDecor2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBadgeDecor2.cpp; sourceTree = "<group>"; };
-		5006B9F320E7E2C300E329C1 /* TestBadgeDecor2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestBadgeDecor2.hpp; sourceTree = "<group>"; };
-		5006B9F420E7E2C300E329C1 /* TestBadgeDecor3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBadgeDecor3.cpp; sourceTree = "<group>"; };
-		5006B9F520E7E2C300E329C1 /* TestBadgeDecor3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestBadgeDecor3.hpp; sourceTree = "<group>"; };
-		5006B9F620E7E2C300E329C1 /* TestBadgeDecor4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBadgeDecor4.cpp; sourceTree = "<group>"; };
-		5006B9F720E7E2C300E329C1 /* TestBadgeDecor4.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestBadgeDecor4.hpp; sourceTree = "<group>"; };
-		5006B9F820E7E2C300E329C1 /* TestBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBoard.cpp; sourceTree = "<group>"; };
-		5006B9F920E7E2C300E329C1 /* TestBoard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestBoard.hpp; sourceTree = "<group>"; };
-		5006B9FA20E7E2C300E329C1 /* TestFooter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFooter.cpp; sourceTree = "<group>"; };
-		5006B9FB20E7E2C300E329C1 /* TestFooter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestFooter.hpp; sourceTree = "<group>"; };
-		5006B9FC20E7E2C300E329C1 /* TestGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestGame.cpp; sourceTree = "<group>"; };
-		5006B9FD20E7E2C300E329C1 /* TestGame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestGame.hpp; sourceTree = "<group>"; };
-		5006B9FE20E7E2C300E329C1 /* TestHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestHeader.cpp; sourceTree = "<group>"; };
-		5006B9FF20E7E2C300E329C1 /* TestHeader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestHeader.hpp; sourceTree = "<group>"; };
-		5006BA0020E7E2C300E329C1 /* TestMiniWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestMiniWindow.cpp; sourceTree = "<group>"; };
-		5006BA0120E7E2C300E329C1 /* TestMiniWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestMiniWindow.hpp; sourceTree = "<group>"; };
-		5006BA0220E7E2C300E329C1 /* TestWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestWorld.cpp; sourceTree = "<group>"; };
-		5006BA0320E7E2C300E329C1 /* TestWorld.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestWorld.hpp; sourceTree = "<group>"; };
-		5006BA0420E7E2C300E329C1 /* TestWorldContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestWorldContainer.cpp; sourceTree = "<group>"; };
-		5006BA0520E7E2C300E329C1 /* TestWorldContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestWorldContainer.hpp; sourceTree = "<group>"; };
-		5006BA0620E7E2C300E329C1 /* TestWorldContainerContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestWorldContainerContainer.cpp; sourceTree = "<group>"; };
-		5006BA0720E7E2C300E329C1 /* TestWorldContainerContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TestWorldContainerContainer.hpp; sourceTree = "<group>"; };
 		5006BA0920E7E2C400E329C1 /* CNVBadge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNVBadge.cpp; sourceTree = "<group>"; };
 		5006BA0A20E7E2C400E329C1 /* CNVBadge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVBadge.hpp; sourceTree = "<group>"; };
 		5006BA0B20E7E2C400E329C1 /* CNVBadgeDecor1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNVBadgeDecor1.cpp; sourceTree = "<group>"; };
@@ -405,14 +359,32 @@
 		5006BA2020E7E2C400E329C1 /* CNVWorldContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVWorldContainer.hpp; sourceTree = "<group>"; };
 		5006BA2120E7E2C400E329C1 /* CNVWorldContainerContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNVWorldContainerContainer.cpp; sourceTree = "<group>"; };
 		5006BA2220E7E2C400E329C1 /* CNVWorldContainerContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVWorldContainerContainer.hpp; sourceTree = "<group>"; };
-		504047D220E3DB2A00B9F0A3 /* FCanvasBucket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvasBucket.cpp; sourceTree = "<group>"; };
-		504047D320E3DB2A00B9F0A3 /* FCanvasBucket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FCanvasBucket.hpp; sourceTree = "<group>"; };
-		504D337120DD9F0500AA55AF /* DemoView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DemoView.cpp; sourceTree = "<group>"; };
-		504D337220DD9F0500AA55AF /* DemoView.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DemoView.hpp; sourceTree = "<group>"; };
 		50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_ScreenFrame.cpp; sourceTree = "<group>"; };
 		50727E4E20D5600800B16079 /* Util_ScreenFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_ScreenFrame.h; sourceTree = "<group>"; };
-		50971B5720D4402800381FBD /* TempView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TempView.cpp; sourceTree = "<group>"; };
-		50971B5820D4402800381FBD /* TempView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TempView.hpp; sourceTree = "<group>"; };
+		5082481820EA96730081C541 /* FView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FView.cpp; sourceTree = "<group>"; };
+		5082481920EA96730081C541 /* FView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FView.h; sourceTree = "<group>"; };
+		5082481A20EA96730081C541 /* FViewAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewAnimation.cpp; sourceTree = "<group>"; };
+		5082481B20EA96730081C541 /* FViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewAnimation.h; sourceTree = "<group>"; };
+		5082481C20EA96730081C541 /* FViewContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewContainer.cpp; sourceTree = "<group>"; };
+		5082481D20EA96730081C541 /* FViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewContainer.h; sourceTree = "<group>"; };
+		5082481E20EA96730081C541 /* FViewController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewController.cpp; sourceTree = "<group>"; };
+		5082481F20EA96730081C541 /* FViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewController.h; sourceTree = "<group>"; };
+		5082482020EA96730081C541 /* FViewTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FViewTransform.cpp; sourceTree = "<group>"; };
+		5082482120EA96730081C541 /* FViewTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FViewTransform.h; sourceTree = "<group>"; };
+		5082482B20EAADCD0081C541 /* PGMainCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PGMainCanvas.cpp; sourceTree = "<group>"; };
+		5082482C20EAADCD0081C541 /* PGMainCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGMainCanvas.hpp; sourceTree = "<group>"; };
+		5082482E20EAADE30081C541 /* PGMainToolbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PGMainToolbar.cpp; sourceTree = "<group>"; };
+		5082482F20EAADE30081C541 /* PGMainToolbar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGMainToolbar.hpp; sourceTree = "<group>"; };
+		5082483120EAAFB10081C541 /* FHashMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FHashMap.cpp; sourceTree = "<group>"; };
+		5082483220EAAFB10081C541 /* FHashMap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FHashMap.hpp; sourceTree = "<group>"; };
+		5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MouseTesterCanvas.cpp; sourceTree = "<group>"; };
+		5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseTesterCanvas.hpp; sourceTree = "<group>"; };
+		5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationCenter.cpp; sourceTree = "<group>"; };
+		5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FNotificationCenter.hpp; sourceTree = "<group>"; };
+		5082484020EB049F0081C541 /* FNotificationBucket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationBucket.cpp; sourceTree = "<group>"; };
+		5082484120EB049F0081C541 /* FNotificationBucket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FNotificationBucket.hpp; sourceTree = "<group>"; };
+		5082484320EB103B0081C541 /* DragableCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DragableCanvas.cpp; sourceTree = "<group>"; };
+		5082484420EB103B0081C541 /* DragableCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DragableCanvas.hpp; sourceTree = "<group>"; };
 		50971B5920D4402800381FBD /* FWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FWindow.cpp; sourceTree = "<group>"; };
 		50971B5A20D4402800381FBD /* FWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FWindow.hpp; sourceTree = "<group>"; };
 		50971B5B20D4402800381FBD /* GLApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLApp.cpp; sourceTree = "<group>"; };
@@ -423,8 +395,6 @@
 		50971B6020D4402800381FBD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
 		50971B8A20D4480700381FBD /* FCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvas.cpp; sourceTree = "<group>"; };
 		50971B8B20D4480700381FBD /* FCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FCanvas.hpp; sourceTree = "<group>"; };
-		50971B8D20D463C400381FBD /* FCanvasAbsoluteTransform.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvasAbsoluteTransform.cpp; sourceTree = "<group>"; };
-		50971B8E20D463C400381FBD /* FCanvasAbsoluteTransform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FCanvasAbsoluteTransform.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -485,6 +455,7 @@
 		0DA0B1141C54500C005C75B2 /* Framework [V] */ = {
 			isa = PBXGroup;
 			children = (
+				5082481720EA96730081C541 /* [Deprecated] */,
 				0DA0B1151C54500C005C75B2 /* [C++ Core] */,
 				0DA0B1981C54500C005C75B2 /* [Mac] */,
 			);
@@ -525,7 +496,7 @@
 				0DA0B1311C54500C005C75B2 /* FGestureView.cpp */,
 				0DA0B1321C54500C005C75B2 /* FGestureView.h */,
 				0DA0B1331C54500C005C75B2 /* FHashTable.cpp */,
-				0DA0B1341C54500C005C75B2 /* FHashTable.h */,
+				0DA0B1341C54500C005C75B2 /* FHashTable.hpp */,
 				0DA0B1351C54500C005C75B2 /* FImage.cpp */,
 				0DA0B1361C54500C005C75B2 /* FImage.h */,
 				0DA0B1371C54500C005C75B2 /* FImageBundler.cpp */,
@@ -600,16 +571,6 @@
 				0DA0B17C1C54500C005C75B2 /* FVec3.h */,
 				0DA0B17D1C54500C005C75B2 /* FVertexBuffer.cpp */,
 				0DA0B17E1C54500C005C75B2 /* FVertexBuffer.h */,
-				0DA0B17F1C54500C005C75B2 /* FView.cpp */,
-				0DA0B1801C54500C005C75B2 /* FView.h */,
-				0DA0B1811C54500C005C75B2 /* FViewAnimation.cpp */,
-				0DA0B1821C54500C005C75B2 /* FViewAnimation.h */,
-				0DA0B1831C54500C005C75B2 /* FViewContainer.cpp */,
-				0DA0B1841C54500C005C75B2 /* FViewContainer.h */,
-				0DA0B1851C54500C005C75B2 /* FViewController.cpp */,
-				0DA0B1861C54500C005C75B2 /* FViewController.h */,
-				0DA0B1871C54500C005C75B2 /* FViewTransform.cpp */,
-				0DA0B1881C54500C005C75B2 /* FViewTransform.h */,
 				0DA0B1891C54500C005C75B2 /* FXML.cpp */,
 				0DA0B18A1C54500C005C75B2 /* FXML.h */,
 			);
@@ -720,39 +681,6 @@
 			path = "[Editor Menus]";
 			sourceTree = "<group>";
 		};
-		5006B9ED20E7E2C300E329C1 /* Test View */ = {
-			isa = PBXGroup;
-			children = (
-				5006B9EE20E7E2C300E329C1 /* TestBadge.cpp */,
-				5006B9EF20E7E2C300E329C1 /* TestBadge.hpp */,
-				5006B9F020E7E2C300E329C1 /* TestBadgeDecor1.cpp */,
-				5006B9F120E7E2C300E329C1 /* TestBadgeDecor1.hpp */,
-				5006B9F220E7E2C300E329C1 /* TestBadgeDecor2.cpp */,
-				5006B9F320E7E2C300E329C1 /* TestBadgeDecor2.hpp */,
-				5006B9F420E7E2C300E329C1 /* TestBadgeDecor3.cpp */,
-				5006B9F520E7E2C300E329C1 /* TestBadgeDecor3.hpp */,
-				5006B9F620E7E2C300E329C1 /* TestBadgeDecor4.cpp */,
-				5006B9F720E7E2C300E329C1 /* TestBadgeDecor4.hpp */,
-				5006B9F820E7E2C300E329C1 /* TestBoard.cpp */,
-				5006B9F920E7E2C300E329C1 /* TestBoard.hpp */,
-				5006B9FA20E7E2C300E329C1 /* TestFooter.cpp */,
-				5006B9FB20E7E2C300E329C1 /* TestFooter.hpp */,
-				5006B9FC20E7E2C300E329C1 /* TestGame.cpp */,
-				5006B9FD20E7E2C300E329C1 /* TestGame.hpp */,
-				5006B9FE20E7E2C300E329C1 /* TestHeader.cpp */,
-				5006B9FF20E7E2C300E329C1 /* TestHeader.hpp */,
-				5006BA0020E7E2C300E329C1 /* TestMiniWindow.cpp */,
-				5006BA0120E7E2C300E329C1 /* TestMiniWindow.hpp */,
-				5006BA0220E7E2C300E329C1 /* TestWorld.cpp */,
-				5006BA0320E7E2C300E329C1 /* TestWorld.hpp */,
-				5006BA0420E7E2C300E329C1 /* TestWorldContainer.cpp */,
-				5006BA0520E7E2C300E329C1 /* TestWorldContainer.hpp */,
-				5006BA0620E7E2C300E329C1 /* TestWorldContainerContainer.cpp */,
-				5006BA0720E7E2C300E329C1 /* TestWorldContainerContainer.hpp */,
-			);
-			path = "Test View";
-			sourceTree = "<group>";
-		};
 		5006BA0820E7E2C400E329C1 /* Test Canvas */ = {
 			isa = PBXGroup;
 			children = (
@@ -786,32 +714,62 @@
 			path = "Test Canvas";
 			sourceTree = "<group>";
 		};
+		5082481720EA96730081C541 /* [Deprecated] */ = {
+			isa = PBXGroup;
+			children = (
+				5082481820EA96730081C541 /* FView.cpp */,
+				5082481920EA96730081C541 /* FView.h */,
+				5082481A20EA96730081C541 /* FViewAnimation.cpp */,
+				5082481B20EA96730081C541 /* FViewAnimation.h */,
+				5082481C20EA96730081C541 /* FViewContainer.cpp */,
+				5082481D20EA96730081C541 /* FViewContainer.h */,
+				5082481E20EA96730081C541 /* FViewController.cpp */,
+				5082481F20EA96730081C541 /* FViewController.h */,
+				5082482020EA96730081C541 /* FViewTransform.cpp */,
+				5082482120EA96730081C541 /* FViewTransform.h */,
+			);
+			path = "[Deprecated]";
+			sourceTree = "<group>";
+		};
+		5082482A20EAADA20081C541 /* [[Playground]] */ = {
+			isa = PBXGroup;
+			children = (
+				5082482B20EAADCD0081C541 /* PGMainCanvas.cpp */,
+				5082482C20EAADCD0081C541 /* PGMainCanvas.hpp */,
+				5082482E20EAADE30081C541 /* PGMainToolbar.cpp */,
+				5082482F20EAADE30081C541 /* PGMainToolbar.hpp */,
+				5082484320EB103B0081C541 /* DragableCanvas.cpp */,
+				5082484420EB103B0081C541 /* DragableCanvas.hpp */,
+			);
+			path = "[[Playground]]";
+			sourceTree = "<group>";
+		};
 		50971B5620D4402800381FBD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5082482A20EAADA20081C541 /* [[Playground]] */,
 				5006BA0820E7E2C400E329C1 /* Test Canvas */,
-				5006B9ED20E7E2C300E329C1 /* Test View */,
 				50971B5920D4402800381FBD /* FWindow.cpp */,
 				50971B5A20D4402800381FBD /* FWindow.hpp */,
+				5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */,
+				5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */,
+				5082484020EB049F0081C541 /* FNotificationBucket.cpp */,
+				5082484120EB049F0081C541 /* FNotificationBucket.hpp */,
 				50971B8A20D4480700381FBD /* FCanvas.cpp */,
 				50971B8B20D4480700381FBD /* FCanvas.hpp */,
-				50971B8D20D463C400381FBD /* FCanvasAbsoluteTransform.cpp */,
-				50971B8E20D463C400381FBD /* FCanvasAbsoluteTransform.hpp */,
-				504047D220E3DB2A00B9F0A3 /* FCanvasBucket.cpp */,
-				504047D320E3DB2A00B9F0A3 /* FCanvasBucket.hpp */,
 				0DD70E3F20DF039B00295D84 /* Utils (Remove) */,
 				50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */,
 				50727E4E20D5600800B16079 /* Util_ScreenFrame.h */,
-				50971B5720D4402800381FBD /* TempView.cpp */,
-				50971B5820D4402800381FBD /* TempView.hpp */,
 				50971B5B20D4402800381FBD /* GLApp.cpp */,
 				50971B5C20D4402800381FBD /* GLApp.h */,
 				50971B5D20D4402800381FBD /* Grid.cpp */,
 				50971B5E20D4402800381FBD /* Grid.hpp */,
 				50971B5F20D4402800381FBD /* Tile.cpp */,
 				50971B6020D4402800381FBD /* Tile.hpp */,
-				504D337120DD9F0500AA55AF /* DemoView.cpp */,
-				504D337220DD9F0500AA55AF /* DemoView.hpp */,
+				5082483120EAAFB10081C541 /* FHashMap.cpp */,
+				5082483220EAAFB10081C541 /* FHashMap.hpp */,
+				5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */,
+				5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -873,23 +831,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5006BA3220E7E2C400E329C1 /* CNVBadgeDecor2.cpp in Sources */,
-				5006BA2E20E7E2C400E329C1 /* TestWorldContainer.cpp in Sources */,
-				0DA0B1F31C54500C005C75B2 /* FViewTransform.cpp in Sources */,
 				0DA0B1EE1C54500C005C75B2 /* FVertexBuffer.cpp in Sources */,
-				0DA0B1EF1C54500C005C75B2 /* FView.cpp in Sources */,
 				0DA0B1E21C54500C005C75B2 /* FSlider.cpp in Sources */,
 				0DA0B1C01C54500C005C75B2 /* FAnimation.cpp in Sources */,
-				504047D420E3DB2A00B9F0A3 /* FCanvasBucket.cpp in Sources */,
-				504D337320DD9F0500AA55AF /* DemoView.cpp in Sources */,
 				0DA0B1CE1C54500C005C75B2 /* FJoystick.cpp in Sources */,
-				5006BA2720E7E2C400E329C1 /* TestBadgeDecor4.cpp in Sources */,
 				0DA0B1C31C54500C005C75B2 /* FColor.cpp in Sources */,
 				0DD70E7520DF039B00295D84 /* UValuePicker.cpp in Sources */,
 				5006BA3720E7E2C400E329C1 /* CNVGame.cpp in Sources */,
 				0DA0B1FE1C54500C005C75B2 /* os_core_social.cpp in Sources */,
 				0DA0B2011C54500C005C75B2 /* OSInputGrabber.mm in Sources */,
 				50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */,
-				0DA0B1F21C54500C005C75B2 /* FViewController.cpp in Sources */,
 				0DD70E8C20DF039B00295D84 /* UMainToolbar.cpp in Sources */,
 				0DA0B1C21C54500C005C75B2 /* FButton.cpp in Sources */,
 				0DA0B1E11C54500C005C75B2 /* FScrollViewPaged.cpp in Sources */,
@@ -898,7 +849,6 @@
 				0DA0B1EA1C54500C005C75B2 /* FTextureCache.cpp in Sources */,
 				0DA0B1C61C54500C005C75B2 /* FFloatList.cpp in Sources */,
 				0DD70E8720DF039B00295D84 /* UNodeEditorMenu.cpp in Sources */,
-				50971B8F20D463C400381FBD /* FCanvasAbsoluteTransform.cpp in Sources */,
 				0DA0B1DC1C54500C005C75B2 /* FQuad.cpp in Sources */,
 				0DA0B1EC1C54500C005C75B2 /* FVec2.cpp in Sources */,
 				0DD70E8520DF039B00295D84 /* UTimelineEditorMenu.cpp in Sources */,
@@ -909,73 +859,70 @@
 				0DD70E7C20DF039B00295D84 /* FParticleSource.cpp in Sources */,
 				50971B6320D4402800381FBD /* GLApp.cpp in Sources */,
 				50971B6420D4402800381FBD /* Grid.cpp in Sources */,
-				5006BA2D20E7E2C400E329C1 /* TestWorld.cpp in Sources */,
 				5006BA3820E7E2C400E329C1 /* CNVHeader.cpp in Sources */,
 				0DA0B1BD1C54500C005C75B2 /* core_social.cpp in Sources */,
 				0DD70E8920DF039B00295D84 /* UTimelineKey.cpp in Sources */,
 				0DA0B1C81C54500C005C75B2 /* FGestureView.cpp in Sources */,
 				0DD70E7E20DF039B00295D84 /* FMotionPath.cpp in Sources */,
 				0DA0B1CF1C54500C005C75B2 /* FLine.cpp in Sources */,
+				5082484220EB049F0081C541 /* FNotificationBucket.cpp in Sources */,
 				0DD70E8B20DF039B00295D84 /* UCanvasPane.cpp in Sources */,
 				0DD70E8120DF039B00295D84 /* UMainCanvas.cpp in Sources */,
 				5006BA3620E7E2C400E329C1 /* CNVFooter.cpp in Sources */,
 				0DA0B1C91C54500C005C75B2 /* FHashTable.cpp in Sources */,
 				0DA0B1F41C54500C005C75B2 /* FXML.cpp in Sources */,
+				5082482220EA96730081C541 /* FView.cpp in Sources */,
 				0DA0B2021C54500C005C75B2 /* OSMusicPlayer.mm in Sources */,
-				0DA0B1F11C54500C005C75B2 /* FViewContainer.cpp in Sources */,
 				5006BA3120E7E2C400E329C1 /* CNVBadgeDecor1.cpp in Sources */,
 				0DA0B1DA1C54500C005C75B2 /* FPolyPath.cpp in Sources */,
-				0DA0B1F01C54500C005C75B2 /* FViewAnimation.cpp in Sources */,
 				0DA0B1FB1C54500C005C75B2 /* os_core_app_shell_mac.mm in Sources */,
 				0DA0B1E01C54500C005C75B2 /* FScrollView.cpp in Sources */,
 				0DA0B1BE1C54500C005C75B2 /* core_web.cpp in Sources */,
+				5082482320EA96730081C541 /* FViewAnimation.cpp in Sources */,
 				0DD70E7F20DF039B00295D84 /* UMainCanvasOverlays.cpp in Sources */,
-				5006BA2520E7E2C400E329C1 /* TestBadgeDecor2.cpp in Sources */,
 				50971B6220D4402800381FBD /* FWindow.cpp in Sources */,
 				0DA0B1D31C54500C005C75B2 /* FModelData.cpp in Sources */,
 				0DA0B1D71C54500C005C75B2 /* FParticle.cpp in Sources */,
 				0DD70E7720DF039B00295D84 /* UImagePicker.cpp in Sources */,
 				0DA0B1C51C54500C005C75B2 /* FFile.cpp in Sources */,
 				0DD70E8D20DF039B00295D84 /* FParticleTemplate.cpp in Sources */,
-				5006BA2820E7E2C400E329C1 /* TestBoard.cpp in Sources */,
 				0DA0B2001C54500C005C75B2 /* os_core_web.cpp in Sources */,
-				5006BA2320E7E2C400E329C1 /* TestBadge.cpp in Sources */,
 				5006BA3C20E7E2C400E329C1 /* CNVWorldContainerContainer.cpp in Sources */,
 				0DA0B1CD1C54500C005C75B2 /* FInterp.cpp in Sources */,
 				0DA0B1C11C54500C005C75B2 /* FApp.cpp in Sources */,
 				0DA0B1E61C54500C005C75B2 /* FSpriteSequence.cpp in Sources */,
-				5006BA2420E7E2C400E329C1 /* TestBadgeDecor1.cpp in Sources */,
 				0DA0B1E81C54500C005C75B2 /* FStringBuffer.cpp in Sources */,
 				0DA0B1E51C54500C005C75B2 /* FSprite.cpp in Sources */,
 				0DA0B1E41C54500C005C75B2 /* FSpline.cpp in Sources */,
 				0DA0B1D81C54500C005C75B2 /* FPoint.cpp in Sources */,
+				5082482420EA96730081C541 /* FViewContainer.cpp in Sources */,
 				0DA0B1C41C54500C005C75B2 /* FDrawQuad.cpp in Sources */,
+				5082482520EA96730081C541 /* FViewController.cpp in Sources */,
 				0DA0B1E71C54500C005C75B2 /* FString.cpp in Sources */,
 				0DD70E8820DF039B00295D84 /* UParentPane.cpp in Sources */,
-				5006BA2C20E7E2C400E329C1 /* TestMiniWindow.cpp in Sources */,
 				0DA0B1DE1C54500C005C75B2 /* FRect.cpp in Sources */,
 				0DD70E7D20DF039B00295D84 /* UPathMaker.cpp in Sources */,
 				0DA0B1FC1C54500C005C75B2 /* os_core_includes.cpp in Sources */,
-				5006BA2920E7E2C400E329C1 /* TestFooter.cpp in Sources */,
-				5006BA2620E7E2C400E329C1 /* TestBadgeDecor3.cpp in Sources */,
 				50971B8C20D4480700381FBD /* FCanvas.cpp in Sources */,
 				0DA0B1DF1C54500C005C75B2 /* FResource.cpp in Sources */,
 				0DD70E7A20DF039B00295D84 /* UMenuStyle.cpp in Sources */,
 				0DD70E7B20DF039B00295D84 /* FMotionKey.cpp in Sources */,
 				5006BA3420E7E2C400E329C1 /* CNVBadgeDecor4.cpp in Sources */,
 				0DA0B1E91C54500C005C75B2 /* FTexture.cpp in Sources */,
-				5006BA2B20E7E2C400E329C1 /* TestHeader.cpp in Sources */,
 				0DD70E7920DF039B00295D84 /* UMenu.cpp in Sources */,
 				0DA0B1CA1C54500C005C75B2 /* FImage.cpp in Sources */,
 				0DD70E8220DF039B00295D84 /* UNode.cpp in Sources */,
-				5006BA2A20E7E2C400E329C1 /* TestGame.cpp in Sources */,
+				5082482D20EAADCD0081C541 /* PGMainCanvas.cpp in Sources */,
 				5006BA3520E7E2C400E329C1 /* CNVBoard.cpp in Sources */,
 				0DA0B1FF1C54500C005C75B2 /* os_core_sound_mac.mm in Sources */,
 				0DD70E8A20DF039B00295D84 /* UNodeMotionPanel.cpp in Sources */,
 				0DA0B1D11C54500C005C75B2 /* FMath.cpp in Sources */,
 				0DA0B1D91C54500C005C75B2 /* FPointList.cpp in Sources */,
 				0DA0B1ED1C54500C005C75B2 /* FVec3.cpp in Sources */,
+				5082482620EA96730081C541 /* FViewTransform.cpp in Sources */,
+				5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */,
 				5006BA3B20E7E2C400E329C1 /* CNVWorldContainer.cpp in Sources */,
+				5082484520EB103B0081C541 /* DragableCanvas.cpp in Sources */,
 				5006BA3920E7E2C400E329C1 /* CNVMiniWindow.cpp in Sources */,
 				5006BA3020E7E2C400E329C1 /* CNVBadge.cpp in Sources */,
 				0DA0B1BC1C54500C005C75B2 /* core_graphics.cpp in Sources */,
@@ -983,21 +930,22 @@
 				0DA0B1CC1C54500C005C75B2 /* FIndexList.cpp in Sources */,
 				0DA0B1D51C54500C005C75B2 /* FMotionObject.cpp in Sources */,
 				0DA0B1BF1C54500C005C75B2 /* FAchievement.cpp in Sources */,
-				50971B6120D4402800381FBD /* TempView.cpp in Sources */,
 				0DA0B1EB1C54500C005C75B2 /* FTouchManager.cpp in Sources */,
 				50971B6520D4402800381FBD /* Tile.cpp in Sources */,
+				5082483020EAADE30081C541 /* PGMainToolbar.cpp in Sources */,
 				0DA0B1DB1C54500C005C75B2 /* FPrimitive.cpp in Sources */,
+				5082483320EAAFB10081C541 /* FHashMap.cpp in Sources */,
 				0DA0B1D41C54500C005C75B2 /* FModelDataSequence.cpp in Sources */,
 				5006BA3A20E7E2C400E329C1 /* CNVWorld.cpp in Sources */,
 				0DD70E8020DF039B00295D84 /* FMotionKeySequence.cpp in Sources */,
 				0DD70E7820DF039B00295D84 /* UImageCell.cpp in Sources */,
 				0DA0B1D61C54500C005C75B2 /* FObject.cpp in Sources */,
+				5082483F20EAEA800081C541 /* FNotificationCenter.cpp in Sources */,
 				0DD70E7620DF039B00295D84 /* UMenuStyleExtended.cpp in Sources */,
 				0DA0B1C71C54500C005C75B2 /* FFont.cpp in Sources */,
 				0DA0B1D01C54500C005C75B2 /* FList.cpp in Sources */,
 				0DD70E8620DF039B00295D84 /* UTransformMenu.cpp in Sources */,
 				0DA0B1D21C54500C005C75B2 /* FMatrix.cpp in Sources */,
-				5006BA2F20E7E2C400E329C1 /* TestWorldContainerContainer.cpp in Sources */,
 				0DA0B1DD1C54500C005C75B2 /* FRandomizer.cpp in Sources */,
 				0D4D578D1A82B6D10059E8D1 /* main.cpp in Sources */,
 			);

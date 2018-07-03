@@ -20,9 +20,8 @@ CNVWorld::CNVWorld() {
     
     mGame = new CNVGame();
     AddChild(mGame);
-    
+
     mName = "CNVWorld";
-    
 }
 
 CNVWorld::~CNVWorld() {

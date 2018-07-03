@@ -27,7 +27,7 @@ public:
     virtual void                            TouchMove(float pX, float pY, void *pData);
     virtual void                            TouchUp(float pX, float pY, void *pData);
     virtual void                            TouchFlush();
-    
+
     FColor                                  mTouchMarkerColor1;
     FColor                                  mTouchMarkerColor2;
     
@@ -36,7 +36,7 @@ public:
     float                                   mSphereRotation1;
     float                                   mSphereRotation2;
     
-    float                                   mSpriCNVartAngle;
+    float                                   mTestAngle;
     float                                   mSpriteEndAngle;
     
     int                                     mGridWidth;

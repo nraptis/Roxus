@@ -9,30 +9,22 @@
 #include "FDrawQuad.h"
 
 
-FDrawQuad::FDrawQuad()
-{
-    for(int i = 0; i < 4; i++)
-    {
+FDrawQuad::FDrawQuad() {
+    for (int i = 0; i < 4; i++) {
         mVertex[i].mR = 1.0f;
         mVertex[i].mG = 1.0f;
         mVertex[i].mB = 1.0f;
         mVertex[i].mA = 1.0f;
-        
         mVertex[i].mX = 0.0f;
         mVertex[i].mY = 0.0f;
         mVertex[i].mZ = 0.0f;
-        
         mVertex[i].mU = 0.0f;
         mVertex[i].mV = 0.0f;
         mVertex[i].mW = 0.0f;
-        
     }
 }
 
-FDrawQuad::~FDrawQuad()
-{
-    
-}
+FDrawQuad::~FDrawQuad() { }
 
 static GFX_MODEL_INDEX_TYPE cQuadIndex[6] = { 0, 1, 2, 1, 3, 2 };
 void FDrawQuad::Draw(FSprite *pSprite) {

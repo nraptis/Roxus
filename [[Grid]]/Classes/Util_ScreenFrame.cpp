@@ -16,7 +16,6 @@ Util_ScreenFrame::Util_ScreenFrame() {
     mRecievesOutsideTouches = true;
     mRecievesConsumedTouches = true;
     mClipsContent = false;
-
     SetFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     mPanDragData = 0;
     mPanWindowStartX = 0.0f;
@@ -56,9 +55,6 @@ void Util_ScreenFrame::Layout() {
         mScreenResizeCornerX[3] = gVirtualDevX + gVirtualDevWidth;
         mScreenResizeCornerY[3] = gVirtualDevY + gVirtualDevHeight;
     }
-
-
-
 }
 
 void Util_ScreenFrame::Update() {
@@ -141,9 +137,7 @@ void Util_ScreenFrame::UpdateDrag(float pX, float pY, void *pData, bool pNotifyA
             if(mResizeCornerIndex == 1){mScreenResizeCornerX[0] = aX; mScreenResizeCornerY[3] = aY;}
             if(mResizeCornerIndex == 2){mScreenResizeCornerX[3] = aX; mScreenResizeCornerY[0] = aY;}
             if(mResizeCornerIndex == 3){mScreenResizeCornerX[2] = aX; mScreenResizeCornerY[1] = aY;}
-            
             ComputeResizeRect();
-            
             if (pNotifyApp) {
                 AppShellSetVirtualFrame(mResizeLeft, mResizeTop, mResizeWidth, mResizeHeight);
             }
@@ -174,12 +168,12 @@ void Util_ScreenFrame::ComputeResizeRect() {
         if(mScreenResizeCornerY[i] < 0.0f)mScreenResizeCornerY[i] = 0.0f;
         if(mScreenResizeCornerY[i] > gDeviceHeight)mScreenResizeCornerY[i] = gDeviceHeight;
     }
-    
+
     mResizeLeft = mScreenResizeCornerX[0];
     mResizeTop = mScreenResizeCornerY[0];
     mResizeRight = mScreenResizeCornerX[3];
     mResizeBottom = mScreenResizeCornerY[3];
-    
+
     for(int i = 0; i<4; i++) {
         int aX = mScreenResizeCornerX[i];
         int aY = mScreenResizeCornerY[i];

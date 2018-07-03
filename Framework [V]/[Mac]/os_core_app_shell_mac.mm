@@ -61,15 +61,15 @@ int gVirtualHeight = gWindowHeight;
 */
 
 //Toying around screen...
-int gWindowX = 200.0f;
+int gWindowX = 160.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 1280.0f;
-int gWindowHeight = 920.0f;
+int gWindowWidth = 320.0f * 1.5;
+int gWindowHeight = 568.0f * 1.5;
 
-int gVirtualX = 5.0f;
-int gVirtualY = 5.0f;
-int gVirtualWidth = gWindowWidth - 10.0f;
-int gVirtualHeight = gWindowHeight - 10.0f;
+int gVirtualX = 8.0f;
+int gVirtualY = 8.0f;
+int gVirtualWidth = gWindowWidth - 16.0f;
+int gVirtualHeight = gWindowHeight - 16.0f;
 
 
 using namespace std;
@@ -80,39 +80,13 @@ bool gKeyDownAlt = false;
 
 #import <Foundation/Foundation.h>
 
-void os_core_findDirectories()
-{
-    
+void os_core_findDirectories() {
     FString aPathBundle;
-    if(gDirBundle.mLength > 0)
-    {
-        aPathBundle = gDirBundle.c();
-    }
-    else
-    {
-        //aPathBundle = "/Users/nr8756/Desktop/LightReach/BBTH/Assets";
-        //aPathBundle = "/Users/nraptis/Desktop/LightReach/BBTH/Assets/";
+    if(gDirBundle.mLength > 0){ aPathBundle = gDirBundle.c(); }
 
-    }
-    
-    
-    
-    //aPathBundle = "/Users/nraptis/Desktop/Darkswarm/Crush/Assets/";
-    
     FString aPathDocuments;
-    if(gDirDocuments.mLength > 0)
-    {
-        aPathDocuments = gDirDocuments.c();
-    }
-    else
-    {
-        //aPathDocuments = "/Users/nr8756/Desktop/LightReach/BBTH/Assets";
-        //aPathDocuments = "/Users/nraptis/Desktop/LightReach/BBTH/Data/";
+    if(gDirDocuments.mLength > 0) { aPathDocuments = gDirDocuments.c(); }
 
-    }
-    
-
-    
 //    NSError *error;
 //    NSFileManager *manager = [NSFileManager defaultManager];
 //    NSURL *applicationSupport = [manager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:false error:&error];
@@ -121,14 +95,11 @@ void os_core_findDirectories()
 //    [manager createDirectoryAtURL:folder withIntermediateDirectories:true attributes:nil error:&error];
 //    NSURL *fileURL = [folder URLByAppendingPathComponent:@"TSPlogfile.txt"];
 //
-    
+
     printf("PATH: %s", [NSHomeDirectory() UTF8String]);
-    
+
     AppShellSetDirectoryBundle(aPathBundle.c());
     AppShellSetDirectoryDocuments(aPathDocuments.c());
-    
-    
-    
 }
 
 void os_core_refreshModifierKeys()

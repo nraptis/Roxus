@@ -17,17 +17,67 @@
 #include "FString.h"
 #include "FSprite.h"
 #include "FPoint.h"
-#include "FCanvasAbsoluteTransform.hpp"
+
+class FCanvasTransform {
+public:
+    FCanvasTransform();
+    ~FCanvasTransform();
+
+    float                                       mX;
+    float                                       mY;
+
+    float                                       mScale;
+
+    float                                       mScaleX;
+    float                                       mScaleY;
+
+    float                                       mRotation;
+
+    float                                       mAnchorX;
+    float                                       mAnchorY;
+};
+
+class FCanvasAbsoluteTransform {
+public:
+    FCanvasAbsoluteTransform();
+    ~FCanvasAbsoluteTransform();
+
+    void                                        Transform(float &pX, float &pY);
+    void                                        Untransform(float &pX, float &pY);
+
+    void                                        Transform(float &pX, float &pY, float pWidth, float pHeight);
+    void                                        Untransform(float &pX, float &pY, float pWidth, float pHeight);
+
+    void                                        ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight);
+
+    void                                        ApplyAbsoluteTransformation(FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight);
+
+    bool                                        ContainsPoint(float pX, float pY);
+
+    float                                       mX;
+    float                                       mY;
+
+    float                                       mScale;
+
+    float                                       mScaleX;
+    float                                       mScaleY;
+
+    float                                       mRotation;
+
+    float                                       mAnchorX;
+    float                                       mAnchorY;
+
+    float                                       mCornerX[4];
+    float                                       mCornerY[4];
+};
 
 class FWindow;
 class FCanvas {
-
     friend class FWindow;
-
+    friend class FNotificationCenter;
+    
 public:
-    
     FCanvas();
-    
     virtual ~FCanvas();
 
     virtual void                            Layout();
@@ -47,14 +97,15 @@ public:
     virtual void                            KeyDown(int pKey);
     virtual void                            KeyUp(int pKey);
 
+    virtual void                            Notify(void *pSender, const char *pNotification);
+
     void                                    AddChild(FCanvas *pCanvas);
     void                                    AddChild(FCanvas &pCanvas);
     void                                    Kill();
 
-    void                                    DrawManualBegin();
-    void                                    DrawManualEnd();
-    void                                    DrawChildrenManual();
-    
+    float                                   mMouseX;
+    float                                   mMouseY;
+
     float                                   mTouchX;
     float                                   mTouchY;
     
@@ -62,7 +113,6 @@ public:
     bool                                    mDrawManual;
     
     void                                    DrawTransform();
-
     
     FString                                 mName;
     
@@ -70,8 +120,7 @@ public:
     FCanvasAbsoluteTransform                mTransformAbsolute;
     
     FColor                                  mColor;
-    
-    //FRect                                   mFrame;
+
     float                                   mX;
     float                                   mY;
     float                                   mWidth;
@@ -85,8 +134,7 @@ public:
     FList                                   mChildren;
     
     bool                                    mClipsContent;
-
-
+    
     bool                                    mHidden;
     bool                                    mEnabled;
     
@@ -95,6 +143,15 @@ public:
     bool                                    mRecievesConsumedTouches;
 
     bool                                    mMouseOver;
+
+    bool                                    mMouseLeftDown;
+    bool                                    mMouseMiddleDown;
+    bool                                    mMouseRightDown;
+
+    bool                                    mMouseLeftDownInside;
+    bool                                    mMouseMiddleDownInside;
+    bool                                    mMouseRightDownInside;
+
     bool                                    mTouchDownInside;
     bool                                    mTouchDown;
     int                                     mTouchCount;
@@ -187,16 +244,17 @@ public:
     static float                            ConvertRotation(float pDegrees, FCanvas &pFromCanvas, FCanvas *pToCanvas) { return ConvertRotation(pDegrees, &pFromCanvas, pToCanvas); }
 
 
-private:
+//private:
 
     void                                    *mTouchData[CANVAS_TRACKED_TOUCH_COUNT];
     bool                                    mTouchInside[CANVAS_TRACKED_TOUCH_COUNT];
+
 
     void                                    ComputeAbsoluteTransformation();
 
     int                                     mKill;
 
-    bool                                    mDeleteWhenParentIsDeleted;
+    bool                                    mDeleteWhenKilled;
 
     bool                                    mDidUpdate;
     
@@ -215,37 +273,130 @@ private:
     //When the frame updates, we need to re-layout the parent and children.
     void                                    FrameDidUpdate();
 
-    //When our children change, we need to re-layout.
-    //void                                    ChildredDidUpdate();
-    //bool                                    mChildredDidUpdate;
-
     virtual void                            BaseLayout();
     virtual void                            BaseUpdate();
     virtual void                            BaseDraw();
-
-
-    /*
-    FViewContainer                              *TouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed);
-    void                                        TouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
-    void                                        TouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
-    */
-
-
 
     virtual FCanvas                         *BaseTouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed);
     virtual void                            BaseTouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
     virtual void                            BaseTouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent);
     virtual void                            BaseTouchFlush();
 
-    virtual void                            BaseMouseDown(float pX, float pY, float pOriginalX, float pOriginalY, int pButton);
-    virtual void                            BaseMouseMove(float pX, float pY, float pOriginalX, float pOriginalY);
-    virtual void                            BaseMouseUp(float pX, float pY, float pOriginalX, float pOriginalY, int pButton);
+    virtual FCanvas                         *BaseMouseDown(float pX, float pY, float pOriginalX, float pOriginalY, int pButton, bool pOutsideParent, bool &pConsumed);
+    virtual bool                            BaseMouseMove(float pX, float pY, float pOriginalX, float pOriginalY, bool pOutsideParent);
+    virtual void                            BaseMouseUp(float pX, float pY, float pOriginalX, float pOriginalY, int pButton, bool pOutsideParent);
     virtual void                            BaseMouseWheel(int pDirection);
 
     virtual void                            BaseKeyDown(int pKey);
     virtual void                            BaseKeyUp(int pKey);
 
+    virtual void                            BaseNotify(void *pSender, const char *pNotification);
 
 };
 
-#endif /* FCanvas_hpp */
+
+class FCanvasBucket;
+class FCanvasBucketNode {
+
+    friend class FCanvasBucket;
+
+public:
+    FCanvasBucketNode();
+    virtual ~FCanvasBucketNode();
+
+    FCanvas                                         *mCanvas;
+
+    FCanvasBucketNode                               *mListPrev;
+    FCanvasBucketNode                               *mListNext;
+
+private:
+    FCanvasBucketNode                               *mTableNext;
+
+    int                                             mTableIndex;
+};
+
+class FCanvasBucket {
+public:
+
+    FCanvasBucket();
+    ~FCanvasBucket();
+
+    void                                            Add(FCanvas *pCanvas);
+    void                                            Remove(FCanvas *pCanvas);
+    bool                                            Exists(FCanvas *pCanvas);
+
+    bool                                            IsEmpty();
+
+    void                                            RemoveAll();
+    bool                                            ParentExists(FCanvas *pCanvas);
+    void                                            RemoveAllChildren(FCanvas *pCanvas);
+
+    void                                            AddCanvasesToList(FList *pList);
+    void                                            AddCanvasesToListAndRemoveAll(FList *pList);
+    void                                            AddCanvasesAndChildrenRecursivelyToListAndRemoveAll(FList *pList);
+
+public:
+    void                                            Print();
+    void                                            PrintList();
+    FCanvasBucketNode                               *mListHead;
+    FCanvasBucketNode                               *mListTail;
+
+protected:
+
+    void                                            ListAdd(FCanvasBucketNode *pNode);
+    void                                            ListRemove(FCanvasBucketNode *pNode);
+    
+    void                                            SetTableSize(int pSize);
+
+    FCanvasBucketNode                               **mTable;
+    int                                             mTableCount;
+    int                                             mTableSize;
+
+    FList                                           mQueue;
+};
+
+
+class FCanvasAnimation {
+public:
+    FCanvasAnimation();
+    FCanvasAnimation(FCanvas *pCanvas);
+    ~FCanvasAnimation();
+
+    bool                            Update();
+    void                            SetUp(FCanvas *pCanvas);
+
+    void                            Generate(int pFunction, int pTicks);
+    void                            GenerateIn(int pTicks);
+    void                            GenerateOut(int pTicks);
+    void                            GenerateSmooth(int pTicks);
+
+    void                            Finish();
+    float                           Percent();
+
+    float                           mStartX;
+    float                           mTargetX;
+    float                           mStartY;
+    float                           mTargetY;
+    float                           mStartScale;
+    float                           mTargetScale;
+    float                           mStartScaleX;
+    float                           mTargetScaleX;
+    float                           mStartScaleY;
+    float                           mTargetScaleY;
+    float                           mStartRotation;
+    float                           mTargetRotation;
+    float                           mStartAnchorX;
+    float                           mTargetAnchorX;
+    float                           mStartAnchorY;
+    float                           mTargetAnchorY;
+
+    int                             mTimerTick;
+    int                             mTime;
+    float                           *mPercent;
+    FCanvas                         *mCanvas;
+
+protected:
+    void                            BaseInitialize();
+};
+
+#endif

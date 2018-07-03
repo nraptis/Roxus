@@ -45,8 +45,6 @@ public:
 
 	void							FillNull(int pIndex);
 	inline void						FillNull(){FillNull(mLength);}
-	
-
 
 	inline void						Truncate(int pSize);
 
@@ -85,15 +83,6 @@ public:
     
     
     FString							GetLastNumber();
-    
-    
-    //inline FString			GetNumberFromEnd(){return GetNumberFromEnd(mLength - 1);}
-    //inline FString			GetNextNumberFromEnd(){return GetNumberFromEnd((int)(mCursor-mData));}
-    //FString					GetNumberFromEnd(int thePosition);
-    
-	
-	//bool							ScrambledEquals(FString &pString);
-
 	void							AddCommas();
 
 
@@ -123,25 +112,20 @@ public:
 	//or removing everything but some characters from a FString.
 	//
 
-	void					Filter(char *theAllowed);
-	void					Filter(FString &theAllowed){Filter(theAllowed.mData);}
+	void					        Filter(char *theAllowed);
+	void					        Filter(FString &theAllowed){Filter(theAllowed.mData);}
 
-	void					Remove(char *theDisallowed);
-	void					Remove(FString &theDisallowed){Remove(theDisallowed.mData);}
+	void					        Remove(char *theDisallowed);
+	void					        Remove(FString &theDisallowed){Remove(theDisallowed.mData);}
 
 	
-	int						CountCharacter(char c);
-	bool					ContainsDuplicateCharacters();
+	int						        CountCharacter(char c);
+	bool					        ContainsDuplicateCharacters();
 	
 	//
 	//{+/-}{.}0-9{.}0-9{.} Where one or none of the decimals exist...
 	//
-	bool					IsNumber();
-
-	//
-	//Resets the FString to null. (Not "", null)
-	//
-	
+	bool					        IsNumber();
 
 	//
 	//Get a subString of the FString.
@@ -154,8 +138,6 @@ public:
 	void					Set(const char *pString);
 	void					Set(char *pString){ Set((const char *)pString);}
 	void					Set(FString &pString);
-	//void					Set(const FString &pString);
-
 
 	void					Append(char pChar);
 	void					Append(const char *pString);
@@ -167,7 +149,6 @@ public:
 	void					Ins(const char *pString, int pLength, int pSlot);
 	void					Ins(char *pString, int pLength, int pSlot){ Ins((const char *)pString, pLength, pSlot); }
 	void					Ins(FString &pString, int pLength, int pSlot){ Ins((const char *)(pString.mData), pLength, pSlot); }
-
 
 	void					InsChars(char pChar, int pCount, int pSlot);
 
@@ -351,12 +332,6 @@ public:
 	FString							ToUpper(){FString aResult = *this;aResult.Uppercase();return aResult;}
 	FString							ToLower(){FString aResult = *this;aResult.Lowercase();return aResult;}
 
-	//
-	//Get a copy of the character array.
-	//*This must be deleted manually!*
-	//
-	//char							*ToCharArray(){if(mLength < 1)return 0;char *aChar = new char[mLength+1];aChar[mLength]=0;Stamp(aChar,mData,0,mLength);return aChar;}
-    
 	void							Encrypt(char *theKey);
 	void							Encrypt(const char *theKey){Encrypt((char*)theKey);}
 	virtual void					Encrypt(FString &theKey){Encrypt(theKey.mData);}
@@ -364,8 +339,6 @@ public:
 	void							Decrypt(char *theKey);
 	void							Decrypt(const char *theKey){Decrypt((char*)theKey);}
 	virtual void					Decrypt(FString &theKey){Decrypt(theKey.mData);}
-
-    
 
 	int                             Compare(FString &theString);
 	int                             CompareI(FString &theString);

@@ -8,6 +8,7 @@
 
 #include "core_includes.h"
 #include "FCanvas.hpp"
+#include "FHashMap.hpp"
 
 FCanvas::FCanvas() {
     mX = 0.0f;
@@ -28,7 +29,7 @@ FCanvas::FCanvas() {
     mTouchDownInside = false;
     mMouseOver = false;
     mTouchDown = false;
-    mDeleteWhenParentIsDeleted = true;
+    mDeleteWhenKilled = true;
     mTouchCount = 0;
     mParent = 0;
     mColor.mRed = 1.0f;
@@ -37,7 +38,15 @@ FCanvas::FCanvas() {
     mColor.mAlpha = 0.0f;
     mTouchX = 0.0f;
     mTouchY = 0.0f;
+    mMouseX = 0.0f;
+    mMouseY = 0.0f;
     mWindow = 0;
+    mMouseLeftDown = false;
+    mMouseMiddleDown = false;
+    mMouseRightDown = false;
+    mMouseLeftDownInside = false;
+    mMouseMiddleDownInside = false;
+    mMouseRightDownInside = false;
 }
 
 FCanvas::~FCanvas() {
@@ -52,9 +61,6 @@ void FCanvas::Kill() {
     mKill = 10;
     if (mWindow) {
         mWindow->RegisterKill(this);
-    } else {
-        Log("\nKilling View Without Window?\n[%s]\n", mName.c());
-        exit(0);
     }
 }
 
@@ -67,6 +73,7 @@ void FCanvas::Draw() {
         Graphics::SetColor();
     }
 }
+
 void FCanvas::MouseDown(float pX, float pY, int pButton) { }
 void FCanvas::MouseMove(float pX, float pY) { }
 void FCanvas::MouseUp(float pX, float pY, int pButton) { }
@@ -77,8 +84,7 @@ void FCanvas::TouchUp(float pX, float pY, void *pData) { }
 void FCanvas::TouchFlush() { }
 void FCanvas::KeyDown(int pKey) { }
 void FCanvas::KeyUp(int pKey) { }
-
-
+void FCanvas::Notify(void *pSender, const char *pNotification) { }
 
 void FCanvas::DrawManual() {
     if (mDidUpdate == true && mHidden == false && mKill == 0) {
@@ -131,7 +137,7 @@ void FCanvas::AddChild(FCanvas *pCanvas) {
 }
 
 void FCanvas::AddChild(FCanvas &pCanvas) {
-    pCanvas.mDeleteWhenParentIsDeleted = false;
+    pCanvas.mDeleteWhenKilled = false;
     AddChild(&pCanvas);
 }
 
@@ -156,7 +162,7 @@ void FCanvas::BringChildForward(FCanvas *pCanvas) {
 }
 
 void FCanvas::PrintTransform() {
-    Log(mName.c());
+    Log("%s", mName.c());
 
     Log("\nTRA");
 
@@ -351,10 +357,6 @@ float FCanvas::ConvertRotation(float pDegrees, FCanvas *pFromCanvas, FCanvas *pT
     return 0.0f;
 }
 
-void FCanvas::DrawManualBegin() { }
-void FCanvas::DrawManualEnd() { }
-void FCanvas::DrawChildrenManual() { }
-
 void FCanvas::TransformDidUpdate() {
     if (mWindow) {
         mWindow->RegisterTransformDidUpdate(this);
@@ -378,7 +380,14 @@ void FCanvas::ComputeAbsoluteTransformation() {
     }
 }
 
-void FCanvas::BaseLayout() { Layout(); }
+void FCanvas::BaseNotify(void *pSender, const char *pNotification) {
+    Notify(pSender, pNotification);
+}
+
+void FCanvas::BaseLayout() {
+    Layout();
+}
+
 void FCanvas::BaseUpdate() {
     mDidUpdate=true;
     Update();
@@ -400,8 +409,9 @@ void FCanvas::BaseDraw() {
 
 
 
+
         /*
-        if (mTouchDownInside) {
+        if (mMouseOver) {
         Graphics::ClipDisable();
         Graphics::ResetMatrixModelView();
         Graphics::ResetMatrixProjection();
@@ -409,9 +419,7 @@ void FCanvas::BaseDraw() {
 
         FMatrix aProj = FMatrixCreateOrtho(0.0f, gDeviceWidth, gDeviceHeight, 0.0f, -1024.0f, 1024.0f);
         Graphics::SetMatrix(aProj);
-
-
-
+            
         for (int i=0;i<4;i++) {
 
             Graphics::SetColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -446,29 +454,174 @@ void FCanvas::BaseDraw() {
 
         }
         */
+
     }
 }
-void FCanvas::BaseMouseDown(float pX, float pY, float pOriginalX, float pOriginalY, int pButton) { mTouchX = pX; mTouchY = pY; MouseDown(pX, pY, pButton); }
-void FCanvas::BaseMouseMove(float pX, float pY, float pOriginalX, float pOriginalY) { mTouchX = pX;mTouchY = pY;MouseMove(pX, pY); }
-void FCanvas::BaseMouseUp(float pX, float pY, float pOriginalX, float pOriginalY, int pButton) { mTouchX = pX; mTouchY = pY; MouseUp(pX, pY, pButton); }
-void FCanvas::BaseMouseWheel(int pDirection) { MouseWheel(pDirection); }
-
-FCanvas *FCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed) {
-    //mTouchX = pX; mTouchY = pY; TouchDown(pX, pY, pData);
-
+FCanvas *FCanvas::BaseMouseDown(float pX, float pY, float pOriginalX, float pOriginalY, int pButton, bool pOutsideParent, bool &pConsumed) {
     FCanvas *aResult = 0;
     FCanvas *aCollider = 0;
-
     if (mKill == 0 && mEnabled == true) {
-        bool aContainsTouch = false;
+        bool aContainsPoint = false;
         if ((pConsumed == true) && (mRecievesConsumedTouches == false)) {
-            aContainsTouch = false;
+            aContainsPoint = false;
         } else {
             if (pOutsideParent) {
-                aContainsTouch = false;
+                aContainsPoint = false;
             } else {
-                aContainsTouch = mTransformAbsolute.ContainsPoint(pX, pY);
-                if (aContainsTouch == false) {
+                aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+                if (aContainsPoint == false) {
+                    pOutsideParent = true;
+                }
+            }
+        }
+        EnumListReverse(FCanvas, aChild, mChildren) {
+            aCollider = aChild->BaseMouseDown(pX, pY, pOriginalX, pOriginalY, pButton, pOutsideParent, pConsumed);
+            if (aCollider) {
+                if (aCollider->mConsumesTouches) {
+                    pConsumed = true;
+                    if(aResult == 0) {
+                        aResult = aCollider;
+                    }
+                    if ((mRecievesOutsideTouches == false) && (mRecievesConsumedTouches == false)) {
+                        aContainsPoint = false;
+                    }
+                }
+            }
+        }
+        if ((mRecievesConsumedTouches == true) || (pConsumed == false)) {
+            if ((aContainsPoint == true) || (mRecievesOutsideTouches == true)) {
+                if (aContainsPoint == true && aResult == 0) {
+                    aResult = this;
+                }
+                if (pButton == MOUSE_BUTTON_LEFT) {
+                    mMouseLeftDown = true;
+                    mMouseLeftDownInside = aContainsPoint;
+                } else if (pButton == MOUSE_BUTTON_MIDDLE) {
+                    mMouseMiddleDown = true;
+                    mMouseMiddleDownInside = aContainsPoint;
+                } else if (pButton == MOUSE_BUTTON_RIGHT) {
+                    mMouseRightDown = true;
+                    mMouseRightDownInside = aContainsPoint;
+                }
+                mMouseX = pX;
+                mMouseY = pY;
+                mTransformAbsolute.Transform(mMouseX, mMouseY, mWidth, mHeight);
+                mTouchDown = true;
+                mMouseOver = true;
+                MouseDown(mMouseX, mMouseY, pButton);
+            }
+        }
+    } else {
+        BaseTouchFlush();
+    }
+    return aResult;
+}
+
+bool FCanvas::BaseMouseMove(float pX, float pY, float pOriginalX, float pOriginalY, bool pOutsideParent) {
+    bool aResult = false;
+    if (mKill == 0 && mEnabled == true) {
+        bool aContainsPoint = false;
+        if (pOutsideParent) {
+            aContainsPoint = false;
+        } else {
+            aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+            if (aContainsPoint == false) {
+                pOutsideParent = true;
+            }
+        }
+        bool aChildContainsMouse = false;
+        EnumListReverse (FCanvas, aChild, mChildren) {
+            if (aChildContainsMouse == false) {
+                if (aChild->BaseMouseMove(pX, pY, pOriginalX, pOriginalY, pOutsideParent)) {
+                    aChildContainsMouse = true;
+                }
+            }
+        }
+        if (aChildContainsMouse) {
+            aResult = true;
+        }
+        if (aContainsPoint && !aChildContainsMouse) {
+            aResult = true;
+            mMouseOver = true;
+            mMouseLeftDownInside = mMouseLeftDown;
+            mMouseMiddleDownInside = mMouseMiddleDown;
+            mMouseRightDownInside = mMouseRightDown;
+        } else {
+            mMouseOver = false;
+            mMouseLeftDownInside = false;
+            mMouseMiddleDownInside = false;
+            mMouseRightDownInside = false;
+        }
+        bool aMouseDown = mMouseLeftDown || mMouseMiddleDown || mMouseRightDown;
+        if ((!aChildContainsMouse && aContainsPoint) || aMouseDown) {
+            mMouseX = pX;
+            mMouseY = pY;
+            mTransformAbsolute.Transform(mMouseX, mMouseY, mWidth, mHeight);
+            MouseMove(mMouseX, mMouseY);
+        }
+    } else {
+        BaseTouchFlush();
+    }
+    return aResult;
+}
+
+void FCanvas::BaseMouseUp(float pX, float pY, float pOriginalX, float pOriginalY, int pButton, bool pOutsideParent) {
+    bool aContainsMouse = false;
+    if (pButton == MOUSE_BUTTON_LEFT) {
+        aContainsMouse = mMouseLeftDown;
+        mMouseLeftDown = false;
+        mMouseLeftDownInside = false;
+    } else if (pButton == MOUSE_BUTTON_MIDDLE) {
+        aContainsMouse = mMouseMiddleDown;
+        mMouseMiddleDown = false;
+        mMouseMiddleDownInside = false;
+    } else if (pButton == MOUSE_BUTTON_RIGHT) {
+        aContainsMouse = mMouseRightDown;
+        mMouseRightDown = false;
+        mMouseRightDownInside = false;
+    }
+
+    if (mKill == 0 && mEnabled == true) {
+        bool aContainsPoint = false;
+        if (pOutsideParent) {
+            aContainsPoint = false;
+        } else {
+            aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+            if (aContainsPoint == false) {
+                pOutsideParent = true;
+            }
+        }
+        EnumListReverse (FCanvas, aChild, mChildren) {
+            aChild->BaseMouseUp(pX, pY, pOriginalX, pOriginalY, pButton, pOutsideParent);
+        }
+        if (aContainsMouse) {
+            mMouseX = pX;
+            mMouseY = pY;
+            mTransformAbsolute.Transform(mMouseX, mMouseY, mWidth, mHeight);
+            MouseUp(mMouseX, mMouseY, pButton);
+        }
+    } else {
+        BaseTouchFlush();
+    }
+}
+
+void FCanvas::BaseMouseWheel(int pDirection) {
+    MouseWheel(pDirection);
+}
+
+FCanvas *FCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed) {
+    FCanvas *aResult = 0;
+    FCanvas *aCollider = 0;
+    if (mKill == 0 && mEnabled == true) {
+        bool aContainsPoint = false;
+        if ((pConsumed == true) && (mRecievesConsumedTouches == false)) {
+            aContainsPoint = false;
+        } else {
+            if (pOutsideParent) {
+                aContainsPoint = false;
+            } else {
+                aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+                if (aContainsPoint == false) {
                     pOutsideParent = true;
                 }
             }
@@ -482,18 +635,18 @@ FCanvas *FCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, float pOri
                         aResult = aCollider;
                     }
                     if ((mRecievesOutsideTouches == false) && (mRecievesConsumedTouches == false)) {
-                        aContainsTouch = false;
+                        aContainsPoint = false;
                     }
                 }
             }
         }
 
         if ((mRecievesConsumedTouches == true) || (pConsumed == false)) {
-            if ((aContainsTouch == true) || (mRecievesOutsideTouches == true)) {
+            if ((aContainsPoint == true) || (mRecievesOutsideTouches == true)) {
                 mTouchDown = true;
                 if (mTouchCount < VIEW_MAX_TOUCH_COUNT) {
                     mTouchData[mTouchCount] = pData;
-                    if (aContainsTouch == true) {
+                    if (aContainsPoint == true) {
                         if (aResult == 0) {
                             aResult = this;
                         }
@@ -533,12 +686,12 @@ void FCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float pOrigina
                 aTouchIndex = i;
             }
         }
-        bool aContainsTouch = false;
+        bool aContainsPoint = false;
         if (pOutsideParent) {
-            aContainsTouch = false;
+            aContainsPoint = false;
         } else {
-            aContainsTouch = mTransformAbsolute.ContainsPoint(pX, pY);
-            if (aContainsTouch == false) {
+            aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+            if (aContainsPoint == false) {
                 pOutsideParent = true;
             }
         }
@@ -546,7 +699,7 @@ void FCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float pOrigina
             aChild->BaseTouchMove(pX, pY, pOriginalX, pOriginalY, pData, pOutsideParent);
         }
         if (aTouchIndex >= 0) {
-            if (aContainsTouch) {
+            if (aContainsPoint) {
                 mTouchInside[aTouchIndex] = true;
                 mTouchDownInside = true;
             } else {
@@ -582,12 +735,12 @@ void FCanvas::BaseTouchUp(float pX, float pY, float pOriginalX, float pOriginalY
         mTouchCount--;
     }
     if (mKill == 0 && mEnabled == true) {
-        bool aContainsTouch = false;
+        bool aContainsPoint = false;
         if (pOutsideParent) {
-            aContainsTouch = false;
+            aContainsPoint = false;
         } else {
-            aContainsTouch = mTransformAbsolute.ContainsPoint(pX, pY);
-            if (aContainsTouch == false) {
+            aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+            if (aContainsPoint == false) {
                 pOutsideParent = true;
             }
         }
@@ -622,6 +775,12 @@ void FCanvas::BaseTouchFlush() {
     mTouchCount = 0;
     mMouseOver = false;
     TouchFlush();
+    mMouseLeftDown = false;
+    mMouseMiddleDown = false;
+    mMouseRightDown = false;
+    mMouseLeftDownInside = false;
+    mMouseMiddleDownInside = false;
+    mMouseRightDownInside = false;
     EnumList(FCanvas, aChild, mChildren) {
         aChild->BaseTouchFlush();
     }
@@ -639,204 +798,728 @@ void FCanvas::BaseKeyUp(int pKey) {
     }
 }
 
-/*
-
-
-
-void FViewContainer::TouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent)
-{
-
+FCanvasBucketNode::FCanvasBucketNode() {
+    mCanvas = 0;
+    mTableNext = 0;
+    mListPrev = 0;
+    mListNext = 0;
+    mTableIndex = -1;
 }
 
-void FViewContainer::TouchUp(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent)
-{
+FCanvasBucketNode::~FCanvasBucketNode() { }
 
-
+FCanvasBucket::FCanvasBucket() {
+    mTable = 0;
+    mTableCount = 0;
+    mTableSize = 0;
 }
 
-void FViewContainer::TouchFlush()
-{
-    for(int i = 0; i < mView->mSubviews.mCount; i++)
-    {
-        FViewContainer *aCtr = ((FView *)(mView->mSubviews.Fetch(i)))->GetContainer();
-
-        aCtr->TouchFlush();
+FCanvasBucket::~FCanvasBucket() {
+    FCanvasBucketNode *aNode = 0;
+    FCanvasBucketNode *aNext = 0;
+    for (int i=0;i<mTableSize;i++) {
+        aNode = mTable[i];
+        while (aNode) {
+            aNext = aNode->mTableNext;
+            delete aNode;
+            aNode = aNext;
+        }
     }
+    delete [] mTable;
+    mTable = 0;
+    mTableCount = 0;
+    mTableSize = 0;
 
-    if(mView)
-    {
-        mView->mTouchDown = false;
-        mView->mTouchDownInside = false;
-        mView->mTouchCount = 0;
-        mView->mMouseOver = false;
-        mView->BaseTouchFlush();
+    FreeList(FCanvas, mQueue);
+
+    mListHead = 0;
+    mListTail = 0;
+}
+
+void FCanvasBucket::RemoveAll() {
+    FCanvasBucketNode *aNode = mListHead;
+    while (aNode) {
+        mQueue.Add(aNode);
+        mTable[aNode->mTableIndex] = 0;
+        aNode = aNode->mListNext;
     }
+    mListHead = 0;
+    mListTail = 0;
+    mTableCount = 0;
 }
 
-
-void FViewContainer::MouseWheel(int pDirection)
-{
-    for(int i = 0; i<mView->mSubviews.mCount; i++)
-    {
-        FViewContainer *aCtr = ((FView *)(mView->mSubviews.Fetch(i)))->GetContainer();
-        aCtr->MouseWheel(pDirection);
-    }
-    if(mView)
-    {
-        mView->MouseWheel(pDirection);
-    }
-}
-
-*/
-
-
-/*
-
-
-void FCanvas::DrawBorders() {
-    Graphics::OutlineRect(1.0f, 1.0f, mWidth - 2.0f, mHeight - 2.0f, 1.0f);
-}
-
-
-void FCanvas::PrintTransform()
-{
-    Log(mName.c());
-    
-    Log("\nTRA");
-    
-    //Log(mName.c());
-    
-    Log(" - XY[%.2f %.2f] Sc[%.2f %.2f %.2f] R[%.2f] - Fr[%.2f,%.2f,%.2f,%.2f]\n", mTransform.mX, mTransform.mY, mTransform.mScale, mTransform.mScaleX, mTransform.mScaleY, mTransform.mRotation, mX, mY, mWidth, mHeight);
-    
-    Log("ABS - XY[%.2f %.2f] Sc[%.2f %.2f %.2f] R[%.3f]\n\n", GetAbsoluteTransformX(), GetAbsoluteTransformY(), GetAbsoluteTransformScale(), GetAbsoluteTransformScaleX(), GetAbsoluteTransformScaleY(), GetAbsoluteTransformRotation());
-}
-
-void FCanvas::PrintFrame()
-{
-    FString aName = mName;
-    if(aName.mLength <= 0)aName = "Canvas";
-    
-    printf("%s Frame (%.2f, %.2f, %.2f, %.2f)\n", aName.c(), GetX(), GetY(), GetWidth(), GetHeight());
-}
-
-void FCanvas::PrintAllChildrenTransforms()
-{
-    
-    FList aStack;
-    FList aTemp;
-    
-    
-    printf("-----%s-----\n", mName.c());
-    
-    aStack.Add(this);
-    
-    while(aStack.mCount > 0)
-    {
-        EnumList(FCanvas, aCanvas, aStack)
-        {
-            
-            EnumList(FCanvas, aChildCanvas, aCanvas->mSubCanvass)
-            {
-                aTemp.Add(aChildCanvas);
+void FCanvasBucket::Add(FCanvas *pCanvas) {
+    if (pCanvas == 0) return;
+    FCanvasBucketNode *aNode = 0;
+    FCanvasBucketNode *aHold = 0;
+    unsigned int aHashBase = FHashMap::Hash(pCanvas);
+    unsigned int aHash = 0;
+    if (mTableSize > 0) {
+        aHash = (aHashBase % mTableSize);
+        aNode = mTable[aHash];
+        while(aNode) {
+            if(aNode->mCanvas == pCanvas) {
+                return;
             }
-            aCanvas->PrintTransform();
-            
+            aNode = aNode->mTableNext;
         }
-        
-        aStack.Clear();
-        
-        EnumList(FCanvas, aCanvas, aTemp)
-        {
-            aStack.Add(aCanvas);
+        if (mTableCount >= (mTableSize / 2)) {
+            int aNewSize = mTableCount + 1;
+            if(mTableCount < ((13 / 2) - 1))aNewSize = 13;
+            else if(mTableCount < ((29 / 2) - 1))aNewSize = 29;
+            else if(mTableCount < ((41 / 2) - 1))aNewSize = 41;
+            else if(mTableCount < ((53 / 2) - 1))aNewSize = 53;
+            else if(mTableCount < ((97 / 2) - 1))aNewSize = 97;
+            else if(mTableCount < ((149 / 2) - 5))aNewSize = 149;
+            else if(mTableCount < ((193 / 2) - 5))aNewSize = 193;
+            else if(mTableCount < ((269 / 2) - 5))aNewSize = 269;
+            else if(mTableCount < ((389 / 2) - 5))aNewSize = 389;
+            else if(mTableCount < ((439 / 2) - 5))aNewSize = 439;
+            else if(mTableCount < ((631 / 2) - 5))aNewSize = 631;
+            else if(mTableCount < ((769 / 2) - 5))aNewSize = 769;
+            else if(mTableCount < ((907 / 2) - 7))aNewSize = 907;
+            else if(mTableCount < ((1213 / 2) - 7))aNewSize = 1213;
+            else if(mTableCount < ((1543 / 2) - 7))aNewSize = 1543;
+            else if(mTableCount < ((2089 / 2) - 7))aNewSize = 2089;
+            else if(mTableCount < ((2557 / 2) - 9))aNewSize = 2557;
+            else if(mTableCount < ((3079 / 2) - 13))aNewSize = 3079;
+            else if(mTableCount < ((3613 / 2) - 13))aNewSize = 3613;
+            else if(mTableCount < ((4013 / 2) - 13))aNewSize = 4013;
+            else if(mTableCount < ((5119 / 2) - 13))aNewSize = 5119;
+            else if(mTableCount < ((6151 / 2) - 13))aNewSize = 6151;
+            else if(mTableCount < ((7151 / 2) - 13))aNewSize = 7151;
+            else if(mTableCount < ((12289 / 2) - 17))aNewSize = 12289;
+            else { aNewSize = (mTableCount + (mTableCount * 2) / 3 + 7); }
+
+            //TODO:
+            //aNewSize = 7;
+
+            SetTableSize(aNewSize);
+            aHash = (aHashBase % mTableSize);
         }
-        
-        aTemp.Clear();
+    } else {
+        SetTableSize(7);
+        aHash = (aHashBase % mTableSize);
     }
-    
-    printf("-----------------\n");
-    
-}
 
-void FCanvas::SetStaticTransform(bool pIsStatic)
-{
-    GetContainer()->SetStaticTransform(pIsStatic);
-}
-
-void FCanvas::SizeToFitChildren()
-{
-    SizeToFitChildren(0.0f, 0.0f);
-}
-
-void FCanvas::SizeToFitChildren(float pPaddingLeft, float pPaddingRight)
-{
-    SizeToFitChildren(pPaddingLeft, pPaddingRight, 0.0f, 0.0f);
-}
-
-void FCanvas::SizeToFitChildren(float pPaddingLeft, float pPaddingRight, float pPaddingTop, float pPaddingBottom)
-{
-    
-    float aLeft = 0.0f;
-    float aRight = 0.0f;
-    float aTop = 0.0f;
-    float aBottom = 0.0f;
-    if(mSubCanvass.mCount > 0.0f) {
-        EnumList(FCanvas, aCanvas, mSubCanvass) {
-            float aCheckLeft = aCanvas->GetX();
-            float aCheckRight = aCanvas->GetX() + aCanvas->GetWidth();
-            float aCheckTop = aCanvas->GetY();
-            float aCheckBottom = aCanvas->GetY() + aCanvas->GetHeight();
-            
-            if(aCheckLeft < aLeft)aLeft = aCheckLeft;
-            if(aCheckRight > aRight)aRight = aCheckRight;
-            if(aCheckTop < aTop)aTop = aCheckTop;
-            if(aCheckBottom > aBottom)aBottom = aCheckBottom;
-            
+    FCanvasBucketNode *aNew = (FCanvasBucketNode *)mQueue.PopLast();
+    if (aNew == 0) {
+        aNew = new FCanvasBucketNode();
+    }
+    aNew->mCanvas = pCanvas;
+    aNew->mTableNext = 0;
+    aNew->mTableIndex = aHash;
+    if (mTable[aHash]) {
+        aNode = mTable[aHash];
+        while (aNode) {
+            aHold = aNode;
+            aNode = aNode->mTableNext;
         }
-        
-        float aWidth = (aRight - aLeft) + (pPaddingLeft + pPaddingRight);
-        float aHeight = (aBottom - aTop) + (pPaddingBottom + pPaddingTop);
-        
-        SetFrame(aLeft - pPaddingLeft, aTop - pPaddingTop, aWidth, aHeight);
+        aHold->mTableNext = aNew;
+    } else {
+        mTable[aHash] = aNew;
+    }
+    ListAdd(aNew);
+    mTableCount += 1;
+}
+
+void FCanvasBucket::Remove(FCanvas *pCanvas) {
+    if (mTableSize > 0) {
+        unsigned int aHash = (FHashMap::Hash(pCanvas) % mTableSize);
+        FCanvasBucketNode *aPreviousNode = 0;
+        FCanvasBucketNode *aNode = mTable[aHash];
+        while (aNode) {
+            if(aNode->mCanvas == pCanvas) {
+                if (aPreviousNode) {
+                    aPreviousNode->mTableNext = aNode->mTableNext;
+                } else {
+                    mTable[aHash] = aNode->mTableNext;
+                }
+                mQueue.Add(aNode);
+                ListRemove(aNode);
+                mTableCount -= 1;
+                return;
+            }
+            aPreviousNode = aNode;
+            aNode = aNode->mTableNext;
+        }
     }
 }
 
-FVec2 FCanvas::Convert(float pX, float pY, FCanvas *pFromCanvas, FCanvas *pToCanvas)
-{
-    FVec2 aResult;
-    aResult.mX = pX;
-    aResult.mY = pY;
-    
-    ConvertPoint(aResult.mX, aResult.mY, pFromCanvas, pToCanvas);
-    
+void FCanvasBucket::ListAdd(FCanvasBucketNode *pNode) {
+    pNode->mListNext = 0;
+    if (mListHead == 0) {
+        mListHead = pNode;
+        mListTail = pNode;
+        pNode->mListPrev = 0;
+    } else {
+        pNode->mListPrev = mListTail;
+        mListTail->mListNext = pNode;
+        mListTail = pNode;
+    }
+}
+
+void FCanvasBucket::ListRemove(FCanvasBucketNode *pNode) {
+    if (pNode == mListHead) {
+        if (mListHead->mListNext) {
+            mListHead = mListHead->mListNext;
+            mListHead->mListPrev = 0;
+        } else {
+            mListTail = 0;
+            mListHead = 0;
+        }
+    } else if(pNode == mListTail) {
+        mListTail = mListTail->mListPrev;
+        mListTail->mListNext = 0;
+    } else {
+        pNode->mListPrev->mListNext = pNode->mListNext;
+        pNode->mListNext->mListPrev = pNode->mListPrev;
+    }
+    pNode->mListPrev = 0;
+    pNode->mListNext = 0;
+}
+
+bool FCanvasBucket::IsEmpty() {
+    return mTableCount <= 0;
+}
+
+bool FCanvasBucket::Exists(FCanvas *pCanvas) {
+    if(mTableSize > 0) {
+        unsigned int aHash = (FHashMap::Hash(pCanvas) % mTableSize);
+        FCanvasBucketNode *aNode = mTable[aHash];
+        while (aNode) {
+            if (aNode->mCanvas == pCanvas) {
+                return true;
+            }
+            aNode = aNode->mTableNext;
+        }
+    }
+    return false;
+}
+
+bool FCanvasBucket::ParentExists(FCanvas *pCanvas) {
+    FCanvas *aCanvas = pCanvas->mParent;
+    while (aCanvas != 0) {
+        if (Exists(aCanvas)) {
+            return true;
+        }
+        aCanvas = aCanvas->mParent;
+    }
+    return false;
+}
+
+void FCanvasBucket::RemoveAllChildren(FCanvas *pCanvas){
+    EnumList(FCanvas, aChild, pCanvas->mChildren) {
+        Remove(aChild);
+        RemoveAllChildren(aChild);
+    }
+}
+
+void FCanvasBucket::AddCanvasesToList(FList *pList) {
+    FCanvasBucketNode *aNode = mListHead;
+    while (aNode) {
+        pList->Add(aNode->mCanvas);
+        aNode = aNode->mListNext;
+    }
+}
+
+void FCanvasBucket::AddCanvasesToListAndRemoveAll(FList *pList) {
+    FCanvasBucketNode *aNode = mListHead;
+    while (aNode) {
+        pList->Add(aNode->mCanvas);
+        mQueue.Add(aNode);
+        mTable[aNode->mTableIndex] = 0;
+        aNode = aNode->mListNext;
+    }
+    mListHead = 0;
+    mListTail = 0;
+    mTableCount = 0;
+}
+
+void FCanvasBucket::AddCanvasesAndChildrenRecursivelyToListAndRemoveAll(FList *pList) {
+    AddCanvasesToListAndRemoveAll(pList);
+    int aIndex = 0;
+    while (aIndex < pList->mCount) {
+        FCanvas *aCanvas = (FCanvas *)(pList->mData[aIndex]);
+        for (int aChildIndex = 0;aChildIndex<aCanvas->mChildren.mCount;aChildIndex++) {
+            pList->Add(aCanvas->mChildren.mData[aChildIndex]);
+        }
+        aIndex += 1;
+    }
+}
+
+void FCanvasBucket::SetTableSize(int pSize) {
+    FCanvasBucketNode *aCheck = 0;
+    FCanvasBucketNode *aNext = 0;
+    FCanvasBucketNode *aNode = 0;
+    int aNewSize = pSize;
+    FCanvasBucketNode **aTableNew = new FCanvasBucketNode*[aNewSize];
+    for(int i=0;i<aNewSize;i++) {
+        aTableNew[i] = 0;
+    }
+    unsigned int aHash = 0;
+    for (int i=0;i<mTableSize;i++) {
+        aNode = mTable[i];
+        while (aNode) {
+            aNext = aNode->mTableNext;
+            aNode->mTableNext = 0;
+            aHash = FHashMap::Hash(aNode->mCanvas) % aNewSize;
+
+            aNode->mTableIndex = aHash;
+            if(aTableNew[aHash] == 0) {
+                aTableNew[aHash] = aNode;
+            } else {
+                aCheck = aTableNew[aHash];
+                while (aCheck->mTableNext) {
+                    aCheck = aCheck->mTableNext;
+                }
+                aCheck->mTableNext = aNode;
+            }
+            aNode = aNext;
+        }
+    }
+    delete [] mTable;
+    mTable = aTableNew;
+    mTableSize = aNewSize;
+}
+
+void FCanvasBucket::Print() {
+    Log("____\n____Hash Table____\n_Count = %d  Size = %d QueueCount = %d QueueSize = %d\n\n", mTableCount, mTableSize, mQueue.mCount, mQueue.mSize);
+    FCanvasBucketNode *aNode = 0;
+    for (int i=0;i<mTableSize;i++) {
+        int aCount = 0;
+        aNode = mTable[i];
+        while (aNode) {
+            aCount++;
+            aNode = aNode->mTableNext;
+        }
+        Log("Row[%d] (%d)\t{", i, aCount);
+        aNode = mTable[i];
+        while(aNode) {
+            Log("{%s}", aNode->mCanvas->mName.c());
+            aNode = aNode->mTableNext;
+        }
+        Log("}\n");
+    }
+}
+
+void FCanvasBucket::PrintList() {
+    Log("____\n____Hash List____\n_Count = %d  Size = %d QueueCount = %d QueueSize = %d\n\n", mTableCount, mTableSize, mQueue.mCount, mQueue.mSize);
+
+    int aIndex = 0;
+    if (mListHead == 0) {
+        Log("*** EMPTY ***\n");
+    } else {
+        FCanvasBucketNode *aNode = mListHead;
+        while (aNode) {
+            Log("[%s], ", aNode->mCanvas->mName.c());
+            aNode = aNode->mListNext;
+
+            aIndex += 1;
+            if (aIndex >= 10) {
+                aIndex -= 10;
+                Log("\n");
+            }
+        }
+    }
+    Log("\n\n");
+}
+
+
+
+FCanvasAnimation::FCanvasAnimation() {
+    BaseInitialize();
+    mCanvas = 0;
+}
+
+FCanvasAnimation::FCanvasAnimation(FCanvas *pCanvas) {
+    BaseInitialize();
+    SetUp(pCanvas);
+}
+
+FCanvasAnimation::~FCanvasAnimation() {
+    delete [] mPercent;
+    mPercent = 0;
+}
+
+void FCanvasAnimation::BaseInitialize() {
+    mStartX = 0.0f;
+    mTargetX = 0.0f;
+    mStartY = 0.0f;
+    mTargetY = 0.0f;
+    mStartScale = 1.0f;
+    mTargetScale = 1.0f;
+    mStartScaleX = 1.0f;
+    mTargetScaleX = 1.0f;
+    mStartScaleY = 1.0f;
+    mTargetScaleY = 1.0f;
+    mStartRotation = 0.0f;
+    mTargetRotation = 0.0f;
+    mStartAnchorX = 0.0f;
+    mTargetAnchorX = 0.0f;
+    mStartAnchorY = 0.0f;
+    mTargetAnchorY = 0.0f;
+    mTimerTick = 0;
+    mTime = 0;
+    mPercent = 0;
+}
+
+bool FCanvasAnimation::Update() {
+    bool aComplete = false;
+    float aAnimationPercent = 0.0f;
+
+    mTimerTick++;
+    if (mTime > 0) {
+        aAnimationPercent = mPercent[mTimerTick];
+        if (mTimerTick >= mTime) {
+            aComplete = true;
+        }
+    } else {
+        aComplete = true;
+    }
+
+    if (mCanvas) {
+        if (aComplete) {
+            Finish();
+        } else {
+            mCanvas->SetTransformX(mStartX + (mTargetX - mStartX) * aAnimationPercent);
+            mCanvas->SetTransformY(mStartY + (mTargetY - mStartY) * aAnimationPercent);
+            mCanvas->SetTransformScale(mStartScale + (mTargetScale - mStartScale) * aAnimationPercent);
+            mCanvas->SetTransformScaleX(mStartScaleX + (mTargetScaleX - mStartScaleX) * aAnimationPercent);
+            mCanvas->SetTransformScaleY(mStartScaleY + (mTargetScaleY - mStartScaleY) * aAnimationPercent);
+            mCanvas->SetTransformRotation(mStartRotation + (mTargetRotation - mStartRotation) * aAnimationPercent);
+            mCanvas->SetTransformAnchorX(mStartAnchorX + (mTargetAnchorX - mStartAnchorX) * aAnimationPercent);
+            mCanvas->SetTransformAnchorY(mStartAnchorY + (mTargetAnchorY - mStartAnchorY) * aAnimationPercent);
+        }
+    }
+    return aComplete;
+}
+
+void FCanvasAnimation::SetUp(FCanvas *pCanvas) {
+    mCanvas = pCanvas;
+    if (pCanvas) {
+        mStartX = pCanvas->GetTransformX();
+        mStartY = pCanvas->GetTransformY();
+        mStartRotation = pCanvas->GetTransformRotation();
+        mStartScale = pCanvas->GetTransformScale();
+        mStartScaleX = pCanvas->GetTransformScaleX();
+        mStartScaleY = pCanvas->GetTransformScaleY();
+        mStartAnchorX = pCanvas->GetTransformAnchorX();
+        mStartAnchorY = pCanvas->GetTransformAnchorY();
+
+        mTargetX = mStartX;
+        mTargetY = mStartY;
+        mTargetRotation = mStartRotation;
+        mTargetScale = mStartScale;
+        mTargetScaleX = mStartScaleX;
+        mTargetScaleY = mStartScaleY;
+        mTargetAnchorX = mStartAnchorX;
+        mTargetAnchorY = mStartAnchorY;
+    }
+}
+
+float FCanvasAnimation::Percent() {
+    float aResult = 0;
+    if ((mTimerTick >= 0) && (mTime > 0)) {
+        if (mPercent != 0) {
+            if (mTimerTick >= mTime) {
+                aResult = 1.0f;
+            } else {
+                aResult = mPercent[mTimerTick];
+            }
+        } else {
+            aResult = ((float)mTimerTick) / ((float)mTime);
+        }
+    }
+
+    if(aResult > 1.0f)aResult = 1.0f;
+    if(aResult < 0.0f)aResult = 0.0f;
+
     return aResult;
 }
 
-void FCanvas::ConvertPoint(float &pX, float &pY, FCanvas *pFromCanvas, FCanvas *pToCanvas) {
-    if(pFromCanvas)
-    {
-        pFromCanvas->GetContainer()->mTransformAbsolute.Untransform(pX, pY, pFromCanvas->GetWidth(), pFromCanvas->GetHeight());
+void FCanvasAnimation::Generate(int pFunction, int pTicks) {
+    mTimerTick = 0;
+    mTime = pTicks;
+    if (mTime < 1)mTime = 1;
+    if (mPercent) {
+        delete [] mPercent;
+        mPercent = 0;
     }
-    
-    if(pToCanvas)
-    {
-        pToCanvas->GetContainer()->mTransformAbsolute.Transform(pX, pY, pToCanvas->GetWidth(), pToCanvas->GetHeight());
+    mPercent = new float[mTime];
+    float aPercent = 0.0f;
+    for (int i=0;i<mTime;i++) {
+        aPercent = ((float)i) / ((float)mTime);
+        mPercent[i] = aPercent;
+    }
+    for (int i=0;i<mTime;i++) {
+        mPercent[i] = FAnimation::ApplyFunction(pFunction, mPercent[i]);
     }
 }
 
-float FCanvas::ConvertScale(float pScale, FCanvas *pFromCanvas, FCanvas *pToCanvas) {
-    float aResult = pScale;
-    if(pFromCanvas)aResult /= pFromCanvas->GetContainer()->mTransformAbsolute.mScale;
-    if(pToCanvas)aResult *= pToCanvas->GetContainer()->mTransformAbsolute.mScale;
+void FCanvasAnimation::GenerateIn(int pTicks) {
+    Generate(ANIMATION_TYPE_EASE_OUT_CIRC, pTicks);
+}
+
+void FCanvasAnimation::GenerateOut(int pTicks) {
+    Generate(ANIMATION_TYPE_EASE_OUT_CIRC, pTicks);
+}
+
+void FCanvasAnimation::GenerateSmooth(int pTicks) {
+    Generate(ANIMATION_TYPE_EASE_OUT_IN_SIN, pTicks);
+}
+
+void FCanvasAnimation::Finish() {
+    if (mCanvas) {
+        mCanvas->SetTransformX(mTargetX);
+        mCanvas->SetTransformY(mTargetY);
+        mCanvas->SetTransformScale(mTargetScale);
+        mCanvas->SetTransformScaleX(mTargetScaleX);
+        mCanvas->SetTransformScaleY(mTargetScaleY);
+        mCanvas->SetTransformRotation(mTargetRotation);
+    }
+}
+
+
+FCanvasTransform::FCanvasTransform() {
+    mX = 0.0f;
+    mY = 0.0f;
+    mScale = 1.0f;
+    mScaleX = 1.0f;
+    mScaleY = 1.0f;
+    mRotation = 0.0f;
+    mAnchorX = 0.0f;
+    mAnchorY = 0.0f;
+}
+
+FCanvasTransform::~FCanvasTransform() { }
+
+FCanvasAbsoluteTransform::FCanvasAbsoluteTransform() {
+    mX = 0.0f;
+    mY = 0.0f;
+    mScale = 1.0f;
+    mScaleX = 1.0f;
+    mScaleY = 1.0f;
+    mRotation = 0.0f;
+    mAnchorX = 0.0f;
+    mAnchorY = 0.0f;
+    for (int i=0;i<4;i++) {
+        mCornerX[i] = 0.0f;
+        mCornerY[i] = 0.0f;
+    }
+}
+
+FCanvasAbsoluteTransform::~FCanvasAbsoluteTransform() { }
+
+void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
+    mAnchorX = pTransform->mAnchorX;
+    mAnchorY = pTransform->mAnchorY;
+    float aAnchorWidth = mAnchorX * pWidth;
+    float aAnchorHeight = mAnchorY * pHeight;
+    float aAnchorX = aAnchorWidth * pTransform->mScale * pTransform->mScaleX;
+    float aAnchorY = aAnchorHeight * pTransform->mScale * pTransform->mScaleY;
+    mRotation = pTransform->mRotation;
+    mScale = pTransform->mScale;
+    mScaleX = pTransform->mScaleX;
+    mScaleY = pTransform->mScaleY;
+    float aParentX = pParentTransform->mX;
+    float aParentY = pParentTransform->mY;
+    float aParentScaleX = pParentTransform->mScale * pParentTransform->mScaleX;
+    float aParentScaleY = pParentTransform->mScale * pParentTransform->mScaleY;
+    mScale *= pParentTransform->mScale;
+    mScaleX *= pParentTransform->mScaleX;
+    mScaleY *= pParentTransform->mScaleY;
+    if((pParentTransform->mAnchorX != 0.0f) || (pParentTransform->mAnchorY != 0.0f)) {
+        float aParentShiftX = pParentWidth * pParentTransform->mAnchorX * (aParentScaleX);
+        float aParentShiftY = pParentHeight * pParentTransform->mAnchorY * (aParentScaleY);
+        if(pParentTransform->mRotation != 0.0f) {
+            float aDist = aParentShiftX * aParentShiftX + aParentShiftY * aParentShiftY;
+            float aSwivel = 180.0f - FaceTarget(-aParentShiftX, -aParentShiftY);
+            if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+            aSwivel -= pParentTransform->mRotation;
+            float aDirX = Sin(aSwivel);
+            float aDirY = Cos(aSwivel);
+            aParentShiftX = aDirX * aDist;
+            aParentShiftY = aDirY * aDist;
+        }
+        aParentX -= aParentShiftX;
+        aParentY -= aParentShiftY;
+    }
+    mX = ((pX + pTransform->mX + aAnchorX) * (aParentScaleX));
+    mY = ((pY + pTransform->mY + aAnchorY) * (aParentScaleY));
+    if(pParentTransform->mRotation != 0) {
+        float aPivotRotation = FaceTarget(mX, mY);
+        float aDist = mX * mX + mY * mY;
+        if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+        aPivotRotation += pParentTransform->mRotation;
+        float aDirX = Sin(-aPivotRotation);
+        float aDirY = Cos(-aPivotRotation);
+        mX = aDirX * (aDist) + aParentX;
+        mY = aDirY * (aDist) + aParentY;
+    } else {
+        mX += aParentX;
+        mY += aParentY;
+    }
+    mRotation += pParentTransform->mRotation;
+    float aScaleX = mScale * mScaleX;
+    float aScaleY = mScale * mScaleY;
+    float aWidth = pWidth * (aScaleX);
+    float aHeight = pHeight * (aScaleY);
+    float aCornerStartX = mX;
+    float aCornerStartY = mY;
+    if(mRotation != 0) {
+        float aDirX = Sin(-mRotation);
+        float aDirY = Cos(-mRotation);
+        float aNormalX = (aDirY);
+        float aNormalY = (-aDirX);
+        float aHeightShiftX = (aHeight * aDirX);
+        float aHeightShiftY = (aHeight * aDirY);
+        float aWidthShiftX = (aWidth * aNormalX);
+        float aWidthShiftY = (aWidth * aNormalY);
+        aCornerStartX -= ((aWidthShiftX * mAnchorX + aHeightShiftX * mAnchorY));
+        aCornerStartY -= ((aWidthShiftY * mAnchorX + aHeightShiftY * mAnchorY));
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX + aHeightShiftX;
+        mCornerY[1] = aCornerStartY + aHeightShiftY;
+        mCornerX[2] = aCornerStartX + (aWidthShiftX + aHeightShiftX);
+        mCornerY[2] = aCornerStartY + (aWidthShiftY + aHeightShiftY);
+        mCornerX[3] = aCornerStartX + aWidthShiftX;
+        mCornerY[3] = aCornerStartY + aWidthShiftY;
+    } else {
+        aCornerStartX -= aAnchorWidth * aScaleX;
+        aCornerStartY -= aAnchorHeight * aScaleY;
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX;
+        mCornerY[1] = aCornerStartY + aHeight;
+        mCornerX[2] = aCornerStartX + aWidth;
+        mCornerY[2] = aCornerStartY + aHeight;
+        mCornerX[3] = aCornerStartX + aWidth;
+        mCornerY[3] = aCornerStartY;
+    }
+}
+
+void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
+    mAnchorX = pTransform->mAnchorX;
+    mAnchorY = pTransform->mAnchorY;
+    mRotation = pTransform->mRotation;
+    mScale = pTransform->mScale;
+    mScaleX = pTransform->mScaleX;
+    mScaleY = pTransform->mScaleY;
+    float aAnchorWidth = mAnchorX * pWidth;
+    float aAnchorHeight = mAnchorY * pHeight;
+    float aAnchorX = aAnchorWidth * pTransform->mScale * pTransform->mScaleX;
+    float aAnchorY = aAnchorHeight * pTransform->mScale * pTransform->mScaleY;
+    mX = pX + pTransform->mX + aAnchorX;
+    mY = pY + pTransform->mY + aAnchorY;
+    float aScaleX = mScale * mScaleX;
+    float aScaleY = mScale * mScaleY;
+    float aWidth = pWidth * (aScaleX);
+    float aHeight = pHeight * (aScaleY);
+    float aCornerStartX = mX;
+    float aCornerStartY = mY;
+    if (mRotation != 0) {
+        float aDirX = Sin(-mRotation);
+        float aDirY = Cos(-mRotation);
+        float aNormalX = (aDirY);
+        float aNormalY = (-aDirX);
+        float aHeightShiftX = (aHeight * aDirX);
+        float aHeightShiftY = (aHeight * aDirY);
+        float aWidthShiftX = (aWidth * aNormalX);
+        float aWidthShiftY = (aWidth * aNormalY);
+        aCornerStartX -= ((aWidthShiftX * mAnchorX + aHeightShiftX * mAnchorY));
+        aCornerStartY -= ((aWidthShiftY * mAnchorX + aHeightShiftY * mAnchorY));
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX + aHeightShiftX;
+        mCornerY[1] = aCornerStartY + aHeightShiftY;
+        mCornerX[2] = aCornerStartX + (aWidthShiftX + aHeightShiftX);
+        mCornerY[2] = aCornerStartY + (aWidthShiftY + aHeightShiftY);
+        mCornerX[3] = aCornerStartX + aWidthShiftX;
+        mCornerY[3] = aCornerStartY + aWidthShiftY;
+    } else {
+        aCornerStartX -= aAnchorWidth * aScaleX;
+        aCornerStartY -= aAnchorHeight * aScaleY;
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX;
+        mCornerY[1] = aCornerStartY + aHeight;
+        mCornerX[2] = aCornerStartX + aWidth;
+        mCornerY[2] = aCornerStartY + aHeight;
+        mCornerX[3] = aCornerStartX + aWidth;
+        mCornerY[3] = aCornerStartY;
+    }
+}
+
+bool FCanvasAbsoluteTransform::ContainsPoint(float pX, float pY) {
+    bool aResult = false;
+    if(mRotation != 0) {
+        for(int aStart=0,aEnd=3;aStart<4;aEnd=aStart++) {
+            if((((mCornerY[aStart] <= pY) && (pY < mCornerY[aEnd]))||
+                ((mCornerY[aEnd] <= pY) && (pY < mCornerY[aStart])))&&
+               (pX < (mCornerX[aEnd] - mCornerX[aStart]) * (pY - mCornerY[aStart])
+                / (mCornerY[aEnd] - mCornerY[aStart]) + mCornerX[aStart])) {
+                   aResult = !aResult;
+               }
+        }
+    } else {
+        aResult = ((pX >= mCornerX[0]) && (pY >= mCornerY[0]) && (pX <= mCornerX[2]) && (pY <= mCornerY[2]));
+    }
     return aResult;
 }
 
-float FCanvas::ConvertRotation(float pDegrees, FCanvas *pFromCanvas, FCanvas *pToCanvas) {
-    float aResult = pDegrees;
-    if(pFromCanvas)aResult -= pFromCanvas->GetContainer()->mTransformAbsolute.mRotation;
-    if(pToCanvas)aResult += pToCanvas->GetContainer()->mTransformAbsolute.mRotation;
-    return aResult;
+void FCanvasAbsoluteTransform::Untransform(float &pX, float &pY, float pWidth, float pHeight) {
+    float aDiffX = (pX - (mAnchorX * pWidth)) * mScale * mScaleX;
+    float aDiffY = (pY - (mAnchorY * pHeight)) * mScale * mScaleY;
+    float aPivotRotation = FaceTarget(aDiffX, aDiffY) + mRotation;
+    float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
+    if(aDist > SQRT_EPSILON) {
+        aDist = sqrtf(aDist);
+    }
+    float aDirX = Sin(-aPivotRotation);
+    float aDirY = Cos(-aPivotRotation);
+    pX = aDirX * (aDist) + mX;
+    pY = aDirY * (aDist) + mY;
 }
- 
-*/
 
+void FCanvasAbsoluteTransform::Untransform(float &pX, float &pY) {
+    float aDiffX = pX * mScale * mScaleX;
+    float aDiffY = pY * mScale * mScaleY;
+    float aPivotRotation = FaceTarget(aDiffX, aDiffY) + mRotation;
+    float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
+    if(aDist > SQRT_EPSILON) { aDist = sqrtf(aDist); }
+    float aDirX = Sin(-aPivotRotation);
+    float aDirY = Cos(-aPivotRotation);
+    pX = aDirX * (aDist) + mX;
+    pY = aDirY * (aDist) + mY;
+}
+
+void FCanvasAbsoluteTransform::Transform(float &pX, float &pY) {
+    float aX = pX;
+    float aY = pY;
+    float aDiffX = (aX - mX);
+    float aDiffY = (aY - mY);
+    float aRot = FaceTarget(aDiffX, aDiffY) - mRotation;
+    float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
+    if(aDist > SQRT_EPSILON) { aDist = sqrtf(aDist); }
+    float aDirX = Sin(-aRot);
+    float aDirY = Cos(-aRot);
+    pX = aDirX * (aDist / (mScale * mScaleX));
+    pY = aDirY * (aDist / (mScale * mScaleY));
+}
+
+void FCanvasAbsoluteTransform::Transform(float &pX, float &pY, float pWidth, float pHeight) {
+    float aX = pX;
+    float aY = pY;
+    float aDiffX = (aX - mX);
+    float aDiffY = (aY - mY);
+    float aRot = FaceTarget(aDiffX, aDiffY) - mRotation;
+    float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
+    if(aDist > SQRT_EPSILON) { aDist = sqrtf(aDist); }
+    float aDirX = Sin(-aRot);
+    float aDirY = Cos(-aRot);
+    pX = aDirX * (aDist / (mScale * mScaleX)) + mAnchorX * pWidth;
+    pY = aDirY * (aDist / (mScale * mScaleY)) + mAnchorY * pHeight;
+}
 

@@ -9,10 +9,11 @@
 #include "FButton.h"
 #include "core_includes.h"
 
-FButton::FButton()
-{
+FButton::FButton() {
     mName = "Button";
-    
+
+    mClickData = 0;
+
     mDrawManual = false;
     
     mDrawRectIfSpriteIsNull = true;
@@ -44,7 +45,8 @@ FButton::FButton()
     //mColorOver = FColor(1.0f, 1.0f, 1.0f);
     //mColorDown = FColor(1.0f, 1.0f, 1.0f);
     
-    mListener = 0;
+    //mListener = 0;
+
 }
 
 FButton::~FButton()
@@ -224,11 +226,6 @@ void FButton::AddUnderlay(FSprite *pSpriteUp, FSprite *pSpriteOver, FSprite *pSp
     if(mHeight < aLayer->mHeight)SetHeight(aLayer->mHeight);
 }
 
-void FButton::SetUp(const char *pPathUp, const char *pPathOver, const char *pPathDown, float pX, float pY)
-{
-    
-}
-
 void FButton::SetUp(FSprite *pSpriteUp, FSprite *pSpriteOver, FSprite *pSpriteDown, float pX, float pY)
 {
     if(mButtonLayer == 0)mButtonLayer = new FButtonLayer();
@@ -297,126 +294,80 @@ void FButton::SetUp(FSprite *pSpriteUp, FSprite *pSpriteOver, FSprite *pSpriteDo
     //}
 }
 
-void FButton::Update()
-{
-    
+void FButton::Update() {
+
 }
 
-void FButton::Draw()
-{
-    
+void FButton::Draw() {
     bool aIsActive = true;
-    bool aIsOver = false;
-    bool aIsDown = mTouchDownInside;
-    
-    EnumList(FButtonLayer, aLayer, mButtonLayersUnder)aLayer->Draw(this, aIsActive, aIsOver, aIsDown);
-    
-    if(mButtonLayer)
-    {
+    bool aIsOver = mMouseOver;
+    bool aIsDown = false;
+    if (mTouchDownInside && mClickData != 0) {
+        aIsDown = true;
+    }
+
+    EnumList(FButtonLayer, aLayer, mButtonLayersUnder) {
+        aLayer->Draw(this, aIsActive, aIsOver, aIsDown);
+    }
+    if (mButtonLayer) {
         mButtonLayer->Draw(this, aIsActive, aIsOver, aIsDown);
     }
+    EnumList(FButtonLayer, aLayer, mButtonLayersOver) {
+        aLayer->Draw(this, aIsActive, aIsOver, aIsDown);
+    }
     
-    EnumList(FButtonLayer, aLayer, mButtonLayersOver)aLayer->Draw(this, aIsActive, aIsOver, aIsDown);
-    
-    if((mButtonLayersUnder.mCount == 0) && (mButtonLayersOver.mCount == 0))
-    {
+    if ((mButtonLayersUnder.mCount == 0) && (mButtonLayersOver.mCount == 0)) {
         bool aDrawRect = mDrawRectIfSpriteIsNull;
-        
-        if(mButtonLayer)
-        {
-            if(mButtonLayer->mSpriteUp != 0)
-            {
+        if (mButtonLayer) {
+            if (mButtonLayer->mSpriteUp != 0) {
                 aDrawRect = false;
             }
         }
-        
-        if(aDrawRect)
-        {
+        if (aDrawRect) {
             Graphics::SetColor(0.65f, 0.65f, 0.65f);
             if(mTouchDownInside)Graphics::SetColor(0.75f, 0.75f, 0.75f);
-        
-        
+
             Graphics::DrawRect(0.0f, 0.0f, mWidth, mHeight);
-        
-        
             Graphics::SetColor(mColor);
             Graphics::OutlineRectInside(0.0f, 0.0f, mWidth, mHeight, 4.0f);
-        
             Graphics::SetColor();
         }
     }
-    
-    
-    //Graphics::SetColor(1.0f, 0.0f, 0.45f, 0.5f);
-    //OutlineRect(0.0f, 0.0f, mWidth, mHeight, 3.0f);
-    //Graphics::SetColor();
-    
 }
 
-void FButton::TouchDown(float pX, float pY, void *pData)
-{
-    
-    if(mTriggerOnDown)
-    {
-        if(mParent)
-        {
-            mParent->Notify(this);
-        }
-        
-        if(mListener)
-        {
-            mListener->Notify(this);
-        }
+void FButton::TouchDown(float pX, float pY, void *pData) {
+
+    if (mClickData == 0) {
+        mClickData = pData;
+    }
+
+    if (mTriggerOnDown) {
+        gNotify.Post(this, "button");
     }
 }
 
+void FButton::TouchMove(float pX, float pY, void *pData) {
+    if (pData == mClickData) {
 
-
-
-void FButton::TouchMove(float pX, float pY, void *pData)
-{
-    //FView::BaseTouchMove(pX, pY, pOriginalX, pOriginalY, pData);
+    }
 }
 
-void FButton::TouchUp(float pX, float pY, void *pData)
-{
-    bool aUpInside = mMouseOver;
-    bool aDownInside = mTouchDownInside;
-    
-    
-    //FView::BaseTouchUp(pX, pY, pOriginalX, pOriginalY, pData);
-    
-    if(aUpInside)
-    {
-        if(aDownInside)
-        {
-            //Log("Double-Touched Button Brah Dass\n");
-        }
-        else
-        {
-            if(mTriggerOnUp)
-            {
-                if(mParent)
-                {
-                    mParent->Notify(this);
-                }
-                
-                if(mListener)
-                {
-                    mListener->Notify(this);
-                }
-                
-                GetContainer()->TouchFlush();
+void FButton::TouchUp(float pX, float pY, void *pData) {
+
+    if (mClickData == pData) {
+        if (pX >= 0 && pY >= 0 && pX <= mWidth && pY <= mHeight) {
+            if (mTriggerOnUp) {
+                gNotify.Post(this, "button");
             }
         }
+        mClickData = 0;
     }
 }
 
-
-void FButton::SetListener(FView *pListener)
-{
-    mListener = pListener;
+void FButton::TouchFlush() {
+    mClickData = 0;
 }
+
 
 /*
 FSprite *FButton::GetButtonImage()
@@ -491,8 +442,7 @@ FSprite *FButton::GetOverlayImage()
 
 
 
-FButtonLayer::FButtonLayer()
-{
+FButtonLayer::FButtonLayer() {
     mOffsetX = 0.0f;
     mOffsetY = 0.0f;
     
@@ -525,33 +475,25 @@ FButtonLayer::FButtonLayer()
     mHeight = 0.0f;
 }
 
-FButtonLayer::~FButtonLayer()
-{
+FButtonLayer::~FButtonLayer() {
     
 }
 
-void FButtonLayer::SetUp(FSprite *pSpriteUp, FSprite *pSpriteOver, FSprite *pSpriteDown)
-{
+void FButtonLayer::SetUp(FSprite *pSpriteUp, FSprite *pSpriteOver, FSprite *pSpriteDown) {
     mSpriteUp = pSpriteUp;
     mSpriteOver = pSpriteOver;
     mSpriteDown = pSpriteDown;
-    
     mWidth = 0.0f;
     mHeight = 0.0f;
-    
-    if(pSpriteDown != 0)
-    {
+    if (pSpriteDown != 0) {
         mColorOver.mRed = 1.0f;
         mColorOver.mGreen = 1.0f;
         mColorOver.mBlue = 1.0f;
         mColorOver.mAlpha = 1.0f;
-        
         mColorDown.mRed = 1.0f;
         mColorDown.mGreen = 1.0f;
         mColorDown.mBlue = 1.0f;
         mColorDown.mAlpha = 1.0f;
-        
-        
     }
     else if(mSpriteOver != 0)
     {

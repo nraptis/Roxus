@@ -247,50 +247,35 @@ void FString::Size(int pSize)
 	}
 }
 
-int	FString::Length(const char *pString)
-{
+int	FString::Length(const char *pString) {
 	int aResult = 0;
-	if(pString)
-	{
+	if (pString) {
 		const char *aPtr = pString;
 		while (*aPtr)aPtr++;
-		aResult = (aPtr - pString);
+		aResult = (int)(aPtr - pString);
 	}
 	return aResult;
 }
 
-void FString::FillNull(int pIndex)
-{
-	if(mSize > 0)
-	{
-		for(int i = pIndex; i <= mSize; i++)
-		{
+void FString::FillNull(int pIndex) {
+	if (mSize > 0) {
+		for (int i = pIndex; i <= mSize; i++) {
 			mData[i] = 0;
 		}
 	}
 }
 
-void FString::Set(const char *pString)
-{
-	
-	if((pString != 0) && (pString != mData))
-	{
+void FString::Set(const char *pString) {
+	if ((pString != 0) && (pString != mData)) {
 		int aLength = Length(pString);
-
-		if((aLength > mSize) || (aLength <= 0))Size(aLength + (aLength / 2) + 1);
-
-		for(int i = 0; i < aLength; i++)mData[i] = pString[i];
-
+		if ((aLength > mSize) || (aLength <= 0)) Size(aLength + (aLength / 2) + 1);
+		for (int i = 0; i < aLength; i++) mData[i] = pString[i];
 		mLength = aLength;
-
 		FillNull();
-		
 	}
-	
 }
 
-void FString::Append(char pChar)
-{
+void FString::Append(char pChar) {
 	if((mLength + 1) >= mSize)Size(mLength + mLength / 2 + 1);
 	mData[mLength] = pChar;
 	mLength++;

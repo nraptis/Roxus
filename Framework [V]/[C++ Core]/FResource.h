@@ -30,7 +30,7 @@
 
 #include "FString.h"
 #include "FList.h"
-#include "FHashTable.h"
+#include "FHashTable.hpp"
 
 
 class FResource

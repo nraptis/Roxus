@@ -10,125 +10,77 @@
 #include "FFont.h"
 #include "FXML.h"
 
-FFont::FFont()
-{
+FFont::FFont() {
+    mSpaceWidth = 20.0f;
     mPointSize = 0.0f;
-    
-    for(int i=0;i<256;i++)
-    {
+    for (int i=0;i<256;i++) {
         mCharacterStrideX[i] = 0.0f;
         mCharacterOffsetX[i] = 0.0f;
     }
     
-    for(int i=0;i<256;i++)
-    {
-        for(int n=0;n<256;n++)
-        {
+    for (int i=0;i<256;i++) {
+        for (int n=0;n<256;n++) {
             mKern[i][n] = 0.0f;
         }
     }
-    
-    mScale = 1.0f;
-    
+    mDataScale = 1.0f;
+    mSpriteScale = 1.0f;
     mGlobalSqueeze = 0.0f;
 }
 
-FFont::~FFont()
-{
+FFont::~FFont() {
     
 }
 
-void FFont::LoadRange(const char *pFilePrefix, char pStart, char pEnd)
-{
-    
-    
+void FFont::LoadRange(const char *pFilePrefix, char pStart, char pEnd) {
     int aStart = (int)((unsigned char)pStart);
     int aEnd = (int)((unsigned char)pEnd);
-    
-    if(aStart > aEnd)
-    {
+    if (aStart > aEnd) {
         int aHold=aStart;
         aStart=aEnd;
         aEnd=aHold;
     }
-    
-    for(int i=aStart;i<=aEnd;i++)
-    {
-        //FString aCharString = FString((char)i);
-        
+
+    bool aKludgePointSize = false;
+    if (mPointSize <= 2.0) {
+        aKludgePointSize = true;
+    }
+
+    for (int i=aStart;i<=aEnd;i++) {
         FString aCharString = FString(i);
         FString aPathString = FString(pFilePrefix) + aCharString;
         
         mCharacterSprite[i].Load(aPathString.c());
-        
+
         Log("Font[%s] = (%f x %f)\n", pFilePrefix, mCharacterSprite[i].mWidth, mCharacterSprite[i].mHeight);
-        
-        
         if(mCharacterStrideX[i] <= 0.0f)mCharacterStrideX[i] = mCharacterSprite[i].mWidth;
-        
-        if(mPointSize < mCharacterSprite[i].mHeight)mPointSize = mCharacterSprite[i].mHeight;
-        
-        //if(mCharacterSprite[i].mWidth > mMaxWidth)mMaxWidth = mCharacterSprite[i].mWidth;
-        //if(mCharacterSprite[i].mHeight > mMaxHeight)mMaxHeight = mCharacterSprite[i].mHeight;
-        
+
+        if (aKludgePointSize && mPointSize < mCharacterSprite[i].mHeight) {
+            mPointSize = mCharacterSprite[i].mHeight;
+        }
+
         mCharacterStrideX[i] = mCharacterSprite[i].mWidth;
     }
-    
     if(mPrefix.mLength == 0)mPrefix = pFilePrefix;
-    
 }
 
-void FFont::Load(char *pFilePrefix, char *pCharacters)
-{
-    
+void FFont::Load(char *pFilePrefix, char *pCharacters) {
     if(pFilePrefix == 0)pFilePrefix = mPrefix.c();
-    
     FString aPrefixString = FString(pFilePrefix);
     FString aPath;
-    
     int aIndex = 0;
-    
-    if(pCharacters)
-    {
-        while(*pCharacters)
-        {
-            
+    if (pCharacters) {
+        while (*pCharacters) {
             aIndex = (int)((unsigned char)(*pCharacters));
-            
-            
-            
             aPath = FString(aPrefixString.c()) + FString((*pCharacters));
             mCharacterSprite[aIndex].Load(aPath);
-            
-            if(mCharacterSprite[aIndex].mWidth <= 0)
-            {
+            if (mCharacterSprite[aIndex].mWidth <= 0) {
                 aPath = FString(aPrefixString.c()) + FString(aIndex);
                 mCharacterSprite[aIndex].Load(aPath);
             }
-            
-            
-            
             if(mCharacterStrideX[aIndex] <= 0.0f)mCharacterStrideX[aIndex] = mCharacterSprite[aIndex].mWidth;
             if(mPointSize < mCharacterSprite[aIndex].mHeight)mPointSize = mCharacterSprite[aIndex].mHeight;
             mCharacterStrideX[aIndex] = mCharacterSprite[aIndex].mWidth;
-            
-            
-            //Log("Font %s[%d] = (%f x %f) PS(%f)\n", pFilePrefix, aIndex, mCharacterSprite[aIndex].mWidth, mCharacterSprite[aIndex].mHeight, mPointSize);
-            
-            /*
-             if(mCharacterSprite[aIndex].mWidth <= 0)
-             {
-             //Log("Font (%s) Failed To Load %c [%d]\n", pFilePrefix, (char)aIndex, aIndex);
-             }
-             else
-             {
-             //Log("Font %s[%d] = (%f x %f)\n", pFilePrefix, aIndex, mCharacterSprite[aIndex].mWidth, mCharacterSprite[aIndex].mHeight);
-             }
-             
-             mCharacterStrideX[aIndex] = mCharacterSprite[aIndex].mWidth;
-             */
-            
-            
             pCharacters++;
         }
     }
@@ -190,7 +142,11 @@ void FFont::Draw(const char *pText, float pX, float pY, float pScale)
     int aCharIndex = -1;
     int aCharIndexPrev = -1;
     float aKern = 0.0f;
-    float aScale = (mScale * pScale);
+    float aScale = (mDataScale * pScale);
+    float aPointSize = mPointSize * mDataScale * pScale;
+    float aSpriteScale = mSpriteScale * pScale;
+
+
     if(pText)
     {
         unsigned char *aPtr = (unsigned char *)pText;
@@ -201,15 +157,18 @@ void FFont::Draw(const char *pText, float pX, float pY, float pScale)
             aChar = *aPtr;
             aCharIndex = aChar;
             if(aCharIndexPrev != -1)aKern = mKern[aCharIndexPrev][aCharIndex];
-            mCharacterSprite[aCharIndex].Draw(aDrawX + ((mCharacterOffsetX[aCharIndex] + aKern) * aScale) + mCharacterSprite[aCharIndex].mWidth / 2.0f, aDrawY + mCharacterSprite[aCharIndex].mHeight / 2.0f, pScale);
+
+            float aSpriteWidth = mCharacterSprite[aCharIndex].mWidth * mSpriteScale;
+            float aSpriteHeight = mCharacterSprite[aCharIndex].mHeight * mSpriteScale;
+
+            mCharacterSprite[aCharIndex].Draw(aDrawX + ((mCharacterOffsetX[aCharIndex] + aKern) * aScale) + aSpriteWidth / 2.0f, aDrawY + aPointSize / 2.0f, aSpriteScale);
             aDrawX += (mCharacterStrideX[aCharIndex] + aKern) * aScale;
             aPtr++;
         }
     }
 }
 
-void FFont::Right(const char *pText, float pX, float pY)
-{
+void FFont::Right(const char *pText, float pX, float pY) {
     float aWidth = Width(pText);
     Draw(pText, pX - aWidth, pY);
 }
@@ -219,26 +178,21 @@ void FFont::Center(const char *pText, float pX, float pY)
     Center(pText, pX, pY, 1.0f);
 }
 
-void FFont::Center(const char *pText, float pX, float pY, float pScale)
-{
+void FFont::Center(const char *pText, float pX, float pY, float pScale) {
     float aWidth = Width(pText, pScale);
-    Draw(pText, pX - aWidth * 0.5f, pY - (mPointSize * (mScale / pScale) * 0.5f), pScale);
+    Draw(pText, pX - aWidth * 0.5f, pY - (mPointSize * (mDataScale * pScale) * 0.5f), pScale);
 }
 
-float FFont::Width(const char *pText, float pScale)
-{
+float FFont::Width(const char *pText, float pScale) {
     float aResult = 0.0f;
     unsigned char aChar = 0;
     int aCharIndex = -1;
     int aCharIndexPrev = -1;
     float aKern = 0.0f;
-    float aScale = (pScale * mScale);
-    
-    if(pText)
-    {
+    float aScale = (pScale * mDataScale);
+    if (pText) {
         unsigned char *aPtr = (unsigned char *)pText;
-        while(*aPtr)
-        {
+        while (*aPtr) {
             aKern = 0.0f;
             aChar = *aPtr;
             aCharIndexPrev = aCharIndex;
@@ -251,211 +205,90 @@ float FFont::Width(const char *pText, float pScale)
     return aResult;
 }
 
-
-float FFont::Width(const char *pText)
-{
+float FFont::Width(const char *pText) {
     return Width(pText, 1.0f);
 }
 
-void FFont::SetKern(int pStartCharIndex, int pEndCharIndex, int pKernAmount)
-{
-    if((pStartCharIndex >= 0) && (pEndCharIndex >= 0) && (pStartCharIndex < 256) && (pEndCharIndex < 256))
-    {
+void FFont::SetKern(int pStartCharIndex, int pEndCharIndex, int pKernAmount) {
+    if ((pStartCharIndex >= 0) && (pEndCharIndex >= 0) && (pStartCharIndex < 256) && (pEndCharIndex < 256)) {
         mKern[pStartCharIndex][pEndCharIndex] = ((float)pKernAmount);
     }
 }
 
-//void FFont::SetStride(int pCharIndex, float pStride)
-//{
-//    if((pCharIndex >= 0) && (pCharIndex < 256))
-//    {
-//        mCharacterStrideX[pCharIndex] = pStride;
-//    }
-//}
-
-
-void FFont::ApplyScrunch(float pScrunch)
-{
-    for(int i=0;i<256;i++)
-    {
-        if(mCharacterStrideX[i] != 0.0f)
-        {
-            //mCharacterOffsetX[i] += aSize2;
+void FFont::ApplyScrunch(float pScrunch) {
+    for (int i=0;i<256;i++) {
+        if (mCharacterStrideX[i] != 0.0f) {
             mCharacterStrideX[i] -= pScrunch;
         }
     }
-    
-    for(int i=0;i<256;i++)
-    {
-        //if(mFontItem.mCharacterOffsetX[i] != 0.0f)mFontItem.mCharacterOffsetX[i] -= 2.0f;
-        //if(mFontItem.mCharacterStrideX[i] > 1.0f)mFontItem.mCharacterStrideX[i] -= 4.0f;
-    }
 }
 
-void FFont::ApplyExpand(float pExpand)
-{
-    for(int i=0;i<256;i++)
-    {
-        if((mCharacterSprite[i].mWidth > 0.0f) || (mCharacterStrideX[i] > 0.0f))
-        {
+void FFont::ApplyExpand(float pExpand) {
+    for(int i=0;i<256;i++) {
+        if ((mCharacterSprite[i].mWidth > 0.0f) || (mCharacterStrideX[i] > 0.0f)) {
             mCharacterStrideX[i] += pExpand;
         }
     }
 }
 
-
-void FFont::ApplyScale(float pScale)
-{
-    mScale = pScale;
-}
-
-
-void FFont::ApplyOffsetX(float pOffset)
-{
-    for(int i=0;i<256;i++)
-    {
-        if((mCharacterSprite[i].mWidth > 0.0f) || (mCharacterStrideX[i] > 0.0f))
-        {
+void FFont::ApplyOffsetX(float pOffset) {
+    for (int i=0;i<256;i++) {
+        if ((mCharacterSprite[i].mWidth > 0.0f) || (mCharacterStrideX[i] > 0.0f)) {
             mCharacterOffsetX[i] += pOffset;
         }
     }
 }
 
-void FFont::ApplyOffsetY(float pOffset)
-{
-    for(int i=0;i<256;i++)
-    {
-    }
-}
-
-
-void FFont::SetStride(int pCharIndex, float pOffsetX, float pStride)
-{
-    if((pCharIndex >= 0) && (pCharIndex < 256))
-    {
+void FFont::SetStride(int pCharIndex, float pOffsetX, float pStride) {
+    if ((pCharIndex >= 0) && (pCharIndex < 256)) {
         mCharacterStrideX[pCharIndex] = pStride;
         mCharacterOffsetX[pCharIndex] = pOffsetX;
     }
 }
 
 
-float FFont::PlotWidth(char *pText, float *pArray)
-{
-    /*
-    float aX = 0.0f;
-    int aIndex = 0;
-    if(pText)
-    {
-        float aCharWidth = 0.0f;
-        
-        int aWriteIndex = 0;
-        char *aPtr = (char *)pText;
-        while(*aPtr)
-        {
-            aIndex = (int)((unsigned char)(*aPtr));
-            aCharWidth = (float)(mCharacterStrideX[aIndex]);
-            pArray[aWriteIndex] = (aX + aCharWidth / 2.0f);
-            
-            aX += aCharWidth;
-            aPtr++;
-            aWriteIndex++;
-        }
-    }
-    return aX;
-    
-    */
-    
-    
-    
-    
+float FFont::PlotWidth(char *pText, float *pArray) {
     unsigned char aChar = 0;
     float aX = 0.0f;
     int aCharIndex = -1;
     int aCharIndexPrev = -1;
     float aKern = 0.0f;
-    //float aScale = (mScale * pScale);
-    
-    if(pText)
-    {
+
+    if (pText) {
         int aWriteIndex = 0;
         unsigned char *aPtr = (unsigned char *)pText;
-        while(*aPtr)
-        {
+        while (*aPtr) {
             aKern = 0.0f;
             aCharIndexPrev = aCharIndex;
             aChar = *aPtr;
             aCharIndex = aChar;
             if(aCharIndexPrev != -1)aKern = mKern[aCharIndexPrev][aCharIndex];
-            
-            //mCharacterSprite[aCharIndex].Draw(aDrawX + ((mCharacterOffsetX[aCharIndex] + aKern) * aScale) + mCharacterSprite[aCharIndex].mWidth / 2.0f, aDrawY + mCharacterSprite[aCharIndex].mHeight / 2.0f, pScale);
-            
-            pArray[aWriteIndex] = aX + ((mCharacterOffsetX[aCharIndex] + aKern) * mScale) + mCharacterSprite[aCharIndex].mWidth / 2.0f;
-            
-            aX += (mCharacterStrideX[aCharIndex] + aKern) * mScale;
+            pArray[aWriteIndex] = aX + ((mCharacterOffsetX[aCharIndex] + aKern) * mDataScale) + mCharacterSprite[aCharIndex].mWidth / 2.0f;
+            aX += (mCharacterStrideX[aCharIndex] + aKern) * mDataScale;
             aPtr++;
             aWriteIndex++;
         }
     }
-    
     return aX;
 }
 
-float FFont::PlotWidthCentered(char *pText, float *pArray)
-{
+float FFont::PlotWidthCentered(char *pText, float *pArray) {
     float aWidth = PlotWidth(pText, pArray);
-    
-    if(pText)
-    {
+    if (pText) {
         float aWidth2 = aWidth / 2.0f;
-        
         int aIndex = 0;
         unsigned char *aPtr = (unsigned char *)pText;
-        while(*aPtr)
-        {
+        while (*aPtr) {
             pArray[aIndex] -= aWidth2;
             aPtr++;
             aIndex++;
         }
     }
-    
     return aWidth;
-    
-    /*
-    float aX = 0.0f;
-    int aIndex = 0;
-    if(pText)
-    {
-        float aCharWidth = 0.0f;
-        
-        int aWriteIndex = 0;
-        char *aPtr = (char *)pText;
-        while(*aPtr)
-        {
-            aIndex = (int)((unsigned char)(*aPtr));
-            aCharWidth = (float)(mCharacterStrideX[aIndex]);
-            pArray[aWriteIndex] = (aX + aCharWidth / 2.0f);
-            
-            aX += aCharWidth;
-            aPtr++;
-            aWriteIndex++;
-        }
-        
-        float aWidth2 = aX / 2.0f;
-        
-        for(int i=0;i<aWriteIndex;i++)
-        {
-            pArray[i] -= aWidth2;
-        }
-    }
-    
-    
-    return aX;
-    */
 }
 
 
-float FFont::Spacing(char pChar, char pNext)
-{
+float FFont::Spacing(char pChar, char pNext) {
     //if(pChar<=' ')return mSpaceWidth;
     //FontLetter *aLetter=&mLetter[(unsigned int)((unsigned char)(pChar))];
     //return (float)(mPadding+aLetter->mCharacterSprite.mWidth+aLetter->mSpacing[(unsigned int)((unsigned char)(pNext))]);
@@ -463,52 +296,35 @@ float FFont::Spacing(char pChar, char pNext)
     return 0;
 }
 
-void FFont::PrintLoaded()
-{
+void FFont::PrintLoaded() {
     int aLoadedChars = 0;
-    
-    for(int i=0;i<256;i++)
-    {
-        if((mCharacterStrideX[i] > 0.025f) || (mCharacterSprite[i].mWidth > 0.025f))
-        {
+    for(int i=0;i<256;i++) {
+        if ((mCharacterStrideX[i] > 0.025f) || (mCharacterSprite[i].mWidth > 0.025f)) {
             aLoadedChars++;
         }
-        
     }
-    
+
     Log("_______FONT_____\n");
     Log("Name: %s\n", mPrefix.c());
     Log("Count: %d\n", aLoadedChars);
-    Log("Size: %d  Scale: %.2f\n", ((int)mPointSize), mScale);
-    
+    Log("Size: %d  DataScale: %.2f  SpriteScale: %.2f\n", ((int)mPointSize), mDataScale, mSpriteScale);
     if(aLoadedChars > 0)Log("__\n");
-    
-    
-    for(int i=0;i<256;i++)
-    {
-        
-        if((mCharacterStrideX[i] > 0.025f) || (mCharacterSprite[i].mWidth > 0.025f))
-        {
+
+    for (int i=0;i<256;i++) {
+        if ((mCharacterStrideX[i] > 0.025f) || (mCharacterSprite[i].mWidth > 0.025f)) {
             char aChar = (char)i;
-            
             Log("%d ( %c ) Img[%d x %d] Stride [%.1f] Offset[%.1f]\n", i, aChar, ((int)mCharacterSprite[i].mWidth), ((int)mCharacterSprite[i].mHeight), mCharacterStrideX[i], mCharacterOffsetX[i]);
-            
-            
-            
         }
-        
-        
     }
     if(aLoadedChars > 0)Log("__\n");
-    
-    
     Log("____END_FONT____\n");
-    
 }
 
 
 int FFont::LineCount(char *pString, float pWidth)
 {
+    float aSpaceWidth = mSpaceWidth * mDataScale;
+
     int aLineHeight=0;
     if(pString)
     {
@@ -519,7 +335,7 @@ int FFont::LineCount(char *pString, float pWidth)
         aSeek=pString;
         while(*aSeek)
         {
-            if(*aSeek<=' ')aLength+=GetSpaceWidth();
+            if(*aSeek<=' ')aLength += aSpaceWidth;
             else aLength+=Spacing(*aSeek,*(aSeek+1));
             aSeek++;
         }
@@ -537,11 +353,10 @@ int FFont::LineCount(char *pString, float pWidth)
                 while(aSeekIndex<aStringLength && pString[aSeekIndex]<=' ')aSeekIndex++;
                 aLineStart=aSeekIndex;
                 while(aSeekIndex<aStringLength && aLength <= pWidth)
-                {
-                    if(pString[aSeekIndex]<=' ')
-                    {
+{
+                    if(pString[aSeekIndex] <= ' ') {
                         aSpaceCount++;
-                        aLength+=GetSpaceWidth();
+                        aLength += aSpaceWidth;
                     }
                     else
                     {
@@ -1108,42 +923,26 @@ FFontImportData *FFont::BitmapDataImport(const char *pDataPath, const char *pIma
     return aImportData;
 }
 
-
-
-void FFont::BitmapDataExportTestStrips(FFontImportData *pImport, const char *pName, int pCount)
-{
+void FFont::BitmapDataExportTestStrips(FFontImportData *pImport, const char *pName, int pCount) {
     if(pImport == 0)return;
-    
-    
     FFontImportGlyph *aGlyph = 0;
-    
     bool aStamped = true;
     int aStripX = 8;
     int aPointSize = pImport->mPointSize;
-    
-    for(int aTestStrip=0;aTestStrip<pCount;aTestStrip++)
-    {
-        if((aStamped == true) && (pImport->mPointSize >= 1) && (pImport->mPointSize <= 2048))
-        {
+
+    for (int aTestStrip=0;aTestStrip<pCount;aTestStrip++) {
+        if ((aStamped == true) && (pImport->mPointSize >= 1) && (pImport->mPointSize <= 2048)) {
             FImage aStrip;
-            
             aGlyph = 0;
-            
             aStamped = false;
             aStripX = 32;
             aStrip.Make(2048, aPointSize + 128, IMAGE_RGBA(gRand.Get(80), 70 + gRand.Get(40), 180 + gRand.Get(60), 32 + gRand.Get(120)));
-            
-            for(int i=0;i<220;i++)
-            {
+            for (int i=0;i<220;i++) {
                 aGlyph = pImport->GetGlyph(gRand.Get(256));
-                if(aGlyph != 0)
-                {
-                    if(aGlyph->Valid())
-                    {
-                        if((aGlyph->mImage->mWidth > 0) && ((aStripX + aGlyph->mImage->mWidth) < (aStrip.mWidth - 40)))
-                        {
+                if (aGlyph != 0) {
+                    if (aGlyph->Valid()) {
+                        if ((aGlyph->mImage->mWidth > 0) && ((aStripX + aGlyph->mImage->mWidth) < (aStrip.mWidth - 40))) {
                             aStamped = true;
-                            
                             aStrip.Stamp(aGlyph->mImage, aStripX, 64, 0, 0, aGlyph->mImage->mWidth, aGlyph->mImage->mHeight);
                             aStripX += (aGlyph->mImage->mWidth + 4);
                         }
@@ -1151,14 +950,10 @@ void FFont::BitmapDataExportTestStrips(FFontImportData *pImport, const char *pNa
                 }
             }
             
-            if(aStamped)
-            {
-                FString aPrefix;os_getTestDirectory(&aPrefix);
-                
-                
-                //FString aName = pFileName;
-                //aName
-                
+            if (aStamped) {
+                FString aPrefix;
+                os_getTestDirectory(&aPrefix);
+
                 FString aNumberString = FString((int)(aTestStrip + 1));
                 if(aNumberString.mLength < 2)aNumberString = FString(FString("0") + FString(aNumberString.c())).c();
                 if(aNumberString.mLength < 2)aNumberString = FString(FString("0") + FString(aNumberString.c())).c();
@@ -1174,33 +969,20 @@ void FFont::BitmapDataExportTestStrips(FFontImportData *pImport, const char *pNa
     }
 }
 
-
-void FFont::BitmapDataExportGlyphs(FFontImportData *pImport, const char *pName)
-{
-    if(pImport == 0)return;
+void FFont::BitmapDataExportGlyphs(FFontImportData *pImport, const char *pName) {
+    if (pImport == 0) return;
     FFontImportGlyph *aGlyph = 0;
     FImage *aImage = 0;
-    
     FString aPrefix;os_getTestDirectory(&aPrefix);
-    
-    for(int i=0;i<256;i++)
-    {
+    for (int i=0;i<256;i++) {
         aGlyph = pImport->GetGlyph(i);
-        if(aGlyph != 0)
-        {
+        if (aGlyph != 0) {
             aImage = aGlyph->mImage;
-            
-            if((aImage != 0) && (aGlyph->mAllowed == true) && (aGlyph->mLoadSuccess == true))
-            {
-                if((aImage->mWidth > 0) && (aImage->mHeight > 0))
-                {
-                    
+            if ((aImage != 0) && (aGlyph->mAllowed == true) && (aGlyph->mLoadSuccess == true)) {
+                if ((aImage->mWidth > 0) && (aImage->mHeight > 0)) {
                     FString aPath = aPrefix + FString(pName) + FString("_") + FString(aGlyph->mIndex) + FString(".png");
-                    
                     aPath.Replace(" ", "_");
                     for(int i=0;i<4;i++)aPath.Replace("__", "_");
-                    
-                    //Log("Expo Glyph[%s]\n\n", aPath.c());
                     os_exportPNGImage(aImage->mData, aPath.c(), aImage->mWidth, aImage->mHeight);
                 }
             }

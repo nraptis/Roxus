@@ -9,7 +9,7 @@
 #ifndef FRAMEWORK_TEXTURE_CACHE_H
 #define FRAMEWORK_TEXTURE_CACHE_H
 
-#include "FHashTable.h"
+#include "FHashTable.hpp"
 #include "FSprite.h"
 #include "FImage.h"
 #include "FTexture.h"

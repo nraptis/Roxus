@@ -1,7 +1,6 @@
 #ifndef FRAMEWORK_APP_H
 #define FRAMEWORK_APP_H
 
-//#include "app_global.h"
 #include "core_includes.h"
 #include "FFont.h"
 
@@ -10,31 +9,27 @@ class UMainCanvas;
 class FApp
 {
 public:
-    
+
     FApp();
     virtual ~FApp();
-    
+
 protected:
     bool                                        mDidInitialize;
     bool                                        mDidLoadStart;
     bool                                        mDidLoad;
     bool                                        mDidUpdate;
-    
+
 public:
-    
-    void                                        BaseInitialize();
+
+
     virtual void                                Initialize(){}
     
-	void                                        BaseSetDeviceSize(float pWidth, float pHeight);
+
     virtual void                                SetDeviceSize(float pWidth, float pHeight){}
     
-	void                                        BaseSetVirtualFrame(float pX, float pY, float pWidth, float pHeight);
-	virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight){}
-    
-    void                                        BaseLoad();
-    virtual void                                Load(){}
 
-    void                                        BaseLoadComplete();
+	virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight){}
+    virtual void                                Load(){}
     virtual void                                LoadComplete(){}
 
     virtual void                                Update(){}
@@ -45,64 +40,25 @@ public:
     virtual void                                TouchMove(float pX, float pY, void *pData){}
     virtual void                                TouchUp(float pX, float pY, void *pData){}
     virtual void                                TouchFlush(){}
-
     virtual void                                MouseDown(float pX, float pY, int pButton);
     virtual void                                MouseMove(float pX, float pY);
     virtual void                                MouseUp(float pX, float pY, int pButton);
     virtual void                                MouseWheel(int pDirection);
-    
+
     virtual void                                KeyDown(int pKey);
     virtual void                                KeyUp(int pKey);
 
-    void                                        BaseUpdate();
-    void                                        BaseDraw();
-
-    void                                        BaseTouchDown(float pX, float pY, void *pData);
-	void                                        BaseTouchMove(float pX, float pY, void *pData);
-    void                                        BaseTouchUp(float pX, float pY, void *pData);
-    void                                        BaseTouchCanceled(float pX, float pY, void *pData);
-    
-    void                                        BaseTouchDownDroid(float pX, float pY, int pIndex, int pCount);
-    void                                        BaseTouchMoveDroid(float pX, float pY, int pIndex, int pCount);
-    void                                        BaseTouchUpDroid(float pX, float pY, int pIndex, int pCount);
-    void                                        BaseTouchCanceledDroid(float pX, float pY, int pIndex, int pCount);
-    
-    void                                        BaseMouseDown(float pX, float pY, int pButton);
-    void                                        BaseMouseMove(float pX, float pY);
-    void                                        BaseMouseUp(float pX, float pY, int pButton);
-	void                                        BaseMouseWheel(int pDirection);
-
-	void								        BaseKeyDown(int pKey);
-	void								        BaseKeyUp(int pKey);
-
-    void                                        ProcessMouseDown(float pX, float pY, int pButton);
-    void                                        ProcessMouseMove(float pX, float pY);
-    void                                        ProcessMouseUp(float pX, float pY, int pButton);
-    void                                        ProcessMouseWheel(int pDir);
-
-    void                                        ProcessTouchDown(float pX, float pY, void *pData);
-    void                                        ProcessTouchMove(float pX, float pY, void *pData);
-	void                                        ProcessTouchUp(float pX, float pY, void *pData);
-	void                                        ProcessTouchFlush();
-
-	void                                        ProcessKeyDown(int pKey);
-	void                                        ProcessKeyUp(int pKey);
-
-    void                                        BaseInactive();
     virtual void                                Inactive(){}
-    
-    void                                        BaseActive();
     virtual void                                Active(){}
-    
+
     bool                                        mActive;
-    
-    void                                        BaseMemoryWarning(bool pSevere);
+
     virtual void                                MemoryWarning(bool pSevere){}
 
-    FViewController                             mViewController;
-    FViewController                             mViewControllerModal;
-    FViewController                             mViewControllerTools;
-    FViewController                             *mViewControllerTouch;
+    //FViewController                             mViewController;
+    //FViewController                             mViewControllerModal;
+    //FViewController                             mViewControllerTools;
+    //FViewController                             *mViewControllerTouch;
 
     FWindow                                     mWindowMain;
     FWindow                                     mWindowModal;
@@ -110,15 +66,9 @@ public:
     FWindow                                     *mSelectedInputWindow;
     
     int                                         mTimeSinceLastInteraction;
-
-    FFont                                       mSysFontSmall;
-    FFont                                       mSysFontSmallBold;
     
     FFont                                       mSysFont;
     FFont                                       mSysFontBold;
-    
-    FFont                                       mSysFontLarge;
-    FFont                                       mSysFontLargeBold;
     
     float                                       mTouchX;
     float                                       mTouchY;
@@ -127,6 +77,42 @@ public:
     FList                                       mImageLoadExtensionList;
     FList                                       mImageLoadSuffixList;
     FList                                       mImageLoadMutableSuffixList;
+
+    void                                        ProcessMouseDown(float pX, float pY, int pButton);
+    void                                        ProcessMouseMove(float pX, float pY);
+    void                                        ProcessMouseUp(float pX, float pY, int pButton);
+    void                                        ProcessMouseWheel(int pDir);
+    void                                        ProcessTouchDown(float pX, float pY, void *pData);
+    void                                        ProcessTouchMove(float pX, float pY, void *pData);
+    void                                        ProcessTouchUp(float pX, float pY, void *pData);
+    void                                        ProcessTouchFlush();
+    void                                        ProcessKeyDown(int pKey);
+    void                                        ProcessKeyUp(int pKey);
+
+    void                                        BaseLoad();
+    void                                        BaseUpdate();
+    void                                        BaseDraw();
+    void                                        BaseSetDeviceSize(float pWidth, float pHeight);
+    void                                        BaseSetVirtualFrame(float pX, float pY, float pWidth, float pHeight);
+    void                                        BaseInitialize();
+    void                                        BaseLoadComplete();
+    void                                        BaseActive();
+    void                                        BaseInactive();
+    void                                        BaseMemoryWarning(bool pSevere);
+    void                                        BaseKeyDown(int pKey);
+    void                                        BaseKeyUp(int pKey);
+    void                                        BaseTouchDown(float pX, float pY, void *pData);
+    void                                        BaseTouchMove(float pX, float pY, void *pData);
+    void                                        BaseTouchUp(float pX, float pY, void *pData);
+    void                                        BaseTouchCanceled(float pX, float pY, void *pData);
+    void                                        BaseTouchDownDroid(float pX, float pY, int pIndex, int pCount);
+    void                                        BaseTouchMoveDroid(float pX, float pY, int pIndex, int pCount);
+    void                                        BaseTouchUpDroid(float pX, float pY, int pIndex, int pCount);
+    void                                        BaseTouchCanceledDroid(float pX, float pY, int pIndex, int pCount);
+    void                                        BaseMouseDown(float pX, float pY, int pButton);
+    void                                        BaseMouseMove(float pX, float pY);
+    void                                        BaseMouseUp(float pX, float pY, int pButton);
+    void                                        BaseMouseWheel(int pDirection);
 };
 
 extern FApp *gAppBase;

@@ -32,7 +32,7 @@ public:
     CNVBadgeDecor1                         mDecor1;
     CNVBadgeDecor2                         mDecor2;
     CNVBadgeDecor3                         mDecor3;
-    CNVBadgeDecor4                         mDecor4;
+    CNVBadgeDecor4                         *mDecor4;
 
     float                                   mFrame;
 

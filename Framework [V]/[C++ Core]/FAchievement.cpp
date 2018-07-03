@@ -11,18 +11,15 @@
 #include "FAchievement.h"
 #include "core_includes.h"
 
-FAchievement::FAchievement(const char *pName, int pProgressMax)
-{
+FAchievement::FAchievement(const char *pName, int pProgressMax) {
     SetUp(pName, pProgressMax);
 }
 
-FAchievement::FAchievement()
-{
+FAchievement::FAchievement() {
     SetUp((const char *)0, 1);
 }
 
-void FAchievement::SetUp(const char *pName, int pProgressMax)
-{
+void FAchievement::SetUp(const char *pName, int pProgressMax) {
     mName = pName;
     
     mProgressMax = pProgressMax;
@@ -55,28 +52,23 @@ void FAchievement::ResetProgress()
 	mProgressSaved = 0;
 }
 
-void FAchievement::Load(FFile *pFFile)
-{
-	if(pFFile)
-	{
+void FAchievement::Load(FFile *pFFile) {
+	if (pFFile) {
 		mProgress=pFFile->ReadInt();
 		mProgressMax=pFFile->ReadInt();
 		mAutoResetsActionId=pFFile->ReadInt();
 		mProgressSaved=pFFile->ReadInt();
-		
 		mComplete=pFFile->ReadBool();
 		mCompletedThisUpdate=pFFile->ReadBool();
 		mPosted=pFFile->ReadBool();
 		mAutoResetsOnLevelUp=pFFile->ReadBool();
 		mAutoResetsOnGameOver=pFFile->ReadBool();
 		mAutoResetsOnAction=pFFile->ReadBool();
-        
         mName=pFFile->ReadString();
 	}
 }
 
-void FAchievement::Print()
-{
+void FAchievement::Print() {
 	Log("%s: complete: %d (%d/%d) posted: %d\n", mName.c(), mComplete, mProgress, mProgressMax, mPosted);
 }
 
@@ -144,7 +136,7 @@ FAchievementGroup::~FAchievementGroup()
 
 void FAchievementGroup::AddProgress(FList *pBubbleList, int pProgress)
 {
-    EnumList(FAchievement, aFAchievement, mFAchievementList)
+    EnumList(FAchievement, aFAchievement, mAchievementList)
     {
         if(aFAchievement->AddProgress(pProgress))
         {
@@ -159,20 +151,20 @@ void FAchievementGroup::AddProgress(FList *pBubbleList, int pProgress)
     }
 }
 
-void FAchievementGroup::Add(const char *pFAchievementName, int pProgressMax)
+void FAchievementGroup::Add(const char *pAchievementName, int pProgressMax)
 {
     FAchievement *aFAchievement = 0;
-    EnumList(FAchievement, aCheck, mFAchievementList)
+    EnumList(FAchievement, aCheck, mAchievementList)
     {
-        if(aCheck->mName == pFAchievementName)
+        if(aCheck->mName == pAchievementName)
         {
             aFAchievement = aCheck;
         }
     }
     if(aFAchievement == 0)
     {
-        aFAchievement = new FAchievement(pFAchievementName, pProgressMax);
-        mFAchievementList += aFAchievement;
+        aFAchievement = new FAchievement(pAchievementName, pProgressMax);
+        mAchievementList += aFAchievement;
     }
     else
     {
@@ -211,11 +203,11 @@ void FAchievementController::PerformAction(int pAction)
 }
 
 
-FAchievement *FAchievementController::GetFAchievement(const char *pName)
+FAchievement *FAchievementController::GetAchievement(const char *pName)
 {
     FAchievement *aResult=0;
     
-    EnumList(FAchievement, aFAchievement, mFAchievementList)
+    EnumList(FAchievement, aFAchievement, mAchievementList)
     {
         if(aFAchievement->mName == pName)
         {
@@ -227,7 +219,7 @@ FAchievement *FAchievementController::GetFAchievement(const char *pName)
     {
         EnumList(FAchievementGroup, aGroup, mFAchievementGroupList)
         {
-            EnumList(FAchievement, aFAchievement, aGroup->mFAchievementList)
+            EnumList(FAchievement, aFAchievement, aGroup->mAchievementList)
             {
                 if(aFAchievement->mName == pName)
                 {
@@ -240,14 +232,14 @@ FAchievement *FAchievementController::GetFAchievement(const char *pName)
 	return aResult;
 }
 
-FAchievement *FAchievementController::GetFAchievement(char *pName)
+FAchievement *FAchievementController::GetAchievement(char *pName)
 {
-    return GetFAchievement((const char*)pName);
+    return GetAchievement((const char*)pName);
 }
 
-FAchievement *FAchievementController::GetFAchievement(FString pName)
+FAchievement *FAchievementController::GetAchievement(FString pName)
 {
-    return GetFAchievement((const char*)pName.c());
+    return GetAchievement((const char*)pName.c());
 }
 
 void FAchievementController::AddProgressGroup(const char *pGroupName, FList *pBubbleList, int pProgress)
@@ -261,9 +253,9 @@ void FAchievementController::AddProgressGroup(const char *pGroupName, FList *pBu
     }
 }
 
-FAchievement *FAchievementController::AddProgress(const char *pFAchievementName, int pProgress)
+FAchievement *FAchievementController::AddProgress(const char *pAchievementName, int pProgress)
 {
-	FAchievement *aFAchievement = GetFAchievement(pFAchievementName);
+	FAchievement *aFAchievement = GetAchievement(pAchievementName);
 	if(aFAchievement)
 	{
 		if(aFAchievement->AddProgress(pProgress))
@@ -274,20 +266,20 @@ FAchievement *FAchievementController::AddProgress(const char *pFAchievementName,
 	return 0;
 }
 
-void FAchievementController::Add(const char *pFAchievementName, int pProgressMax)
+void FAchievementController::Add(const char *pAchievementName, int pProgressMax)
 {
     FAchievement *aFAchievement = 0;
-    EnumList(FAchievement, aCheck, mFAchievementList)
+    EnumList(FAchievement, aCheck, mAchievementList)
     {
-        if(aCheck->mName == pFAchievementName)
+        if(aCheck->mName == pAchievementName)
         {
             aFAchievement = aCheck;
         }
     }
     if(aFAchievement == 0)
     {
-        aFAchievement = new FAchievement(pFAchievementName, pProgressMax);
-        mFAchievementList += aFAchievement;
+        aFAchievement = new FAchievement(pAchievementName, pProgressMax);
+        mAchievementList += aFAchievement;
     }
     else
     {
@@ -295,7 +287,7 @@ void FAchievementController::Add(const char *pFAchievementName, int pProgressMax
     }
 }
 
-void FAchievementController::Add(const char *pFAchievementName, const char *pGroupName, int pProgressMax)
+void FAchievementController::Add(const char *pAchievementName, const char *pGroupName, int pProgressMax)
 {
     FAchievementGroup *aGroup = 0;
     EnumList(FAchievementGroup, aCheckGroup, mFAchievementGroupList)
@@ -307,7 +299,7 @@ void FAchievementController::Add(const char *pFAchievementName, const char *pGro
         aGroup = new FAchievementGroup(pGroupName);
         mFAchievementGroupList += aGroup;
     }
-    aGroup->Add(pFAchievementName, pProgressMax);
+    aGroup->Add(pAchievementName, pProgressMax);
 }
 
 void FAchievementController::GetAllFAchievements(FList *pList)
@@ -315,13 +307,13 @@ void FAchievementController::GetAllFAchievements(FList *pList)
     
     EnumList(FAchievementGroup, aGroup, mFAchievementGroupList)
     {
-        EnumList(FAchievement, aFAchievement, aGroup->mFAchievementList)
+        EnumList(FAchievement, aFAchievement, aGroup->mAchievementList)
         {
             pList->Add(aFAchievement);
         }
     }
     
-    EnumList(FAchievement, aFAchievement, mFAchievementList)
+    EnumList(FAchievement, aFAchievement, mAchievementList)
     {
         pList->Add(aFAchievement);
     }
@@ -331,7 +323,7 @@ void FAchievementController::GetAllFAchievements(FList *pList)
 
 bool FAchievementController::Exists(FString pName)
 {
-    return GetFAchievement(pName) != 0;
+    return GetAchievement(pName) != 0;
 }
 
 void FAchievementController::Reset()
@@ -374,8 +366,8 @@ void FAchievementController::Save()
     
     FFile aFile;
     
-    aFile.WriteInt(mFAchievementList.mCount);
-    EnumList(FAchievement, aFAchievement, mFAchievementList)
+    aFile.WriteInt(mAchievementList.mCount);
+    EnumList(FAchievement, aFAchievement, mAchievementList)
     {
         aFAchievement->Save(&aFile);
     }
@@ -383,8 +375,8 @@ void FAchievementController::Save()
     aFile.WriteInt(mFAchievementGroupList.mCount);
     EnumList(FAchievementGroup, aGroup, mFAchievementGroupList)
     {
-        aFile.WriteInt(aGroup->mFAchievementList.mCount);
-        EnumList(FAchievement, aFAchievement, aGroup->mFAchievementList)
+        aFile.WriteInt(aGroup->mAchievementList.mCount);
+        EnumList(FAchievement, aFAchievement, aGroup->mAchievementList)
         {
             aFAchievement->Save(&aFile);
         }
@@ -394,11 +386,11 @@ void FAchievementController::Save()
     
 }
 
-void FAchievementController::Synchronize(const char *pFAchievementName, int pProgress)
+void FAchievementController::Synchronize(const char *pAchievementName, int pProgress)
 {
-    EnumList(FAchievement, aFAchievement, mFAchievementList)
+    EnumList(FAchievement, aFAchievement, mAchievementList)
     {
-        if(aFAchievement->mName == pFAchievementName)
+        if(aFAchievement->mName == pAchievementName)
         {
             Synchronize(aFAchievement, pProgress);
         }
@@ -406,9 +398,9 @@ void FAchievementController::Synchronize(const char *pFAchievementName, int pPro
     
     EnumList(FAchievementGroup, aGroup, mFAchievementGroupList)
     {
-        EnumList(FAchievement, aFAchievement, aGroup->mFAchievementList)
+        EnumList(FAchievement, aFAchievement, aGroup->mAchievementList)
         {
-            if(aFAchievement->mName == pFAchievementName)
+            if(aFAchievement->mName == pAchievementName)
             {
                 Synchronize(aFAchievement, pProgress);
             }
@@ -417,16 +409,16 @@ void FAchievementController::Synchronize(const char *pFAchievementName, int pPro
     
 }
 
-void FAchievementController::Synchronize(FAchievement *pFAchievement, int pProgress)
+void FAchievementController::Synchronize(FAchievement *pAchievement, int pProgress)
 {
-    if(pFAchievement)
+    if(pAchievement)
     {
-        if(pFAchievement->mProgress < pProgress)
+        if(pAchievement->mProgress < pProgress)
         {
-            pFAchievement->mProgress = pProgress;
-            if(pFAchievement->mProgress > pFAchievement->mProgressMax)
+            pAchievement->mProgress = pProgress;
+            if(pAchievement->mProgress > pAchievement->mProgressMax)
             {
-                pFAchievement->mProgress = pFAchievement->mProgressMax;
+                pAchievement->mProgress = pAchievement->mProgressMax;
             }
         }
     }
@@ -439,7 +431,7 @@ void FAchievementController::Print()
     
     
     Log("\n[Ungrouped]\n{\n");
-    EnumList(FAchievement, aFAchievement, mFAchievementList)
+    EnumList(FAchievement, aFAchievement, mAchievementList)
     {
         Log("\t");
         aFAchievement->Print();
@@ -450,7 +442,7 @@ void FAchievementController::Print()
     {
         Log("\n[Group %s]\n{\n", aGroup->mGroupName.c());
         
-        EnumList(FAchievement, aFAchievement, aGroup->mFAchievementList)
+        EnumList(FAchievement, aFAchievement, aGroup->mAchievementList)
         {
             Log("\t");
             aFAchievement->Print();

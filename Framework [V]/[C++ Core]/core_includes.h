@@ -59,6 +59,7 @@
 #include "FObject.h"
 #include "FSound.h"
 #include "FResource.h"
+#include "FNotificationCenter.hpp"
 
 extern float gAppWidth;
 extern float gAppHeight;
@@ -110,6 +111,7 @@ extern Graphics gG;
 
 extern FTouchManager gTouch;
 extern FTextureCache gTextureCache;
+extern FNotificationCenter gNotify;
 
 static FList sSoundList;
 static FList sSoundInstanceList;

@@ -19,52 +19,48 @@ class CNVWorldContainerContainer;
 class TestWorldContainerContainer;
 class TestWorldContainer;
 class TempView;
-class GLApp : public FApp
-{
+class GLApp : public FApp {
 public:
-    
     GLApp();
     virtual ~GLApp();
-    
+
     virtual void                                Update();
     virtual void                                Draw();
     virtual void                                Load();
     virtual void                                LoadComplete();
-    
+
     void                                        UpdateRot(float pX);
-    
+
     virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight);
     virtual void                                SetDeviceSize(float pWidth, float pHeight);
 
-    bool                                        SegmentSegmentIntersection(FVec2 l1p1, FVec2 l1p2, FVec2 l2p1, FVec2 l2p2, FVec2 *intersection);
+    bool                                        SegmentSegmentIntersection(FPoint l1p1, FPoint l1p2, FPoint l2p1, FPoint l2p2, FPoint *intersection);
     
     virtual void                                MouseWheel(int pDirection);
     virtual void                                KeyDown(int pKey);
     virtual void                                KeyUp(int pKey);
-    
     
     virtual void                                TouchDown(float pX, float pY, void *pData);
     virtual void                                TouchMove(float pX, float pY, void *pData);
     virtual void                                TouchUp(float pX, float pY, void *pData);
     virtual void                                TouchFlush();
     
-    TestWorldContainerContainer                 *mContainer;
-
     CNVWorldContainerContainer                  *mCanvasContainer;
-    
-    //TestWorldContainer                          *mWorldContainer;
-    
+
     FSound                                      mSound;
     
-    FVec2                                       mLine1Point1;
-    FVec2                                       mLine1Point2;
+    FPoint                                      mLine1Point1;
+    FPoint                                      mLine1Point2;
     
-    FVec2                                       mLine2Point1;
-    FVec2                                       mLine2Point2;
-    
-    FVec2                                       *mSelectedPoint;
-    FVec2                                       mSelectedPointStart;
-    FVec2                                       mSelectedTouchStart;
+    FPoint                                      mLine2Point1;
+    FPoint                                      mLine2Point2;
+
+    FPoint                                      *mSelectedPoint;
+    FPoint                                      mSelectedPointStart;
+    FPoint                                      mSelectedTouchStart;
+
+    float                                       mFont1ScaleSin;
+    float                                       mFont2ScaleSin;
     
     FModelDataIndexed                           mSphere;
     
@@ -75,41 +71,42 @@ public:
     FSprite                                     mTessPattern;
     
     FSprite                                     mDarkTile;
-    
+
     FSprite                                     mWallLeft;
     FSprite                                     mWallRight;
-    
-    FSprite                                     mSillyMeme;
 
+    FSprite                                     mSillyMeme;
 
     FSprite                                     mTest_800x600_1;
     FSprite                                     mTest_800x600_2;
     FSprite                                     mTest_Small_1;
-
 
     FSprite                                     mInterfaceBottom;
     FSprite                                     mInterfaceBottomGray;
 
 
     FSpriteSequence                             mSequenceSquare;
-
     FSpriteSequence                             mParticleStream;
+
+    FSpriteSequence                             mSequencePlasmaBolt;
+    FSpriteSequence                             mSequencePlasmaBoltGlow;
+
+
+    FSpriteSequence                             mSequenceSmokePuff;
+    FSpriteSequence                             mSequenceTwinkle;
+    FSpriteSequence                             mSequenceSparkBlast;
+
     
     FSprite                                     mTile1;
     FSprite                                     mTile2;
     FSprite                                     mTile3;
     FSprite                                     mTile4;
 
-    FCanvas                                     mCanvas1;
-    FCanvas                                     mCanvas2;
-    FCanvas                                     *mCanvas3;
-
-    FSprite                                     mJiggleMascot;
-    
     int                                         mSpawnNewWorldTimer;
     
-    
-    
+    bool                                        mAnimationSide;
+    FCanvasAnimation                            mAnimation;
+
 };
 
 extern GLApp *gApp;

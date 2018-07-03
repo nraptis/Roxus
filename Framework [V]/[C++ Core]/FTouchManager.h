@@ -8,6 +8,10 @@
 
 #define TOUCH_HISTORY_STATES 128
 
+#define MOUSE_BUTTON_LEFT 0
+#define MOUSE_BUTTON_MIDDLE 1
+#define MOUSE_BUTTON_RIGHT 2
+
 #define MOUSE_MOVE 0
 #define MOUSE_DOWN 1
 #define MOUSE_UP 2
@@ -44,7 +48,6 @@ public:
     float                                   mX;
     float                                   mY;
     int                                     mTouchState;
-
     void                                    *mData;
 };
 
@@ -52,30 +55,21 @@ class FTouch {
 public:
     FTouch();
     ~FTouch();
-    
     void                                    Reset(float pX, float pY, void *pData);
     void                                    Reset(float pX, float pY);
-    
     void                                    Move(float pX, float pY);
     void                                    Up(float pX, float pY);
-    
     float                                   mHistoryX[TOUCH_HISTORY_STATES];
     float                                   mHistoryY[TOUCH_HISTORY_STATES];
     int                                     mHistoryTime[TOUCH_HISTORY_STATES];
     int                                     mHistoryCount;
-    
     float                                   mX;
     float                                   mY;
-    
     int                                     mTimer;
     int                                     mLastActionTime;
-
     int                                     mState;
-    
     int                                     mRenderIndex;
-
     bool                                    mChanged;
-    
     void                                    *mData;
 };
 
@@ -87,7 +81,6 @@ public:
     void                                    Update();
     void                                    Draw();
     
-    //Before the app is running, and we update..
     void                                    Reset();
     
     void                                    Active();
@@ -143,6 +136,7 @@ public:
     float                                   mCenterY;
 
     void                                    *mAndroidFakePointer[TOUCH_FAKE_POINTER_COUNT];
+    void                                    *mMouseFakePointer[3];
 
 	bool									mMouseLeftDown;
 	bool									mMouseRightDown;

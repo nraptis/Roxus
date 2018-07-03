@@ -20,9 +20,7 @@
 #define SPLINE_3D_SHORT_STEP 0.01f
 
 class FFile;
-
-class FSpline
-{
+class FSpline {
 public:
 	FSpline(void);
 	virtual ~FSpline(void);

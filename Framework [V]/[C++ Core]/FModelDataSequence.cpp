@@ -11,40 +11,27 @@
 #include "FFile.h"
 #include "FTexture.h"
 
-FModelDataSequence::FModelDataSequence()
-{
-    
+FModelDataSequence::FModelDataSequence() {
     mTexture = 0;
     mParent = 0;
-    
     mSize = 0;
     mCount = 0;
     mData = 0;
-    
     mDisableNormal = false;
     mDisableUVW = false;
     mDisableIndeces = false;
-    
     mUsesBaseXYZ = false;
     mUsesBaseNormal = false;
     mUsesBaseUVW = true;
-    
 }
 
-FModelDataSequence::~FModelDataSequence()
-{
+FModelDataSequence::~FModelDataSequence() {
     Free();
 }
 
-
-
-
-void FModelDataSequence::Add(FModelDataIndexed *pData)
-{
-    if(pData == 0)return;
-    
-    if(mCount <= mSize)
-    {
+void FModelDataSequence::Add(FModelDataIndexed *pData) {
+    if (pData == 0) return;
+    if (mCount <= mSize) {
         mSize = mCount + mCount / 2 + 1;
         
         FModelDataIndexed **aData = new FModelDataIndexed*[mSize];

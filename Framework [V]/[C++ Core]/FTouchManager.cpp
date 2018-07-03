@@ -150,6 +150,10 @@ FTouchManager::FTouchManager() {
     mAndroidFakePointer[5] = (void *)(0xF005BA11);
     mAndroidFakePointer[6] = (void *)(0x57EE1EDF);
     mAndroidFakePointer[7] = (void *)(0x0DDBA11E);
+
+    mMouseFakePointer[0] = (void *)(0xDEADBEE4);
+    mMouseFakePointer[1] = (void *)(0xBEEEDAAD);
+    mMouseFakePointer[2] = (void *)(0xFADE1337);
     
     mCenterX = 0.0f;
     mCenterY = 0.0f;
@@ -361,7 +365,6 @@ void FTouchManager::FinishedTouch(FTouch *pTouch) {
             }
             mTouchCount--;
         }
-        
         if (mTouchQueueCount < TOUCH_MANAGER_MAX_QUEUE_TOUCHES) {
             mTouchQueue[mTouchQueueCount] = pTouch;
             mTouchQueueCount++;
@@ -396,82 +399,69 @@ FTouch *FTouchManager::GetTouch(void *pData) {
 
 void FTouchManager::BaseTouchDown(float pX, float pY, void *pData) {
     EnqueueTouchAction(pX, pY, TOUCH_STATE_DOWN, pData);
-    //EnqueueMouseDown(pX, pY, -1);
     EnqueueMouseAction(pX, pY, MOUSE_DOWN, -1, 0);
 }
 
 void FTouchManager::BaseTouchMove(float pX, float pY, void *pData) {
     EnqueueTouchAction(pX, pY, TOUCH_STATE_MOVING, pData);
-    //EnqueueMouseMove(pX, pY);
     EnqueueMouseAction(pX, pY, MOUSE_MOVE, 0, 0);
-
 }
 
 void FTouchManager::BaseTouchUp(float pX, float pY, void *pData) {
     EnqueueTouchAction(pX, pY, TOUCH_STATE_RELEASED, pData);
-    //EnqueueMouseUp(pX, pY, -1);
     EnqueueMouseAction(pX, pY, MOUSE_UP, -1, 0);
-
 }
 
 void FTouchManager::BaseTouchCanceled(float pX, float pY, void *pData) {
     EnqueueTouchAction(pX, pY, TOUCH_STATE_CANCELED, pData);
-    //EnqueueMouseUp(pX, pY, -1);
     EnqueueMouseAction(pX, pY, MOUSE_UP, -1, 0);
-
 }
 
 void FTouchManager::BaseTouchDownDroid(float pX, float pY, int pIndex, int pCount) {
     EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_DOWN, pIndex);
-    //EnqueueMouseDown(pX, pY, -1);
     EnqueueMouseAction(pX, pY, MOUSE_DOWN, -1, 0);
-
 }
 
 void FTouchManager::BaseTouchMoveDroid(float pX, float pY, int pIndex, int pCount) {
     EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, pIndex);
-    //EnqueueMouseMove(pX, pY);
     EnqueueMouseAction(pX, pY, MOUSE_MOVE, 0, 0);
-
 }
 
 void FTouchManager::BaseTouchUpDroid(float pX, float pY, int pIndex, int pCount) {
     EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_RELEASED, pIndex);
-    //EnqueueMouseUp(pX, pY, -1);
     EnqueueMouseAction(pX, pY, MOUSE_UP, -1, 0);
-
 }
 
 void FTouchManager::BaseTouchCanceledDroid(float pX, float pY, int pIndex, int pCount) {
     EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, pIndex);
-    //EnqueueMouseUp(pX, pY, -1);
     EnqueueMouseAction(pX, pY, MOUSE_UP, -1, 0);
-
 }
 
 void FTouchManager::BaseMouseDown(float pX, float pY, int pButton) {
-	if (pButton == 0) {
+	if (pButton == MOUSE_BUTTON_LEFT) {
 		if(mMouseLeftDown)EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, 0);
 		mMouseLeftDown = true;
 	}
-	if (pButton == 1) {
+	if (pButton == MOUSE_BUTTON_MIDDLE) {
 		if(mMouseMiddleDown)EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, 1);
 		mMouseMiddleDown = true;
 	}
-	if (pButton == 2) {
+	if (pButton == MOUSE_BUTTON_RIGHT) {
 		if(mMouseRightDown)EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, 2);
 		mMouseRightDown = true;
 	}
-
 	EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_DOWN, pButton);
     EnqueueMouseAction(pX, pY, MOUSE_DOWN, pButton, 0);
 }
 
-void FTouchManager::BaseMouseMove(float pX, float pY)
-{
+void FTouchManager::BaseMouseMove(float pX, float pY) {
 	if (mMouseLeftDown) {
-		EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, 0);
-	}
+		EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, MOUSE_BUTTON_LEFT);
+    } else if (mMouseRightDown) {
+        EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, MOUSE_BUTTON_RIGHT);
+    } else if (mMouseMiddleDown) {
+        EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, MOUSE_BUTTON_MIDDLE);
+    }
     EnqueueMouseAction(pX, pY, MOUSE_MOVE, 0, 0);
 }
 
@@ -479,13 +469,11 @@ void FTouchManager::BaseMouseWheel(int pDir) {
     EnqueueMouseAction(0.0f, 0.0f, MOUSE_WHEEL_SCROLL, 0, pDir);
 }
 
-void FTouchManager::BaseMouseUp(float pX, float pY, int pButton)
-{
+void FTouchManager::BaseMouseUp(float pX, float pY, int pButton) {
 	if(pButton == 0)mMouseLeftDown = false;
 	if(pButton == 1)mMouseMiddleDown = false;
 	if(pButton == 2)mMouseRightDown = false;
-    EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, pButton);
-    //EnqueueMouseUp(pX, pY, pButton);
+    EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_RELEASED, pButton);
     EnqueueMouseAction(pX, pY, MOUSE_UP, pButton, 0);
 
 }

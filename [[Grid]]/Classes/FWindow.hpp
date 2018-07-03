@@ -9,9 +9,9 @@
 #ifndef FRAMEWORK_WINDOW_HPP
 #define FRAMEWORK_WINDOW_HPP
 
-#include "FCanvasBucket.hpp"
 #include "FCanvas.hpp"
 #include "FList.h"
+#include "FHashMap.hpp"
 
 class FWindow {
 public:
@@ -23,7 +23,10 @@ public:
 
     void                                            Update();
     void                                            Draw();
-
+    void                                            Active();
+    void                                            Inactive();
+    void                                            MemoryWarning(bool pSevere);
+    
     bool                                            TouchDown(float pX, float pY, void *pData);
     void                                            TouchMove(float pX, float pY, void *pData);
     void                                            TouchUp(float pX, float pY, void *pData);
@@ -103,8 +106,6 @@ public:
     int                                             mVirtualFrameHeight;
 
     FCanvas                                         mRoot;
-
-
 };
 
 #endif

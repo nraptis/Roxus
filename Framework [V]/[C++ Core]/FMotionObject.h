@@ -16,14 +16,10 @@
 #define SPAWN_SOURCE_POLYGON 3
 #define SPAWN_SOURCE_POINT_CLOUD 4
 
-
 #define MOT_NODE_TYPE_TRACKING 3
 #define MOT_NODE_TYPE_UNKNOWN 0
 #define MOT_NODE_TYPE_GEOMETRY 4
 #define MOT_NODE_TYPE_SPAWN_BEHAVIOR 6
-
-
-
 
 #include "FObject.h"
 #include "FSprite.h"

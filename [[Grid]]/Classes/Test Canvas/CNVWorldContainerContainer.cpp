@@ -27,6 +27,7 @@ CNVWorldContainerContainer::CNVWorldContainerContainer() {
 
 CNVWorldContainerContainer::~CNVWorldContainerContainer() {
     Log("Free(CNVWorldContainerContainer)\n");
+    gApp->mCanvasContainer = 0;
 }
 
 void CNVWorldContainerContainer::Layout() {
@@ -56,12 +57,6 @@ void CNVWorldContainerContainer::Layout() {
             mWorldContainer->SetTransformScale(aScale);
             mWorldContainer->SetTransformX(aFit.mX);
             mWorldContainer->SetTransformY(aFit.mY);
-
-            if (gRand.GetBool()) {
-                //mWorldContainer->SetTransformRotation(-14.0f);
-            } else {
-                //mWorldContainer->SetTransformRotation(0.0f);
-            }
         }
     }
 }

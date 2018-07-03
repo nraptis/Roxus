@@ -4,21 +4,18 @@
 #include "FStringBuffer.h"
 #include "core_includes.h"
 
-FXML::FXML()
-{
+FXML::FXML() {
 	mRoot=0;
 	mOutput=0;
 	mOutputSize=0;
 	mOutputLength=0;
 }
 
-FXML::~FXML()
-{
+FXML::~FXML() {
 	Clear();
 }
 
-void FXML::Clear()
-{
+void FXML::Clear() {
 	if(mRoot)delete mRoot;
 	mRoot=0;
 	delete[]mOutput;
@@ -29,8 +26,7 @@ void FXML::Clear()
 
 
 
-char *SkipQuote(char *pSeek)
-{
+char *SkipQuote(char *pSeek) {
 	char *aSeek=pSeek;
 	if(*aSeek=='\"')
 	{
@@ -42,14 +38,9 @@ char *SkipQuote(char *pSeek)
 
 //*pSeek= ! or ?
 //returns *'>' if not error..
-char *SkipComment(char *pSeek)
-{
+char *SkipComment(char *pSeek) {
 	char *aSeek=pSeek;
-	
-	
 	while(*aSeek&&*aSeek<=32)aSeek++;
-
-		
 		int aBraceDepth=1;
 		START_SKIP_COMMENT:
 		while(*aSeek&&

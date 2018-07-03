@@ -11,8 +11,7 @@
 
 #include "FObject.h"
 
-class Tile : public FObject
-{
+class Tile : public FObject {
 public:
     Tile();
     virtual ~Tile();

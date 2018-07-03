@@ -11,6 +11,7 @@
 
 #include "FCanvas.hpp"
 #include "CNVGame.hpp"
+#include "FButton.h"
 
 class CNVWorld : public FCanvas {
 public:
@@ -33,6 +34,14 @@ public:
     CNVGame                                *mGame;
     
     bool                                    mLarge;
+
+
+    FButton                                 *mButton1;
+    FButton                                 *mButton2;
+    FButton                                 *mButton3;
+    FButton                                 *mButton4;
+    
+
 };
 
 #endif /* CNVWorld_hpp */

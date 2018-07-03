@@ -8,7 +8,7 @@
 
 #include "core_includes.h"
 #include "FSpriteSequence.h"
-#include "FHashTable.h"
+#include "FHashTable.hpp"
 
 FSpriteSequence::FSpriteSequence()
 {

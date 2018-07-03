@@ -6,25 +6,21 @@
 //  Copyright (c) 2014 Nick Raptis. All rights reserved.
 //
 
-#include "FHashTable.h"
+#include "FHashTable.hpp"
 #include "core_includes.h"
 
-FHashTableNode::FHashTableNode()
-{
+FHashTableNode::FHashTableNode() {
     mObject = 0;
-    //mKeyData = 0;
     mNext = 0;
 }
 
-FHashTableNode::~FHashTableNode()
-{
+FHashTableNode::~FHashTableNode() {
     
 }
 
-FHashTable::FHashTable()
-{
+FHashTable::FHashTable() {
     mTable = 0;
-    
+
     mTableCount = 0;
     mTableSize = 0;
     
@@ -32,48 +28,45 @@ FHashTable::FHashTable()
     mAllowDuplicateFullKeys = false;
 }
 
-FHashTable::~FHashTable()
-{
+FHashTable::~FHashTable() {
+    FHashTableNode *aNode = 0;
+    FHashTableNode *aNext = 0;
+    for (int i=0;i<mTableSize;i++) {
+        aNode = mTable[i];
+        while (aNode) {
+            aNext = aNode->mNext;
+            delete aNode;
+            aNode = aNext;
+        }
+    }
+    delete [] mTable;
+    mTable = 0;
+    mTableCount = 0;
+    mTableSize = 0;
+    FreeList(FHashTableNode, mQueue);
+
     //mTable = 0;
     //mTableCount = 0;
     //mTableSize = 0;
+    
 }
 
-void FHashTable::Add(const char *pKey, const char *pKeyFull, void *pObject)
-{
+FHashTableNode *FHashTable::Add(const char *pKey, const char *pKeyFull, void *pObject) {
     FHashTableNode *aNode = 0;
     FHashTableNode *aHold = 0;
-    
-    unsigned int aHashBase = Hash(pKey);
+    unsigned int aHashBase = FHashTable::Hash(pKey);
     unsigned int aHash = 0;
-    
-    //mKeyFull
-    
-    if(mTableSize > 0)
-    {
+    if (mTableSize > 0) {
         aHash = (aHashBase % mTableSize);
-        
         aNode = mTable[aHash];
-        
-        while(aNode)
-        {
-            if(aNode->mKey == pKey)
-            {
-                
-                if(mAllowDuplicateKeys == false)
-                {
-					//Log("^^^^^\n^^^^^\n^^^^^\nBANNING DUPE 1 [%s]\n\n^^^^\n^^^^^^^^^^^^^^^\n\n", aNode->mKey.c());
-                    
-                    return;
-                }
-                else
-                {
-                    if(aNode->mKeyFull == pKeyFull)
-                    {
-                        if(mAllowDuplicateFullKeys == false)
-                        {
-							//Log("^^^^^\n^^^^^\n^^^^^\nBANNING DUPE 2 [%s]\n\n^^^^\n^^^^^^^^^^^^^^^\n\n", aNode->mKey.c());
-                            return;
+        while (aNode) {
+            if (aNode->mKey == pKey) {
+                if (mAllowDuplicateKeys == false) {
+                    return aNode;
+                } else {
+                    if (aNode->mKeyFull == pKeyFull) {
+                        if (mAllowDuplicateFullKeys == false) {
+                            return aNode;
                         }
                     }
                 }
@@ -82,10 +75,8 @@ void FHashTable::Add(const char *pKey, const char *pKeyFull, void *pObject)
             aNode = aNode->mNext;
         }
         
-        if(mTableCount >= (mTableSize / 2))
-        {
+        if (mTableCount >= (mTableSize / 2)) {
             int aNewSize = mTableCount + 1;
-            
             if(mTableCount < ((7 / 2) - 1))aNewSize = 7;
             else if(mTableCount < ((13 / 2) - 1))aNewSize = 13;
             else if(mTableCount < ((29 / 2) - 1))aNewSize = 29;
@@ -123,48 +114,82 @@ void FHashTable::Add(const char *pKey, const char *pKeyFull, void *pObject)
         aHash = (aHashBase % mTableSize);
     }
 
-    FHashTableNode *aNew = new FHashTableNode();
+    FHashTableNode *aNew = (FHashTableNode *)mQueue.PopLast();
+    if (!aNew) {
+        aNew = new FHashTableNode();
+    }
     aNew->mKey = pKey;
     aNew->mKeyFull = pKeyFull;
     aNew->mObject = pObject;
     aNew->mNext = 0;
     
-    if(mTable[aHash])
-    {
+    if (mTable[aHash]) {
         aNode = mTable[aHash];
-        
-        while(aNode)
-        {
+        while (aNode) {
             aHold = aNode;
             aNode = aNode->mNext;
         }
-        
         aHold->mNext = aNew;
-    }
-    else
-    {
+    } else {
         mTable[aHash] = aNew;
     }
-    
     mTableCount++;
+    return aNew;
 }
 
-void FHashTable::Add(const char *pKey, void *pObject)
-{
-    Add(pKey, 0, pObject);
-}
-
-void *FHashTable::Get(const char *pKey)
-{
-    void *aResult = 0;
-    if(mTableSize > 0)
-    {
-        unsigned int aHash = (Hash(pKey) % mTableSize);
+bool FHashTable::Remove(const char *pKey) {
+    if (mTableSize > 0) {
+        unsigned int aHash = (FHashTable::Hash(pKey) % mTableSize);
+        FHashTableNode *aPreviousNode = 0;
         FHashTableNode *aNode = mTable[aHash];
-        while(aNode)
-        {
-            if(aNode->mKey == pKey)
-            {
+        while (aNode) {
+            if (aNode->mKey == pKey) {
+                if (aPreviousNode) {
+                    aPreviousNode->mNext = aNode->mNext;
+                } else {
+                    mTable[aHash] = aNode->mNext;
+                }
+                mQueue.Add(aNode);
+                mTableCount -= 1;
+                return true;
+            }
+            aPreviousNode = aNode;
+            aNode = aNode->mNext;
+        }
+    }
+    return false;
+}
+
+bool FHashTable::RemoveNode(FHashTableNode *pNode) {
+    if (mTableSize > 0 && pNode != 0) {
+        unsigned int aHash = (FHashTable::Hash(pNode->mKey.c()) % mTableSize);
+        FHashTableNode *aPreviousNode = 0;
+        FHashTableNode *aNode = mTable[aHash];
+        while (aNode) {
+            if(aNode == pNode) {
+                if (aPreviousNode) {
+                    aPreviousNode->mNext = aNode->mNext;
+                } else {
+                    mTable[aHash] = aNode->mNext;
+                }
+                mQueue.Add(aNode);
+                mTableCount -= 1;
+                return true;
+            }
+            aPreviousNode = aNode;
+            aNode = aNode->mNext;
+        }
+    }
+    return false;
+}
+
+void *FHashTable::Get(const char *pKey) {
+    void *aResult = 0;
+    if (mTableSize > 0) {
+        unsigned int aHash = (FHashTable::Hash(pKey) % mTableSize);
+        FHashTableNode *aNode = mTable[aHash];
+        while (aNode) {
+            if (aNode->mKey == pKey) {
                 return aNode->mObject;
             }
             aNode = aNode->mNext;
@@ -173,35 +198,21 @@ void *FHashTable::Get(const char *pKey)
     return aResult;
 }
 
-
-FHashTableNode *FHashTable::GetNode(const char *pKey)
-{
+FHashTableNode *FHashTable::GetNode(const char *pKey) {
     FHashTableNode *aResult = 0;
-    
-    if(mTableSize > 0)
-    {
-        unsigned int aHash = (Hash(pKey) % mTableSize);
+    if (mTableSize > 0) {
+        unsigned int aHash = (FHashTable::Hash(pKey) % mTableSize);
         aResult = mTable[aHash];
     }
-    
     return aResult;
 }
 
-void FHashTable::GetAllNodes(const char *pKey, FList &pList)
-{
-    pList.RemoveAll();
-    
-    //FHashTableNode *aNode = 0;
-    
-    if(mTableSize > 0)
-    {
-        unsigned int aHash = (Hash(pKey) % mTableSize);
+void FHashTable::GetAllNodes(const char *pKey, FList &pList) {
+    if (mTableSize > 0) {
+        unsigned int aHash = (FHashTable::Hash(pKey) % mTableSize);
         FHashTableNode *aNode = mTable[aHash];
-        
-        while (aNode)
-        {
-            if(aNode->mKey == pKey)
-            {
+        while (aNode) {
+            if (aNode->mKey == pKey) {
                 pList.Add(aNode);
             }
             aNode = (aNode->mNext);
@@ -209,248 +220,42 @@ void FHashTable::GetAllNodes(const char *pKey, FList &pList)
     }
 }
 
-void FHashTable::SetTableSize(int pSize)
-{
+void FHashTable::SetTableSize(int pSize) {
 	FHashTableNode *aCheck = 0;
     FHashTableNode *aNext = 0;
     FHashTableNode *aNode = 0;
-    
     int aNewSize = pSize;
-    
     FHashTableNode **aTableNew = new FHashTableNode*[aNewSize];
-    
-    for(int i=0;i<aNewSize;i++)
-    {
+    for (int i=0;i<aNewSize;i++) {
         aTableNew[i] = 0;
     }
-    
     unsigned int aHash = 0;
-    for(int i=0;i<mTableSize;i++)
-    {
+    for (int i=0;i<mTableSize;i++) {
         aNode = mTable[i];
-
-		while (aNode)
-		{
+		while (aNode) {
 			aNext = aNode->mNext;
 			aNode->mNext = 0;
-
-			aHash = (Hash(aNode->mKey.c()) % aNewSize);
-
-			if(aTableNew[aHash] == 0)
-			{
+			aHash = (FHashTable::Hash(aNode->mKey.c()) % aNewSize);
+			if (aTableNew[aHash] == 0) {
 				aTableNew[aHash] = aNode;
-			}
-			else
-			{
+			} else {
 				aCheck = aTableNew[aHash];
-
-				while (aCheck->mNext)
-				{
+				while (aCheck->mNext) {
 					aCheck = aCheck->mNext;
 				}
-
 				aCheck->mNext = aNode;
 			}
 			aNode = aNext;
 		}
     }
-    
     delete [] mTable;
-    
     mTable = aTableNew;
     mTableSize = aNewSize;
 }
 
-
-
-
-
-/*
- 
-
-FTexture *FHashTable::Load(const char *pFileName, FImage *pImage, bool pRetainImage)
-{
-    FTexture *aResult = 0;
- 
-    int aHashBase = Hash(pFileName);
- 
-    if(mTableCount >= (mTableSize))
-    {
-        int aNewSize = (mTableCount * 2) + 4;
-        
-        
-        
-        //mNextTexture
-        
-        
-        
-    }
-    
-    return aResult;
-}
-
-FTexture *FHashTable::GetTexture(const char *pFileName, bool pRetainImage)
-{
-    FTexture *aResult = 0;
-    
-    unsigned int aHashBase = 0;
-    unsigned int aHash = 0;
-    
-    FTexture *aTexture = 0;
-    FTexture *aHold = 0;
-    FTexture *aNext = 0;
-    
-    FString aName = pFileName;
-    
-    if(mTableCount >= (mTableSize / 2))
-    {
-        
-        int aNewSize = (mTableSize * 2) + 1;
-        
-        FTexture **aHashTableNew = new FTexture*[aNewSize];
-        
-        for(int i=0;i<aNewSize;i++)
-        {
-            aHashTableNew[i] = 0;
-        }
-        
-        //Log("Re-Sizing Texture Table Was [%d] Is Now [%d]\n", mTableCount, aNewSize);
-        //Re-Hash All Da Nodez Yo..!
-        
-        for(int i=0;i<mTableSize;i++)
-        {
-            aHold = mTable[i];
-            
-            //aTexture = mTable[i];
-            while(aHold)
-            {
-                aTexture = aHold;
-                aHold = aTexture->mNextTexture;
-                aTexture->mNextTexture = 0;
-                
-                aHashBase = Hash(aTexture->mFileName.c());
-                aHash = (unsigned int)(aHashBase % ((unsigned int)aNewSize));
-                
-                //Log("Re-Hashed [%s] To [%d]\n", aTexture->mFileName.c(), aHash);
-                
-                if(aHashTableNew[aHash])
-                {
-                    aNext = aHashTableNew[aHash];
-                    
-                    while(true)
-                    {
-                        if(aNext->mNextTexture)
-                        {
-                            aNext = aNext->mNextTexture;
-                            
-                            
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    
-                    aNext->mNextTexture = aTexture;
-                    
-                }
-                else
-                {
-                    aHashTableNew[aHash] = aTexture;
-                }
-                
-                aTexture = aHold;
-                
-            }
-        }
-        
-        delete [] mTable;
-        
-        mTable = aHashTableNew;
-        mTableSize = aNewSize;
-        
-    }
-    
-    aHashBase = Hash(pFileName);
-    aHash = (unsigned int)(aHashBase % ((unsigned int)mTableSize));
-    
-    
-    //Does the texture ALREADY EXIST?
-    
-    aTexture = 0;
-    
-    //Log("Rehashed(%s) Was[%d] Now[%d]\n", aTexture->mFileName.c(), aHashBase, aHash);
-    
-    if(mTable[aHash])
-    {
-        aNext = mTable[aHash];
-        
-        while(aNext)
-        {
-            if(aNext->mFileName == aName)
-            {
-                aTexture = aNext;
-                break;
-            }
-            aNext = (aNext->mNextTexture);
-        }
-    }
-    
-    if(aTexture)
-    {
-        //Log("Texture [%s] Already Existed!!\n", pFileName);
-    }
-    else
-    {
-        //Log("Texture [%s] Doesn't Yet Existed!!\n", pFileName);
-        
-        aTexture = new FTexture();
-        aTexture->mFileName = pFileName;
-        aTexture->mNextTexture = 0;
-        
-        
-        //And then now we add it to the haish table..!
-        if(mTable[aHash])
-        {
-            aNext = mTable[aHash];
-            aHold = aNext;
-            
-            while(aNext)
-            {
-                aHold = aNext;
-                
-                aNext = (aNext->mNextTexture);
-            }
-            
-            aHold->mNextTexture = aTexture;
-        }
-        else
-        {
-            mTable[aHash] = aTexture;
-        }
-        
-        mTableCount++;
-        
-        Log("Hash Textures![%d / %d]\n", mTableCount, mTableSize);
-        
-    }
-    
-    
-    //Now, "Dirty" texture versus non-dirty texture..
-    
-    
-    
-    return aResult;
-}
-
-*/
-
-unsigned int FHashTable::Hash(const char *pString)
-{
+unsigned int FHashTable::Hash(const char *pString) {
     unsigned long aHash = 5381;
-	
-    if(pString)
-    {
+    if (pString) {
         unsigned char *aString = (unsigned char *)pString;
         while(*aString)
         {
@@ -459,34 +264,26 @@ unsigned int FHashTable::Hash(const char *pString)
             aString++;
         }
     }
-    
     return (unsigned int)aHash;
 }
 
-void FHashTable::Print()
-{
+void FHashTable::Print() {
 	Log("____\n____Hash Table____\n_Count = %d  Size = %d\n\n", mTableCount, mTableSize);
-    
-    
+
     FHashTableNode *aNode = 0;
-    
-    
-    for(int i=0;i<mTableSize;i++)
-    {
+
+    for (int i=0;i<mTableSize;i++) {
         int aCount = 0;
         aNode = mTable[i];
-        while(aNode)
-        {
+        while (aNode) {
             aCount++;
-            
             aNode = aNode->mNext;
         }
         
 		Log("Row[%d] (%d)\t{", i, aCount);
         
         aNode = mTable[i];
-        while(aNode)
-        {
+        while (aNode) {
 			Log("{%s}", aNode->mKey.c());
             aNode = aNode->mNext;
         }
@@ -494,10 +291,3 @@ void FHashTable::Print()
     }
     
 }
-
-
-//unsigned int FHashTable::Hash(void *pData)
-//{
-//    unsigned long aResult = ((unsigned long)pData);
-//    return (unsigned int)aResult;
-//}

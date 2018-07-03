@@ -8,36 +8,7 @@
 
 #define EnumTags(_tag,_subtag_name)for(FXMLTag **_enum_start=(FXMLTag**)_tag->mTags.mElement,**_enum_end=((_tag->mTags.mCount > 0)?((FXMLTag**)(&(_tag->mTags.mElement[_tag->mTags.mCount]))) : ((FXMLTag**)0)),*_subtag_name=((_tag->mTags.mCount > 0)?(*_enum_start):((FXMLTag*)0));_subtag_name!=((FXMLTag*)0);_subtag_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
 
-//#define EnumTags(_tag,_subtag_name)for(FXMLTag **_enum_start=(FXMLTag**)_tag->mTags.mElement,**_enum_end=(FXMLTag**)(&(_tag->mTags.mElement[_tag->mTags.mCount])),*_subtag_name=(_tag->mTags.mElement+_tag->mTags.mCount>0)?*_enum_start:((FXMLTag**)0);_subtag_name!=((FXMLTag**)0);_subtag_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-
-//#define EnumTags(_tag,_subtag_name)for(FXMLTag **_enum_start=(FXMLTag**)_tag->mTags.mElement,**_enum_end=(FXMLTag**)(&(_tag->mTags.mElement[_tag->mTags.mCount])),*_subtag_name=(_tag->mTags.mElement+_tag->mTags.mCount>0)?*_enum_start:((FXMLTag**)0);_subtag_name!=((FXMLTag**)0);_subtag_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-
-
 #define EnumParams(_tag,_param_name)for(FXMLParameter **_enum_start=(FXMLParameter**)_tag->mParameters.mElement,**_enum_end=((_tag->mParameters.mCount > 0)?((FXMLParameter**)(&(_tag->mParameters.mElement[_tag->mParameters.mCount]))):((FXMLParameter**)0)),*_param_name=((_tag->mParameters.mCount > 0)?(*_enum_start):((FXMLParameter*)0));_param_name!=((FXMLParameter*)0);_param_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-    
-    
-    
-    
-    //(FXMLTag**)(&(_tag->mTags.mElement[_tag->mTags.mCount])),*_subtag_name=(_tag->mTags.mElement+_tag->mTags.mCount>0)?*_enum_start:((FXMLTag**)0);_subtag_name!=((FXMLTag**)0);_subtag_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-
-
-
-//#define EnumTags(_tag,_subtag_name)for(FXMLTag **_enum_start=(FXMLTag**)_tag->mTags.mElement,**_enum_end=((_tag->mTags.mCount > 0) ? ((FXMLTag**)(&(_tag->mTags.mElement[_tag->mTags.mCount]))) : ((FXMLTag**)0)),*_subtag_name = ((_tag->mTags.mCount > 0) ? (*_enum_start) : ((FXMLTag*)0));_subtag_name!=((FXMLTag*)0);_subtag_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-
-
-
-//The old good one..
-//#define EnumParams(_tag,_param_name)for(FXMLParameter **_enum_start=(FXMLParameter**)_tag->mParameters.mElement,**_enum_end=(FXMLParameter**)(&(_tag->mParameters.mElement[_tag->mParameters.mCount]),*_param_name=(_tag->mParameters.mElement+_tag->mParameters.mCount>0)?*_enum_start:((FXMLParameter**)0);_param_name!=((FXMLParameter**)0);_param_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-
-
-//#define EnumParams(_tag,_param_name)
-
-//for(FXMLParameter **_enum_start=(FXMLParameter**)_tag->mParameters.mElement,
-//    **_enum_end=(FXMLParameter**)(_tag->mParameters.mElement+_tag->mParameters.mCount),
-//    *_param_name=(_tag->mParameters.mElement+_tag->mParameters.mCount>0)?*_enum_start:((FXMLParameter**)0);
-//    _param_name!=((FXMLParameter**)0);
-//    _param_name=(++_enum_start<_enum_end)?*_enum_start:NULL)
-
 
 #define EnumTagsMatching(_tag,_subtag_name,_name)EnumTags(_tag,_subtag_name)if(_subtag_name->mName&&_name)if(strcmp(_subtag_name->mName,_name)==0)
 #define EnumParamsMatching(_tag,_param_name,_name)EnumParams(_tag,_param_name)if(strcmp(_param_name->mName,_name)==0)
@@ -45,12 +16,10 @@
 #define XML_VARIABLE_START(c) (((c>='a'&&c<='z')||(c>='A'&&c<='Z'))||c=='_'||c=='$')
 #define XML_VARIABLE_BODY(c) (((c>='a'&&c<='z')||(c>='A'&&c<='Z')||(c>='0'&&c<='9'))||c=='_'||c=='$')
 
-class FXMLElement
-{
+class FXMLElement {
 public:
-	FXMLElement(){mName=0;mValue=0;}
-    
-	virtual ~FXMLElement(){delete[]mName;mName=0;delete[]mValue;mValue=0;}
+	FXMLElement() { mName=0;mValue=0; }
+	virtual         ~FXMLElement(){delete[]mName;mName=0;delete[]mValue;mValue=0;}
     
     void            SetName(char *pName);
     void            SetName(const char *pName){SetName((char*)pName);}

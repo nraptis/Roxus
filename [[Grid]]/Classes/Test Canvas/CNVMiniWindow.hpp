@@ -34,7 +34,7 @@ public:
     float                                   mSphereRotation1;
     float                                   mSphereRotation2;
     
-    float                                   mSpriCNVartAngle;
+    float                                   mTestAngle;
     float                                   mSpriteEndAngle;
     
 };

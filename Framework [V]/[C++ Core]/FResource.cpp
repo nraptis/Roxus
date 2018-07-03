@@ -25,29 +25,21 @@ FResource::FResource()
     //mNext = 0;
 }
 
-FResource::~FResource()
-{
-    
+FResource::~FResource() {
+
 }
 
-
-
-
-FResourceManager::FResourceManager()
-{
+FResourceManager::FResourceManager() {
     mTable.mAllowDuplicateKeys = true;
     mTable.mAllowDuplicateFullKeys = false;
-    
     mSearchIndex = 0;
 }
 
-FResourceManager::~FResourceManager()
-{
+FResourceManager::~FResourceManager() {
 
 }
 
-FResource *FResourceManager::AddResource(const char *pResourcePath, bool pPrint)
-{
+FResource *FResourceManager::AddResource(const char *pResourcePath, bool pPrint) {
     FResource *aResult = 0;
     
 	FString aName = ResourceName(pResourcePath);
@@ -172,6 +164,7 @@ const char *FResourceManager::GetResourcePath(const char *pFileName)
 {
 	const char *aResult = 0;
     FString aName = ResourceName(pFileName);
+    mSearchResults.RemoveAll();
     mTable.GetAllNodes(aName.c(), mSearchResults);
     FHashTableNode *aNode = (FHashTableNode *)(mSearchResults.Fetch(0));
     if(aNode)
@@ -207,11 +200,10 @@ const char *FResourceManager::GetResourcePathOfType(const char *pFileName, int p
     }
     
     mSearchResults.RemoveAll();
-    
     EnumList(FHashTableNode, aNode, mSearchResultsFilter)mSearchResults.Add(aNode);
-    
+
     mSearchResultsFilter.RemoveAll();
-    
+
     FHashTableNode *aNode = (FHashTableNode *)(mSearchResults.Fetch(0));
     if(aNode)
     {
@@ -226,8 +218,7 @@ const char *FResourceManager::GetResourcePathOfType(const char *pFileName, int p
     return aResult;
 }
 
-const char *FResourceManager::GetResourcePathImage(const char *pFileName)
-{
+const char *FResourceManager::GetResourcePathImage(const char *pFileName) {
     
     return GetResourcePathOfType(pFileName, RESOURCE_TYPE_IMAGE);
     

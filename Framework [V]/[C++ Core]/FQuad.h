@@ -11,12 +11,11 @@
 
 #include "FSprite.h"
 
-class FQuad
-{
+class FQuad {
 public:
     FQuad();
     ~FQuad();
-    
+
     float                               mX[4];
     float                               mY[4];
     
@@ -26,10 +25,9 @@ public:
     void                                Set(float pStartX, float pStartY, float pEndX, float pEndY);
     
     void                                SetRect(float pX, float pY, float pWidth, float pHeight);
-    
-    
+
     void                                Add(FQuad *pQuad);
-    void                                Add(FQuad &pQuad){Add(&pQuad);}
+    void                                Add(FQuad &pQuad) { Add(&pQuad); }
     void                                Add(float pX1, float pY1, float pX2, float pY2, float pX3, float pY3, float pX4, float pY4);
     
     
@@ -47,11 +45,7 @@ public:
     void                                Rotate(float pDegrees, float pCenterX, float pCenterY);
     void                                Scale(float pScale);
     void                                Translate(float pX, float pY);
-    
-    //float                               AngleFrom(int pStartInex, int pEndIndex);
-    
-    
-    
+
     inline float                        X1(){return mX[0];}
     inline float                        Y1(){return mY[0];}
     
@@ -70,4 +64,4 @@ public:
     
 };
 
-#endif /* defined(__DigMMMac__FQuad__) */
+#endif

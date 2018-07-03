@@ -10,6 +10,9 @@
 #include "GLApp.h"
 
 CNVWorldContainer::CNVWorldContainer() {
+
+    SetTransformAnchor(0.25f, 0.75f);
+    
     mSpriteRotation = gRand.Get(360);
     
     mClipsContent = true;

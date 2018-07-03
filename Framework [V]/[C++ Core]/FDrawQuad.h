@@ -127,11 +127,6 @@ public:
     inline void                     Corner1SetHexRGB(unsigned int pColor){SetHexRGB(0, pColor);}
     inline void                     Corner1SetHexRGBA(unsigned int pColor){SetHexRGBA(0, pColor);}
     
-    
-    
-    
-    
-    
     inline void                     Corner2SetPos(float pX, float pY, float pZ){mVertex[QUAD_INDEX_2].mX=pX;mVertex[QUAD_INDEX_2].mY=pY;mVertex[QUAD_INDEX_2].mZ=pZ;}
     inline void                     Corner2SetPos(float pX, float pY){Corner2SetPos(pX, pY, 2.0f);}
     
@@ -236,7 +231,7 @@ public:
     virtual ~FDrawQuadRay();
     
     virtual void					Draw(FSprite *pSprite);
-    virtual void					Draw(){Draw(mSprite);}
+    virtual void					Draw() { Draw(mSprite); }
     
     void                            SetStartPos(float pX, float pY);
     void                            SetStartPos(FVec2 pPos);

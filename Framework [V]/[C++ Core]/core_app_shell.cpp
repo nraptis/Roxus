@@ -45,6 +45,7 @@ FString gDirBundle;
 
 FRandomizer gRand;
 FTouchManager gTouch;
+FNotificationCenter gNotify;
 FTextureCache gTextureCache;
 Graphics gG;
 
@@ -236,6 +237,9 @@ void AppShellSetVirtualFrame(int pX, int pY, int pWidth, int pHeight)
 
     gAppWidth = (float)pWidth;
     gAppHeight = (float)pHeight;
+
+    gAppWidth2 = (gAppWidth / 2.0f);
+    gAppHeight2 = (gAppHeight / 2.0f);
 
 	FApp *aApp = gAppBase;
 	if (aApp) {

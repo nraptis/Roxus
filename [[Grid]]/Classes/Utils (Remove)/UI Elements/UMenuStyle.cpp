@@ -811,7 +811,7 @@ void ULabelStat::Draw()
     //Graphics::BlendSetPremultiplied();
     Graphics::SetColor();
     
-    float aFontHeight = mFont->GetHeight();
+    float aFontHeight = mFont->mPointSize;
     float aY = mHeight2 - (aFontHeight / 2.0f);
     
     mFont->Draw(mTitleText.c(), 2.0f, aY);

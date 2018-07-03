@@ -21,8 +21,9 @@ CNVBadge::CNVBadge() {
     AddChild(mDecor1);
     AddChild(mDecor2);
     AddChild(mDecor3);
-    AddChild(mDecor4);
 
+    mDecor4 = new CNVBadgeDecor4();
+    AddChild(mDecor4);
 
     mFrame = gApp->mSequenceSquare.GetMaxFrame();
 

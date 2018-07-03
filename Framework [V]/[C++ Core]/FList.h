@@ -41,7 +41,9 @@ public:
     
     void                    RemoveAll() { mCount=0; }
 	
-	void					*Pop();
+    void                    *PopFirst();
+    void                    *PopLast();
+    
 	
 	void					RemoveFirst(void *pItem);
 	inline void				DeleteFirst(void *pItem) { RemoveFirst(pItem); }

@@ -1,19 +1,16 @@
 
-#ifndef ACHIEVEMENT_H
-#define ACHIEVEMENT_H
+#ifndef FRAMEWORK_ACHIEVEMENT_HPP
+#define FRAMEWORK_ACHIEVEMENT_HPP
 
 #include "FFile.h"
 #include "FList.h"
 
-class FAchievement
-{
+class FAchievement {
 public:
-    
     FAchievement(const char *pName, int pProgressMax);
     FAchievement();
-    
-    virtual ~FAchievement();
-    
+    ~FAchievement();
+
     void                SetUp(const char *pName, int pProgressMax=1);
     
     //mName is also used as identifier for GameCenter or OpenFeint...
@@ -48,27 +45,23 @@ public:
 	int					mAutoResetsActionId;
 };
 
-class FAchievementGroup
-{
+class FAchievementGroup {
 public:
-    
     FAchievementGroup(const char *pGroupName);
-    virtual ~FAchievementGroup();
-    
-    void                    Add(const char *pFAchievementName, int pProgressMax=1);
+    ~FAchievementGroup();
+
+    void                    Add(const char *pAchievementName, int pProgressMax=1);
     void                    AddProgress(FList *pBubbleList, int pProgress=1);
     
     FString                 mGroupName;
     
-    FList                    mFAchievementList;
+    FList                   mAchievementList;
 };
 
-class FAchievementController
-{
+class FAchievementController {
 public:
-    
 	FAchievementController();
-	virtual ~FAchievementController();
+	~FAchievementController();
     
 	void					LevelUp();
 	void					GameOver();
@@ -76,31 +69,29 @@ public:
 	
 	void					Reset();
     
-    void                    Add(const char *pFAchievementName, int pProgressMax=1);
-    void                    Add(const char *pFAchievementName, const char *pGroupName, int pProgressMax=1);
+    void                    Add(const char *pAchievementName, int pProgressMax=1);
+    void                    Add(const char *pAchievementName, const char *pGroupName, int pProgressMax=1);
     
 	bool					Exists(FString pName);
     
     void                    GetAllFAchievements(FList *pList);
     
-    void                    Synchronize(const char *pFAchievementName, int pProgress);
-    void                    Synchronize(FAchievement *pFAchievement, int pProgress);
-    
-    
-    
-    FAchievement            *GetFAchievement(const char *pName);
-    FAchievement			*GetFAchievement(char *pName);
-	FAchievement			*GetFAchievement(FString pName);
+    void                    Synchronize(const char *pAchievementName, int pProgress);
+    void                    Synchronize(FAchievement *pAchievement, int pProgress);
+
+    FAchievement            *GetAchievement(const char *pName);
+    FAchievement			*GetAchievement(char *pName);
+	FAchievement			*GetAchievement(FString pName);
     
     void                    AddProgressGroup(const char *pGroupName, FList *pBubbleList, int pProgress=1);
-    FAchievement			*AddProgress(const char *pFAchievementName, int pProgress=1);
+    FAchievement			*AddProgress(const char *pAchievementName, int pProgress=1);
     
 	void					Print();
 	
 	virtual void			Load();
 	virtual void			Save();
     
-    FList                   mFAchievementList;
+    FList                   mAchievementList;
     FList                   mFAchievementGroupList;
 };
 

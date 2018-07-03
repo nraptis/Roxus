@@ -125,54 +125,45 @@ void FSprite::Kill()
  
  */
 
-void FSprite::SetTexture(FTexture *pTexture)
-{
-    if(mTexture)
-    {
-        if(pTexture != mTexture)
-        {
-            if(gTextureCache.mAutoMode == true)gTextureCache.TextureBindRemove(mTexture);mTexture = 0;
+void FSprite::SetTexture(FTexture *pTexture) {
+    if (mTexture) {
+        if (pTexture != mTexture) {
+            if(gTextureCache.mAutoMode == true) {
+                gTextureCache.TextureBindRemove(mTexture);
+                mTexture = 0; }
         }
     }
-    if(pTexture)
-    {
+    if (pTexture) {
         mTexture = pTexture;
-        if(gTextureCache.mAutoMode == true)gTextureCache.TextureBindAdd(mTexture);
+        if(gTextureCache.mAutoMode == true) {
+            gTextureCache.TextureBindAdd(mTexture);
+        }
     }
-    
-    //SET_TEXTURE_BODY;
 }
 
 void FSprite::LoadNode(FImageBundler *pImageBundler, FImageBundlerLoadNode *pNode)
 {
-    if(mDidLoad)
-    {
+    if (mDidLoad) {
         Log("Preventing Double Load [__NODE__]\n");
         return;
     }
-    
+
     Kill();
     
-    if(pImageBundler == 0)return;
-    if(pNode == 0)return;
-    
-    //Log("Gettin Bundle Fer [%s]\n", pImageBundler->mBundleName.c());
+    if (pImageBundler == 0) return;
+    if (pNode == 0) return;
+
     FTexture *aTexture = gTextureCache.GetTexture(pImageBundler->mBundleName.c());
-    
-    if(aTexture == 0)return;
-    
+
+    if(aTexture == 0) { return; }
     bool aHoldRetinaResize = gFSpriteIgnoreRetina;
     gFSpriteIgnoreRetina = true;
-    
+
     SetTexture(aTexture);
-    
+
     float aStartU,aStartV,aEndU,aEndV;
     float aLeft, aTop, aRight, aBottom;
-    
-    //float aOffsetX, aOffsetY;
-    //aOffsetX = pNode->mOffsetX;
-    //aOffsetY = pNode->mOffsetY;
-    
+
     aStartU = pNode->mSpriteUStart;
     aStartV = pNode->mSpriteVStart;
     
@@ -184,59 +175,40 @@ void FSprite::LoadNode(FImageBundler *pImageBundler, FImageBundlerLoadNode *pNod
     
     aTop = pNode->mSpriteTop * pImageBundler->mBundleScale;
     aBottom = pNode->mSpriteBottom * pImageBundler->mBundleScale;
-    
-    //mWidth = pNode->mSpriteWidth;
-    //mHeight = pNode->mSpriteHeight;
-    
+
     mWidth = pNode->mOriginalWidth * pImageBundler->mBundleScale;
     mHeight = pNode->mOriginalHeight * pImageBundler->mBundleScale;
     
     mTextureRect.SetQuad(aLeft, aTop, aRight, aBottom);
     mTextureRect.SetUVQuad(aStartU, aStartV, aEndU, aEndV);
     
-    //Log("Pulled [%s] From Bundle [%f x %f]\n", pImageBundler->mBundleName.c(), mWidth, mHeight);
-    
     mDidLoad = true;
     mDidLoadFromBundle = true;
     mDidLoadSingle = false;
-    
 }
 
 FStringBuffer cSpriteLoadBuffer;
 
-void FSprite::Load(char *pName, FImageBundler *pBundler)
-{
-    if(mDidLoad)
-    {
+void FSprite::Load(char *pName, FImageBundler *pBundler) {
+    if (mDidLoad) {
         Log("Preventing Double Load [%s]\n", pName);
         return;
     }
-    
     Kill();
-    
-    if(!pBundler)return;
-    if(pBundler->mDidLoad == false)return;
-    
+    if (!pBundler) { return; }
+    if (pBundler->mDidLoad == false) { return; }
     FImageBundlerLoadNode *aNode = pBundler->FetchNode(pName);
-    //FImage *aImage = &pBundler->mImage;
     FTexture *aTexture = gTextureCache.GetTexture(pBundler->mBundleName.c());
-    
     bool aHoldRetinaResize = gFSpriteIgnoreRetina;
     gFSpriteIgnoreRetina = true;
-    
-    
-    if((aNode != 0) && (aTexture != 0))
-    {
+    if ((aNode != 0) && (aTexture != 0)) {
         LoadNode(pBundler, aNode);
     }
-    
     gFSpriteIgnoreRetina = aHoldRetinaResize;
 }
 
-void FSprite::Load(char *pFile)
-{
-    if(mDidLoad)
-    {
+void FSprite::Load(char *pFile) {
+    if (mDidLoad) {
         Log("Preventing Double Load [%s]\n", pFile);
         return;
     }
@@ -248,43 +220,33 @@ void FSprite::Load(char *pFile)
     mFileName.RemoveExtension();
     
     
-    if(gImageBundler.mAutoBundle)
-    {
-        if(gImageBundler.mBundleName.mLength > 0)
-        {
+    if (gImageBundler.mAutoBundle) {
+        if (gImageBundler.mBundleName.mLength > 0) {
             FImage aImage;
             aImage.Load(pFile);
             gImageBundler.AddImage(&aImage);
         }
     }
-    
+
     Load(pFile, &gImageBundler);
-    
-    if(mWidth > 0 && mHeight > 0)
-    {
+
+    if (mWidth > 0 && mHeight > 0) {
         mDidLoad = true;
         mDidLoadFromBundle = true;
         mDidLoadSingle = false;
-        
-        if(gSpriteListEnabled == true)
-        {
+        if (gSpriteListEnabled == true) {
             gSpriteList.Add(this);
         }
-        
         return;
     }
-    
+
     Load(gTextureCache.GetTexture(mFileName.c()));
-    
-    
-    if(mWidth > 0 && mHeight > 0)
-    {
+
+    if (mWidth > 0 && mHeight > 0) {
         mDidLoad = true;
         mDidLoadFromBundle = false;
         mDidLoadSingle = true;
-        
-        if(gSpriteListEnabled == true)
-        {
+        if (gSpriteListEnabled == true) {
             gSpriteList.Add(this);
         }
     }

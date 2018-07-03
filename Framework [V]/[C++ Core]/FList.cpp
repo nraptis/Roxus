@@ -145,17 +145,27 @@ void *FList::FetchCircular(int pIndex) {
     return 0;
 }
 
-void *FList::Pop() {
-	void *aResult = 0;
-	if (mCount > 0) {
-		aResult=mData[0];
-		for (int i=1;i<mCount;i++) {
-			mData[i-1]=mData[i];
-		}
-		mCount--;
-	}
-	return aResult;
+void *FList::PopFirst() {
+    void *aResult = 0;
+    if (mCount > 0) {
+        aResult = mData[0];
+        for (int i=1;i<mCount;i++) {
+            mData[i-1]=mData[i];
+        }
+        mCount--;
+    }
+    return aResult;
 }
+
+void *FList::PopLast() {
+    void *aResult = 0;
+    if (mCount > 0) {
+        aResult = mData[mCount - 1];
+        mCount--;
+    }
+    return aResult;
+}
+
 
 void FList::RemoveFirst(void *pItem)
 {

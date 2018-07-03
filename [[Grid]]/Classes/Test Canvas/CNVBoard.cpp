@@ -10,13 +10,15 @@
 #include "GLApp.h"
 
 CNVBoard::CNVBoard() {
+    SetTransformAnchor(1.0f, 1.0f);
+
     mSpriteRotation = gRand.Get(360);
     mClipsContent = true;
     
     mSphereRotation1 = gRand.Get(360);
     mSphereRotation2 = gRand.Get(360);
     
-    mSpriCNVartAngle = gRand.Get(360);
+    mTestAngle = gRand.Get(360);
     mSpriteEndAngle = gRand.Get(360);
     
     mTouchMarkerColor1 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
@@ -62,7 +64,6 @@ CNVBoard::~CNVBoard() {
 
 void CNVBoard::Layout() {
     Log("---Layout(CNVBoard)\n");
-    
     float aTileWidth = gApp->mDarkTile.mWidth;
     float aTileHeight = gApp->mDarkTile.mHeight;
     if (aTileWidth > 20.0f && aTileHeight > 20.0f) {
@@ -70,40 +71,34 @@ void CNVBoard::Layout() {
         float aHeight = ((float)mGridHeight) * aTileHeight;
         SetSize(aWidth, aHeight);
     }
-    
     if (mRotView1) {
         mRotView1->SetFrame(100.0f, 256.0f, 200.0f, 256.0f);
         mRotView1->mColor = FColor(1.0f, 0.6f, 0.25f, 0.66f);
-        mRotView1->SetTransformRotation(-35.0f);
-        
-        //mRotView1UT->SetFrame(100.0f, 256.0f, 200.0f, 256.0f);
-        //mRotView1UT->mColor = FColor(1.0f * 0.8f, 0.6f * 0.8f, 0.25f * 0.8f, 0.66f);
+        mRotView1->SetTransformRotation(-44.0f);
     }
-    
     if (mRotView2) {
-        
         mRotView2->SetFrame((GetWidth() - 128) - 200, 256.0f, 128.0f, 256.0f);
         mRotView2->mColor = FColor(0.6f, 1.0f, 0.45f, 0.66f);
-        mRotView2->SetTransformRotation(35.0f);
-        
-        //mRotView2UT->SetFrame((GetWidth() - 128) - 200, 256.0f, 128.0f, 256.0f);
-        //mRotView2UT->mColor = FColor(0.6f * 0.8f, 1.0f * 0.8f, 0.45f * 0.8f, 0.66f);
+        mRotView2->SetTransformRotation(53.0f);
     }
-    
 }
 
 void CNVBoard::Update() {
     mSpriteRotation += 2.0;
     if (mSpriteRotation >= 360.0f) mSpriteRotation -= 360.0f;
-    
+
+    float aSin = Sin(mTestAngle);
+    SetTransformRotation(aSin * 10.0f);
+    SetTransformAnchor(0.5f, 0.5f);
+
     mSphereRotation1 += 0.25f;
     if (mSphereRotation1 >= 360.0f) mSphereRotation1 -= 360.0f;
     
     mSphereRotation2 += 3.0f;
     if (mSphereRotation2 >= 360.0f) mSphereRotation2 -= 360.0f;
     
-    mSpriCNVartAngle -= 0.5f;
-    if (mSpriCNVartAngle < -180.0f) { mSpriCNVartAngle += 360.0f; }
+    mTestAngle -= 0.5f;
+    if (mTestAngle < -180.0f) { mTestAngle += 360.0f; }
     
     mSpriteEndAngle += 2.0f;
     if (mSpriteEndAngle > 360.0f) { mSpriteEndAngle -= 1080.0f;}

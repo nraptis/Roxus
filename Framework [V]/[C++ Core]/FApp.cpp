@@ -27,20 +27,10 @@ FApp::FApp()
     mSelectedInputWindow = 0;
     
     mTimeSinceLastInteraction = 0;
-    
-    mViewControllerTouch = 0;
-
 
     mWindowMain.mRoot.mName = "root-main";
     mWindowModal.mRoot.mName = "root-modal";
     mWindowTools.mRoot.mName = "root-tools";
-
-    
-    mViewController.mRoot.mName = "Root";
-    mViewControllerModal.mRoot.mName = "Root_Modal";
-    mViewControllerTools.mRoot.mName = "Root_Tools";
-    
-    mViewController.mMain = true;
 }
 
 FApp::~FApp()
@@ -96,87 +86,43 @@ void FApp::BaseSetVirtualFrame(float pX, float pY, float pWidth, float pHeight)
 	SetVirtualFrame(pX, pY, pWidth, pHeight);
 }
 
-void FApp::BaseUpdate()
-{
-    if(mDidInitialize == false)
-    {
+void FApp::BaseUpdate() {
+    if (mDidInitialize == false) {
         BaseInitialize();
     }
-    
-    if(mDidLoad == false)
-    {
+
+    if (mDidLoad == false) {
         gTouch.Reset();
         return;
     }
     
     mDidUpdate = true;
-    
-    mViewController.mIsPerformingTouchAction = true;
-    mViewControllerModal.mIsPerformingTouchAction = true;
-    mViewControllerTools.mIsPerformingTouchAction = true;
-    
     gTouch.Update();
-
     Update();
 
     mWindowMain.Update();
     mWindowModal.Update();
     mWindowTools.Update();
 
-
-
-    /*
-    mViewController.mIsPerformingTouchAction = false;
-    mViewControllerModal.mIsPerformingTouchAction = true;
-    mViewControllerTools.mIsPerformingTouchAction = true;
-
-    if (gTouch.mTouchCount > 0) {
-        mTimeSinceLastInteraction = 0;
-    } else {
-        mTimeSinceLastInteraction++;
-    }
-    mViewControllerTools.Update();
-    mViewController.Update();
-    mViewControllerModal.Update();
-    */
-
-
-    
     core_sound_update();
 }
 
-void FApp::BaseDraw()
-{
+void FApp::BaseDraw() {
     if (mDidUpdate == false) {
         BaseUpdate();
     }
-
     if (mDidLoad == false) {
         return;
     }
 
     FMatrix aScreenProjection = FMatrixCreateOrtho(0.0f, gDeviceWidth, gDeviceHeight, 0.0f, -1024.0f, 1024.0f);
-    Graphics::Clear();
     Graphics::SetMatrixProjection(aScreenProjection);
     Graphics::ResetMatrixModelView();
-
+    Graphics::Clear();
     Draw();
-
-
-
-
-    //mViewController.Draw();
-    //mViewControllerModal.Draw();
-    //mViewControllerTools.Draw();
-
-    //Graphics::SetMatrixProjection(aScreenProjection);
-    //Graphics::ResetMatrixModelView();
     mWindowMain.Draw();
     mWindowModal.Draw();
     mWindowTools.Draw();
-
-
-
     Graphics::SetMatrixProjection(aScreenProjection);
     Graphics::ResetMatrixModelView();
     DrawOver();
@@ -187,20 +133,15 @@ void FApp::BaseLoad() {
         mImageLoadDirectoryList += new FString("");
         if(gDirBundle.mLength > 0)mImageLoadDirectoryList += new FString(gDirBundle.c());
         if(gDirDocuments.mLength > 0)mImageLoadDirectoryList += new FString(gDirDocuments.c());
-        
-        
+
         mImageLoadExtensionList += new FString("jpg");
         mImageLoadExtensionList += new FString("png");
         mImageLoadSuffixList += new FString("_ipad");
         mImageLoadSuffixList += new FString("");
-        
-        //if(gEnvironment == ENV_IPHONE)
-        //{
+
         mImageLoadMutableSuffixList += new FString("@2x");
         mImageLoadMutableSuffixList += new FString("");
-        
-        //}
-        
+
         mImageLoadMutableSuffixList += new FString("");
     }
 
@@ -210,338 +151,139 @@ void FApp::BaseLoad() {
     if(mDidLoadStart == false) {
         mDidLoadStart = true;
         
-        gImageBundler.Load("bundle_sys_font_bold", "bundle_sys_font_bold_256");
+        gImageBundler.Load("bundle_sys_font_bold", "bundle_sys_font_bold_1024");
         mSysFontBold.Load("sys_font_bold_256_", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-=.,()[]!/");
-        mSysFontBold.mScale = 0.125f;
+        mSysFontBold.mDataScale = 0.125f;
+        mSysFontBold.mSpriteScale = 0.25f;
         mSysFontBold.mPointSize = 290.0f;
         
-        gImageBundler.Load("bundle_sys_font", "bundle_sys_font_256");
+        gImageBundler.Load("bundle_sys_font", "bundle_sys_font_1024");
         mSysFont.Load("sys_font_256_", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-=.,()[]!/{}_*&%$?");
-        mSysFont.mScale = 0.125f;
+        mSysFont.mDataScale = 0.125f;
+        mSysFont.mSpriteScale = 0.25f;
         mSysFont.mPointSize = 290.0f;
 
         gImageBundler.Clear();
         gSpriteList.Clear();
-
+        
         Load();
     }
 }
 
-void FApp::BaseLoadComplete()
-{
+void FApp::BaseLoadComplete() {
     if(mDidLoad == false) {
         LoadComplete();
         mDidLoad = true;
     }
 
-    //mViewController.RealizeFitType();
-    //mViewControllerModal.RealizeFitType();
-    //mViewControllerTools.RealizeFitType();
-    
-    //mViewController.mAppFitRefresh = true;
-    //mViewControllerModal.mAppFitRefresh = true;
-    //mViewControllerTools.mAppFitRefresh = true;
-    
-    mSysFont.SetKern(32, 65, -13);mSysFont.SetKern(32, 84, -4);
-    mSysFont.SetKern(32, 89, -4);mSysFont.SetKern(121, 46, -17);
-    mSysFont.SetKern(121, 44, -17);mSysFont.SetKern(119, 46, -13);
-    mSysFont.SetKern(119, 44, -13);mSysFont.SetKern(118, 46, -17);
-    mSysFont.SetKern(118, 44, -17);mSysFont.SetKern(114, 46, -13);
-    mSysFont.SetKern(49, 49, -17);mSysFont.SetKern(65, 32, -13);
-    mSysFont.SetKern(65, 84, -17);mSysFont.SetKern(65, 86, -17);
-    mSysFont.SetKern(65, 87, -9);mSysFont.SetKern(65, 89, -17);
-    mSysFont.SetKern(65, 118, -4);
-    mSysFont.SetKern(65, 119, -4);
-    mSysFont.SetKern(65, 121, -4);
-    mSysFont.SetKern(114, 44, -13);
-    mSysFont.SetKern(70, 44, -25);
-    mSysFont.SetKern(70, 46, -25);
-    mSysFont.SetKern(70, 65, -13);
-    mSysFont.SetKern(76, 32, -9);
-    mSysFont.SetKern(76, 84, -17);
-    mSysFont.SetKern(76, 86, -17);
-    mSysFont.SetKern(76, 87, -17);
-    mSysFont.SetKern(76, 89, -17);
-    mSysFont.SetKern(76, 121, -9);
-    mSysFont.SetKern(102, 102, -4);
-    mSysFont.SetKern(80, 32, -4);
-    mSysFont.SetKern(80, 44, -30);
-    mSysFont.SetKern(80, 46, -30);
-    mSysFont.SetKern(80, 65, -17);
-    mSysFont.SetKern(82, 84, -4);
-    mSysFont.SetKern(82, 86, -4);
-    mSysFont.SetKern(82, 87, -4);
-    mSysFont.SetKern(82, 89, -4);
-    mSysFont.SetKern(84, 32, -4);
-    mSysFont.SetKern(84, 44, -25);
-    mSysFont.SetKern(84, 45, -13);
-    mSysFont.SetKern(84, 46, -25);
-    mSysFont.SetKern(84, 58, -25);
-    mSysFont.SetKern(89, 118, -13);
-    mSysFont.SetKern(84, 65, -17);
-    mSysFont.SetKern(84, 79, -4);
-    mSysFont.SetKern(84, 97, -25);
-    mSysFont.SetKern(84, 99, -25);
-    mSysFont.SetKern(84, 101, -25);
-    mSysFont.SetKern(84, 105, -9);
-    mSysFont.SetKern(84, 111, -25);
-    mSysFont.SetKern(84, 114, -9);
-    mSysFont.SetKern(84, 115, -25);
-    mSysFont.SetKern(84, 117, -9);
-    mSysFont.SetKern(84, 119, -13);
-    mSysFont.SetKern(84, 121, -13);
-    mSysFont.SetKern(86, 44, -21);
-    mSysFont.SetKern(86, 45, -13);
-    mSysFont.SetKern(86, 46, -21);
-    mSysFont.SetKern(86, 58, -9);
-    mSysFont.SetKern(89, 117, -13);
-    mSysFont.SetKern(86, 65, -17);
-    mSysFont.SetKern(86, 97, -17);
-    mSysFont.SetKern(86, 101, -13);
-    mSysFont.SetKern(86, 105, -4);
-    mSysFont.SetKern(86, 111, -13);
-    mSysFont.SetKern(86, 114, -9);
-    mSysFont.SetKern(86, 117, -9);
-    mSysFont.SetKern(86, 121, -9);
-    mSysFont.SetKern(87, 44, -13);
-    mSysFont.SetKern(87, 45, -4);
-    mSysFont.SetKern(87, 46, -13);
-    mSysFont.SetKern(87, 58, -4);
-    mSysFont.SetKern(89, 113, -21);
-    mSysFont.SetKern(87, 65, -9);
-    mSysFont.SetKern(87, 97, -9);
-    mSysFont.SetKern(87, 101, -4);
-    mSysFont.SetKern(89, 112, -17);
-    mSysFont.SetKern(87, 111, -4);
-    mSysFont.SetKern(87, 114, -4);
-    mSysFont.SetKern(87, 117, -4);
-    mSysFont.SetKern(87, 121, -2);
-    mSysFont.SetKern(89, 32, -4);
-    mSysFont.SetKern(89, 44, -30);
-    mSysFont.SetKern(89, 45, -21);
-    mSysFont.SetKern(89, 46, -30);
-    mSysFont.SetKern(89, 58, -13);
-    mSysFont.SetKern(89, 111, -21);
-    mSysFont.SetKern(89, 65, -17);
-    mSysFont.SetKern(89, 97, -17);
-    mSysFont.SetKern(89, 101, -21);
-    mSysFont.SetKern(89, 105, -9);
-    
-    
-    
-    mSysFont.SetStride(32, -16, 64);mSysFont.SetStride(33, 3, 64);
-    mSysFont.SetStride(34, -6, 82);mSysFont.SetStride(35, -14, 128);
-    mSysFont.SetStride(36, -9, 128);mSysFont.SetStride(37, -3, 205);
-    mSysFont.SetStride(38, -7, 153);
-    mSysFont.SetStride(39, -7, 44);
-    mSysFont.SetStride(40, -3, 77);
-    mSysFont.SetStride(41, -2, 77);
-    mSysFont.SetStride(42, -9, 90);
-    mSysFont.SetStride(43, -4, 134);
-    mSysFont.SetStride(44, 3, 64);
-    mSysFont.SetStride(45, -9, 77);
-    mSysFont.SetStride(46, 4, 64);
-    mSysFont.SetStride(47, -17, 64);
-    mSysFont.SetStride(48, -7, 128);
-    mSysFont.SetStride(49, 8, 128);
-    mSysFont.SetStride(50, -10, 128);
-    mSysFont.SetStride(51, -7, 128);
-    mSysFont.SetStride(52, -14, 128);
-    mSysFont.SetStride(53, -7, 128);
-    mSysFont.SetStride(54, -8, 128);
-    mSysFont.SetStride(55, -6, 128);
-    mSysFont.SetStride(56, -7, 128);
-    mSysFont.SetStride(57, -7, 128);
-    mSysFont.SetStride(58, 4, 64);
-    mSysFont.SetStride(59, 2, 64);
-    mSysFont.SetStride(60, -4, 134);
-    mSysFont.SetStride(61, -4, 134);
-    mSysFont.SetStride(62, -4, 134);
-    mSysFont.SetStride(63, -7, 128);
-    mSysFont.SetStride(64, -4, 233);
-    mSysFont.SetStride(65, -17, 153);
-    mSysFont.SetStride(66, 0, 153);
-    mSysFont.SetStride(67, -5, 166);
-    mSysFont.SetStride(68, 1, 166);
-    mSysFont.SetStride(69, 1, 153);
-    mSysFont.SetStride(70, 2, 140);
-    mSysFont.SetStride(71, -4, 179);
-    mSysFont.SetStride(72, 2, 166);
-    mSysFont.SetStride(73, 5, 64);
-    mSysFont.SetStride(74, -10, 115);
-    mSysFont.SetStride(75, 0, 153);
-    mSysFont.SetStride(76, 0, 128);
-    mSysFont.SetStride(77, 0, 192);
-    mSysFont.SetStride(78, 1, 166);
-    mSysFont.SetStride(79, -6, 179);
-    mSysFont.SetStride(80, 1, 153);
-    mSysFont.SetStride(81, -7, 179);
-    mSysFont.SetStride(82, 1, 166);
-    mSysFont.SetStride(83, -6, 153);
-    mSysFont.SetStride(84, -11, 140);
-    mSysFont.SetStride(85, 1, 166);
-    mSysFont.SetStride(86, -16, 153);
-    mSysFont.SetStride(87, -14, 217);
-    mSysFont.SetStride(88, -15, 153);
-    mSysFont.SetStride(89, -16, 153);
-    mSysFont.SetStride(90, -12, 140);
-    mSysFont.SetStride(91, -1, 64);
-    mSysFont.SetStride(92, -17, 64);
-    mSysFont.SetStride(93, -12, 64);
-    mSysFont.SetStride(94, -11, 108);
-    mSysFont.SetStride(95, -20, 128);
-    mSysFont.SetStride(96, -6, 77);
-    mSysFont.SetStride(97, -8, 128);
-    mSysFont.SetStride(98, -2, 128);
-    mSysFont.SetStride(99, -8, 115);
-    mSysFont.SetStride(100, -9, 128);
-    mSysFont.SetStride(101, -8, 128);
-    mSysFont.SetStride(102, -15, 64);
-    mSysFont.SetStride(103, -9, 128);
-    mSysFont.SetStride(104, -2, 128);
-    mSysFont.SetStride(105, -1, 51);
-    mSysFont.SetStride(106, -27, 51);
-    mSysFont.SetStride(107, -1, 115);
-    mSysFont.SetStride(108, -2, 51);
-    mSysFont.SetStride(109, -1, 192);
-    mSysFont.SetStride(110, -2, 128);
-    mSysFont.SetStride(111, -9, 128);
-    mSysFont.SetStride(112, -2, 128);
-    mSysFont.SetStride(113, -9, 128);
-    mSysFont.SetStride(114, -2, 77);
-    mSysFont.SetStride(115, -10, 115);
-    mSysFont.SetStride(116, -13, 64);
-    mSysFont.SetStride(117, -2, 128);
-    mSysFont.SetStride(118, -14, 115);
-    mSysFont.SetStride(119, -16, 166);
-    mSysFont.SetStride(120, -15, 115);
-    mSysFont.SetStride(121, -13, 115);
-    mSysFont.SetStride(122, -12, 115);
-    mSysFont.SetStride(123, -10, 77);
-    mSysFont.SetStride(124, 3, 57);
-    mSysFont.SetStride(125, -11, 77);
-    mSysFont.SetStride(126, -7, 134);
-    mSysFont.SetStride(164, -8, 128);
-    mSysFont.SetStride(167, -8, 128);
-    mSysFont.SetStride(169, -16, 169);
-    mSysFont.SetStride(188, -5, 192);
-    mSysFont.SetStride(189, -5, 192);
+    mSysFont.SetKern(32, 65, -13);mSysFont.SetKern(32, 84, -4);mSysFont.SetKern(32, 89, -4);mSysFont.SetKern(121, 46, -17);
+    mSysFont.SetKern(121, 44, -17);mSysFont.SetKern(119, 46, -13);mSysFont.SetKern(119, 44, -13);mSysFont.SetKern(118, 46, -17);
+    mSysFont.SetKern(118, 44, -17);mSysFont.SetKern(114, 46, -13);mSysFont.SetKern(49, 49, -17);mSysFont.SetKern(65, 32, -13);
+    mSysFont.SetKern(65, 84, -17);mSysFont.SetKern(65, 86, -17);mSysFont.SetKern(65, 87, -9);mSysFont.SetKern(65, 89, -17);
+    mSysFont.SetKern(65, 118, -4);mSysFont.SetKern(65, 119, -4);mSysFont.SetKern(65, 121, -4);mSysFont.SetKern(114, 44, -13);
+    mSysFont.SetKern(70, 44, -25);mSysFont.SetKern(70, 46, -25);mSysFont.SetKern(70, 65, -13);mSysFont.SetKern(76, 32, -9);
+    mSysFont.SetKern(76, 84, -17);mSysFont.SetKern(76, 86, -17);mSysFont.SetKern(76, 87, -17);mSysFont.SetKern(76, 89, -17);
+    mSysFont.SetKern(76, 121, -9);mSysFont.SetKern(102, 102, -4);mSysFont.SetKern(80, 32, -4);mSysFont.SetKern(80, 44, -30);
+    mSysFont.SetKern(80, 46, -30);mSysFont.SetKern(80, 65, -17);mSysFont.SetKern(82, 84, -4);mSysFont.SetKern(82, 86, -4);
+    mSysFont.SetKern(82, 87, -4);mSysFont.SetKern(82, 89, -4);mSysFont.SetKern(84, 32, -4);mSysFont.SetKern(84, 44, -25);
+    mSysFont.SetKern(84, 45, -13);mSysFont.SetKern(84, 46, -25);mSysFont.SetKern(84, 58, -25);mSysFont.SetKern(89, 118, -13);
+    mSysFont.SetKern(84, 65, -17);mSysFont.SetKern(84, 79, -4);mSysFont.SetKern(84, 97, -25);mSysFont.SetKern(84, 99, -25);
+    mSysFont.SetKern(84, 101, -25);mSysFont.SetKern(84, 105, -9);mSysFont.SetKern(84, 111, -25);mSysFont.SetKern(84, 114, -9);
+    mSysFont.SetKern(84, 115, -25);mSysFont.SetKern(84, 117, -9);mSysFont.SetKern(84, 119, -13);mSysFont.SetKern(84, 121, -13);
+    mSysFont.SetKern(86, 44, -21);mSysFont.SetKern(86, 45, -13);mSysFont.SetKern(86, 46, -21);mSysFont.SetKern(86, 58, -9);
+    mSysFont.SetKern(89, 117, -13);mSysFont.SetKern(86, 65, -17);mSysFont.SetKern(86, 97, -17);mSysFont.SetKern(86, 101, -13);
+    mSysFont.SetKern(86, 105, -4);mSysFont.SetKern(86, 111, -13);mSysFont.SetKern(86, 114, -9);mSysFont.SetKern(86, 117, -9);
+    mSysFont.SetKern(86, 121, -9);mSysFont.SetKern(87, 44, -13);mSysFont.SetKern(87, 45, -4);mSysFont.SetKern(87, 46, -13);
+    mSysFont.SetKern(87, 58, -4);mSysFont.SetKern(89, 113, -21);mSysFont.SetKern(87, 65, -9);mSysFont.SetKern(87, 97, -9);
+    mSysFont.SetKern(87, 101, -4);mSysFont.SetKern(89, 112, -17);mSysFont.SetKern(87, 111, -4);mSysFont.SetKern(87, 114, -4);
+    mSysFont.SetKern(87, 117, -4);mSysFont.SetKern(87, 121, -2);mSysFont.SetKern(89, 32, -4);mSysFont.SetKern(89, 44, -30);
+    mSysFont.SetKern(89, 45, -21);mSysFont.SetKern(89, 46, -30);mSysFont.SetKern(89, 58, -13);mSysFont.SetKern(89, 111, -21);
+    mSysFont.SetKern(89, 65, -17);mSysFont.SetKern(89, 97, -17);mSysFont.SetKern(89, 101, -21);mSysFont.SetKern(89, 105, -9);
+
+    mSysFont.SetStride(32, -16, 64);mSysFont.SetStride(33, 3, 64);mSysFont.SetStride(34, -6, 82);mSysFont.SetStride(35, -14, 128);
+    mSysFont.SetStride(36, -9, 128);mSysFont.SetStride(37, -3, 205);mSysFont.SetStride(38, -7, 153);mSysFont.SetStride(39, -7, 44);
+    mSysFont.SetStride(40, -3, 77);mSysFont.SetStride(41, -2, 77);mSysFont.SetStride(42, -9, 90);mSysFont.SetStride(43, -4, 134);
+    mSysFont.SetStride(44, 3, 64);mSysFont.SetStride(45, -9, 77);mSysFont.SetStride(46, 4, 64);mSysFont.SetStride(47, -17, 64);
+    mSysFont.SetStride(48, -7, 128);mSysFont.SetStride(49, 8, 128);mSysFont.SetStride(50, -10, 128);mSysFont.SetStride(51, -7, 128);
+    mSysFont.SetStride(52, -14, 128);mSysFont.SetStride(53, -7, 128);mSysFont.SetStride(54, -8, 128);mSysFont.SetStride(55, -6, 128);
+    mSysFont.SetStride(56, -7, 128);mSysFont.SetStride(57, -7, 128);mSysFont.SetStride(58, 4, 64);mSysFont.SetStride(59, 2, 64);
+    mSysFont.SetStride(60, -4, 134);mSysFont.SetStride(61, -4, 134);mSysFont.SetStride(62, -4, 134);mSysFont.SetStride(63, -7, 128);
+    mSysFont.SetStride(64, -4, 233);mSysFont.SetStride(65, -17, 153);mSysFont.SetStride(66, 0, 153);mSysFont.SetStride(67, -5, 166);
+    mSysFont.SetStride(68, 1, 166);mSysFont.SetStride(69, 1, 153);mSysFont.SetStride(70, 2, 140);mSysFont.SetStride(71, -4, 179);
+    mSysFont.SetStride(72, 2, 166);mSysFont.SetStride(73, 5, 64);mSysFont.SetStride(74, -10, 115);mSysFont.SetStride(75, 0, 153);
+    mSysFont.SetStride(76, 0, 128);mSysFont.SetStride(77, 0, 192);mSysFont.SetStride(78, 1, 166);mSysFont.SetStride(79, -6, 179);
+    mSysFont.SetStride(80, 1, 153);mSysFont.SetStride(81, -7, 179);mSysFont.SetStride(82, 1, 166);mSysFont.SetStride(83, -6, 153);
+    mSysFont.SetStride(84, -11, 140);mSysFont.SetStride(85, 1, 166);mSysFont.SetStride(86, -16, 153);mSysFont.SetStride(87, -14, 217);
+    mSysFont.SetStride(88, -15, 153);mSysFont.SetStride(89, -16, 153);mSysFont.SetStride(90, -12, 140);mSysFont.SetStride(91, -1, 64);
+    mSysFont.SetStride(92, -17, 64);mSysFont.SetStride(93, -12, 64);mSysFont.SetStride(94, -11, 108);mSysFont.SetStride(95, -20, 128);
+    mSysFont.SetStride(96, -6, 77);mSysFont.SetStride(97, -8, 128);mSysFont.SetStride(98, -2, 128);mSysFont.SetStride(99, -8, 115);
+    mSysFont.SetStride(100, -9, 128);mSysFont.SetStride(101, -8, 128);mSysFont.SetStride(102, -15, 64);mSysFont.SetStride(103, -9, 128);
+    mSysFont.SetStride(104, -2, 128);mSysFont.SetStride(105, -1, 51);mSysFont.SetStride(106, -27, 51);mSysFont.SetStride(107, -1, 115);
+    mSysFont.SetStride(108, -2, 51);mSysFont.SetStride(109, -1, 192);mSysFont.SetStride(110, -2, 128);mSysFont.SetStride(111, -9, 128);
+    mSysFont.SetStride(112, -2, 128);mSysFont.SetStride(113, -9, 128);mSysFont.SetStride(114, -2, 77);mSysFont.SetStride(115, -10, 115);
+    mSysFont.SetStride(116, -13, 64);mSysFont.SetStride(117, -2, 128);mSysFont.SetStride(118, -14, 115);mSysFont.SetStride(119, -16, 166);
+    mSysFont.SetStride(120, -15, 115);mSysFont.SetStride(121, -13, 115);mSysFont.SetStride(122, -12, 115);mSysFont.SetStride(123, -10, 77);
+    mSysFont.SetStride(124, 3, 57);mSysFont.SetStride(125, -11, 77);mSysFont.SetStride(126, -7, 134);mSysFont.SetStride(164, -8, 128);
+    mSysFont.SetStride(167, -8, 128);mSysFont.SetStride(169, -16, 169);mSysFont.SetStride(188, -5, 192);mSysFont.SetStride(189, -5, 192);
     mSysFont.SetStride(198, -16, 230);
 
-    mSysFontBold.SetKern(32, 65, -9);
-    mSysFontBold.SetKern(32, 89, -4);
-    mSysFontBold.SetKern(121, 46, -17);
-    mSysFontBold.SetKern(121, 44, -17);
-    mSysFontBold.SetKern(119, 46, -9);
-    mSysFontBold.SetKern(119, 44, -9);
-    mSysFontBold.SetKern(118, 46, -17);
-    mSysFontBold.SetKern(118, 44, -17);
-    mSysFontBold.SetKern(49, 49, -13);
-    mSysFontBold.SetKern(65, 32, -9);
-    mSysFontBold.SetKern(65, 84, -17);
-    mSysFontBold.SetKern(65, 86, -17);
-    mSysFontBold.SetKern(65, 87, -13);
-    mSysFontBold.SetKern(65, 89, -21);
-    mSysFontBold.SetKern(65, 118, -9);
-    mSysFontBold.SetKern(65, 119, -4);
-    mSysFontBold.SetKern(65, 121, -9);
-    mSysFontBold.SetKern(114, 46, -13);
-    mSysFontBold.SetKern(70, 44, -25);
-    mSysFontBold.SetKern(70, 46, -25);
-    mSysFontBold.SetKern(70, 65, -13);
-    mSysFontBold.SetKern(76, 32, -4);
-    mSysFontBold.SetKern(76, 84, -17);
-    mSysFontBold.SetKern(76, 86, -17);
-    mSysFontBold.SetKern(76, 87, -13);
-    mSysFontBold.SetKern(76, 89, -21);
-    mSysFontBold.SetKern(76, 121, -9);
-    mSysFontBold.SetKern(114, 44, -13);
-    mSysFontBold.SetKern(80, 32, -4);
-    mSysFontBold.SetKern(80, 44, -30);
-    mSysFontBold.SetKern(80, 46, -30);
-    mSysFontBold.SetKern(80, 65, -17);
-    mSysFontBold.SetKern(82, 86, -4);
-    mSysFontBold.SetKern(82, 87, -4);
-    mSysFontBold.SetKern(82, 89, -9);
-    mSysFontBold.SetKern(84, 44, -25);
-    mSysFontBold.SetKern(84, 45, -13);
-    mSysFontBold.SetKern(84, 46, -25);
-    mSysFontBold.SetKern(84, 58, -25);
-    mSysFontBold.SetKern(89, 118, -13);
-    mSysFontBold.SetKern(84, 65, -17);
-    mSysFontBold.SetKern(84, 79, -4);
-    mSysFontBold.SetKern(84, 97, -17);
-    mSysFontBold.SetKern(84, 99, -17);
-    mSysFontBold.SetKern(84, 101, -17);
-    mSysFontBold.SetKern(84, 105, -4);
-    mSysFontBold.SetKern(84, 111, -17);
-    mSysFontBold.SetKern(84, 114, -13);
-    mSysFontBold.SetKern(84, 115, -17);
-    mSysFontBold.SetKern(84, 117, -17);
-    mSysFontBold.SetKern(84, 119, -17);
-    mSysFontBold.SetKern(84, 121, -17);
-    mSysFontBold.SetKern(86, 44, -21);
-    mSysFontBold.SetKern(86, 45, -13);
-    mSysFontBold.SetKern(86, 46, -21);
-    mSysFontBold.SetKern(86, 58, -13);
-    mSysFontBold.SetKern(89, 117, -13);
-    mSysFontBold.SetKern(86, 65, -17);
-    mSysFontBold.SetKern(86, 97, -13);
-    mSysFontBold.SetKern(86, 101, -13);
-    mSysFontBold.SetKern(86, 105, -4);
-    mSysFontBold.SetKern(86, 111, -17);
-    mSysFontBold.SetKern(86, 114, -13);
-    mSysFontBold.SetKern(86, 117, -9);
-    mSysFontBold.SetKern(86, 121, -9);
-    mSysFontBold.SetKern(87, 44, -13);
-    mSysFontBold.SetKern(87, 45, -5);
-    mSysFontBold.SetKern(87, 46, -13);
-    mSysFontBold.SetKern(87, 58, -4);
-    mSysFontBold.SetKern(89, 113, -17);
-    mSysFontBold.SetKern(87, 65, -13);
-    mSysFontBold.SetKern(87, 97, -9);
-    mSysFontBold.SetKern(87, 101, -4);
-    mSysFontBold.SetKern(87, 105, -2);
-    mSysFontBold.SetKern(87, 111, -4);
-    mSysFontBold.SetKern(87, 114, -4);
-    mSysFontBold.SetKern(87, 117, -4);
-    mSysFontBold.SetKern(87, 121, -4);
-    mSysFontBold.SetKern(89, 32, -4);
-    mSysFontBold.SetKern(89, 44, -25);
-    mSysFontBold.SetKern(89, 45, -13);
-    mSysFontBold.SetKern(89, 46, -25);
-    mSysFontBold.SetKern(89, 58, -17);
-    mSysFontBold.SetKern(89, 112, -13);
-    mSysFontBold.SetKern(89, 65, -21);
-    mSysFontBold.SetKern(89, 97, -13);
-    mSysFontBold.SetKern(89, 101, -13);
-    mSysFontBold.SetKern(89, 105, -9);
-    mSysFontBold.SetKern(89, 111, -17);
-    mSysFontBold.SetStride(32, -16, 62);
-    mSysFontBold.SetStride(33, 3, 74);
-    mSysFontBold.SetStride(34, -5, 106);
-    mSysFontBold.SetStride(35, -15, 125);
-    mSysFontBold.SetStride(36, -9, 125);
-    mSysFontBold.SetStride(37, -7, 196);
-    mSysFontBold.SetStride(38, -7, 162);
-    mSysFontBold.SetStride(39, -7, 53);
-    mSysFontBold.SetStride(40, -5, 75);
-    mSysFontBold.SetStride(41, -9, 75);
-    mSysFontBold.SetStride(42, -14, 87);
-    mSysFontBold.SetStride(43, -7, 131);
-    mSysFontBold.SetStride(44, -4, 62);
-    mSysFontBold.SetStride(45, -4, 75);
-    mSysFontBold.SetStride(46, -1, 62);
-    mSysFontBold.SetStride(47, -17, 62);
-    mSysFontBold.SetStride(48, -7, 125);
-    mSysFontBold.SetStride(49, 1, 125);
-    mSysFontBold.SetStride(50, -11, 125);
-    mSysFontBold.SetStride(51, -8, 125);
-    mSysFontBold.SetStride(52, -13, 125);
-    mSysFontBold.SetStride(53, -7, 125);
-    mSysFontBold.SetStride(54, -7, 125);
-    mSysFontBold.SetStride(55, -7, 125);
-    mSysFontBold.SetStride(56, -8, 125);
+    mSysFontBold.SetKern(32, 65, -9);mSysFontBold.SetKern(32, 89, -4);
+    mSysFontBold.SetKern(121, 46, -17);mSysFontBold.SetKern(121, 44, -17);
+    mSysFontBold.SetKern(119, 46, -9);mSysFontBold.SetKern(119, 44, -9);
+    mSysFontBold.SetKern(118, 46, -17);mSysFontBold.SetKern(118, 44, -17);
+    mSysFontBold.SetKern(49, 49, -13);mSysFontBold.SetKern(65, 32, -9);
+    mSysFontBold.SetKern(65, 84, -17);mSysFontBold.SetKern(65, 86, -17);
+    mSysFontBold.SetKern(65, 87, -13);mSysFontBold.SetKern(65, 89, -21);
+    mSysFontBold.SetKern(65, 118, -9);mSysFontBold.SetKern(65, 119, -4);
+    mSysFontBold.SetKern(65, 121, -9);mSysFontBold.SetKern(114, 46, -13);
+    mSysFontBold.SetKern(70, 44, -25);mSysFontBold.SetKern(70, 46, -25);
+    mSysFontBold.SetKern(70, 65, -13);mSysFontBold.SetKern(76, 32, -4);
+    mSysFontBold.SetKern(76, 84, -17);mSysFontBold.SetKern(76, 86, -17);
+    mSysFontBold.SetKern(76, 87, -13);mSysFontBold.SetKern(76, 89, -21);
+    mSysFontBold.SetKern(76, 121, -9);mSysFontBold.SetKern(114, 44, -13);
+    mSysFontBold.SetKern(80, 32, -4);mSysFontBold.SetKern(80, 44, -30);
+    mSysFontBold.SetKern(80, 46, -30);mSysFontBold.SetKern(80, 65, -17);
+    mSysFontBold.SetKern(82, 86, -4);mSysFontBold.SetKern(82, 87, -4);
+    mSysFontBold.SetKern(82, 89, -9);mSysFontBold.SetKern(84, 44, -25);
+    mSysFontBold.SetKern(84, 45, -13);mSysFontBold.SetKern(84, 46, -25);
+    mSysFontBold.SetKern(84, 58, -25);mSysFontBold.SetKern(89, 118, -13);
+    mSysFontBold.SetKern(84, 65, -17);mSysFontBold.SetKern(84, 79, -4);
+    mSysFontBold.SetKern(84, 97, -17);mSysFontBold.SetKern(84, 99, -17);
+    mSysFontBold.SetKern(84, 101, -17);mSysFontBold.SetKern(84, 105, -4);
+    mSysFontBold.SetKern(84, 111, -17);mSysFontBold.SetKern(84, 114, -13);
+    mSysFontBold.SetKern(84, 115, -17);mSysFontBold.SetKern(84, 117, -17);
+    mSysFontBold.SetKern(84, 119, -17);mSysFontBold.SetKern(84, 121, -17);
+    mSysFontBold.SetKern(86, 44, -21);mSysFontBold.SetKern(86, 45, -13);
+    mSysFontBold.SetKern(86, 46, -21);mSysFontBold.SetKern(86, 58, -13);
+    mSysFontBold.SetKern(89, 117, -13);mSysFontBold.SetKern(86, 65, -17);
+    mSysFontBold.SetKern(86, 97, -13);mSysFontBold.SetKern(86, 101, -13);
+    mSysFontBold.SetKern(86, 105, -4);mSysFontBold.SetKern(86, 111, -17);
+    mSysFontBold.SetKern(86, 114, -13);mSysFontBold.SetKern(86, 117, -9);
+    mSysFontBold.SetKern(86, 121, -9);mSysFontBold.SetKern(87, 44, -13);
+    mSysFontBold.SetKern(87, 45, -5);mSysFontBold.SetKern(87, 46, -13);
+    mSysFontBold.SetKern(87, 58, -4);mSysFontBold.SetKern(89, 113, -17);
+    mSysFontBold.SetKern(87, 65, -13);mSysFontBold.SetKern(87, 97, -9);
+    mSysFontBold.SetKern(87, 101, -4);mSysFontBold.SetKern(87, 105, -2);
+    mSysFontBold.SetKern(87, 111, -4);mSysFontBold.SetKern(87, 114, -4);
+    mSysFontBold.SetKern(87, 117, -4);mSysFontBold.SetKern(87, 121, -4);
+    mSysFontBold.SetKern(89, 32, -4);mSysFontBold.SetKern(89, 44, -25);
+    mSysFontBold.SetKern(89, 45, -13);mSysFontBold.SetKern(89, 46, -25);
+    mSysFontBold.SetKern(89, 58, -17);mSysFontBold.SetKern(89, 112, -13);
+    mSysFontBold.SetKern(89, 65, -21);mSysFontBold.SetKern(89, 97, -13);
+    mSysFontBold.SetKern(89, 101, -13);mSysFontBold.SetKern(89, 105, -9);
+    mSysFontBold.SetKern(89, 111, -17);mSysFontBold.SetStride(32, -16, 62);
+    mSysFontBold.SetStride(33, 3, 74);mSysFontBold.SetStride(34, -5, 106);
+    mSysFontBold.SetStride(35, -15, 125);mSysFontBold.SetStride(36, -9, 125);
+    mSysFontBold.SetStride(37, -7, 196);mSysFontBold.SetStride(38, -7, 162);
+    mSysFontBold.SetStride(39, -7, 53);mSysFontBold.SetStride(40, -5, 75);
+    mSysFontBold.SetStride(41, -9, 75);mSysFontBold.SetStride(42, -14, 87);
+    mSysFontBold.SetStride(43, -7, 131);mSysFontBold.SetStride(44, -4, 62);
+    mSysFontBold.SetStride(45, -4, 75);mSysFontBold.SetStride(46, -1, 62);
+    mSysFontBold.SetStride(47, -17, 62);mSysFontBold.SetStride(48, -7, 125);
+    mSysFontBold.SetStride(49, 1, 125);mSysFontBold.SetStride(50, -11, 125);
+    mSysFontBold.SetStride(51, -8, 125);mSysFontBold.SetStride(52, -13, 125);
+    mSysFontBold.SetStride(53, -7, 125);mSysFontBold.SetStride(54, -7, 125);
+    mSysFontBold.SetStride(55, -7, 125);mSysFontBold.SetStride(56, -8, 125);
     mSysFontBold.SetStride(57, -10, 125);mSysFontBold.SetStride(58, 5, 75);
     mSysFontBold.SetStride(59, 2, 75);mSysFontBold.SetStride(60, -6, 131);
     mSysFontBold.SetStride(61, -7, 131);mSysFontBold.SetStride(62, -6, 131);
@@ -567,7 +309,6 @@ void FApp::BaseLoadComplete()
     mSysFontBold.SetStride(101, -10, 125);mSysFontBold.SetStride(102, -14, 75);
     mSysFontBold.SetStride(103, -8, 137);mSysFontBold.SetStride(104, -1, 137);
     mSysFontBold.SetStride(105, -1, 62);mSysFontBold.SetStride(106, -27, 62);
-
     mSysFontBold.SetStride(107, -2, 125);mSysFontBold.SetStride(108, -1, 62);
     mSysFontBold.SetStride(109, -3, 199);mSysFontBold.SetStride(110, -1, 137);
     mSysFontBold.SetStride(111, -8, 137);mSysFontBold.SetStride(112, -2, 137);
@@ -653,16 +394,12 @@ void FApp::BaseMouseUp(float pX, float pY, int pButton) {
 }
 
 void FApp::BaseMouseWheel(int pDirection) {
-	Log("MouseWheel(%d)\n", pDirection);
     gTouch.BaseMouseWheel(pDirection);
 }
 
-void FApp::BaseKeyDown(int pKey)
-{
-	if((pKey >= 0) && (pKey < 256))
-	{
+void FApp::BaseKeyDown(int pKey) {
+	if ((pKey >= 0) && (pKey < 256)) {
 		gKeyPressed[pKey] = true;
-		//Log("KeyDown(%s)\n", gKeyName[pKey]);
 		gTouch.EnqueueKeyDown(pKey);
 	}
 }
@@ -670,7 +407,6 @@ void FApp::BaseKeyDown(int pKey)
 void FApp::BaseKeyUp(int pKey) {
 	if ((pKey >= 0) && (pKey < 256)) {
 		gKeyPressed[pKey] = false;
-		//Log("KeyUp(%s)\n", gKeyName[pKey]);
 		gTouch.EnqueueKeyUp(pKey);
 	}
 }
@@ -708,33 +444,12 @@ void FApp::ProcessMouseUp(float pX, float pY, int pButton) {
 
 void FApp::ProcessMouseWheel(int pDir) {
     MouseWheel(pDir);
-
     mWindowTools.MouseWheel(pDir);
     mWindowModal.MouseWheel(pDir);
     mWindowMain.MouseWheel(pDir);
-
-
-    //mViewController.MouseWheel(pDir);
-    //mViewControllerModal.MouseWheel(pDir);
-    //mViewControllerTools.MouseWheel(pDir);
-    //if (mSelectedInputWindow != 0) {
-    //    mSelectedInputWindow->MouseWheel(pDir);
-    //}
 }
 
 void FApp::ProcessTouchDown(float pX, float pY, void *pData) {
-
-    /*
-    mTouchX = pX;
-    mTouchY = pY;
-    mViewController.mRoot.mTransform.Transform(mTouchX, mTouchY);
-    TouchDown(mTouchX, mTouchY, pData);
-
-    if(mViewControllerModal.ViewExists())mViewControllerModal.TouchDown(pX, pY, pData);
-    else mViewController.TouchDown(pX, pY, pData);
-    mViewControllerTools.TouchDown(pX, pY, pData);
-    */
-
     if (mWindowTools.TouchDown(pX, pY, pData)) {
         mSelectedInputWindow = &mWindowTools;
     } else if (mWindowModal.TouchDown(pX, pY, pData)) {
@@ -744,77 +459,44 @@ void FApp::ProcessTouchDown(float pX, float pY, void *pData) {
     } else {
         mSelectedInputWindow = 0;
     }
+    TouchDown(pX, pY, pData);
 }
 
 void FApp::ProcessTouchMove(float pX, float pY, void *pData) {
-
-    /*
-    mTouchX = pX;
-    mTouchY = pY;
-    mViewController.mRoot.mTransform.Transform(mTouchX, mTouchY);
-    TouchMove(mTouchX, mTouchY, pData);
-    
-    if(mViewControllerModal.ViewExists())mViewControllerModal.TouchMove(pX, pY, pData);
-    else mViewController.TouchMove(pX, pY, pData);
-    mViewControllerTools.TouchMove(pX, pY, pData);
-    */
-
-
     mWindowTools.TouchMove(pX, pY, pData);
     mWindowModal.TouchMove(pX, pY, pData);
     mWindowMain.TouchMove(pX, pY, pData);
-
+    TouchMove(pX, pY, pData);
 }
 
 void FApp::ProcessTouchUp(float pX, float pY, void *pData) {
     mTouchX = pX;
     mTouchY = pY;
-
-    /*
-    mViewController.mRoot.mTransform.Transform(mTouchX, mTouchY);
-    TouchUp(mTouchX, mTouchY, pData);
-    
-    if(mViewControllerModal.ViewExists())mViewControllerModal.TouchUp(pX, pY, pData);
-    else mViewController.TouchUp(pX, pY, pData);
-    mViewControllerTools.TouchUp(pX, pY, pData);
-    */
-
     mWindowTools.TouchUp(pX, pY, pData);
     mWindowModal.TouchUp(pX, pY, pData);
     mWindowMain.TouchUp(pX, pY, pData);
+    TouchUp(pX, pY, pData);
 }
 
 void FApp::ProcessTouchFlush() {
-    TouchFlush();
-    //mViewController.TouchFlush();
-    //mViewControllerModal.TouchFlush();
-    //mViewControllerTools.TouchFlush();
-
     mWindowMain.TouchFlush();
     mWindowModal.TouchFlush();
     mWindowTools.TouchFlush();
+    TouchFlush();
 }
 
 void FApp::ProcessKeyDown(int pKey) {
-    KeyDown(pKey);
-    //mViewController.KeyDown(pKey);
-    //mViewControllerModal.KeyDown(pKey);
-    //mViewControllerTools.KeyDown(pKey);
-
     mWindowMain.KeyDown(pKey);
     mWindowModal.KeyDown(pKey);
     mWindowTools.KeyDown(pKey);
+    KeyDown(pKey);
 }
 
 void FApp::ProcessKeyUp(int pKey) {
-    KeyUp(pKey);
-    //mViewController.KeyUp(pKey);
-    //mViewControllerModal.KeyUp(pKey);
-    //mViewControllerTools.KeyUp(pKey);
-
     mWindowMain.KeyUp(pKey);
     mWindowModal.KeyUp(pKey);
     mWindowTools.KeyUp(pKey);
+    KeyUp(pKey);
 }
 
 void FApp::BaseInactive() {
@@ -823,15 +505,12 @@ void FApp::BaseInactive() {
         ProcessTouchFlush();
         Inactive();
         gTouch.Inactive();
-        
-        mViewController.Inactive();
-        mViewControllerModal.Inactive();
-        mViewControllerTools.Inactive();
-        
+        mWindowMain.Inactive();
+        mWindowModal.Inactive();
+        mWindowTools.Inactive();
         core_sound_stopAll();
         core_sound_inactive();
-        
-        if(gEnvironment == ENV_ANDROID) {
+        if (gEnvironment == ENV_ANDROID) {
             gTextureCache.UnloadAllTextures();
         }
     }
@@ -841,156 +520,21 @@ void FApp::BaseActive() {
     if(mActive == false) {
         mActive = true;
         Active();
-        
-        if(gEnvironment == ENV_ANDROID) {
+        if (gEnvironment == ENV_ANDROID) {
             gTextureCache.ReloadAllTextures();
         }
-        
         gTouch.Active();
-        
-        mViewController.Active();
-        mViewControllerModal.Active();
-        mViewControllerTools.Active();
-        
+        mWindowMain.Active();
+        mWindowModal.Active();
+        mWindowTools.Active();
         core_sound_active();
         core_sound_musicResume();
     }
 }
 
-/*
-
-void FApp::BindListPrint()
-{
-	for(int i=0;i<mBindListCount;i++)
-	{
-		//Log("[c:%d i:%d]", mBindCountList[i], mBindList[i]);
-		if(i < mBindListCount - 1)Log(", ");
-	}
-}
-
-void FApp::BindAdd(int pIndex)
-{
-	for(int i=0;i<mBindListCount;i++)
-	{
-		if(mBindList[i] == pIndex)
-		{
-			mBindCountList[i]++;
-			return;
-		}
-	}
-    
-	if(mBindListCount == mBindListSize)
-	{
-		mBindListSize = mBindListSize + mBindListSize / 2 + 1;
-		int *aNewBindList = new int[mBindListSize];
-		for(int i=0;i<mBindListCount;i++)
-		{
-			aNewBindList[i]=mBindList[i];
-		}
-		delete[]mBindList;
-		mBindList=aNewBindList;
-		
-		int *aNewBindCountList = new int[mBindListSize];
-		for(int i=0;i<mBindListCount;i++)
-		{
-			aNewBindCountList[i]=mBindCountList[i];
-		}
-        
-		delete[]mBindCountList;
-		mBindCountList = aNewBindCountList;
-    }
-    
-	mBindList[mBindListCount] = pIndex;
-	mBindCountList[mBindListCount] = 1;
-	mBindListCount++;
-}
-
-void FApp::BindRemove(int pIndex)
-{
-	int aSlot = -1;
-	
-	for(int i=0;i<mBindListCount;i++)
-	{
-		if(mBindList[i] == pIndex)
-		{
-			aSlot=i;
-			break;
-		}
-	}
-    
-	if(aSlot != -1)
-	{
-		mBindCountList[aSlot]--;
-		if(mBindCountList[aSlot] <= 0)
-		{
-            Graphics::TextureDelete(pIndex);
-            //gfx_deleteTexture(pIndex);
-            
-			int aCap = mBindListCount-1;
-			
-			for(int i=aSlot;i<aCap;i++)
-			{
-				mBindList[i]=mBindList[i+1];
-				mBindCountList[i]=mBindCountList[i+1];
-			}
-			mBindListCount--;
-		}
-	}
-}
-
-void FApp::BindPurgeAll()
-{
-	BindListPrint();
-    
-	for(int i=0;i<mBindListCount;i++)
-    {
-        Graphics::TextureDelete(mBindList[i]);
-    }
-	
-	delete [] mBindList;
-	mBindList = 0;
-	
-	delete [] mBindCountList;
-	mBindCountList = 0;
-	
-	mBindListSize = 0;
-	mBindListCount = 0;
-}
-
-
-
-//Note: This will crash the app.
-//Double Note: No, it actually won't. Bahahahaha!
-
-void FApp::PurgeAllTextures()
-{
-	for(int i=0;i<mBindListCount;i++)
-    {
-        Graphics::TextureDelete(mBindList[i]);
-    }
-	
-	delete[]mBindList;
-	mBindList=0;
-	
-	delete[]mBindCountList;
-	mBindCountList=0;
-	
-	mBindListSize=0;
-	mBindListCount=0;
-}
-
-*/
-
-void FApp::BaseMemoryWarning(bool pSevere)
-{
+void FApp::BaseMemoryWarning(bool pSevere) {
     MemoryWarning(pSevere);
-    //gViewController.MemoryWarning(pSevere);
-    
-    mViewController.MemoryWarning(pSevere);
-    mViewControllerModal.MemoryWarning(pSevere);
-    mViewControllerTools.MemoryWarning(pSevere);
-    
+    mWindowMain.MemoryWarning(pSevere);
+    mWindowModal.MemoryWarning(pSevere);
+    mWindowTools.MemoryWarning(pSevere);
 }
-
-
-//#endif

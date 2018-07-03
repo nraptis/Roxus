@@ -18,7 +18,7 @@ CNVMiniWindow::CNVMiniWindow() {
     mSphereRotation1 = gRand.Get(360);
     mSphereRotation2 = gRand.Get(360);
     
-    mSpriCNVartAngle = gRand.Get(360);
+    mTestAngle = gRand.Get(360);
     mSpriteEndAngle = gRand.Get(360);
     
     mTouchMarkerColor1 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
@@ -43,8 +43,8 @@ void CNVMiniWindow::Update() {
     mSphereRotation2 += 3.0f;
     if (mSphereRotation2 >= 360.0f) mSphereRotation2 -= 360.0f;
     
-    mSpriCNVartAngle -= 0.5f;
-    if (mSpriCNVartAngle < -180.0f) { mSpriCNVartAngle += 360.0f; }
+    mTestAngle -= 0.5f;
+    if (mTestAngle < -180.0f) { mTestAngle += 360.0f; }
     
     mSpriteEndAngle += 2.0f;
     if (mSpriteEndAngle > 360.0f) { mSpriteEndAngle -= 1080.0f;}
