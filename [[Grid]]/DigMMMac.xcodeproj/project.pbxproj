@@ -137,8 +137,6 @@
 		50BB54DC20EBAEB30000F79C /* ToolMenuHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54DA20EBAEB30000F79C /* ToolMenuHeader.cpp */; };
 		50BB54DF20EBB12D0000F79C /* UIRoundedRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54DD20EBB12D0000F79C /* UIRoundedRect.cpp */; };
 		50BB54E220EBDE6E0000F79C /* UIButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54E020EBDE6E0000F79C /* UIButton.cpp */; };
-		50BB54E520EBE6AD0000F79C /* FNotificationTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54E320EBE6AD0000F79C /* FNotificationTable.cpp */; };
-		50BB54E820EC01780000F79C /* FNotificationReceiverMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54E620EC01780000F79C /* FNotificationReceiverMap.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -406,10 +404,6 @@
 		50BB54DE20EBB12D0000F79C /* UIRoundedRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIRoundedRect.hpp; sourceTree = "<group>"; };
 		50BB54E020EBDE6E0000F79C /* UIButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIButton.cpp; sourceTree = "<group>"; };
 		50BB54E120EBDE6E0000F79C /* UIButton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIButton.hpp; sourceTree = "<group>"; };
-		50BB54E320EBE6AD0000F79C /* FNotificationTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationTable.cpp; sourceTree = "<group>"; };
-		50BB54E420EBE6AD0000F79C /* FNotificationTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FNotificationTable.hpp; sourceTree = "<group>"; };
-		50BB54E620EC01780000F79C /* FNotificationReceiverMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationReceiverMap.cpp; sourceTree = "<group>"; };
-		50BB54E720EC01780000F79C /* FNotificationReceiverMap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FNotificationReceiverMap.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -774,10 +768,6 @@
 				5006BA0820E7E2C400E329C1 /* Test Canvas */,
 				50971B5920D4402800381FBD /* FWindow.cpp */,
 				50971B5A20D4402800381FBD /* FWindow.hpp */,
-				50BB54E620EC01780000F79C /* FNotificationReceiverMap.cpp */,
-				50BB54E720EC01780000F79C /* FNotificationReceiverMap.hpp */,
-				50BB54E320EBE6AD0000F79C /* FNotificationTable.cpp */,
-				50BB54E420EBE6AD0000F79C /* FNotificationTable.hpp */,
 				5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */,
 				5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */,
 				50971B8A20D4480700381FBD /* FCanvas.cpp */,
@@ -864,7 +854,6 @@
 				0DA0B1C31C54500C005C75B2 /* FColor.cpp in Sources */,
 				0DD70E7520DF039B00295D84 /* UValuePicker.cpp in Sources */,
 				5006BA3720E7E2C400E329C1 /* CNVGame.cpp in Sources */,
-				50BB54E820EC01780000F79C /* FNotificationReceiverMap.cpp in Sources */,
 				0DA0B1FE1C54500C005C75B2 /* os_core_social.cpp in Sources */,
 				0DA0B2011C54500C005C75B2 /* OSInputGrabber.mm in Sources */,
 				50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */,
@@ -958,7 +947,6 @@
 				5006BA3320E7E2C400E329C1 /* CNVBadgeDecor3.cpp in Sources */,
 				0DA0B1CC1C54500C005C75B2 /* FIndexList.cpp in Sources */,
 				0DA0B1D51C54500C005C75B2 /* FMotionObject.cpp in Sources */,
-				50BB54E520EBE6AD0000F79C /* FNotificationTable.cpp in Sources */,
 				0DA0B1BF1C54500C005C75B2 /* FAchievement.cpp in Sources */,
 				0DA0B1EB1C54500C005C75B2 /* FTouchManager.cpp in Sources */,
 				50971B6520D4402800381FBD /* Tile.cpp in Sources */,

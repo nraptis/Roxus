@@ -9,8 +9,11 @@
 #include "ToolMenuHeader.hpp"
 #include "ToolMenu.hpp"
 #include "PGMainCanvas.hpp"
+#include "ToolMenu.hpp"
 
 ToolMenuHeader::ToolMenuHeader() {
+    mMenu = 0;
+
     mName = "ToolMenuHeader";
 
     mConsumesTouches = false;
@@ -20,30 +23,25 @@ ToolMenuHeader::ToolMenuHeader() {
     mMenuBackground.mCornerRadius = 6.0f;
     mMenuBackground.mRoundBottom = false;
 
-
-
     mButtonClose = new UIButton();
     mButtonMinimize = new UIButton();
 
     mButtonClose->mName = "Close Button";
     mButtonMinimize->mName = "Minimize Button";
 
+    mButtonMinimize->mText = "--{[[tO]]-)+";
+
     AddChild(mButtonClose);
     AddChild(mButtonMinimize);
 
-
     gNotify.Register(this, mButtonClose, "click");
     gNotify.Register(this, mButtonMinimize, "click");
-
-
-
+    
     gNotify.Register(this, mButtonClose, "down");
     gNotify.Register(this, mButtonMinimize, "down");
 
     gNotify.Register(this, mButtonClose, "up");
     gNotify.Register(this, mButtonMinimize, "up");
-    
-
 }
 
 ToolMenuHeader::~ToolMenuHeader() {
@@ -51,13 +49,10 @@ ToolMenuHeader::~ToolMenuHeader() {
 }
 
 void ToolMenuHeader::Layout() {
-
     float aButtonPadding = 2.0f;
     float aButtonSize = mHeight - aButtonPadding * 2.0f;
-
     mButtonMinimize->SetFrame(aButtonPadding, aButtonPadding, aButtonSize, aButtonSize);
     mButtonClose->SetFrame(mWidth - (aButtonPadding + aButtonSize), aButtonPadding, aButtonSize, aButtonSize);
-
     mMenuBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mMenuBackground.mRefresh = true;
 }
@@ -101,9 +96,11 @@ void ToolMenuHeader::Notify(void *pSender, const char *pNotification) {
         mParent->Notify(pSender, pNotification);
     }
 
+    if (FString(pNotification) == "click") {
     if (pSender == mButtonMinimize) {
         printf("Minimize Button...\n");
 
+        for(int i=0;i<200;i++) {
         ToolMenu *aToolMenu = new ToolMenu();
         aToolMenu->SetFrame(gRand.Get(200), gRand.Get(200), 100 + gRand.Get(200), 100 + gRand.Get(200));
 
@@ -112,6 +109,10 @@ void ToolMenuHeader::Notify(void *pSender, const char *pNotification) {
         gTool->AddChild(aToolMenu);
         
         gNotify.Register(this, aToolMenu, "what");
+
+        }
+    }
+
     }
 }
 

@@ -42,8 +42,7 @@ ToolMenu::~ToolMenu() {
 }
 
 void ToolMenu::Layout() {
-
-    mHeader.SetFrame(1.0f, 1.0f, mWidth - 2.0f, 54.0f);
+    mHeader.SetFrame(1.0f, 1.0f, mWidth - 2.0f, 40.0f);
 
     mMenuBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mMenuBackgroundOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);
@@ -52,7 +51,6 @@ void ToolMenu::Layout() {
     mMenuBackground.mRefresh = true;
     mMenuBackgroundOutline.mRefresh = true;
     mMenuBackgroundShadow.mRefresh = true;
-
 }
 
 void ToolMenu::Update() {

@@ -10,8 +10,6 @@
 #include "GLApp.h"
 
 PGMainCanvas *gTool = 0;
-
-
 PGMainCanvas::PGMainCanvas() {
     gTool = this;
     mName = "_Playground_";
@@ -92,7 +90,6 @@ void PGMainCanvas::TouchDown(float pX, float pY, void *pData) {
             }
         }
     }
-    gNotify.Print();
 }
 
 void PGMainCanvas::TouchMove(float pX, float pY, void *pData) {

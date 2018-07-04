@@ -13,6 +13,7 @@
 #include "UIRoundedRect.hpp"
 #include "UIButton.hpp"
 
+class ToolMenu;
 class ToolMenuHeader : public FCanvas {
 public:
     ToolMenuHeader();
@@ -29,6 +30,8 @@ public:
     virtual void                            TouchFlush();
 
     virtual void                            Notify(void *pSender, const char *pNotification);
+
+    ToolMenu                                *mMenu;
 
     UIButton                                *mButtonClose;
     UIButton                                *mButtonMinimize;

@@ -40,18 +40,35 @@ public:
     float                           mCharacterOffsetX[256];
     
     void                            SetKern(int pStartCharIndex, int pEndCharIndex, int pKernAmount);
-    //float                           *mKerningDataBase;
     float                           mKern[256][256];
 
     void                            Draw(const char *pText, float pX, float pY);
+    void                            Draw(FString pText, float pX, float pY){Draw((const char *)pText.c(), pX, pY);}
+
     void                            Draw(const char *pText, float pX, float pY, float pScale);
+    void                            Draw(FString pText, float pX, float pY, float pScale) { Draw((const char *)pText.c(), pX, pY, pScale); }
     
     void                            Right(const char *pText, float pX, float pY);
+    void                            Right(FString pText, float pX, float pY) { Right((const char *)pText.c(), pX, pY); }
+
+    void                            Right(const char *pText, float pX, float pY, float pScale);
+    void                            Right(FString pText, float pX, float pY, float pScale) { Right((const char *)pText.c(), pX, pY, pScale); }
+    void                            RightCenter(const char *pText, float pX, float pY, float pScale);
+    void                            RightCenter(FString pText, float pX, float pY, float pScale) { RightCenter((const char *)pText.c(), pX, pY, pScale); }
+
+
+    void                            Left(const char *pText, float pX, float pY, float pScale);
+    void                            Left(FString pText, float pX, float pY, float pScale) { Left((const char *)pText.c(), pX, pY, pScale); }
+    void                            LeftCenter(const char *pText, float pX, float pY, float pScale);
+    void                            LeftCenter(FString pText, float pX, float pY, float pScale) { LeftCenter((const char *)pText.c(), pX, pY, pScale); }
+
     void                            Center(const char *pText, float pX, float pY);
     void                            Center(const char *pText, float pX, float pY, float pScale);
-    
-    void                            Draw(FString pText, float pX, float pY){Draw((const char *)pText.c(), pX, pY);}
-    
+
+    void                            Center(FString pText, float pX, float pY) { Center((const char *)pText.c(), pX, pY); }
+    void                            Center(FString pText, float pX, float pY, float pScale) { Center((const char *)pText.c(), pX, pY, pScale); }
+
+
     static FString                  CharToReadable(char c);
     static FString                  CharToFileSafe(char c);
     
@@ -60,27 +77,28 @@ public:
     
     float                           PointSize(){return (mPointSize * mDataScale);}
     
-    void                            Right(FString pText, float pX, float pY){Right((const char *)pText.c(), pX, pY);}
-    void                            Center(FString pText, float pX, float pY){Center((const char *)pText.c(), pX, pY);}
-    void                            Center(FString pText, float pX, float pY, float pScale){Center((const char *)pText.c(), pX, pY, pScale);}
+
+
+
     
     float                           Width(const char *pText, float pScale);
-    
     float                           Width(const char *pText);
-    
+
+
+    float                           ScaleForWidth(const char *pText, float pLabelWidth, float pLabelPadding=0.0);
+
+    float                           ScaleForWidth(FString pText, float pLabelWidth, float pLabelPadding=0.0) { return ScaleForWidth((const char *)pText.c(), pLabelWidth, pLabelPadding); }
+
+
     void                            ApplyScrunch(float pScrunch);
     void                            ApplyExpand(float pExpand);
     void                            ApplyOffsetX(float pOffset);
-
 
     float                           PlotWidth(char *pText, float *pArray);
     float                           PlotWidthCentered(char *pText, float *pArray);
     
     float                           Spacing(char pChar, char pNext);
     int                             LineCount(char *pString, float pWidth);
-    
-    //float                           mVerticalHeight;
-    //float                           mVerticalSpacing;
     
     void                            LoadRange(const char *pFilePrefix, char pStart, char pEnd);
     

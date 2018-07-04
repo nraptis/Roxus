@@ -32,7 +32,12 @@ public:
 
     UIRoundedRect                           mButtonBackgroundDown;
     UIRoundedRect                           mButtonOutlineDown;
-    
+
+    bool                                    mDrawCloseX;
+    bool                                    mDrawMinimize;
+
+    FString                                 mText;
+
 
 };
 

@@ -151,16 +151,16 @@ void FApp::BaseLoad() {
     if(mDidLoadStart == false) {
         mDidLoadStart = true;
         
-        gImageBundler.Load("bundle_sys_font_bold", "bundle_sys_font_bold_1024");
+        gImageBundler.Load("bundle_sys_font_bold", "bundle_sys_font_bold_256");
         mSysFontBold.Load("sys_font_bold_256_", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-=.,()[]!/");
         mSysFontBold.mDataScale = 0.125f;
-        mSysFontBold.mSpriteScale = 0.25f;
+        mSysFontBold.mSpriteScale = 1.0f;
         mSysFontBold.mPointSize = 290.0f;
         
-        gImageBundler.Load("bundle_sys_font", "bundle_sys_font_1024");
+        gImageBundler.Load("bundle_sys_font", "bundle_sys_font_256");
         mSysFont.Load("sys_font_256_", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-=.,()[]!/{}_*&%$?");
         mSysFont.mDataScale = 0.125f;
-        mSysFont.mSpriteScale = 0.25f;
+        mSysFont.mSpriteScale = 1.0f;
         mSysFont.mPointSize = 290.0f;
 
         gImageBundler.Clear();

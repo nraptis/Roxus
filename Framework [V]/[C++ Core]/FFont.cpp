@@ -98,44 +98,11 @@ void FFont::LoadScore(const char *pFilePrefix)
     Load(pFilePrefix, "0123456789,.()!#$%*-+=");
 }
 
-
-void FFont::Draw(const char *pText, float pX, float pY)
-{
-    
+void FFont::Draw(const char *pText, float pX, float pY) {
     Draw(pText, pX, pY, 1.0f);
-    
-    /*
-     unsigned char aChar = 0;
-     float aDrawX = pX;
-     float aDrawY = pY;
-     int aCharIndex = -1;
-     int aCharIndexPrev = -1;
-     float aKern = 0.0f;
-     float aScale = (mScale * pScale);
-     
-     if(pText)
-     {
-     unsigned char *aPtr = (unsigned char *)pText;
-     while(*aPtr)
-     {
-     aCharIndexPrev = aCharIndex;
-     aChar = *aPtr;
-     aCharIndex = aChar;
-     
-     if(aCharIndexPrev != -1)aKern = mKern[aCharIndexPrev][aCharIndex];
-     
-     mCharacterSprite[aCharIndex].Draw(aDrawX + ((mCharacterOffsetX[aCharIndex] + aKern) * aScale) + mCharacterSprite[aCharIndex].mWidth / 2.0f, aDrawY + mCharacterSprite[aCharIndex].mHeight / 2.0f, pScale);
-     
-     aDrawX += (mCharacterStrideX[aCharIndex] + aKern) * aScale;
-     
-     aPtr++;
-     }
-     }
-     */
 }
 
-void FFont::Draw(const char *pText, float pX, float pY, float pScale)
-{
+void FFont::Draw(const char *pText, float pX, float pY, float pScale) {
     unsigned char aChar = 0;
     float aDrawX = pX;
     float aDrawY = pY;
@@ -145,23 +112,16 @@ void FFont::Draw(const char *pText, float pX, float pY, float pScale)
     float aScale = (mDataScale * pScale);
     float aPointSize = mPointSize * mDataScale * pScale;
     float aSpriteScale = mSpriteScale * pScale;
-
-
-    if(pText)
-    {
+    if (pText) {
         unsigned char *aPtr = (unsigned char *)pText;
-        while(*aPtr)
-        {
+        while (*aPtr) {
             aKern = 0.0f;
             aCharIndexPrev = aCharIndex;
             aChar = *aPtr;
             aCharIndex = aChar;
             if(aCharIndexPrev != -1)aKern = mKern[aCharIndexPrev][aCharIndex];
-
-            float aSpriteWidth = mCharacterSprite[aCharIndex].mWidth * mSpriteScale;
-            float aSpriteHeight = mCharacterSprite[aCharIndex].mHeight * mSpriteScale;
-
-            mCharacterSprite[aCharIndex].Draw(aDrawX + ((mCharacterOffsetX[aCharIndex] + aKern) * aScale) + aSpriteWidth / 2.0f, aDrawY + aPointSize / 2.0f, aSpriteScale);
+            float aSpriteWidth = mCharacterSprite[aCharIndex].mWidth * aSpriteScale;
+            mCharacterSprite[aCharIndex].Draw(aDrawX + ((mCharacterOffsetX[aCharIndex] + aKern) * aScale) + aSpriteWidth  * 0.5f, aDrawY + aPointSize / 2.0f, aSpriteScale);
             aDrawX += (mCharacterStrideX[aCharIndex] + aKern) * aScale;
             aPtr++;
         }
@@ -173,8 +133,7 @@ void FFont::Right(const char *pText, float pX, float pY) {
     Draw(pText, pX - aWidth, pY);
 }
 
-void FFont::Center(const char *pText, float pX, float pY)
-{
+void FFont::Center(const char *pText, float pX, float pY) {
     Center(pText, pX, pY, 1.0f);
 }
 
@@ -182,6 +141,25 @@ void FFont::Center(const char *pText, float pX, float pY, float pScale) {
     float aWidth = Width(pText, pScale);
     Draw(pText, pX - aWidth * 0.5f, pY - (mPointSize * (mDataScale * pScale) * 0.5f), pScale);
 }
+
+void FFont::Right(const char *pText, float pX, float pY, float pScale) {
+    float aWidth = Width(pText, pScale);
+    Draw(pText, pX - aWidth, pY, pScale);
+}
+
+void FFont::RightCenter(const char *pText, float pX, float pY, float pScale) {
+    float aWidth = Width(pText, pScale);
+    Draw(pText, pX - aWidth, pY - (mPointSize * (mDataScale * pScale) * 0.5f), pScale);
+}
+
+void FFont::Left(const char *pText, float pX, float pY, float pScale) {
+    Draw(pText, pX, pY, pScale);
+}
+
+void FFont::LeftCenter(const char *pText, float pX, float pY, float pScale) {
+    Draw(pText, pX, pY - (mPointSize * (mDataScale * pScale) * 0.5f), pScale);
+}
+
 
 float FFont::Width(const char *pText, float pScale) {
     float aResult = 0.0f;
@@ -208,6 +186,19 @@ float FFont::Width(const char *pText, float pScale) {
 float FFont::Width(const char *pText) {
     return Width(pText, 1.0f);
 }
+
+
+float FFont::ScaleForWidth(const char *pText, float pLabelWidth, float pLabelPadding) {
+    float aWidthBase =  Width(pText);
+    float aLabelWidth = pLabelWidth - (pLabelPadding * 2.0f);
+    float aScale = 1.0f;
+    if ((aLabelWidth > 1.0f) && (aWidthBase > 1.0f)) {
+        aScale = (aLabelWidth / aWidthBase);
+    }
+    return aScale;
+}
+
+
 
 void FFont::SetKern(int pStartCharIndex, int pEndCharIndex, int pKernAmount) {
     if ((pStartCharIndex >= 0) && (pEndCharIndex >= 0) && (pStartCharIndex < 256) && (pEndCharIndex < 256)) {

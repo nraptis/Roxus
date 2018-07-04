@@ -50,14 +50,12 @@ FCanvas::FCanvas() {
 }
 
 FCanvas::~FCanvas() {
-
-    printf("Dealloc[%LX]\n", this);
-
-    gNotify.Unregister(this);
+    //printf("Dealloc[%LX]\n", this);
+    //gNotify.Unregister(this);
     if (mWindow) {
         FWindow *aWindow = mWindow;
         mWindow = 0;
-        //aWindow->RegisterDealloc(this);
+        aWindow->RegisterDealloc(this);
     }
 }
 
@@ -68,7 +66,7 @@ void FCanvas::Kill() {
     }
 }
 
-void FCanvas::Layout() { printf("----Layout(%s)\n", mName.c()); }
+void FCanvas::Layout() { /* printf("----Layout(%s)\n", mName.c()); */ }
 void FCanvas::Update() { }
 void FCanvas::Draw() {
     if (mColor.mAlpha != 0.0f) {

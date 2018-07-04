@@ -348,7 +348,7 @@ void UButton::Draw()
     {
         aScale = (aTextWidth / aWidthBase);
     }
-    
+
     if(aScale > 0.75f)aScale = 0.75f;
     aTextWidth *= aScale;
     
