@@ -11,7 +11,7 @@
 
 #include "FCanvas.hpp"
 #include "FList.h"
-#include "FHashMap.hpp"
+#include "FHashTable.hpp"
 
 class FWindow {
 public:

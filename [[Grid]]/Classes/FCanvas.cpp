@@ -8,7 +8,7 @@
 
 #include "core_includes.h"
 #include "FCanvas.hpp"
-#include "FHashMap.hpp"
+#include "FHashTable.hpp"
 
 FCanvas::FCanvas() {
     mX = 0.0f;
@@ -892,36 +892,7 @@ void FCanvasBucket::Add(FCanvas *pCanvas) {
             aNode = aNode->mTableNext;
         }
         if (mTableCount >= (mTableSize / 2)) {
-            int aNewSize = mTableCount + 1;
-            if(mTableCount < ((13 / 2) - 1))aNewSize = 13;
-            else if(mTableCount < ((29 / 2) - 1))aNewSize = 29;
-            else if(mTableCount < ((41 / 2) - 1))aNewSize = 41;
-            else if(mTableCount < ((53 / 2) - 1))aNewSize = 53;
-            else if(mTableCount < ((97 / 2) - 1))aNewSize = 97;
-            else if(mTableCount < ((149 / 2) - 5))aNewSize = 149;
-            else if(mTableCount < ((193 / 2) - 5))aNewSize = 193;
-            else if(mTableCount < ((269 / 2) - 5))aNewSize = 269;
-            else if(mTableCount < ((389 / 2) - 5))aNewSize = 389;
-            else if(mTableCount < ((439 / 2) - 5))aNewSize = 439;
-            else if(mTableCount < ((631 / 2) - 5))aNewSize = 631;
-            else if(mTableCount < ((769 / 2) - 5))aNewSize = 769;
-            else if(mTableCount < ((907 / 2) - 7))aNewSize = 907;
-            else if(mTableCount < ((1213 / 2) - 7))aNewSize = 1213;
-            else if(mTableCount < ((1543 / 2) - 7))aNewSize = 1543;
-            else if(mTableCount < ((2089 / 2) - 7))aNewSize = 2089;
-            else if(mTableCount < ((2557 / 2) - 9))aNewSize = 2557;
-            else if(mTableCount < ((3079 / 2) - 13))aNewSize = 3079;
-            else if(mTableCount < ((3613 / 2) - 13))aNewSize = 3613;
-            else if(mTableCount < ((4013 / 2) - 13))aNewSize = 4013;
-            else if(mTableCount < ((5119 / 2) - 13))aNewSize = 5119;
-            else if(mTableCount < ((6151 / 2) - 13))aNewSize = 6151;
-            else if(mTableCount < ((7151 / 2) - 13))aNewSize = 7151;
-            else if(mTableCount < ((12289 / 2) - 17))aNewSize = 12289;
-            else { aNewSize = (mTableCount + (mTableCount * 2) / 3 + 7); }
-
-            //TODO:
-            //aNewSize = 7;
-
+            int aNewSize = FHashTable::IncreaseTableSize(mTableCount);
             SetTableSize(aNewSize);
             aHash = (aHashBase % mTableSize);
         }

@@ -124,7 +124,6 @@
 		5082482620EA96730081C541 /* FViewTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482020EA96730081C541 /* FViewTransform.cpp */; };
 		5082482D20EAADCD0081C541 /* PGMainCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482B20EAADCD0081C541 /* PGMainCanvas.cpp */; };
 		5082483020EAADE30081C541 /* PGMainToolbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482E20EAADE30081C541 /* PGMainToolbar.cpp */; };
-		5082483320EAAFB10081C541 /* FHashMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483120EAAFB10081C541 /* FHashMap.cpp */; };
 		5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */; };
 		5082483F20EAEA800081C541 /* FNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */; };
 		5082484520EB103B0081C541 /* DragableCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082484320EB103B0081C541 /* DragableCanvas.cpp */; };
@@ -378,8 +377,6 @@
 		5082482C20EAADCD0081C541 /* PGMainCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGMainCanvas.hpp; sourceTree = "<group>"; };
 		5082482E20EAADE30081C541 /* PGMainToolbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PGMainToolbar.cpp; sourceTree = "<group>"; };
 		5082482F20EAADE30081C541 /* PGMainToolbar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGMainToolbar.hpp; sourceTree = "<group>"; };
-		5082483120EAAFB10081C541 /* FHashMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FHashMap.cpp; sourceTree = "<group>"; };
-		5082483220EAAFB10081C541 /* FHashMap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FHashMap.hpp; sourceTree = "<group>"; };
 		5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MouseTesterCanvas.cpp; sourceTree = "<group>"; };
 		5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseTesterCanvas.hpp; sourceTree = "<group>"; };
 		5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationCenter.cpp; sourceTree = "<group>"; };
@@ -781,8 +778,6 @@
 				50971B5E20D4402800381FBD /* Grid.hpp */,
 				50971B5F20D4402800381FBD /* Tile.cpp */,
 				50971B6020D4402800381FBD /* Tile.hpp */,
-				5082483120EAAFB10081C541 /* FHashMap.cpp */,
-				5082483220EAAFB10081C541 /* FHashMap.hpp */,
 				5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */,
 				5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */,
 			);
@@ -952,7 +947,6 @@
 				50971B6520D4402800381FBD /* Tile.cpp in Sources */,
 				5082483020EAADE30081C541 /* PGMainToolbar.cpp in Sources */,
 				0DA0B1DB1C54500C005C75B2 /* FPrimitive.cpp in Sources */,
-				5082483320EAAFB10081C541 /* FHashMap.cpp in Sources */,
 				0DA0B1D41C54500C005C75B2 /* FModelDataSequence.cpp in Sources */,
 				5006BA3A20E7E2C400E329C1 /* CNVWorld.cpp in Sources */,
 				0DD70E8020DF039B00295D84 /* FMotionKeySequence.cpp in Sources */,

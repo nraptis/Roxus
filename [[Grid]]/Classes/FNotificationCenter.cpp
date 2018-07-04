@@ -9,7 +9,6 @@
 #include "core_includes.h"
 #include "FNotificationCenter.hpp"
 #include "FCanvas.hpp"
-#include "FHashMap.hpp"
 #include "FHashTable.hpp"
 
 
@@ -18,10 +17,7 @@ FNotificationCenter::FNotificationCenter() { }
 FNotificationCenter::~FNotificationCenter() { }
 
 void FNotificationCenter::Register(FCanvas *pListener, FCanvas *pSender, const char *pNotification) {
-
     if (pListener == 0 || pNotification == 0 || pSender == 0) { return; }
-    //FNotificationTableNode *aNotificationNode = mSendTable.Add(pNotification, pListener, pSender);
-    //mSendTable.GetNode(pNotification, pSender);
     mRegisterTable.Add(pListener, mSendTable.Add(pNotification, pListener, pSender));
 }
 
@@ -64,21 +60,13 @@ void FNotificationCenter::Unregister(FCanvas *pListener) {
 }
 
 void FNotificationCenter::Post(FCanvas *pSender, const char *pNotification) {
-
     FNotificationTableNode *aNotificationNode = mSendTable.GetNode(pNotification, pSender);
-    bool aDidPost = false;
     if (aNotificationNode != 0) {
         mPostList.RemoveAll();
         mPostList.Add(aNotificationNode->mListenerList);
         EnumList(FCanvas, aCanvas, mPostList) {
             aCanvas->BaseNotify(pSender, pNotification);
-            aDidPost = true;
-            printf("NTF Success Post [%s] Sender: {%X} Receiver: {%X}\n", pNotification, pSender, aCanvas);
         }
-    }
-    
-    if (aDidPost == false) {
-        printf("NTF Fail Post [%s] Sender: {%X}\n", pNotification, pSender);
     }
 }
 
@@ -137,33 +125,7 @@ FNotificationReceiverMapNode *FNotificationReceiverMap::Add(FCanvas *pListener, 
             aNode = aNode->mTableNext;
         }
         if (mTableCount >= (mTableSize / 2)) {
-            int aNewSize = mTableCount + 1;
-            if(mTableCount < ((13 / 2) - 1))aNewSize = 13;
-            else if(mTableCount < ((29 / 2) - 1))aNewSize = 29;
-            else if(mTableCount < ((41 / 2) - 1))aNewSize = 41;
-            else if(mTableCount < ((53 / 2) - 1))aNewSize = 53;
-            else if(mTableCount < ((97 / 2) - 1))aNewSize = 97;
-            else if(mTableCount < ((149 / 2) - 5))aNewSize = 149;
-            else if(mTableCount < ((193 / 2) - 5))aNewSize = 193;
-            else if(mTableCount < ((269 / 2) - 5))aNewSize = 269;
-            else if(mTableCount < ((389 / 2) - 5))aNewSize = 389;
-            else if(mTableCount < ((439 / 2) - 5))aNewSize = 439;
-            else if(mTableCount < ((631 / 2) - 5))aNewSize = 631;
-            else if(mTableCount < ((769 / 2) - 5))aNewSize = 769;
-            else if(mTableCount < ((907 / 2) - 7))aNewSize = 907;
-            else if(mTableCount < ((1213 / 2) - 7))aNewSize = 1213;
-            else if(mTableCount < ((1543 / 2) - 7))aNewSize = 1543;
-            else if(mTableCount < ((2089 / 2) - 7))aNewSize = 2089;
-            else if(mTableCount < ((2557 / 2) - 9))aNewSize = 2557;
-            else if(mTableCount < ((3079 / 2) - 13))aNewSize = 3079;
-            else if(mTableCount < ((3613 / 2) - 13))aNewSize = 3613;
-            else if(mTableCount < ((4013 / 2) - 13))aNewSize = 4013;
-            else if(mTableCount < ((5119 / 2) - 13))aNewSize = 5119;
-            else if(mTableCount < ((6151 / 2) - 13))aNewSize = 6151;
-            else if(mTableCount < ((7151 / 2) - 13))aNewSize = 7151;
-            else if(mTableCount < ((12289 / 2) - 17))aNewSize = 12289;
-            else { aNewSize = (mTableCount + (mTableCount * 2) / 3 + 7); }
-
+            int aNewSize = FHashTable::IncreaseTableSize(mTableCount);
             SetTableSize(aNewSize);
             aHash = (aHashBase % mTableSize);
         }
@@ -321,34 +283,7 @@ FNotificationTableNode *FNotificationTable::Add(const char *pNotification, FCanv
         }
 
         if (mTableCount >= (mTableSize / 2)) {
-            int aNewSize = mTableCount + 1;
-            if(mTableCount < ((7 / 2) - 1))aNewSize = 7;
-            else if(mTableCount < ((13 / 2) - 1))aNewSize = 13;
-            else if(mTableCount < ((29 / 2) - 1))aNewSize = 29;
-            else if(mTableCount < ((41 / 2) - 1))aNewSize = 41;
-            else if(mTableCount < ((53 / 2) - 1))aNewSize = 53;
-            else if(mTableCount < ((97 / 2) - 1))aNewSize = 97;
-            else if(mTableCount < ((149 / 2) - 5))aNewSize = 149;
-            else if(mTableCount < ((193 / 2) - 5))aNewSize = 193;
-            else if(mTableCount < ((269 / 2) - 5))aNewSize = 269;
-            else if(mTableCount < ((389 / 2) - 5))aNewSize = 389;
-            else if(mTableCount < ((439 / 2) - 5))aNewSize = 439;
-            else if(mTableCount < ((631 / 2) - 5))aNewSize = 631;
-            else if(mTableCount < ((769 / 2) - 5))aNewSize = 769;
-            else if(mTableCount < ((907 / 2) - 7))aNewSize = 907;
-            else if(mTableCount < ((1213 / 2) - 7))aNewSize = 1213;
-            else if(mTableCount < ((1543 / 2) - 7))aNewSize = 1543;
-            else if(mTableCount < ((2089 / 2) - 7))aNewSize = 2089;
-            else if(mTableCount < ((2557 / 2) - 9))aNewSize = 2557;
-            else if(mTableCount < ((3079 / 2) - 13))aNewSize = 3079;
-            else if(mTableCount < ((3613 / 2) - 13))aNewSize = 3613;
-            else if(mTableCount < ((4013 / 2) - 13))aNewSize = 4013;
-            else if(mTableCount < ((5119 / 2) - 13))aNewSize = 5119;
-            else if(mTableCount < ((6151 / 2) - 13))aNewSize = 6151;
-            else if(mTableCount < ((7151 / 2) - 13))aNewSize = 7151;
-            else if(mTableCount < ((12289 / 2) - 17))aNewSize = 12289;
-            else { aNewSize = (mTableCount + (mTableCount * 2) / 3 + 7); }
-
+            int aNewSize = FHashTable::IncreaseTableSize(mTableCount);
             SetTableSize(aNewSize);
             aHash = (aHashBase % mTableSize);
         }
