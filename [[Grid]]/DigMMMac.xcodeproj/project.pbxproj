@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0361D320ED3F66007A81E0 /* FNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361CB20ED3F65007A81E0 /* FNotificationCenter.cpp */; };
+		0D0361D420ED3F66007A81E0 /* FCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361CC20ED3F65007A81E0 /* FCanvas.cpp */; };
+		0D0361D520ED3F66007A81E0 /* FGestureCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361CD20ED3F65007A81E0 /* FGestureCanvas.cpp */; };
+		0D0361D620ED3F66007A81E0 /* FScrollCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361CF20ED3F66007A81E0 /* FScrollCanvas.cpp */; };
+		0D0361D920ED3F94007A81E0 /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361D820ED3F94007A81E0 /* FWindow.cpp */; };
+		0D0361DE20ED3FC8007A81E0 /* FScrollViewPaged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361DC20ED3FC8007A81E0 /* FScrollViewPaged.cpp */; };
+		0D0361DF20ED3FC8007A81E0 /* FScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D0361DD20ED3FC8007A81E0 /* FScrollView.cpp */; };
 		0D4D578D1A82B6D10059E8D1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D578C1A82B6D10059E8D1 /* main.cpp */; };
 		0D4D57951A82B8300059E8D1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4D57941A82B82F0059E8D1 /* OpenGL.framework */; };
 		0D4D57971A82B8660059E8D1 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4D57961A82B8660059E8D1 /* GLUT.framework */; };
@@ -50,8 +57,6 @@
 		0DA0B1DD1C54500C005C75B2 /* FRandomizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B15B1C54500C005C75B2 /* FRandomizer.cpp */; };
 		0DA0B1DE1C54500C005C75B2 /* FRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B15D1C54500C005C75B2 /* FRect.cpp */; };
 		0DA0B1DF1C54500C005C75B2 /* FResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B15F1C54500C005C75B2 /* FResource.cpp */; };
-		0DA0B1E01C54500C005C75B2 /* FScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1611C54500C005C75B2 /* FScrollView.cpp */; };
-		0DA0B1E11C54500C005C75B2 /* FScrollViewPaged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1631C54500C005C75B2 /* FScrollViewPaged.cpp */; };
 		0DA0B1E21C54500C005C75B2 /* FSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1651C54500C005C75B2 /* FSlider.cpp */; };
 		0DA0B1E31C54500C005C75B2 /* FSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1671C54500C005C75B2 /* FSound.cpp */; };
 		0DA0B1E41C54500C005C75B2 /* FSpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DA0B1691C54500C005C75B2 /* FSpline.cpp */; };
@@ -116,8 +121,6 @@
 		5006BA3A20E7E2C400E329C1 /* CNVWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA1D20E7E2C400E329C1 /* CNVWorld.cpp */; };
 		5006BA3B20E7E2C400E329C1 /* CNVWorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA1F20E7E2C400E329C1 /* CNVWorldContainer.cpp */; };
 		5006BA3C20E7E2C400E329C1 /* CNVWorldContainerContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA2120E7E2C400E329C1 /* CNVWorldContainerContainer.cpp */; };
-		5052A52020EC5F27007A38F3 /* FGestureCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A51E20EC5F27007A38F3 /* FGestureCanvas.cpp */; };
-		5052A52320EC68E6007A38F3 /* FScrollCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52120EC68E6007A38F3 /* FScrollCanvas.cpp */; };
 		5052A52620EC71D6007A38F3 /* ToolMenuContent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */; };
 		5052A52920EC86B0007A38F3 /* UIImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */; };
 		5052A52C20EC86C2007A38F3 /* UIImagePickerCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */; };
@@ -130,13 +133,10 @@
 		5082482D20EAADCD0081C541 /* PGMainCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482B20EAADCD0081C541 /* PGMainCanvas.cpp */; };
 		5082483020EAADE30081C541 /* PGMainToolbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082482E20EAADE30081C541 /* PGMainToolbar.cpp */; };
 		5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */; };
-		5082483F20EAEA800081C541 /* FNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */; };
 		5082484520EB103B0081C541 /* DragableCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082484320EB103B0081C541 /* DragableCanvas.cpp */; };
-		50971B6220D4402800381FBD /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5920D4402800381FBD /* FWindow.cpp */; };
 		50971B6320D4402800381FBD /* GLApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5B20D4402800381FBD /* GLApp.cpp */; };
 		50971B6420D4402800381FBD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5D20D4402800381FBD /* Grid.cpp */; };
 		50971B6520D4402800381FBD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B5F20D4402800381FBD /* Tile.cpp */; };
-		50971B8C20D4480700381FBD /* FCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50971B8A20D4480700381FBD /* FCanvas.cpp */; };
 		50BB54D920EBAEA50000F79C /* ToolMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54D720EBAEA50000F79C /* ToolMenu.cpp */; };
 		50BB54DC20EBAEB30000F79C /* ToolMenuHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54DA20EBAEB30000F79C /* ToolMenuHeader.cpp */; };
 		50BB54DF20EBB12D0000F79C /* UIRoundedRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BB54DD20EBB12D0000F79C /* UIRoundedRect.cpp */; };
@@ -156,6 +156,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D0361CB20ED3F65007A81E0 /* FNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationCenter.cpp; sourceTree = "<group>"; };
+		0D0361CC20ED3F65007A81E0 /* FCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvas.cpp; sourceTree = "<group>"; };
+		0D0361CD20ED3F65007A81E0 /* FGestureCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FGestureCanvas.cpp; sourceTree = "<group>"; };
+		0D0361CE20ED3F65007A81E0 /* FGestureCanvas.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FGestureCanvas.hpp; sourceTree = "<group>"; };
+		0D0361CF20ED3F66007A81E0 /* FScrollCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollCanvas.cpp; sourceTree = "<group>"; };
+		0D0361D020ED3F66007A81E0 /* FScrollCanvas.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FScrollCanvas.hpp; sourceTree = "<group>"; };
+		0D0361D120ED3F66007A81E0 /* FCanvas.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FCanvas.hpp; sourceTree = "<group>"; };
+		0D0361D220ED3F66007A81E0 /* FNotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FNotificationCenter.hpp; sourceTree = "<group>"; };
+		0D0361D720ED3F94007A81E0 /* FWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FWindow.hpp; sourceTree = "<group>"; };
+		0D0361D820ED3F94007A81E0 /* FWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FWindow.cpp; sourceTree = "<group>"; };
+		0D0361DA20ED3FC8007A81E0 /* FScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FScrollView.h; sourceTree = "<group>"; };
+		0D0361DB20ED3FC8007A81E0 /* FScrollViewPaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FScrollViewPaged.h; sourceTree = "<group>"; };
+		0D0361DC20ED3FC8007A81E0 /* FScrollViewPaged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollViewPaged.cpp; sourceTree = "<group>"; };
+		0D0361DD20ED3FC8007A81E0 /* FScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollView.cpp; sourceTree = "<group>"; };
 		0D4D57891A82B6D10059E8D1 /* DigMMMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DigMMMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D4D578C1A82B6D10059E8D1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0D4D57941A82B82F0059E8D1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -238,10 +252,6 @@
 		0DA0B15E1C54500C005C75B2 /* FRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRect.h; sourceTree = "<group>"; };
 		0DA0B15F1C54500C005C75B2 /* FResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FResource.cpp; sourceTree = "<group>"; };
 		0DA0B1601C54500C005C75B2 /* FResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FResource.h; sourceTree = "<group>"; };
-		0DA0B1611C54500C005C75B2 /* FScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollView.cpp; sourceTree = "<group>"; };
-		0DA0B1621C54500C005C75B2 /* FScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FScrollView.h; sourceTree = "<group>"; };
-		0DA0B1631C54500C005C75B2 /* FScrollViewPaged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollViewPaged.cpp; sourceTree = "<group>"; };
-		0DA0B1641C54500C005C75B2 /* FScrollViewPaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FScrollViewPaged.h; sourceTree = "<group>"; };
 		0DA0B1651C54500C005C75B2 /* FSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSlider.cpp; sourceTree = "<group>"; };
 		0DA0B1661C54500C005C75B2 /* FSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSlider.h; sourceTree = "<group>"; };
 		0DA0B1671C54500C005C75B2 /* FSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSound.cpp; sourceTree = "<group>"; };
@@ -366,10 +376,6 @@
 		5006BA2020E7E2C400E329C1 /* CNVWorldContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVWorldContainer.hpp; sourceTree = "<group>"; };
 		5006BA2120E7E2C400E329C1 /* CNVWorldContainerContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNVWorldContainerContainer.cpp; sourceTree = "<group>"; };
 		5006BA2220E7E2C400E329C1 /* CNVWorldContainerContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVWorldContainerContainer.hpp; sourceTree = "<group>"; };
-		5052A51E20EC5F27007A38F3 /* FGestureCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FGestureCanvas.cpp; sourceTree = "<group>"; };
-		5052A51F20EC5F27007A38F3 /* FGestureCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FGestureCanvas.hpp; sourceTree = "<group>"; };
-		5052A52120EC68E6007A38F3 /* FScrollCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollCanvas.cpp; sourceTree = "<group>"; };
-		5052A52220EC68E6007A38F3 /* FScrollCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FScrollCanvas.hpp; sourceTree = "<group>"; };
 		5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuContent.cpp; sourceTree = "<group>"; };
 		5052A52520EC71D6007A38F3 /* ToolMenuContent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuContent.hpp; sourceTree = "<group>"; };
 		5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIImagePicker.cpp; sourceTree = "<group>"; };
@@ -394,20 +400,14 @@
 		5082482F20EAADE30081C541 /* PGMainToolbar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGMainToolbar.hpp; sourceTree = "<group>"; };
 		5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MouseTesterCanvas.cpp; sourceTree = "<group>"; };
 		5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseTesterCanvas.hpp; sourceTree = "<group>"; };
-		5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationCenter.cpp; sourceTree = "<group>"; };
-		5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FNotificationCenter.hpp; sourceTree = "<group>"; };
 		5082484320EB103B0081C541 /* DragableCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DragableCanvas.cpp; sourceTree = "<group>"; };
 		5082484420EB103B0081C541 /* DragableCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DragableCanvas.hpp; sourceTree = "<group>"; };
-		50971B5920D4402800381FBD /* FWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FWindow.cpp; sourceTree = "<group>"; };
-		50971B5A20D4402800381FBD /* FWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FWindow.hpp; sourceTree = "<group>"; };
 		50971B5B20D4402800381FBD /* GLApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLApp.cpp; sourceTree = "<group>"; };
 		50971B5C20D4402800381FBD /* GLApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLApp.h; sourceTree = "<group>"; };
 		50971B5D20D4402800381FBD /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		50971B5E20D4402800381FBD /* Grid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Grid.hpp; sourceTree = "<group>"; };
 		50971B5F20D4402800381FBD /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tile.cpp; sourceTree = "<group>"; };
 		50971B6020D4402800381FBD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
-		50971B8A20D4480700381FBD /* FCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvas.cpp; sourceTree = "<group>"; };
-		50971B8B20D4480700381FBD /* FCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FCanvas.hpp; sourceTree = "<group>"; };
 		50BB54D720EBAEA50000F79C /* ToolMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenu.cpp; sourceTree = "<group>"; };
 		50BB54D820EBAEA50000F79C /* ToolMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenu.hpp; sourceTree = "<group>"; };
 		50BB54DA20EBAEB30000F79C /* ToolMenuHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuHeader.cpp; sourceTree = "<group>"; };
@@ -487,6 +487,16 @@
 		0DA0B1151C54500C005C75B2 /* [C++ Core] */ = {
 			isa = PBXGroup;
 			children = (
+				0D0361D820ED3F94007A81E0 /* FWindow.cpp */,
+				0D0361D720ED3F94007A81E0 /* FWindow.hpp */,
+				0D0361CC20ED3F65007A81E0 /* FCanvas.cpp */,
+				0D0361D120ED3F66007A81E0 /* FCanvas.hpp */,
+				0D0361CD20ED3F65007A81E0 /* FGestureCanvas.cpp */,
+				0D0361CE20ED3F65007A81E0 /* FGestureCanvas.hpp */,
+				0D0361CB20ED3F65007A81E0 /* FNotificationCenter.cpp */,
+				0D0361D220ED3F66007A81E0 /* FNotificationCenter.hpp */,
+				0D0361CF20ED3F66007A81E0 /* FScrollCanvas.cpp */,
+				0D0361D020ED3F66007A81E0 /* FScrollCanvas.hpp */,
 				0DA0B1161C54500C005C75B2 /* core_app_shell.cpp */,
 				0DA0B1171C54500C005C75B2 /* core_app_shell.h */,
 				0DA0B1181C54500C005C75B2 /* core_graphics.cpp */,
@@ -562,10 +572,6 @@
 				0DA0B15E1C54500C005C75B2 /* FRect.h */,
 				0DA0B15F1C54500C005C75B2 /* FResource.cpp */,
 				0DA0B1601C54500C005C75B2 /* FResource.h */,
-				0DA0B1611C54500C005C75B2 /* FScrollView.cpp */,
-				0DA0B1621C54500C005C75B2 /* FScrollView.h */,
-				0DA0B1631C54500C005C75B2 /* FScrollViewPaged.cpp */,
-				0DA0B1641C54500C005C75B2 /* FScrollViewPaged.h */,
 				0DA0B1651C54500C005C75B2 /* FSlider.cpp */,
 				0DA0B1661C54500C005C75B2 /* FSlider.h */,
 				0DA0B1671C54500C005C75B2 /* FSound.cpp */,
@@ -738,6 +744,10 @@
 		5082481720EA96730081C541 /* [Deprecated] */ = {
 			isa = PBXGroup;
 			children = (
+				0D0361DD20ED3FC8007A81E0 /* FScrollView.cpp */,
+				0D0361DA20ED3FC8007A81E0 /* FScrollView.h */,
+				0D0361DC20ED3FC8007A81E0 /* FScrollViewPaged.cpp */,
+				0D0361DB20ED3FC8007A81E0 /* FScrollViewPaged.h */,
 				5082481820EA96730081C541 /* FView.cpp */,
 				5082481920EA96730081C541 /* FView.h */,
 				5082481A20EA96730081C541 /* FViewAnimation.cpp */,
@@ -784,12 +794,6 @@
 			children = (
 				5082482A20EAADA20081C541 /* [[Playground]] */,
 				5006BA0820E7E2C400E329C1 /* Test Canvas */,
-				50971B5920D4402800381FBD /* FWindow.cpp */,
-				50971B5A20D4402800381FBD /* FWindow.hpp */,
-				5082483D20EAEA7F0081C541 /* FNotificationCenter.cpp */,
-				5082483E20EAEA7F0081C541 /* FNotificationCenter.hpp */,
-				50971B8A20D4480700381FBD /* FCanvas.cpp */,
-				50971B8B20D4480700381FBD /* FCanvas.hpp */,
 				0DD70E3F20DF039B00295D84 /* Utils (Remove) */,
 				50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */,
 				50727E4E20D5600800B16079 /* Util_ScreenFrame.h */,
@@ -801,10 +805,6 @@
 				50971B6020D4402800381FBD /* Tile.hpp */,
 				5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */,
 				5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */,
-				5052A51E20EC5F27007A38F3 /* FGestureCanvas.cpp */,
-				5052A51F20EC5F27007A38F3 /* FGestureCanvas.hpp */,
-				5052A52120EC68E6007A38F3 /* FScrollCanvas.cpp */,
-				5052A52220EC68E6007A38F3 /* FScrollCanvas.hpp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -879,8 +879,8 @@
 				50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */,
 				0DD70E8C20DF039B00295D84 /* UMainToolbar.cpp in Sources */,
 				0DA0B1C21C54500C005C75B2 /* FButton.cpp in Sources */,
-				0DA0B1E11C54500C005C75B2 /* FScrollViewPaged.cpp in Sources */,
 				0DA0B1BB1C54500C005C75B2 /* core_app_shell.cpp in Sources */,
+				0D0361D320ED3F66007A81E0 /* FNotificationCenter.cpp in Sources */,
 				0DA0B1E31C54500C005C75B2 /* FSound.cpp in Sources */,
 				0DA0B1EA1C54500C005C75B2 /* FTextureCache.cpp in Sources */,
 				0DA0B1C61C54500C005C75B2 /* FFloatList.cpp in Sources */,
@@ -900,6 +900,7 @@
 				5006BA3820E7E2C400E329C1 /* CNVHeader.cpp in Sources */,
 				0DA0B1BD1C54500C005C75B2 /* core_social.cpp in Sources */,
 				0DD70E8920DF039B00295D84 /* UTimelineKey.cpp in Sources */,
+				0D0361D520ED3F66007A81E0 /* FGestureCanvas.cpp in Sources */,
 				0DA0B1C81C54500C005C75B2 /* FGestureView.cpp in Sources */,
 				0DD70E7E20DF039B00295D84 /* FMotionPath.cpp in Sources */,
 				0DA0B1CF1C54500C005C75B2 /* FLine.cpp in Sources */,
@@ -913,14 +914,11 @@
 				5006BA3120E7E2C400E329C1 /* CNVBadgeDecor1.cpp in Sources */,
 				0DA0B1DA1C54500C005C75B2 /* FPolyPath.cpp in Sources */,
 				0DA0B1FB1C54500C005C75B2 /* os_core_app_shell_mac.mm in Sources */,
-				0DA0B1E01C54500C005C75B2 /* FScrollView.cpp in Sources */,
 				0DA0B1BE1C54500C005C75B2 /* core_web.cpp in Sources */,
 				5082482320EA96730081C541 /* FViewAnimation.cpp in Sources */,
 				0DD70E7F20DF039B00295D84 /* UMainCanvasOverlays.cpp in Sources */,
-				50971B6220D4402800381FBD /* FWindow.cpp in Sources */,
 				0DA0B1D31C54500C005C75B2 /* FModelData.cpp in Sources */,
 				0DA0B1D71C54500C005C75B2 /* FParticle.cpp in Sources */,
-				5052A52020EC5F27007A38F3 /* FGestureCanvas.cpp in Sources */,
 				0DD70E7720DF039B00295D84 /* UImagePicker.cpp in Sources */,
 				0DA0B1C51C54500C005C75B2 /* FFile.cpp in Sources */,
 				0DD70E8D20DF039B00295D84 /* FParticleTemplate.cpp in Sources */,
@@ -941,10 +939,11 @@
 				0DA0B1DE1C54500C005C75B2 /* FRect.cpp in Sources */,
 				0DD70E7D20DF039B00295D84 /* UPathMaker.cpp in Sources */,
 				0DA0B1FC1C54500C005C75B2 /* os_core_includes.cpp in Sources */,
-				50971B8C20D4480700381FBD /* FCanvas.cpp in Sources */,
 				0DA0B1DF1C54500C005C75B2 /* FResource.cpp in Sources */,
 				0DD70E7A20DF039B00295D84 /* UMenuStyle.cpp in Sources */,
 				0DD70E7B20DF039B00295D84 /* FMotionKey.cpp in Sources */,
+				0D0361DF20ED3FC8007A81E0 /* FScrollView.cpp in Sources */,
+				0D0361D620ED3F66007A81E0 /* FScrollCanvas.cpp in Sources */,
 				5006BA3420E7E2C400E329C1 /* CNVBadgeDecor4.cpp in Sources */,
 				50BB54D920EBAEA50000F79C /* ToolMenu.cpp in Sources */,
 				5052A52920EC86B0007A38F3 /* UIImagePicker.cpp in Sources */,
@@ -958,8 +957,9 @@
 				0DA0B1FF1C54500C005C75B2 /* os_core_sound_mac.mm in Sources */,
 				0DD70E8A20DF039B00295D84 /* UNodeMotionPanel.cpp in Sources */,
 				0DA0B1D11C54500C005C75B2 /* FMath.cpp in Sources */,
+				0D0361DE20ED3FC8007A81E0 /* FScrollViewPaged.cpp in Sources */,
+				0D0361D420ED3F66007A81E0 /* FCanvas.cpp in Sources */,
 				0DA0B1D91C54500C005C75B2 /* FPointList.cpp in Sources */,
-				5052A52320EC68E6007A38F3 /* FScrollCanvas.cpp in Sources */,
 				0DA0B1ED1C54500C005C75B2 /* FVec3.cpp in Sources */,
 				5082482620EA96730081C541 /* FViewTransform.cpp in Sources */,
 				5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */,
@@ -968,6 +968,7 @@
 				5006BA3920E7E2C400E329C1 /* CNVMiniWindow.cpp in Sources */,
 				50BB54DC20EBAEB30000F79C /* ToolMenuHeader.cpp in Sources */,
 				5006BA3020E7E2C400E329C1 /* CNVBadge.cpp in Sources */,
+				0D0361D920ED3F94007A81E0 /* FWindow.cpp in Sources */,
 				0DA0B1BC1C54500C005C75B2 /* core_graphics.cpp in Sources */,
 				5006BA3320E7E2C400E329C1 /* CNVBadgeDecor3.cpp in Sources */,
 				0DA0B1CC1C54500C005C75B2 /* FIndexList.cpp in Sources */,
@@ -982,7 +983,6 @@
 				0DD70E8020DF039B00295D84 /* FMotionKeySequence.cpp in Sources */,
 				0DD70E7820DF039B00295D84 /* UImageCell.cpp in Sources */,
 				0DA0B1D61C54500C005C75B2 /* FObject.cpp in Sources */,
-				5082483F20EAEA800081C541 /* FNotificationCenter.cpp in Sources */,
 				0DD70E7620DF039B00295D84 /* UMenuStyleExtended.cpp in Sources */,
 				0DA0B1C71C54500C005C75B2 /* FFont.cpp in Sources */,
 				0DA0B1D01C54500C005C75B2 /* FList.cpp in Sources */,

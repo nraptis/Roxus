@@ -22,7 +22,7 @@ ToolMenu::ToolMenu() {
     mName = "ToolMenu";
     mClipEnabled = false;
     mClipDisabled = true;
-
+    
     mMenuBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mMenuBackground.SetColorBottom(0.165f, 0.135f, 0.085f);
     mMenuBackground.mCornerRadius = 8.0f;
@@ -34,8 +34,7 @@ ToolMenu::ToolMenu() {
     mMenuBackgroundShadow.SetColorTop(0.021f, 0.021f, 0.021f, 0.25f);
     mMenuBackgroundShadow.SetColorBottom(0.025f, 0.025f, 0.025f, 0.25f);
     mMenuBackgroundShadow.mCornerRadius = 8.0f;
-
-
+    
     AddChild(mContent);
     AddChild(mHeader);
 }
