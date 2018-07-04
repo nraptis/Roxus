@@ -50,8 +50,6 @@
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic, assign) NSInteger animationFrameInterval;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
-
 - (void)startAnimation;
 - (void)stopAnimation;
 

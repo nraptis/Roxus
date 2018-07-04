@@ -82,9 +82,7 @@
 - (void)setupPass3;
 - (void)setupFinalize;
 
-- (float)CONFIG_fixedWidth;
 - (BOOL)CONFIG_lockOpenGL;
-
 
 - (void)globalUpdate;
 
@@ -111,14 +109,6 @@
 - (int)getReversePushDirection:(int)targetDirection;
 
 
-
-- (void)flipPopoverPresent:(UIViewController *)pViewController;
-- (void)flipPopoverDismiss;
-- (void)flipPopoverDismissAll;
-- (void)flipPopoverCallback;
-
-
-
 - (void)musicPlay:(NSString *)pFilePath withLoop:(BOOL)pLoop;
 - (void)musicPlay:(NSString *)pFilePath withVolume:(float)pVolume withLoop:(BOOL)pLoop;
 - (void)musicCrossFadeWithPath:(NSString *)pFilePath withDurationTicks:(int)pDurationTicks withLoop:(BOOL)pLoop;
@@ -137,8 +127,6 @@
 
 - (void)nuke;
 - (void)dealloc;
-
-+ (RootBase *)shared;
 
 @end
 

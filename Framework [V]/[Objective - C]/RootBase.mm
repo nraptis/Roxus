@@ -42,6 +42,24 @@ static float kOSVersion = 6.0f;
 @synthesize popoverContainerView;
 @synthesize flipDismissViewController;
 
+- (id)init {
+    isActive = true;
+    gRootBase = self;
+    self.pushDirection = ROOT_PUSH_DIR_LEFT;
+    self = [super init];
+    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    isActive = true;
+    gRootBase = self;
+    self.pushDirection = ROOT_PUSH_DIR_LEFT;
+    self = [super initWithCoder:aDecoder];
+    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     isActive = true;
@@ -52,29 +70,26 @@ static float kOSVersion = 6.0f;
     return self;
 }
 
-- (void)setupOpenGL
-{
-    if(glViewController == nil)
-    {
-        self.glViewController = [[GLViewController alloc] initWithNibName:nil bundle:nil];
-        if(isActive == YES)
-        {
+- (void)setupOpenGL {
+    if (glViewController == nil) {
+        //UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        //self.glViewController = (GLViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"gl_view_controller"];
+        
+        self.glViewController = [[GLViewController alloc] init];
+        
+        if (isActive == YES) {
             [glViewController startAnimation];
         }
     }
 }
 
-- (void)setupPass1:(CGRect)pFrame
-{
+- (void)setupPass1:(CGRect)pFrame {
     gRootBase = self;
-    
     kAppWidth = pFrame.size.width;
     kAppHeight = pFrame.size.height;
-    
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, kAppWidth, kAppHeight);
     imageViewBackground.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, kAppWidth, kAppHeight);
-    
-    float aFixedWidth = [self CONFIG_fixedWidth];
+    float aFixedWidth = 0.0f;//[self CONFIG_fixedWidth];
     BOOL aFixed = NO;
     if(aFixedWidth < 64.0)
     {
@@ -91,11 +106,6 @@ static float kOSVersion = 6.0f;
         aFixed = YES;
     }
     
-    
-    
-    
-    
-    
     self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kMainWidth, kMainHeight)];
     [self.view addSubview:containerView];
     containerView.clipsToBounds = YES;
@@ -103,12 +113,13 @@ static float kOSVersion = 6.0f;
     
     if(aFixed == YES)
     {
-        CATransform3D aTransform = CATransform3DIdentity;
-        aTransform = CATransform3DScale(aTransform, kMainScale, kMainScale, kMainScale);
-        containerView.layer.transform = aTransform;
+        //CATransform3D aTransform = CATransform3DIdentity;
+        //aTransform = CATransform3DScale(aTransform, kMainScale, kMainScale, kMainScale);
+        //containerView.layer.transform = aTransform;
+        
     }
     containerView.frame = CGRectMake(0.0f, 0.0f, kMainWidth, kMainHeight);
-    containerView.layer.zPosition = 100.0f;
+    //containerView.layer.zPosition = 100.0f;
     
     
     /*
@@ -150,11 +161,6 @@ static float kOSVersion = 6.0f;
 - (BOOL)CONFIG_lockOpenGL
 {
     return YES;
-}
-
-- (float)CONFIG_fixedWidth
-{
-    return -1.0f;
 }
 
 - (void)viewDidLoad {
@@ -540,207 +546,6 @@ static float kOSVersion = 6.0f;
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error{}
-- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player{}
-- (void)audioPlayerEndInterruption:(AVAudioPlayer *)player withFlags:(NSUInteger)flags{}
-
-- (void)flipPopoverPresent:(UIViewController *)pViewController
-{
-    if(flipPopoverStack == nil)self.flipPopoverStack = [[NSMutableArray alloc] init];
-    
-    if(pViewController != nil)
-    {
-        if([flipPopoverStack count] > 0)
-        {
-            UIViewController *aLastPopover = (UIViewController *)[flipPopoverStack objectAtIndex:([flipPopoverStack count] - 1)];
-            
-            //pViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-            //[aLastPopover presentViewController:pViewController animated:YES completion:nil];
-            
-            [flipPopoverStack addObject:pViewController];
-            
-            
-            
-            [popoverContainerView addSubview:pViewController.view];
-            pViewController.view.transform = CGAffineTransformMakeTranslation(kMainWidth, 0.0);
-            
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.42f];
-            aLastPopover.view.transform = CGAffineTransformMakeTranslation(-kMainWidth, 0.0);
-            pViewController.view.transform = CGAffineTransformIdentity;
-            [UIView commitAnimations];
-        }
-        else
-        {
-            if(popoverContainerView.superview == nil){[self.view addSubview:popoverContainerView];}
-            else{[self.view bringSubviewToFront:popoverContainerView];}
-            
-            popoverContainerView.hidden = YES;
-            
-            [popoverContainerView addSubview:pViewController.view];
-            [flipPopoverStack addObject:pViewController];
-            
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.40f];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:popoverContainerView cache:NO];
-            popoverContainerView.hidden = NO;
-            [UIView commitAnimations];
-            
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDelay:0.0f];
-            [UIView setAnimationDuration:0.40f];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:containerView cache:NO];
-            containerView.hidden = YES;
-            [UIView commitAnimations];
-        }
-    }
-    [self flipPopoverCallback];
-}
-
-- (void)flipPopoverDismiss
-{
-    if(flipPopoverStack != nil)
-    {
-        if([flipPopoverStack count] > 0)
-        {
-            if(flipDismissViewController != nil)
-            {
-                [flipDismissViewController.view removeFromSuperview];
-                if([flipDismissViewController respondsToSelector:@selector(nuke)])[flipDismissViewController performSelector:@selector(nuke)];
-                self.flipDismissViewController = nil;
-            }
-            
-            UIViewController *aPopover = (UIViewController *)[flipPopoverStack objectAtIndex:([flipPopoverStack count] - 1)];
-            
-            [flipPopoverStack removeObject:aPopover];
-            
-            self.flipDismissViewController = aPopover;
-            
-            if([flipPopoverStack count] > 0)
-            {
-                UIViewController *aLastPopover = (UIViewController *)
-                [flipPopoverStack objectAtIndex:([flipPopoverStack count] - 1)];
-                
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.42f];
-                [UIView setAnimationDidStopSelector:@selector(flipDismissAnimationComplete:finished:context:)];
-                [UIView setAnimationDelegate:self];
-                
-                aPopover.view.transform = CGAffineTransformMakeTranslation(kMainWidth, 0.0);
-                aLastPopover.view.transform = CGAffineTransformIdentity;
-                
-                [UIView commitAnimations];
-            }
-            else
-            {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.40f];
-                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:containerView cache:NO];
-                containerView.hidden = NO;
-                [UIView commitAnimations];
-                
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.40f];
-                [UIView setAnimationDidStopSelector:@selector(flipDismissAnimationComplete:finished:context:)];
-                [UIView setAnimationDelegate:self];
-                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:popoverContainerView cache:NO];
-                popoverContainerView.hidden = YES;
-                [UIView commitAnimations];
-            }
-        }
-    }
-    [self flipPopoverCallback];
-}
-
-- (void)flipDismissAnimationComplete:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-    if(flipDismissViewController != nil)
-    {
-        [flipDismissViewController.view removeFromSuperview];
-        if([flipDismissViewController respondsToSelector:@selector(nuke)])
-        {
-            [flipDismissViewController performSelector:@selector(nuke)];
-        }
-        self.flipDismissViewController = nil;
-    }
-    //[popoverContainerView removeFromSuperview];
-    [self flipPopoverCallback];
-}
-
-- (void)flipPopoverDismissAll
-{
-    if(flipPopoverStack != nil)
-    {
-        if([flipPopoverStack count] > 0)
-        {
-            if(flipDismissViewController != nil)
-            {
-                [flipDismissViewController.view removeFromSuperview];
-                if([flipDismissViewController respondsToSelector:@selector(nuke)])[flipDismissViewController performSelector:@selector(nuke)];
-                self.flipDismissViewController = nil;
-            }
-            
-            UIViewController *aPopover = (UIViewController *)[flipPopoverStack objectAtIndex:([flipPopoverStack count] - 1)];
-            [flipPopoverStack removeObject:aPopover];
-            
-            self.flipDismissViewController = aPopover;
-            
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.40f];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:containerView cache:NO];
-            containerView.hidden = NO;
-            [UIView commitAnimations];
-            
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.40f];
-            [UIView setAnimationDidStopSelector:@selector(flipDismissAllAnimationComplete:finished:context:)];
-            [UIView setAnimationDelegate:self];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:popoverContainerView cache:NO];
-            popoverContainerView.hidden = YES;
-            [UIView commitAnimations];
-            
-        }
-        
-        [self flipPopoverCallback];
-    }
-}
-
-
-- (void)flipDismissAllAnimationComplete:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-    if(flipDismissViewController != nil)
-    {
-        [flipDismissViewController.view removeFromSuperview];
-        if([flipDismissViewController respondsToSelector:@selector(nuke)])
-        {
-            [flipDismissViewController performSelector:@selector(nuke)];
-        }
-        self.flipDismissViewController = nil;
-    }
-    
-    if(flipPopoverStack != nil)
-    {
-        if([flipPopoverStack count] > 0)
-        {
-            for(UIViewController *aPopover in flipPopoverStack)
-            {
-                NSLog(@"View[%@]", [aPopover class]);
-                if([aPopover respondsToSelector:@selector(nuke)])
-                {
-                    [aPopover performSelector:@selector(nuke)];
-                }
-            }
-            [flipPopoverStack removeAllObjects];
-        }
-    }
-    
-    //[popoverContainerView removeFromSuperview];
-    [self flipPopoverCallback];
-}
-
-- (void)flipPopoverCallback
-{
-    
-}
 
 + (float)appWidth
 {
@@ -796,15 +601,6 @@ static float kOSVersion = 6.0f;
     {
         [glViewController startAnimation];
     }
-}
-
-+ (RootBase *)shared
-{
-    return gRootBase;
-    //static dispatch_once_t pred;
-    //static Root *sharedInstance = nil;
-    //dispatch_once(&pred, ^{sharedInstance = [[Root alloc] initWithNibName:nil bundle:nil];});
-    //return sharedInstance;
 }
 
 

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 
 #include "os_core_outlets.h"
 #include "core_includes.h"
@@ -280,6 +279,9 @@ void os_exportJPEGImage(UIImage *pImage, const char *pFilePath, float pQuality)
 
 bool os_exportToPhotoLibrary(UIImage *pImage)
 {
+    UIImageWriteToSavedPhotosAlbum(pImage, nil, nil, nil);
+    
+    /*
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
     [library writeImageToSavedPhotosAlbum:[pImage CGImage]
                               orientation:(ALAssetOrientation)[pImage imageOrientation]
@@ -292,6 +294,7 @@ bool os_exportToPhotoLibrary(UIImage *pImage)
              
          }
      }];
+    */
     
     return true;
 }

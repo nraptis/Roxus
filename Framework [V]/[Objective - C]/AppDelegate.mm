@@ -86,7 +86,13 @@
     AppShellSetAdBannerHeight(0.0f);
     
     
-    self.rootViewController = [Root sharedInstance];
+    //UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"root"];
+    
+    //UIViewController *vc = [mainStoryboard instantiateInitialViewController];
+    self.rootViewController = [[Root alloc] init];
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = rootViewController;
     [self.window makeKeyAndVisible];

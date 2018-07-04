@@ -93,11 +93,44 @@ enum
 
 - (id)init
 {
-	self = [super initWithNibName:nil bundle:nil];
-	
+    gGLViewController=self;
+    displayLinkOn = NO;
+    self = [super init];
+    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
     
+    self.view.frame = CGRectMake(0,0,gDeviceWidth, gDeviceHeight);
     
-	return self;
+    gGLViewController=self;
+    
+    updateInterval=0.01666666666667f;
+    
+    self.view.frame = CGRectMake(0,0,gDeviceWidth, gDeviceHeight);
+    
+    glView = [[GLView alloc] initWithFrame:self.view.frame];
+    
+    [self.view addSubview:glView];
+    
+    [glView setUp];
+    
+    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    
+    [glView setContext:context];
+    [glView setFramebuffer];
+    
+    animating = FALSE;
+    
+    self.animationFrameInterval = 1;
+    //self.animationFrameInterval = 10;
+    
+    self.displayLink = nil;
+    
+    //gApp->Load();
+    //gApp->LoadComplete();
+    
+    [self.view setMultipleTouchEnabled:YES];
+    [glView setMultipleTouchEnabled:YES];
+    
+    return self;
 }
 
 - (void)load
