@@ -12,28 +12,27 @@
 
 UIButton::UIButton() {
     mName = "UIButton";
-
-
-    mText = "ABC";
-
-
+    
     mConsumesTouches = true;
-
+    
+    mDrawCloseX = false;
+    mDrawMinimize = false;
+    
     mButtonBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mButtonBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
     mButtonBackground.mCornerRadius = 4.0f;
 
-    mButtonOutline.SetColorTop(0.465f, 0.465f, 0.465f);
-    mButtonOutline.SetColorBottom(0.625f, 0.625f, 0.625f);
-    mButtonOutline.mCornerRadius = 6.0f;
+    mButtonOutline.SetColorTop(0.265f, 0.265f, 0.265f);
+    mButtonOutline.SetColorBottom(0.225f, 0.225f, 0.225f);
+    mButtonOutline.mCornerRadius = 4.0f;
     
-    mButtonBackgroundDown.SetColorTop(0.35f, 0.35f, 0.65f);
-    mButtonBackgroundDown.SetColorBottom(0.38f, 0.38f, 0.68f);
+    mButtonBackgroundDown.SetColorTop(0.165f, 0.165f, 0.165f);
+    mButtonBackgroundDown.SetColorBottom(0.1825f, 0.1825f, 0.1825f);
     mButtonBackgroundDown.mCornerRadius = 4.0f;
 
-    mButtonOutlineDown.SetColorTop(0.825f, 0.825f, 0.425f);
-    mButtonOutlineDown.SetColorBottom(0.865f, 0.865f, 0.865f);
-    mButtonOutlineDown.mCornerRadius = 6.0f;
+    mButtonOutlineDown.SetColorTop(0.855f, 0.825f, 0.125f);
+    mButtonOutlineDown.SetColorBottom(0.865f, 0.865f, 0.125f);
+    mButtonOutlineDown.mCornerRadius = 4.0f;
 }
 
 UIButton::~UIButton() {
@@ -69,40 +68,29 @@ void UIButton::Draw() {
         mButtonBackground.Draw();
     }
 
-
+    
     float aLineThickness = (int)(mHeight * 0.06f) + 1;
-    if (true) {
+    if (mTouchDown) { Graphics::SetColor(0.88f, 0.88f, 0.88f); }
+    else { Graphics::SetColor(1.0f, 1.0f, 1.0f); }
+    if (mDrawCloseX) {
         float aGraphicInset = mWidth * 0.26f;
-
-        Graphics::SetColor(1.0f, 1.0f, 1.0f, 1.0f);
         Graphics::DrawLine(aGraphicInset, aGraphicInset, mWidth - aGraphicInset, mHeight - aGraphicInset, aLineThickness);
         Graphics::DrawLine(aGraphicInset, mHeight - aGraphicInset, mWidth - aGraphicInset, aGraphicInset, aLineThickness);
     }
-
+    if (mDrawMinimize) {
+        float aGraphicInset = mWidth * 0.26f;
+        Graphics::DrawLine(aGraphicInset, mHeight2, mWidth - aGraphicInset, mHeight2, aLineThickness);
+    }
+    Graphics::SetColor(0.88f, 0.88f, 0.88f);
+    
 
 
     if (mText.mLength > 0) {
-
+        if (mTouchDown) { Graphics::SetColor(0.88f, 0.88f, 0.88f); }
+        else { Graphics::SetColor(1.0f, 1.0f, 1.0f); }
         float aScale = gApp->mSysFontBold.ScaleForWidth(mText, mWidth, 6.0f);
         if (aScale > 1.0f) { aScale = 1.0f; }
-
-        gApp->mSysFontBold.LeftCenter(mText, mWidth2, mHeight2, aScale);
-        
-
-
-        //gApp->mSysFontBold.Right(mText, 0.0f, mHeight2, aScale);
-
-
-
-//        gApp->mSysFontBold.Draw(mText.c(), 0.0f, mHeight2, 1.0f);
-//
-//        gApp->mSysFontBold.Draw(mText.c(), 0.0f, mHeight2, 0.5f);
-//        float aWidth = gApp->mSysFontBold.Width(mText.c());
-//
-//        Graphics::SetColor(1.0f, 0.25f, 0.25f, 0.66f);
-//        Graphics::DrawRect(0.0f, mHeight - 5.0f, aWidth, 3.0f);
-
-
+        gApp->mSysFontBold.Center(mText, mWidth2, mHeight2, aScale);
     }
 }
 

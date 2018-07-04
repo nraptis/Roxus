@@ -9,7 +9,6 @@
 #ifndef ___015_Fleet_XP__UUPathMaker__
 #define ___015_Fleet_XP__UUPathMaker__
 
-
 #include "FView.h"
 #include "UMenu.h"
 #include "UMenuStyleExtended.h"
@@ -91,11 +90,6 @@ public:
     UButton                                         *mPointSelectButtonClear;
     UButton                                         *mPointSelectButtonDelete;
     UButton                                         *mPointSelectButtonInsert;
-    
-    
-    
-    
-    
     
     UButton                                         *mButtonAllowDragPoints;
     UButton                                         *mButtonAllowDragTangents;

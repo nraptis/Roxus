@@ -359,10 +359,17 @@ UIImagePicker::UIImagePicker() {
     float aWidth = gDeviceWidth2 + gDeviceWidth2 / 2.0f;
     float aHeight = gDeviceHeight2 + gDeviceHeight2 / 2.0f;
 
-
-
-
+    if (aWidth > 768.0f) {
+        aWidth = 768.0f;
+    }
+    if (aHeight > 640.0f) {
+        aHeight = 640.0f;
+    }
+    
     SetFrame(aX, aY, aWidth, aHeight);
+    //mSizeMinWidth = aWidth;
+    //mSizeMinHeight = aHeight;
+    
 
     //UIImagePicker::UIImagePicker(gAppWidth2 / 3.0f, gAppHeight2 / 3.0f, gAppWidth2 + gAppWidth2 / 2.0f, gAppHeight2 + gAppHeight2 / 2.0f);
     mName = "Image Picker";

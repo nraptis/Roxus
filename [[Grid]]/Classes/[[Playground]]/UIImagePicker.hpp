@@ -86,8 +86,6 @@ public:
     FList                                       mBlockedSprites;
 
     bool                                        mDidSetUp;
-
-
 };
 
 #endif

@@ -14,17 +14,6 @@
 //
 
 #include "ToolMenuContent.hpp"
-
-
-//
-//  ToolMenuContent.cpp
-//  DigMMMac
-//
-//  Created by Raptis, Nicholas on 6/15/18.
-//  Copyright © 2018 Nick Raptis. All rights reserved.
-//
-
-#include "ToolMenuContent.hpp"
 #include "GLApp.h"
 
 ToolMenuContent::ToolMenuContent() {

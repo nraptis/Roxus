@@ -21,13 +21,14 @@
 ToolMenu::ToolMenu() {
     mName = "ToolMenu";
     mClipEnabled = false;
+    mClipDisabled = true;
 
     mMenuBackground.SetColorTop(0.125f, 0.125f, 0.125f);
-    mMenuBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
-    mMenuBackground.mCornerRadius = 6.0f;
+    mMenuBackground.SetColorBottom(0.165f, 0.135f, 0.085f);
+    mMenuBackground.mCornerRadius = 8.0f;
 
-    mMenuBackgroundOutline.SetColorTop(0.825f, 0.825f, 0.825f);
-    mMenuBackgroundOutline.SetColorBottom(0.865f, 0.865f, 0.865f);
+    mMenuBackgroundOutline.SetColorTop(0.925f, 0.925f, 0.925f);
+    mMenuBackgroundOutline.SetColorBottom(0.965f, 0.965f, 0.965f);
     mMenuBackgroundOutline.mCornerRadius = 8.0f;
 
     mMenuBackgroundShadow.SetColorTop(0.021f, 0.021f, 0.021f, 0.25f);
@@ -64,7 +65,7 @@ void ToolMenu::Layout() {
 }
 
 void ToolMenu::Update() {
-
+    
 }
 
 void ToolMenu::Draw() {
@@ -92,10 +93,7 @@ void ToolMenu::TouchFlush() {
 }
 
 void ToolMenu::Notify(void *pSender, const char *pNotification) {
-
     Kill();
-
-
 }
 
 

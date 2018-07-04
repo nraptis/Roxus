@@ -23,8 +23,6 @@
 #define NODE_TRACK_VIEW 2
 #define NODE_TRACK_OBJ 3
 
-
-
 class UNode
 {
 public:

@@ -47,12 +47,6 @@ public:
     float                           mB;
     float                           mA;
     
-    
-    //bool                            mCaptureRotation;
-    //bool                            mCaptureScale;
-    //bool                            mCaptureColor;
-    
-    
     bool                            mTrackScreen;
     
     int                             mTrackSideX;
@@ -60,7 +54,6 @@ public:
     
     float                           mTrackOffsetX;
     float                           mTrackOffsetY;
-
 };
 
 class FMotionPathTemplate : public FObject

@@ -27,24 +27,17 @@ ToolMenuHeader::ToolMenuHeader() {
     mMenuBackground.mRoundBottom = false;
 
     mButtonClose = new UIButton();
-    mButtonMinimize = new UIButton();
-
     mButtonClose->mName = "Close Button";
-    mButtonMinimize->mName = "Minimize Button";
-
-    mButtonMinimize->mText = "--{[[tO]]-)+";
-
+    mButtonClose->mDrawCloseX = true;
     AddChild(mButtonClose);
+    
+    mButtonMinimize = new UIButton();
+    mButtonMinimize->mName = "Minimize Button";
+    mButtonMinimize->mDrawMinimize = true;
     AddChild(mButtonMinimize);
-
+    
     gNotify.Register(this, mButtonClose, "click");
     gNotify.Register(this, mButtonMinimize, "click");
-    
-    gNotify.Register(this, mButtonClose, "down");
-    gNotify.Register(this, mButtonMinimize, "down");
-
-    gNotify.Register(this, mButtonClose, "up");
-    gNotify.Register(this, mButtonMinimize, "up");
 }
 
 ToolMenuHeader::~ToolMenuHeader() {
@@ -52,7 +45,7 @@ ToolMenuHeader::~ToolMenuHeader() {
 }
 
 void ToolMenuHeader::Layout() {
-    float aButtonPadding = 2.0f;
+    float aButtonPadding = 4.0f;
     float aButtonSize = mHeight - aButtonPadding * 2.0f;
     mButtonMinimize->SetFrame(aButtonPadding, aButtonPadding, aButtonSize, aButtonSize);
     mButtonClose->SetFrame(mWidth - (aButtonPadding + aButtonSize), aButtonPadding, aButtonSize, aButtonSize);
