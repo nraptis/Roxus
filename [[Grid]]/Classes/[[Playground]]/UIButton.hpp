@@ -6,8 +6,8 @@
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef UIButton_hpp
-#define UIButton_hpp
+#ifndef UI_BUTTON_HPP
+#define UI_BUTTON_HPP
 
 #include "FButton.h"
 #include "UIRoundedRect.hpp"
@@ -27,6 +27,8 @@ public:
     virtual void                            TouchUp(float pX, float pY, void *pData);
     virtual void                            TouchFlush();
 
+    void                                    SetTransparentBackground();
+
     UIRoundedRect                           mButtonBackground;
     UIRoundedRect                           mButtonOutline;
 
@@ -35,6 +37,7 @@ public:
 
     bool                                    mDrawCloseX;
     bool                                    mDrawMinimize;
+    bool                                    mDrawMaximize;
 
     FString                                 mText;
 

@@ -124,6 +124,12 @@
 		5052A52620EC71D6007A38F3 /* ToolMenuContent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */; };
 		5052A52920EC86B0007A38F3 /* UIImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */; };
 		5052A52C20EC86C2007A38F3 /* UIImagePickerCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */; };
+		5057C5CA20ED4EB6009B98AB /* ToolMenuSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5057C5C820ED4EB6009B98AB /* ToolMenuSection.cpp */; };
+		5057C5CD20ED4EC2009B98AB /* ToolMenuPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5057C5CB20ED4EC2009B98AB /* ToolMenuPanel.cpp */; };
+		5057C5D020ED4ECD009B98AB /* ToolMenuSectionRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5057C5CE20ED4ECD009B98AB /* ToolMenuSectionRow.cpp */; };
+		5057C5D320ED512A009B98AB /* ToolMenuPanelHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5057C5D120ED512A009B98AB /* ToolMenuPanelHeader.cpp */; };
+		5057C5D620ED56FD009B98AB /* UILabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5057C5D420ED56FD009B98AB /* UILabel.cpp */; };
+		5057C5D920ED5DCC009B98AB /* PolygonMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5057C5D720ED5DCC009B98AB /* PolygonMenu.cpp */; };
 		50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */; };
 		5082482220EA96730081C541 /* FView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481820EA96730081C541 /* FView.cpp */; };
 		5082482320EA96730081C541 /* FViewAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481A20EA96730081C541 /* FViewAnimation.cpp */; };
@@ -382,6 +388,18 @@
 		5052A52820EC86B0007A38F3 /* UIImagePicker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIImagePicker.hpp; sourceTree = "<group>"; };
 		5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIImagePickerCell.cpp; sourceTree = "<group>"; };
 		5052A52B20EC86C2007A38F3 /* UIImagePickerCell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIImagePickerCell.hpp; sourceTree = "<group>"; };
+		5057C5C820ED4EB6009B98AB /* ToolMenuSection.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuSection.cpp; sourceTree = "<group>"; };
+		5057C5C920ED4EB6009B98AB /* ToolMenuSection.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuSection.hpp; sourceTree = "<group>"; };
+		5057C5CB20ED4EC2009B98AB /* ToolMenuPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuPanel.cpp; sourceTree = "<group>"; };
+		5057C5CC20ED4EC2009B98AB /* ToolMenuPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuPanel.hpp; sourceTree = "<group>"; };
+		5057C5CE20ED4ECD009B98AB /* ToolMenuSectionRow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuSectionRow.cpp; sourceTree = "<group>"; };
+		5057C5CF20ED4ECD009B98AB /* ToolMenuSectionRow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuSectionRow.hpp; sourceTree = "<group>"; };
+		5057C5D120ED512A009B98AB /* ToolMenuPanelHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuPanelHeader.cpp; sourceTree = "<group>"; };
+		5057C5D220ED512A009B98AB /* ToolMenuPanelHeader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuPanelHeader.hpp; sourceTree = "<group>"; };
+		5057C5D420ED56FD009B98AB /* UILabel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UILabel.cpp; sourceTree = "<group>"; };
+		5057C5D520ED56FD009B98AB /* UILabel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UILabel.hpp; sourceTree = "<group>"; };
+		5057C5D720ED5DCC009B98AB /* PolygonMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonMenu.cpp; sourceTree = "<group>"; };
+		5057C5D820ED5DCC009B98AB /* PolygonMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolygonMenu.hpp; sourceTree = "<group>"; };
 		50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_ScreenFrame.cpp; sourceTree = "<group>"; };
 		50727E4E20D5600800B16079 /* Util_ScreenFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_ScreenFrame.h; sourceTree = "<group>"; };
 		5082481820EA96730081C541 /* FView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FView.cpp; sourceTree = "<group>"; };
@@ -779,12 +797,24 @@
 				50BB54DE20EBB12D0000F79C /* UIRoundedRect.hpp */,
 				50BB54E020EBDE6E0000F79C /* UIButton.cpp */,
 				50BB54E120EBDE6E0000F79C /* UIButton.hpp */,
+				5057C5D420ED56FD009B98AB /* UILabel.cpp */,
+				5057C5D520ED56FD009B98AB /* UILabel.hpp */,
 				5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */,
 				5052A52520EC71D6007A38F3 /* ToolMenuContent.hpp */,
 				5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */,
 				5052A52820EC86B0007A38F3 /* UIImagePicker.hpp */,
 				5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */,
 				5052A52B20EC86C2007A38F3 /* UIImagePickerCell.hpp */,
+				5057C5C820ED4EB6009B98AB /* ToolMenuSection.cpp */,
+				5057C5C920ED4EB6009B98AB /* ToolMenuSection.hpp */,
+				5057C5CE20ED4ECD009B98AB /* ToolMenuSectionRow.cpp */,
+				5057C5CF20ED4ECD009B98AB /* ToolMenuSectionRow.hpp */,
+				5057C5CB20ED4EC2009B98AB /* ToolMenuPanel.cpp */,
+				5057C5CC20ED4EC2009B98AB /* ToolMenuPanel.hpp */,
+				5057C5D120ED512A009B98AB /* ToolMenuPanelHeader.cpp */,
+				5057C5D220ED512A009B98AB /* ToolMenuPanelHeader.hpp */,
+				5057C5D720ED5DCC009B98AB /* PolygonMenu.cpp */,
+				5057C5D820ED5DCC009B98AB /* PolygonMenu.hpp */,
 			);
 			path = "[[Playground]]";
 			sourceTree = "<group>";
@@ -876,10 +906,12 @@
 				5006BA3720E7E2C400E329C1 /* CNVGame.cpp in Sources */,
 				0DA0B1FE1C54500C005C75B2 /* os_core_social.cpp in Sources */,
 				0DA0B2011C54500C005C75B2 /* OSInputGrabber.mm in Sources */,
+				5057C5D320ED512A009B98AB /* ToolMenuPanelHeader.cpp in Sources */,
 				50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */,
 				0DD70E8C20DF039B00295D84 /* UMainToolbar.cpp in Sources */,
 				0DA0B1C21C54500C005C75B2 /* FButton.cpp in Sources */,
 				0DA0B1BB1C54500C005C75B2 /* core_app_shell.cpp in Sources */,
+				5057C5D920ED5DCC009B98AB /* PolygonMenu.cpp in Sources */,
 				0D0361D320ED3F66007A81E0 /* FNotificationCenter.cpp in Sources */,
 				0DA0B1E31C54500C005C75B2 /* FSound.cpp in Sources */,
 				0DA0B1EA1C54500C005C75B2 /* FTextureCache.cpp in Sources */,
@@ -888,6 +920,7 @@
 				5052A52C20EC86C2007A38F3 /* UIImagePickerCell.cpp in Sources */,
 				0DA0B1DC1C54500C005C75B2 /* FQuad.cpp in Sources */,
 				0DA0B1EC1C54500C005C75B2 /* FVec2.cpp in Sources */,
+				5057C5D620ED56FD009B98AB /* UILabel.cpp in Sources */,
 				0DD70E8520DF039B00295D84 /* UTimelineEditorMenu.cpp in Sources */,
 				0DD70E8420DF039B00295D84 /* UParticleEditorMenu.cpp in Sources */,
 				0DD70E8320DF039B00295D84 /* UMainWorkspace.cpp in Sources */,
@@ -896,6 +929,7 @@
 				0DA0B1FD1C54500C005C75B2 /* os_core_outlets_mac.mm in Sources */,
 				0DD70E7C20DF039B00295D84 /* FParticleSource.cpp in Sources */,
 				50971B6320D4402800381FBD /* GLApp.cpp in Sources */,
+				5057C5CD20ED4EC2009B98AB /* ToolMenuPanel.cpp in Sources */,
 				50971B6420D4402800381FBD /* Grid.cpp in Sources */,
 				5006BA3820E7E2C400E329C1 /* CNVHeader.cpp in Sources */,
 				0DA0B1BD1C54500C005C75B2 /* core_social.cpp in Sources */,
@@ -935,6 +969,7 @@
 				0DA0B1C41C54500C005C75B2 /* FDrawQuad.cpp in Sources */,
 				5082482520EA96730081C541 /* FViewController.cpp in Sources */,
 				0DA0B1E71C54500C005C75B2 /* FString.cpp in Sources */,
+				5057C5D020ED4ECD009B98AB /* ToolMenuSectionRow.cpp in Sources */,
 				0DD70E8820DF039B00295D84 /* UParentPane.cpp in Sources */,
 				0DA0B1DE1C54500C005C75B2 /* FRect.cpp in Sources */,
 				0DD70E7D20DF039B00295D84 /* UPathMaker.cpp in Sources */,
@@ -955,6 +990,7 @@
 				5082482D20EAADCD0081C541 /* PGMainCanvas.cpp in Sources */,
 				5006BA3520E7E2C400E329C1 /* CNVBoard.cpp in Sources */,
 				0DA0B1FF1C54500C005C75B2 /* os_core_sound_mac.mm in Sources */,
+				5057C5CA20ED4EB6009B98AB /* ToolMenuSection.cpp in Sources */,
 				0DD70E8A20DF039B00295D84 /* UNodeMotionPanel.cpp in Sources */,
 				0DA0B1D11C54500C005C75B2 /* FMath.cpp in Sources */,
 				0D0361DE20ED3FC8007A81E0 /* FScrollViewPaged.cpp in Sources */,

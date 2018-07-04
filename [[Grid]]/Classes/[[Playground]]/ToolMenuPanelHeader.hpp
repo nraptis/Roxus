@@ -1,24 +1,24 @@
 //
-//  ToolMenuHeader.hpp
+//  ToolMenuPanelHeader.hpp
 //  DigMMMac
 //
-//  Created by Raptis, Nicholas on 7/3/18.
+//  Created by Raptis, Nicholas on 7/4/18.
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef ToolMenuHeader_hpp
-#define ToolMenuHeader_hpp
+#ifndef ToolMenuPanelHeader_hpp
+#define ToolMenuPanelHeader_hpp
 
 #include "FCanvas.hpp"
 #include "UIRoundedRect.hpp"
 #include "UIButton.hpp"
 #include "UILabel.hpp"
 
-class ToolMenu;
-class ToolMenuHeader : public FCanvas {
+class ToolMenuPanel;
+class ToolMenuPanelHeader : public FCanvas {
 public:
-    ToolMenuHeader();
-    virtual ~ToolMenuHeader();
+    ToolMenuPanelHeader();
+    virtual ~ToolMenuPanelHeader();
 
     virtual void                            Update();
     virtual void                            Draw();
@@ -28,9 +28,8 @@ public:
 
     void                                    SetExpandedLayout();
     void                                    SetCollapsedLayout();
-
-
-    ToolMenu                                *mMenu;
+    
+    ToolMenuPanel                           *mPanel;
 
     UILabel                                 mLabelTitle;
     UIButton                                mButtonClose;
@@ -39,4 +38,5 @@ public:
     UIRoundedRect                           mMenuBackground;
 };
 
-#endif /* ToolMenuHeader_hpp */
+
+#endif /* ToolMenuPanelHeader_hpp */

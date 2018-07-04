@@ -17,6 +17,7 @@ UIButton::UIButton() {
     
     mDrawCloseX = false;
     mDrawMinimize = false;
+    mDrawMaximize = false;
     
     mButtonBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mButtonBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
@@ -72,6 +73,8 @@ void UIButton::Draw() {
     float aLineThickness = (int)(mHeight * 0.06f) + 1;
     if (mTouchDown) { Graphics::SetColor(0.88f, 0.88f, 0.88f); }
     else { Graphics::SetColor(1.0f, 1.0f, 1.0f); }
+
+    
     if (mDrawCloseX) {
         float aGraphicInset = mWidth * 0.26f;
         Graphics::DrawLine(aGraphicInset, aGraphicInset, mWidth - aGraphicInset, mHeight - aGraphicInset, aLineThickness);
@@ -81,16 +84,23 @@ void UIButton::Draw() {
         float aGraphicInset = mWidth * 0.26f;
         Graphics::DrawLine(aGraphicInset, mHeight2, mWidth - aGraphicInset, mHeight2, aLineThickness);
     }
-    Graphics::SetColor(0.88f, 0.88f, 0.88f);
-    
 
+    if (mDrawMaximize) {
+
+        float aGraphicInset = mWidth * 0.26f;
+
+        Graphics::OutlineRect(aGraphicInset, aGraphicInset, mWidth - (aGraphicInset * 2.0f), mHeight - (aGraphicInset * 2.0f), aLineThickness);
+    }
 
     if (mText.mLength > 0) {
+        Graphics::BlendSetPremultiplied();
+        Graphics::BlendEnable();
         if (mTouchDown) { Graphics::SetColor(0.88f, 0.88f, 0.88f); }
         else { Graphics::SetColor(1.0f, 1.0f, 1.0f); }
-        float aScale = gApp->mSysFontBold.ScaleForWidth(mText, mWidth, 6.0f);
+        float aScale = gApp->mSysFont.ScaleForWidth(mText, mWidth, 6.0f);
         if (aScale > 1.0f) { aScale = 1.0f; }
-        gApp->mSysFontBold.Center(mText, mWidth2, mHeight2, aScale);
+        gApp->mSysFont.Center(mText, mWidth2, mHeight2, aScale);
+        Graphics::BlendSetAlpha();
     }
 }
 
@@ -111,5 +121,16 @@ void UIButton::TouchFlush() {
     FButton::TouchFlush();
 }
 
+void UIButton::SetTransparentBackground() {
+    mButtonBackground.ResetColor(1.0f, 1.0f, 1.0f, 0.0f);
+    mButtonOutline.ResetColor(1.0f, 1.0f, 1.0f, 0.0f);
+    mButtonBackgroundDown.ResetColor(1.0f, 1.0f, 1.0f, 0.0f);
+    mButtonOutlineDown.ResetColor(1.0f, 1.0f, 1.0f, 0.0f);
+
+    mButtonBackground.mRefresh = true;
+    mButtonOutline.mRefresh = true;
+    mButtonBackgroundDown.mRefresh = true;
+    mButtonOutlineDown.mRefresh = true;
+}
 
 

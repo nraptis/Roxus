@@ -14,6 +14,7 @@
 #include "FDrawQuad.h"
 
 #include "ToolMenu.hpp"
+#include "PolygonMenu.hpp"
 
 
 class PGMainCanvas : public FCanvas {
@@ -48,6 +49,8 @@ public:
     ToolMenu                                *mToolMenu1;
     ToolMenu                                *mToolMenu2;
     ToolMenu                                *mToolMenu3;
+
+    PolygonMenu                             *mPolyMenu;
 
     int                                     mMenuIndex;
 };

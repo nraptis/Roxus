@@ -99,9 +99,12 @@ public:
 
     virtual void                            Notify(void *pSender, const char *pNotification);
 
+
     void                                    AddChild(FCanvas *pCanvas);
     void                                    AddChild(FCanvas &pCanvas);
     void                                    Kill();
+
+    bool                                    IsChild(FCanvas *pCanvas);
 
     float                                   mMouseX;
     float                                   mMouseY;
@@ -115,6 +118,8 @@ public:
     void                                    DrawTransform();
     
     FString                                 mName;
+
+    int                                     mLayoutBubbleUpDepth;
     
     FCanvasTransform                        mTransform;
     FCanvasAbsoluteTransform                mTransformAbsolute;
@@ -192,8 +197,8 @@ public:
     float                                   GetHeight2(){ float aResult = mHeight2;return aResult; }
     float                                   GetCenterX(){ return GetWidth2(); }
     float                                   GetCenterY(){ return GetHeight2(); }
-    float                                   GetRight(){ float aResult = mWidth;return aResult; }
-    float                                   GetBottom(){ float aResult = mHeight;return aResult; }
+    float                                   GetRight(){ float aResult = GetX() + GetWidth();return aResult; }
+    float                                   GetBottom(){ float aResult = GetY() + GetHeight();return aResult; }
     FVec2                                   GetCenter() { FVec2 aResult;aResult.mX=GetCenterX();aResult.mY=GetCenterY();return aResult; }
 
     void                                    SetTransformTranslate(float pX, float pY);

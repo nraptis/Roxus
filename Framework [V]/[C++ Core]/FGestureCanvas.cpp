@@ -124,8 +124,19 @@ void FGestureCanvas::BaseUpdate() {
 FCanvas *FGestureCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pOutsideParent, bool &pConsumed) {
     FCanvas *aChild = FCanvas::BaseTouchDown(pX, pY, pOriginalX, pOriginalY, pData, pOutsideParent, pConsumed);
 
-    if (aChild == this && !pOutsideParent) {
+    bool aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
+    bool aTrack = false;
+    bool aIsChild = IsChild(aChild) || (aChild == this);
 
+    if (!pOutsideParent) {
+        if (aIsChild) { aTrack = true; }
+    }
+    if (aContainsPoint && mRecievesConsumedTouches) {
+        if (aIsChild) {
+            aTrack = true;
+        }
+    }
+    if (aTrack) {
         FTrackedTouch *aTouch = 0;
         if (mTouchCount < MAX_GESTURE_TOUCHES) {
             for (int i = 0; i < mTouchCount; i++) {

@@ -41,6 +41,8 @@ public:
     float                                   mPanDragTouchY;
     void                                    *mPanDragData;
 
+    bool                                    mResizeDragAllowed;
+
     float                                   mSizeMinWidth;
     float                                   mSizeMinHeight;
 

@@ -6,13 +6,12 @@
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef UIRoundedRect_hpp
-#define UIRoundedRect_hpp
+#ifndef UI_ROUNDED_RECT_HPP
+#define UI_ROUNDED_RECT_HPP
 
 #include "FDrawQuad.h"
 
-class UIRoundedRect : public FDrawQuad
-{
+class UIRoundedRect : public FDrawQuad {
 public:
     UIRoundedRect();
     virtual ~UIRoundedRect();

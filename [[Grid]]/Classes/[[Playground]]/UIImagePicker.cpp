@@ -11,7 +11,6 @@
 #include "core_includes.h"
 
 UIImagePickerScrollContent::UIImagePickerScrollContent() {
-
     mClipEnabled = true;
     mName = "Image Picker Scroller";
     mMaxRows = 5;
@@ -84,16 +83,8 @@ void UIImagePickerScrollContent::SetUp() {
         mCellWidth = mCellHeight * 1.46f;
     }
 
-
-
-
-
-
-
     int aCount = mCellList.mCount;
-
-    for(int aCol=0;aCol<mColCount;aCol++)
-    {
+    for (int aCol=0;aCol<mColCount;aCol++) {
         delete [] mCellGrid[aCol];// = new UIImagePickerScrollContentCell *[mRowCount];
     }
 
@@ -104,82 +95,50 @@ void UIImagePickerScrollContent::SetUp() {
     mColCount = 0;
     mRowCount = 1;
 
-    if(aCount <= 0)
-    {
-
-    }
-    else
-    {
-        if(aCount <= mScreenGridWidth)
-        {
+    if (aCount > 0) {
+        if (aCount <= mScreenGridWidth) {
             mColCount = aCount;
-        }
-        else
-        {
+        } else {
             int aScan = aCount;
-            while(aScan > mScreenGridWidth)
-            {
+            while (aScan > mScreenGridWidth) {
                 aScan -= mScreenGridWidth;
                 mRowCount++;
             }
 
-            if(mRowCount > mMaxRows)
-            {
+            if (mRowCount > mMaxRows) {
                 mRowCount = mMaxRows;
                 mColCount = (aCount / mRowCount);
-                if((aCount % mRowCount) != 0)mColCount++;
-            }
-            else
-            {
+                if((aCount % mRowCount) != 0) { mColCount++; }
+            } else {
                 mColCount = mScreenGridWidth;
             }
         }
 
-
         mCellGrid = new UIImagePickerCell**[mColCount];
-        for(int aCol=0;aCol<mColCount;aCol++)
-        {
+        for (int aCol=0;aCol<mColCount;aCol++) {
             mCellGrid[aCol] = new UIImagePickerCell*[mRowCount];
-            for(int aRow=0;aRow<mRowCount;aRow++)
-            {
+            for (int aRow=0;aRow<mRowCount;aRow++) {
                 mCellGrid[aCol][aRow] = 0;
             }
         }
 
         int aIndex = 0;
-
         float aProbeX = mCellSpacingH;
         float aProbeY = mCellSpacingV;
-
-        for(int aRow=0;aRow<mRowCount;aRow++)
-        {
+        for (int aRow=0;aRow<mRowCount;aRow++) {
             aProbeX = mCellSpacingH;
-
-            for(int aCol=0;aCol<mColCount;aCol++)
-            {
+            for (int aCol=0;aCol<mColCount;aCol++) {
                 UIImagePickerCell *aCell = ((UIImagePickerCell *)(mCellList.Fetch(aIndex)));
-
-                if(aCell)
-                {
+                if (aCell) {
                     mCellGrid[aCol][aRow] = aCell;
                     aCell->SetUp(aProbeX, aProbeY, mCellWidth, mCellHeight);
-
-                    //aCell->mBaseX = aProbeX;
-                    //aCell->mBaseY = aProbeY;
                 }
-
-
                 aProbeX += (mCellWidth + mCellSpacingH);
                 aIndex++;
             }
-
             aProbeY += (mCellHeight + mCellSpacingV);
         }
     }
-
-    //SetHeight((((float)mRowCount) * (mCellHeight + mCellSpacingV)) + mCellSpacingV);
-
-
 }
 
 void UIImagePickerScrollContent::Update() {
@@ -195,41 +154,29 @@ void UIImagePickerScrollContent::Update() {
     float aCellWidth = (mCellWidth + mCellSpacingH);
 
     UIImagePickerCell *aHold = 0;
-    if (mCellGrid != 0)
-    {
-        while (mScrollOffsetX >= aCellWidth)
-        {
+    if (mCellGrid != 0) {
+        while (mScrollOffsetX >= aCellWidth) {
             mGridOffsetX++;
-            if(mGridOffsetX >= mColCount)mGridOffsetX -= mColCount;
-
+            if(mGridOffsetX >= mColCount) { mGridOffsetX -= mColCount; }
             mScrollOffsetX -= aCellWidth;
             mStartOffsetX -= aCellWidth;
 
-            for(int n = 0; n < mRowCount; n++)
-            {
+            for (int n = 0; n < mRowCount; n++) {
                 aHold = mCellGrid[mColCount - 1][n];
-                for(int i = (mColCount - 2); i >= 0; i--)
-                {
+                for (int i = (mColCount - 2); i >= 0; i--) {
                     mCellGrid[i + 1][n] = mCellGrid[i][n];
                 }
                 mCellGrid[0][n] = aHold;
             }
         }
-
-        while (mScrollOffsetX <= 0.0f)
-        {
+        while (mScrollOffsetX <= 0.0f) {
             mGridOffsetX--;
-            if(mGridOffsetX < 0)mGridOffsetX += mColCount;
-
-            //aShifted = true;
+            if (mGridOffsetX < 0) { mGridOffsetX += mColCount; }
             mScrollOffsetX += aCellWidth;
             mStartOffsetX += aCellWidth;
-
-            for(int n = 0; n < mRowCount; n++)
-            {
+            for (int n = 0; n < mRowCount; n++) {
                 aHold = mCellGrid[0][n];
-                for(int i = 1; i < mColCount; i++)
-                {
+                for (int i = 1; i < mColCount; i++) {
                     mCellGrid[i - 1][n] = mCellGrid[i][n];
                 }
                 mCellGrid[mColCount - 1][n] = aHold;
@@ -241,35 +188,26 @@ void UIImagePickerScrollContent::Update() {
         float aProbeX = mCellSpacingH;
         float aProbeY = mCellSpacingV;
 
-        for(int aRow = 0; aRow < mRowCount; aRow++)
-        {
+        for (int aRow = 0; aRow < mRowCount; aRow++) {
             aProbeX = (mCellSpacingH - aCellWidth);
 
-            for(int aCol = 0; aCol < mColCount; aCol++)
-            {
+            for (int aCol = 0; aCol < mColCount; aCol++) {
                 UIImagePickerCell *aCell = mCellGrid[aCol][aRow];
 
-                if(aCell)
-                {
+                if (aCell) {
                     aCell->SetFrame(aProbeX + mScrollOffsetX, aProbeY, mCellWidth, mCellHeight);
 
-                    if((aCell->mX >= (-mCellWidth)) && (aCell->mX < (mWidth)))
-                    {
+                    if ((aCell->mX >= (-mCellWidth)) && (aCell->mX < (mWidth))) {
                         aCell->mHidden = false;
                         aCell->mEnabled = true;
-                    }
-                    else
-                    {
+                    } else {
                         aCell->mHidden = true;
                         aCell->mEnabled = false;
                     }
                 }
-                
                 aProbeX += (mCellWidth + mCellSpacingH);
                 aIndex++;
-
             }
-
             aProbeY += (mCellHeight + mCellSpacingV);
         }
     }
@@ -281,20 +219,13 @@ void UIImagePickerScrollContent::Draw() {
 
 void UIImagePickerScrollContent::AddCell(UIImagePickerCell *pCell) {
 
-    if(pCell)
-    {
-        //pCell->SetCellSize(mCellWidth, mCellHeight);
-
-        //pCell->mBaseX = ((float)(mCellList.mCount)) * mCellWidth;
+    if (pCell) {
         float aPlaceX = ((float)(mCellList.mCount)) * mCellWidth;
-
         pCell->SetFrame(aPlaceX, 0.0f, mCellWidth, mCellHeight);
         mCellList += pCell;
         AddChild(pCell);
-
         pCell->mConsumesTouches = false;
     }
-
 }
 
 void UIImagePickerScrollContent::TouchDown(float pX, float pY, void *pData)
@@ -365,11 +296,14 @@ UIImagePicker::UIImagePicker() {
     if (aHeight > 640.0f) {
         aHeight = 640.0f;
     }
-    
+
     SetFrame(aX, aY, aWidth, aHeight);
-    //mSizeMinWidth = aWidth;
-    //mSizeMinHeight = aHeight;
-    
+
+    SetTitle("Image Picker");
+    SetScrollMode(false);
+
+    mSection = new ToolMenuSection();
+    AddSection(mSection);
 
     //UIImagePicker::UIImagePicker(gAppWidth2 / 3.0f, gAppHeight2 / 3.0f, gAppWidth2 + gAppWidth2 / 2.0f, gAppHeight2 + gAppHeight2 / 2.0f);
     mName = "Image Picker";
@@ -393,42 +327,10 @@ UIImagePicker::UIImagePicker() {
     //float aWidth = pWidth;
 
     mScrollContent = new UIImagePickerScrollContent();
-    mContent.AddChild(mScrollContent);
+    mSection->AddChild(mScrollContent);
+
+    //mContent.AddChild(mScrollContent);
 }
-
-/*
- UIImagePicker::UIImagePicker(float pX, float pY, float pWidth, float pHeight)// : UMenu()
- {
- mName = "Image Picker";
-
- SetFrame(pX, pY, pWidth, pHeight);
- SetTitle("Pick Image");
-
- //UMenu::SetUp(pX, pY, pWidth, "Image Picker!");
- //SetHeight(pHeight);
-
- //UMenu::SetUp(pX, pY, pWidth, pHeight);
-
- //mRectToolbar.mRoundBottom = false;
- //mRectBack.mCornerRadius = 6;
-
- mDragFrameMode = true;
- mClipEnabled = true;
-
- mListener = 0;
-
- float aWidth = pWidth;
-
- mScrollContent = new UIImagePickerScrollContent(0.0f, UTIL_MENU_TOOLBAR_HEIGHT, aWidth, 160.0f);
- AddSubview(mScrollContent);
-
- SetFrame(pX, pY, pWidth, pHeight);
-
- //mQuadBackground.SetRect(0.0f, 0.0f, mWidth, mHeight);
- //mQuadBackground.SetColorTop(0.99f, 0.99f, 0.99f);
- //mQuadBackground.SetColorBottom(0.90f, 0.90f, 0.90f);
- }
- */
 
 UIImagePicker::~UIImagePicker()
 {
@@ -489,6 +391,7 @@ void UIImagePicker::AddSpriteSequence(FSpriteSequence *pSpriteSequence) {
 
 void UIImagePicker::Layout() {
     ToolMenu::Layout();
+    mSection->SetSize(mContent.GetWidth(), mContent.GetHeight());
 }
 
 void UIImagePicker::FillWithAny() {

@@ -15,6 +15,8 @@
 #include "UIButton.hpp"
 #include "FScrollCanvas.hpp"
 #include "ToolMenuContent.hpp"
+#include "ToolMenuSection.hpp"
+#include "ToolMenuPanel.hpp"
 
 class ToolMenu : public DragableCanvas {
 public:
@@ -32,9 +34,32 @@ public:
 
     virtual void                            Notify(void *pSender, const char *pNotification);
 
+    //Step 1
+    void                                    SetTitle(const char *pText);
+
+    //Step 2
+    void                                    SetScrollMode(bool pScroll);
+
+    //Step 3
+    void                                    AddSection(ToolMenuSection *pSection);
+
+
+    void                                    Expand();
+    void                                    Collapse();
+    bool                                    mExpanded;
+    float                                   mExpandedHeight;
+
+
     ToolMenuHeader                          mHeader;
-    //FScrollCanvas                           mContentScroller;
+
+    //Use either flat content or scroll content...
     ToolMenuContent                         mContent;
+    FScrollCanvas                           mScrollContent;
+
+
+    FList                                   mSectionList;
+
+    bool                                    mScrollMode;
 
     UIRoundedRect                           mMenuBackground;
     UIRoundedRect                           mMenuBackgroundOutline;

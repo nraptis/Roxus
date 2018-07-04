@@ -225,16 +225,7 @@ void FScrollView::BaseUpdate()
     if(mScrollHorizontalEnabled == false)aTranslateX = 0.0f;
     if(mScrollVerticalEnabled == false)aTranslateY = 0.0f;
     
-    EnumList(FView, aView, mSubviews)
-    {
-        
-        //mScrollVerticalEnabled
-        
-        
-        
-        
-        
-        
+    EnumList(FView, aView, mSubviews) {
         aView->SetTransformTranslate(aTranslateX, aTranslateY);
         
         

@@ -6,14 +6,6 @@
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-//
-//  DragableCanvas.cpp
-//  DigMMMac
-//
-//  Created by Raptis, Nicholas on 7/2/18.
-//  Copyright © 2018 Darkswarm LLC. All rights reserved.
-//
-
 #include "DragableCanvas.hpp"
 #include "GLApp.h"
 
@@ -41,8 +33,9 @@ DragableCanvas::DragableCanvas() {
     mPanDragData = 0;
 
     mSizeMinWidth = 200.0f;
-    mSizeMinHeight = 120.0f;
+    mSizeMinHeight = 58.0f;
 
+    mResizeDragAllowed = true;
     mClipEnabled = false;
 }
 
@@ -97,33 +90,30 @@ FCanvas *DragableCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
     if (mResizeCornerIndex != -1 || mPanDragData != 0) {
         return aChild;
     }
-    ResetCorners();
-    float aCornerDist = 40.0f;
-    if (!pConsumed && !pOutsideParent) {
-        for (int i=0;i<4;i++) {
-            float aX = mResizeCornerX[i];
-            float aY = mResizeCornerY[i];
-            float aDist = Distance(aX, aY, pX, pY);
-            if (aDist < aCornerDist) {
-                mResizeDragCornerX = aX;
-                mResizeDragCornerY = aY;
-                aCornerDist = aDist;
-                mResizeCornerIndex = i;
+
+
+    if (mResizeDragAllowed == false) {
+        mResizeDragData = 0;
+        mResizeCornerIndex = -1;
+    } else {
+        ResetCorners();
+        float aCornerDist = 40.0f;
+        if (!pConsumed && !pOutsideParent) {
+            for (int i=0;i<4;i++) {
+                float aX = mResizeCornerX[i];
+                float aY = mResizeCornerY[i];
+                float aDist = Distance(aX, aY, pX, pY);
+                if (aDist < aCornerDist) {
+                    mResizeDragCornerX = aX;
+                    mResizeDragCornerY = aY;
+                    aCornerDist = aDist;
+                    mResizeCornerIndex = i;
+                }
             }
         }
     }
 
     if (mResizeCornerIndex != -1) {
-
-
-
-
-        //mResizeDragMinX;
-        //mResizeDragMinY;
-        //mResizeDragMaxX;
-        //mResizeDragMaxY;
-
-
         mDragFrameStartX = mX;
         mDragFrameStartY = mY;
         mDragFrameStartWidth = mWidth;
@@ -204,6 +194,12 @@ void DragableCanvas::UpdatePanDrag(float pX, float pY, void *pData) {
 }
 
 void DragableCanvas::UpdateCornerDrag(float pX, float pY, void *pData) {
+
+    if (mResizeDragAllowed == false) {
+        mResizeDragData = 0;
+        mResizeCornerIndex = -1;
+    }
+
     if (mResizeDragData == pData) {
         if((mResizeCornerIndex >= 0) && (mResizeCornerIndex < 4)) {
             float aDeltaX = (pX - mResizeDragTouchX);

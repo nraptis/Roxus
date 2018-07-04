@@ -273,7 +273,16 @@ void FWindow::RegisterFrameDidUpdate(FCanvas *pCanvas) {
     mLayoutBucket.Add(pCanvas);
 
     //The parent's child has updated its frame...
-    RegisterChildrenDidUpdate(pCanvas->mParent);
+    FCanvas *aParent = pCanvas->mParent;
+    if (aParent) {
+        int aDepth = pCanvas->mLayoutBubbleUpDepth;
+        while (aParent && aDepth > 0) {
+            RegisterChildrenDidUpdate(aParent);
+            aParent = aParent->mParent;
+            aDepth--;
+        }
+    }
+
 
     //The children's parent has updated its frame..
     EnumList(FCanvas, aChild, pCanvas->mChildren) {

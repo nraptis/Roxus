@@ -18,6 +18,7 @@ FCanvas::FCanvas() {
     mWidth2 = 128.0;
     mHeight2 = 128.0;
     mKill = 0;
+    mLayoutBubbleUpDepth = 1;
     mClipEnabled = false;
     mClipDisabled = false;
     mDidUpdate = false;
@@ -169,6 +170,24 @@ void FCanvas::AddChild(FCanvas *pCanvas) {
 void FCanvas::AddChild(FCanvas &pCanvas) {
     pCanvas.mDeleteWhenKilled = false;
     AddChild(&pCanvas);
+}
+
+bool FCanvas::IsChild(FCanvas *pCanvas) {
+    EnumList(FCanvas, aChild, mChildren) {
+        if (aChild->mKill == 0) {
+            if (aChild == pCanvas) {
+                return true;
+            }
+        }
+    }
+    EnumList(FCanvas, aChild, mChildren) {
+        if (aChild->mKill == 0) {
+            if (aChild->IsChild(pCanvas)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void FCanvas::BringChildToFront(FCanvas *pCanvas) {

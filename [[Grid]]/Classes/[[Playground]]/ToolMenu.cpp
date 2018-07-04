@@ -7,22 +7,16 @@
 //
 
 #include "ToolMenu.hpp"
-//
-//  ToolMenu.cpp
-//  DigMMMac
-//
-//  Created by Raptis, Nicholas on 6/15/18.
-//  Copyright © 2018 Nick Raptis. All rights reserved.
-//
-
-#include "ToolMenu.hpp"
 #include "GLApp.h"
 
 ToolMenu::ToolMenu() {
     mName = "ToolMenu";
     mClipEnabled = false;
     mClipDisabled = true;
-    
+    mScrollMode = true;
+    mExpanded = true;
+    mExpandedHeight = 340.0f;
+
     mMenuBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mMenuBackground.SetColorBottom(0.165f, 0.135f, 0.085f);
     mMenuBackground.mCornerRadius = 8.0f;
@@ -34,30 +28,35 @@ ToolMenu::ToolMenu() {
     mMenuBackgroundShadow.SetColorTop(0.021f, 0.021f, 0.021f, 0.25f);
     mMenuBackgroundShadow.SetColorBottom(0.025f, 0.025f, 0.025f, 0.25f);
     mMenuBackgroundShadow.mCornerRadius = 8.0f;
-    
+
+    mScrollContent.mScrollHorizontalEnabled = false;
+    AddChild(mScrollContent);
+
     AddChild(mContent);
+
+    mHeader.mMenu = this;
     AddChild(mHeader);
 }
 
 ToolMenu::~ToolMenu() {
-    
+
 }
 
 void ToolMenu::Layout() {
-
     float aHeaderHeight = 56.0f;
-
-
-    mContent.SetFrame(2.0f, aHeaderHeight + 2.0f, mWidth - 4.0f, mHeight - (aHeaderHeight + 4.0f));
-    //mContentScroller.SetContentSize(mContent.mWidth, mContent.mHeight);
-
-
+    float aContentWidth = mWidth - 4.0f;
+    float aContentHeight = 0.0f;
+    EnumList(ToolMenuSection, aSection, mSectionList) {
+        aSection->SetFrame(2.0f, aContentHeight, aContentWidth - 4.0f, aSection->mHeight);
+        aContentHeight += aSection->mHeight;
+    }
+    mContent.SetFrame(2.0f, aHeaderHeight + 2.0f, aContentWidth, mHeight - (aHeaderHeight + 4.0f));
+    mScrollContent.SetFrame(2.0f, aHeaderHeight + 2.0f, aContentWidth, mHeight - (aHeaderHeight + 4.0f));
+    mScrollContent.SetContentSize(aContentWidth, aContentHeight);
     mHeader.SetFrame(1.0f, 1.0f, mWidth - 2.0f, aHeaderHeight);
-
     mMenuBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mMenuBackgroundOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);
     mMenuBackgroundShadow.SetRect(-2.0f, -2.0f, mWidth + 4.0f, mHeight + 4.0f);
-
     mMenuBackground.mRefresh = true;
     mMenuBackgroundOutline.mRefresh = true;
     mMenuBackgroundShadow.mRefresh = true;
@@ -93,6 +92,58 @@ void ToolMenu::TouchFlush() {
 
 void ToolMenu::Notify(void *pSender, const char *pNotification) {
     Kill();
+}
+
+void ToolMenu::SetScrollMode(bool pScroll) {
+    mScrollMode = pScroll;
+    if (pScroll) {
+        BringChildToFront(mScrollContent);
+        mScrollContent.mEnabled = true;
+        mScrollContent.mHidden = false;
+        mContent.mEnabled = false;
+        mContent.mHidden = true;
+    } else {
+        BringChildToFront(mContent);
+        mScrollContent.mEnabled = false;
+        mScrollContent.mHidden = true;
+        mContent.mEnabled = true;
+        mContent.mHidden = false;
+    }
+    BringChildToFront(mHeader);
+}
+
+void ToolMenu::SetTitle(const char *pText) {
+    mHeader.mLabelTitle.mText = pText;
+}
+
+void ToolMenu::AddSection(ToolMenuSection *pSection) {
+    mSectionList.Add(pSection);
+    if (mScrollMode) {
+        mScrollContent.AddChild(pSection);
+    } else {
+        mContent.AddChild(pSection);
+    }
+}
+
+
+void ToolMenu::Expand() {
+    mExpanded = true;
+    mResizeDragAllowed = true;
+    SetScrollMode(mScrollMode);
+    SetHeight(mExpandedHeight);
+    mHeader.SetExpandedLayout();
+}
+
+void ToolMenu::Collapse() {
+    mExpandedHeight = mHeight;
+    mExpanded = false;
+    mResizeDragAllowed = false;
+    mScrollContent.mEnabled = false;
+    mScrollContent.mHidden = true;
+    mContent.mEnabled = false;
+    mContent.mHidden = true;
+    SetHeight(58.0f);
+    mHeader.SetCollapsedLayout();
 }
 
 

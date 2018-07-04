@@ -1,36 +1,29 @@
 //
-//  ToolMenuHeader.cpp
+//  ToolMenuPanelHeader.cpp
 //  DigMMMac
 //
-//  Created by Raptis, Nicholas on 7/3/18.
+//  Created by Raptis, Nicholas on 7/4/18.
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#include "ToolMenuHeader.hpp"
+#include "ToolMenuPanelHeader.hpp"
 #include "ToolMenu.hpp"
 #include "PGMainCanvas.hpp"
-#include "ToolMenu.hpp"
+#include "ToolMenuPanel.hpp"
 
-#include "UIImagePicker.hpp"
-
-
-ToolMenuHeader::ToolMenuHeader() {
-    mMenu = 0;
-
-    mName = "ToolMenuHeader";
-
+ToolMenuPanelHeader::ToolMenuPanelHeader() {
+    mPanel = 0;
+    mName = "ToolMenuPanelHeader";
     mConsumesTouches = false;
-
     mLabelTitle.mAlignment = 0;
     mLabelTitle.mBold = true;
     mLabelTitle.mShrink = true;
     mLabelTitle.mScale = 1.0f;
     mLabelTitle.SetTransparentBackground();
     AddChild(mLabelTitle);
-
-    mMenuBackground.SetColorTop(0.325f, 0.325f, 0.325f);
-    mMenuBackground.SetColorBottom(0.365f, 0.365f, 0.345f);
-    mMenuBackground.mCornerRadius = 6.0f;
+    mMenuBackground.SetColorTop(0.325f, 0.325f, 0.665f);
+    mMenuBackground.SetColorBottom(0.365f, 0.365f, 0.665f);
+    mMenuBackground.mCornerRadius = 4.0f;
     mMenuBackground.mRoundBottom = false;
 
     mButtonClose.SetTransparentBackground();
@@ -42,71 +35,60 @@ ToolMenuHeader::ToolMenuHeader() {
     mButtonMinimize.mName = "Minimize Button";
     mButtonMinimize.mDrawMinimize = true;
     AddChild(mButtonMinimize);
-    
+
     gNotify.Register(this, &mButtonClose, "click");
     gNotify.Register(this, &mButtonMinimize, "click");
 }
 
-ToolMenuHeader::~ToolMenuHeader() {
-    
+ToolMenuPanelHeader::~ToolMenuPanelHeader() {
+
 }
 
-void ToolMenuHeader::Layout() {
+void ToolMenuPanelHeader::Layout() {
     float aButtonPadding = 4.0f;
     float aButtonSize = mHeight - aButtonPadding * 2.0f;
     mButtonClose.SetFrame(aButtonPadding, aButtonPadding, aButtonSize, aButtonSize);
     mButtonMinimize.SetFrame(mWidth - (aButtonPadding + aButtonSize), aButtonPadding, aButtonSize, aButtonSize);
-
     float aLabelLeft = mButtonClose.GetRight() + 2.0f;
     float aLabelRight = mButtonMinimize.GetLeft() - 2.0f;
-
     mLabelTitle.SetFrame(aLabelLeft, 2.0f, aLabelRight - aLabelLeft, mHeight - 4.0f);
-
     mMenuBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mMenuBackground.mRefresh = true;
 }
 
-void ToolMenuHeader::Update() {
+void ToolMenuPanelHeader::Update() {
 
 }
 
-void ToolMenuHeader::Draw() {
+void ToolMenuPanelHeader::Draw() {
     FCanvas::Draw();
     mMenuBackground.Draw();
 }
 
-void ToolMenuHeader::Notify(void *pSender, const char *pNotification) {
+void ToolMenuPanelHeader::Notify(void *pSender, const char *pNotification) {
     printf("Header Notify: [%s][%s]\n", ((FCanvas *)pSender)->mName.c(), pNotification);
     if (FString(pNotification) == "click") {
         if (pSender == &mButtonClose) {
-            if (mMenu) { mMenu->Kill(); }
+
         }
         if (pSender == &mButtonMinimize) {
-            if (mMenu) {
-                if (mMenu->mExpanded) {
-                    mMenu->Collapse();
-
+            if (mPanel) {
+                if (mPanel->mExpanded) {
+                    mPanel->Collapse();
                 } else {
-                    mMenu->Expand();
-
+                    mPanel->Expand();
                 }
             }
-
-            //UIImagePicker *aImagePicker = new UIImagePicker();
-            //gTool->AddChild(aImagePicker);
-            //aImagePicker->FillWithAny();
-            //printf("Minimize Button...\n");
-
         }
     }
 }
 
-void ToolMenuHeader::SetExpandedLayout() {
+void ToolMenuPanelHeader::SetExpandedLayout() {
     mButtonMinimize.mDrawMaximize = false;
     mButtonMinimize.mDrawMinimize = true;
 }
 
-void ToolMenuHeader::SetCollapsedLayout() {
+void ToolMenuPanelHeader::SetCollapsedLayout() {
     mButtonMinimize.mDrawMaximize = true;
     mButtonMinimize.mDrawMinimize = false;
 }
