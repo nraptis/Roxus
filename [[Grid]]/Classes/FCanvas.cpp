@@ -18,7 +18,8 @@ FCanvas::FCanvas() {
     mWidth2 = 128.0;
     mHeight2 = 128.0;
     mKill = 0;
-    mClipsContent = false;
+    mClipEnabled = false;
+    mClipDisabled = false;
     mDidUpdate = false;
     mConsumesTouches = true;
     mRecievesOutsideTouches = false;
@@ -91,17 +92,43 @@ void FCanvas::Notify(void *pSender, const char *pNotification) { }
 void FCanvas::DrawManual() {
     if (mDidUpdate == true && mHidden == false && mKill == 0) {
         DrawTransform();
-        if (mClipsContent) {
-            Graphics::ClipEnable();
-            Graphics::Clip(0.0f, 0.0f, mWidth, mHeight);
-        }
         Draw();
         EnumList(FCanvas, aCanvas, mChildren) { aCanvas->DrawManual(); }
-        if (mClipsContent) { Graphics::ClipDisable(); }
     }
 }
 
 void FCanvas::DrawTransform() {
+
+    //Graphics::MatrixGoProjection();
+    //Graphics::MatrixLoadIdentity();
+    //Graphics::Ortho2D(0, gDeviceWidth, gDeviceHeight, 0);
+    FMatrix aOrtho = FMatrixCreateOrtho(0.0f, gDeviceWidth, gDeviceHeight, 0.0f, -2048.0f, 2048.0f);
+    Graphics::SetMatrixProjection(aOrtho);
+
+    Graphics::ResetMatrixModelView();
+    float aX = mTransformAbsolute.mX;
+    float aY = mTransformAbsolute.mY;
+    if (aX != 0.0f || aY != 0.0f) {
+        Graphics::Translate(aX, aY, 0.0f);
+    }
+    float aRotation = mTransformAbsolute.mRotation;
+    if (aRotation != 0.0f) {
+        Graphics::Rotate(aRotation);
+    }
+    float aScaleX = mTransformAbsolute.mScale * mTransformAbsolute.mScaleX;
+    float aScaleY = mTransformAbsolute.mScale * mTransformAbsolute.mScaleY;
+    float aScale = mTransformAbsolute.mScale;
+    if (aScaleX != 1.0f || aScaleY != 1.0f || aScale != 1.0f) {
+        Graphics::Scale(aScaleX, aScaleY, aScale);
+    }
+    float aAnchorX = mTransformAbsolute.mAnchorX;
+    float aAnchorY = mTransformAbsolute.mAnchorY;
+    if ((aAnchorX != 0.0f) || (aAnchorY != 0.0f)) {
+        Graphics::Translate(aAnchorX * (-mWidth), aAnchorY * (-mHeight));
+    }
+    return;
+
+    /*
     FMatrix aOrtho = FMatrixCreateOrtho(0.0f, gDeviceWidth, gDeviceHeight, 0.0f, -2048.0f, 2048.0f);
     Graphics::SetMatrixProjection(aOrtho);
     float aX = mTransformAbsolute.mX;
@@ -125,6 +152,7 @@ void FCanvas::DrawTransform() {
         Graphics::Translate(aAnchorX * (-mWidth), aAnchorY * (-mHeight));
     }
     Graphics::ResetMatrixModelView();
+    */
 }
 
 void FCanvas::AddChild(FCanvas *pCanvas) {
@@ -402,20 +430,26 @@ void FCanvas::BaseUpdate() {
 void FCanvas::BaseDraw() {
     if (mDidUpdate == true && mDrawManual == false && mHidden == false && mKill == 0) {
         DrawTransform();
-        if (mClipsContent) {
+
+
+        if (mClipEnabled) {
             Graphics::ClipEnable();
             Graphics::Clip(0.0f, 0.0f, mWidth, mHeight);
-        } else {
+        }
+        if (mClipDisabled) {
             Graphics::ClipDisable();
         }
+
         Draw();
 
         mProcessChildren.RemoveAll();
         mProcessChildren.Add(mChildren);
         EnumList(FCanvas, aCanvas, mProcessChildren) { aCanvas->BaseDraw(); }
-        if (mClipsContent) { Graphics::ClipDisable(); }
 
 
+        if (mClipEnabled || mClipDisabled) { Graphics::ClipDisable(); }
+
+        
 
 
         /*

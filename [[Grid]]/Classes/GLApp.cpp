@@ -16,7 +16,6 @@
 #include "PGMainCanvas.hpp"
 
 GLApp *gApp = 0;
-
 GLApp::GLApp() {
     gApp = this;
     
@@ -425,5 +424,6 @@ void GLApp::LoadComplete() {
 
     //Util_ScreenFrame *aScreenFrameUtil = new Util_ScreenFrame();
     //mWindowTools.AddChild(aScreenFrameUtil);
+    
 }
 

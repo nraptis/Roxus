@@ -133,7 +133,8 @@ public:
     
     FList                                   mChildren;
     
-    bool                                    mClipsContent;
+    bool                                    mClipEnabled;
+    bool                                    mClipDisabled;;
     
     bool                                    mHidden;
     bool                                    mEnabled;

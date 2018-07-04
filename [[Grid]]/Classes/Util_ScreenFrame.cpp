@@ -15,7 +15,7 @@ Util_ScreenFrame::Util_ScreenFrame() {
     mConsumesTouches = false;
     mRecievesOutsideTouches = true;
     mRecievesConsumedTouches = true;
-    mClipsContent = false;
+    mClipEnabled = false;
     SetFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     mPanDragData = 0;
     mPanWindowStartX = 0.0f;

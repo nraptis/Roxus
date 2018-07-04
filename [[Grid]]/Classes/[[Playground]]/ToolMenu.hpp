@@ -13,6 +13,8 @@
 #include "UIRoundedRect.hpp"
 #include "ToolMenuHeader.hpp"
 #include "UIButton.hpp"
+#include "FScrollCanvas.hpp"
+#include "ToolMenuContent.hpp"
 
 class ToolMenu : public DragableCanvas {
 public:
@@ -31,7 +33,8 @@ public:
     virtual void                            Notify(void *pSender, const char *pNotification);
 
     ToolMenuHeader                          mHeader;
-
+    //FScrollCanvas                           mContentScroller;
+    ToolMenuContent                         mContent;
 
     UIRoundedRect                           mMenuBackground;
     UIRoundedRect                           mMenuBackgroundOutline;

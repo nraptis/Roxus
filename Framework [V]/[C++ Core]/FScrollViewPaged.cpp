@@ -11,7 +11,7 @@
 
 FScrollViewPaged::FScrollViewPaged()
 {
-    mClipsContent = false;
+    mClipEnabled = false;
     mRecievesConsumedTouches = true;
     
     mName = "Paged Scroll View";

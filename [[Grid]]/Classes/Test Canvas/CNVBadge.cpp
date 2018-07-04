@@ -10,7 +10,7 @@
 #include "GLApp.h"
 
 CNVBadge::CNVBadge() {
-    mClipsContent = true;
+    mClipEnabled = true;
     
     mTouchMarkerColor1 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
     mTouchMarkerColor2 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());

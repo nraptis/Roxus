@@ -9,60 +9,24 @@
 #include "PGMainCanvas.hpp"
 #include "GLApp.h"
 
+
 PGMainCanvas *gTool = 0;
 PGMainCanvas::PGMainCanvas() {
     gTool = this;
     mName = "_Playground_";
-
-    mClipsContent = false;
-
+    mClipEnabled = false;
     mBackQuad.Corner1SetColor(0.96f, 0.92f, 0.88f);
     mBackQuad.Corner2SetColor(0.98f, 0.95f, 0.99f);
     mBackQuad.Corner3SetColor(0.97f, 0.96f, 0.96f);
     mBackQuad.Corner4SetColor(0.95f, 0.97f, 0.94f);
-    
-    //mDragCanvas1 = new DragableCanvas();
-    //mDragCanvas1->mName = "DR-1";
-    //mDragCanvas1->mColor = FColor(1.0f, 0.77, 0.9);
-    //AddChild(mDragCanvas1);
-    //mDragCanvas1->SetFrame(40.0f, 20.0f, 270.0f, 200.0f);
-
 
     mToolMenu1 = new ToolMenu();
-    mToolMenu1->SetFrame(100.0f, 20.0f, 300.0f, 220.0f);
+    mToolMenu1->SetFrame(20.0f, 20.0f, 300.0f, 220.0f);
     mToolMenu1->mName = "TM-1";
     AddChild(mToolMenu1);
-
-    mToolMenu2 = new ToolMenu();
-    mToolMenu2->SetFrame(10.0f, 300.0f, 400.0f, 280.0f);
-    mToolMenu2->mName = "TM-2";
-    AddChild(mToolMenu2);
-
-    mToolMenu3 = new ToolMenu();
-    mToolMenu3->SetFrame(300.0f, 510.0f, 200.0f, 340.0f);
-    mToolMenu3->mName = "TM-3";
-    AddChild(mToolMenu3);
-
     
     mMenuIndex = 10;
-    
 
-    //gNotify.Register(this, mToolMenu1, "f1");
-    //gNotify.Register(this, mToolMenu2, "f1");
-    //gNotify.Register(this, mToolMenu3, "f1");
-
-
-    /*
-    gNotify.Print();
-
-    gNotify.Post(mToolMenu1, "f1");
-
-    gNotify.Unregister(this, mToolMenu1, "f1");
-
-    gNotify.Print();
-     */
-
-    
 }
 
 PGMainCanvas::~PGMainCanvas() {
@@ -75,6 +39,8 @@ void PGMainCanvas::Layout() {
 }
 
 void PGMainCanvas::Update() {
+    //SetContentSize(gApp->mBackgroundLarge.mWidth, gApp->mBackgroundLarge.mHeight);
+
 
 }
 
@@ -127,3 +93,4 @@ void PGMainCanvas::KeyDown(int pKey) {
 void PGMainCanvas::KeyUp(int pKey) {
 
 }
+

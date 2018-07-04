@@ -1,25 +1,21 @@
 //
-//  PGMainCanvas.hpp
+//  ToolMenuContent.hpp
 //  DigMMMac
 //
-//  Created by Raptis, Nicholas on 7/2/18.
+//  Created by Raptis, Nicholas on 7/3/18.
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef PGMainCanvas_hpp
-#define PGMainCanvas_hpp
+#ifndef ToolMenuContent_hpp
+#define ToolMenuContent_hpp
 
 #include "FCanvas.hpp"
-#include "DragableCanvas.hpp"
-#include "FDrawQuad.h"
+#include "UIButton.hpp"
 
-#include "ToolMenu.hpp"
-
-
-class PGMainCanvas : public FCanvas {
+class ToolMenuContent : public FCanvas {
 public:
-    PGMainCanvas();
-    virtual ~PGMainCanvas();
+    ToolMenuContent();
+    virtual ~ToolMenuContent();
 
     virtual void                            Update();
     virtual void                            Draw();
@@ -39,20 +35,12 @@ public:
     virtual void                            KeyDown(int pKey);
     virtual void                            KeyUp(int pKey);
 
-    DragableCanvas                          *mDragCanvas1;
-    DragableCanvas                          *mDragCanvas2;
-    DragableCanvas                          *mDragCanvas3;
+    UIButton                                mB1;
+    UIButton                                mB2;
+    UIButton                                mB3;
+    UIButton                                mB4;
 
-    FDrawQuad                               mBackQuad;
-
-    ToolMenu                                *mToolMenu1;
-    ToolMenu                                *mToolMenu2;
-    ToolMenu                                *mToolMenu3;
-
-    int                                     mMenuIndex;
 };
 
-extern PGMainCanvas *gTool;
+#endif /* ToolMenuContent_hpp */
 
-
-#endif /* PGMainCanvas_hpp */

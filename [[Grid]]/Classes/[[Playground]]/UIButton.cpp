@@ -26,8 +26,7 @@ UIButton::UIButton() {
     mButtonOutline.SetColorTop(0.465f, 0.465f, 0.465f);
     mButtonOutline.SetColorBottom(0.625f, 0.625f, 0.625f);
     mButtonOutline.mCornerRadius = 6.0f;
-
-
+    
     mButtonBackgroundDown.SetColorTop(0.35f, 0.35f, 0.65f);
     mButtonBackgroundDown.SetColorBottom(0.38f, 0.38f, 0.68f);
     mButtonBackgroundDown.mCornerRadius = 4.0f;

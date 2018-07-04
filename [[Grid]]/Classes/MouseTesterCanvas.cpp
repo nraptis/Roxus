@@ -24,7 +24,7 @@ MouseTesterCanvas::MouseTesterCanvas() {
     
     mName = "MouseTesterCanvas";
 
-    mClipsContent = false;
+    mClipEnabled = false;
 }
 
 MouseTesterCanvas::~MouseTesterCanvas() {

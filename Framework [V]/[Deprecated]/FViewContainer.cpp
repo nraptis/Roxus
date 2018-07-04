@@ -166,7 +166,7 @@ void FViewContainer::Draw()
         {
             DrawTransform();
             
-            if(mView->mClipsContent)
+            if(mView->mClipEnabled)
             {
                 Graphics::ClipEnable();
                 Graphics::Clip(0.0f, 0.0f, mView->mWidth, mView->mHeight);
@@ -200,7 +200,7 @@ void FViewContainer::Draw()
             }
             //}
             
-            if(mView->mClipsContent)
+            if(mView->mClipEnabled)
             {
                 Graphics::ClipDisable();
             }
@@ -215,7 +215,7 @@ void FViewContainer::DrawManualBegin()
     {
         DrawTransform();
         
-        if(mView->mClipsContent)
+        if(mView->mClipEnabled)
         {
             Graphics::ClipEnable();
             Graphics::Clip(0.0f, 0.0f, mView->mWidth, mView->mHeight);
@@ -231,7 +231,7 @@ void FViewContainer::DrawManualEnd()
 {
     if((mDidUpdate == true) && (mView != 0))
     {
-        if(mView->mClipsContent)
+        if(mView->mClipEnabled)
         {
             Graphics::ClipDisable();
         }
@@ -296,7 +296,7 @@ FViewContainer *FViewContainer::TouchDown(float pX, float pY, float pOriginalX, 
                 aContainsTouch = mTransformAbsolute.ContainsPoint(pX, pY);
                 if(aContainsTouch == false)
                 {
-                    if(mView->mClipsContent)
+                    if(mView->mClipEnabled)
                     {
                         pClippedByParent = true;
                     }
@@ -451,7 +451,7 @@ void FViewContainer::TouchMove(float pX, float pY, float pOriginalX, float pOrig
             aContainsTouch = mTransformAbsolute.ContainsPoint(pX, pY);
             if(aContainsTouch == false)
             {
-                if(mView->mClipsContent)
+                if(mView->mClipEnabled)
                 {
                     pClippedByParent = true;
                 }
@@ -561,7 +561,7 @@ void FViewContainer::TouchUp(float pX, float pY, float pOriginalX, float pOrigin
             aContainsTouch = mTransformAbsolute.ContainsPoint(pX, pY);
             if(aContainsTouch == false)
             {
-                if(mView->mClipsContent)
+                if(mView->mClipEnabled)
                 {
                     pClippedByParent = true;
                 }

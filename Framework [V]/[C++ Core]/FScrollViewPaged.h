@@ -63,14 +63,9 @@ public:
     
     bool                                    mScrollHorizontal;
     
-    
     bool                                    mScrollEnabledHorizontal;
     bool                                    mScrollEnabledVertical;
-    
-    
-    
-    //How the heck sauce do they do that bounce stuff on UIScrollView.. *sigh*
-    
+
     float                                   ScrollGetBounceDragShift(float pAmount);
     
 };

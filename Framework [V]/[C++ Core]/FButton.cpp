@@ -17,11 +17,7 @@ FButton::FButton() {
     mDrawManual = false;
     
     mDrawRectIfSpriteIsNull = true;
-    
-    
-    mConsumesTouches = true;
-    //mClipsContent = false;
-    
+
     mTriggerOnDown = false;
     mTriggerOnUp = true;
     
@@ -49,8 +45,7 @@ FButton::FButton() {
 
 }
 
-FButton::~FButton()
-{
+FButton::~FButton() {
     FreeList(FButtonLayer, mButtonLayersUnder);
     FreeList(FButtonLayer, mButtonLayersOver);
     delete mButtonLayer;

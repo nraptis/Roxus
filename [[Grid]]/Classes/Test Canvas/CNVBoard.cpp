@@ -13,7 +13,7 @@ CNVBoard::CNVBoard() {
     SetTransformAnchor(1.0f, 1.0f);
 
     mSpriteRotation = gRand.Get(360);
-    mClipsContent = true;
+    mClipEnabled = true;
     
     mSphereRotation1 = gRand.Get(360);
     mSphereRotation2 = gRand.Get(360);

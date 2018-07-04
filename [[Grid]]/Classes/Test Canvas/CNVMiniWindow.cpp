@@ -11,7 +11,7 @@
 
 CNVMiniWindow::CNVMiniWindow() {
     mSpriteRotation = gRand.Get(360);
-    mClipsContent = false;
+    mClipEnabled = false;
     
     //mRecievesOutsideTouches = true;
     

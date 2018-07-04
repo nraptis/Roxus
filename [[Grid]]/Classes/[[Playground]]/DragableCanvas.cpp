@@ -21,7 +21,7 @@ DragableCanvas::DragableCanvas() {
     mConsumesTouches = true;
     mRecievesOutsideTouches = false;
     mRecievesConsumedTouches = false;
-    mClipsContent = false;
+    mClipEnabled = false;
 
     mResizeDragTouchX = 0.0f;
     mResizeDragTouchY = 0.0f;
@@ -43,7 +43,7 @@ DragableCanvas::DragableCanvas() {
     mSizeMinWidth = 200.0f;
     mSizeMinHeight = 120.0f;
 
-    mClipsContent = false;
+    mClipEnabled = false;
 }
 
 DragableCanvas::~DragableCanvas() {

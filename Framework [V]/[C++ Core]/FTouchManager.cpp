@@ -441,40 +441,36 @@ void FTouchManager::BaseMouseDown(float pX, float pY, int pButton) {
 	if (pButton == MOUSE_BUTTON_LEFT) {
 		if(mMouseLeftDown)EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, 0);
 		mMouseLeftDown = true;
+        EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_DOWN, pButton);
 	}
 	if (pButton == MOUSE_BUTTON_MIDDLE) {
-		if(mMouseMiddleDown)EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, 1);
 		mMouseMiddleDown = true;
 	}
 	if (pButton == MOUSE_BUTTON_RIGHT) {
-		if(mMouseRightDown)EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_CANCELED, 2);
 		mMouseRightDown = true;
 	}
-	EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_DOWN, pButton);
     EnqueueMouseAction(pX, pY, MOUSE_DOWN, pButton, 0);
 }
 
 void FTouchManager::BaseMouseMove(float pX, float pY) {
 	if (mMouseLeftDown) {
 		EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, MOUSE_BUTTON_LEFT);
-    } else if (mMouseRightDown) {
-        EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, MOUSE_BUTTON_RIGHT);
-    } else if (mMouseMiddleDown) {
-        EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_MOVING, MOUSE_BUTTON_MIDDLE);
     }
     EnqueueMouseAction(pX, pY, MOUSE_MOVE, 0, 0);
 }
 
-void FTouchManager::BaseMouseWheel(int pDir) {
-    EnqueueMouseAction(0.0f, 0.0f, MOUSE_WHEEL_SCROLL, 0, pDir);
+void FTouchManager::BaseMouseUp(float pX, float pY, int pButton) {
+    if(pButton == MOUSE_BUTTON_LEFT) {
+        mMouseLeftDown = false;
+        EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_RELEASED, pButton);
+    }
+    if (pButton == MOUSE_BUTTON_MIDDLE) { mMouseMiddleDown = false; }
+    if (pButton == MOUSE_BUTTON_RIGHT) { mMouseRightDown = false; }
+    EnqueueMouseAction(pX, pY, MOUSE_UP, pButton, 0);
 }
 
-void FTouchManager::BaseMouseUp(float pX, float pY, int pButton) {
-	if(pButton == 0)mMouseLeftDown = false;
-	if(pButton == 1)mMouseMiddleDown = false;
-	if(pButton == 2)mMouseRightDown = false;
-    EnqueueTouchActionDroid(pX, pY, TOUCH_STATE_RELEASED, pButton);
-    EnqueueMouseAction(pX, pY, MOUSE_UP, pButton, 0);
+void FTouchManager::BaseMouseWheel(int pDir) {
+    EnqueueMouseAction(0.0f, 0.0f, MOUSE_WHEEL_SCROLL, 0, pDir);
 }
 
 void FTouchManager::FlushTouches() {

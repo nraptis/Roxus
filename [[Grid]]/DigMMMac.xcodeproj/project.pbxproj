@@ -116,6 +116,11 @@
 		5006BA3A20E7E2C400E329C1 /* CNVWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA1D20E7E2C400E329C1 /* CNVWorld.cpp */; };
 		5006BA3B20E7E2C400E329C1 /* CNVWorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA1F20E7E2C400E329C1 /* CNVWorldContainer.cpp */; };
 		5006BA3C20E7E2C400E329C1 /* CNVWorldContainerContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5006BA2120E7E2C400E329C1 /* CNVWorldContainerContainer.cpp */; };
+		5052A52020EC5F27007A38F3 /* FGestureCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A51E20EC5F27007A38F3 /* FGestureCanvas.cpp */; };
+		5052A52320EC68E6007A38F3 /* FScrollCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52120EC68E6007A38F3 /* FScrollCanvas.cpp */; };
+		5052A52620EC71D6007A38F3 /* ToolMenuContent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */; };
+		5052A52920EC86B0007A38F3 /* UIImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */; };
+		5052A52C20EC86C2007A38F3 /* UIImagePickerCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */; };
 		50727E4F20D5600800B16079 /* Util_ScreenFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */; };
 		5082482220EA96730081C541 /* FView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481820EA96730081C541 /* FView.cpp */; };
 		5082482320EA96730081C541 /* FViewAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5082481A20EA96730081C541 /* FViewAnimation.cpp */; };
@@ -361,6 +366,16 @@
 		5006BA2020E7E2C400E329C1 /* CNVWorldContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVWorldContainer.hpp; sourceTree = "<group>"; };
 		5006BA2120E7E2C400E329C1 /* CNVWorldContainerContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNVWorldContainerContainer.cpp; sourceTree = "<group>"; };
 		5006BA2220E7E2C400E329C1 /* CNVWorldContainerContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CNVWorldContainerContainer.hpp; sourceTree = "<group>"; };
+		5052A51E20EC5F27007A38F3 /* FGestureCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FGestureCanvas.cpp; sourceTree = "<group>"; };
+		5052A51F20EC5F27007A38F3 /* FGestureCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FGestureCanvas.hpp; sourceTree = "<group>"; };
+		5052A52120EC68E6007A38F3 /* FScrollCanvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollCanvas.cpp; sourceTree = "<group>"; };
+		5052A52220EC68E6007A38F3 /* FScrollCanvas.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FScrollCanvas.hpp; sourceTree = "<group>"; };
+		5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolMenuContent.cpp; sourceTree = "<group>"; };
+		5052A52520EC71D6007A38F3 /* ToolMenuContent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolMenuContent.hpp; sourceTree = "<group>"; };
+		5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIImagePicker.cpp; sourceTree = "<group>"; };
+		5052A52820EC86B0007A38F3 /* UIImagePicker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIImagePicker.hpp; sourceTree = "<group>"; };
+		5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIImagePickerCell.cpp; sourceTree = "<group>"; };
+		5052A52B20EC86C2007A38F3 /* UIImagePickerCell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIImagePickerCell.hpp; sourceTree = "<group>"; };
 		50727E4D20D5600800B16079 /* Util_ScreenFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_ScreenFrame.cpp; sourceTree = "<group>"; };
 		50727E4E20D5600800B16079 /* Util_ScreenFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_ScreenFrame.h; sourceTree = "<group>"; };
 		5082481820EA96730081C541 /* FView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FView.cpp; sourceTree = "<group>"; };
@@ -754,6 +769,12 @@
 				50BB54DE20EBB12D0000F79C /* UIRoundedRect.hpp */,
 				50BB54E020EBDE6E0000F79C /* UIButton.cpp */,
 				50BB54E120EBDE6E0000F79C /* UIButton.hpp */,
+				5052A52420EC71D6007A38F3 /* ToolMenuContent.cpp */,
+				5052A52520EC71D6007A38F3 /* ToolMenuContent.hpp */,
+				5052A52720EC86B0007A38F3 /* UIImagePicker.cpp */,
+				5052A52820EC86B0007A38F3 /* UIImagePicker.hpp */,
+				5052A52A20EC86C2007A38F3 /* UIImagePickerCell.cpp */,
+				5052A52B20EC86C2007A38F3 /* UIImagePickerCell.hpp */,
 			);
 			path = "[[Playground]]";
 			sourceTree = "<group>";
@@ -780,6 +801,10 @@
 				50971B6020D4402800381FBD /* Tile.hpp */,
 				5082483420EAC0730081C541 /* MouseTesterCanvas.cpp */,
 				5082483520EAC0730081C541 /* MouseTesterCanvas.hpp */,
+				5052A51E20EC5F27007A38F3 /* FGestureCanvas.cpp */,
+				5052A51F20EC5F27007A38F3 /* FGestureCanvas.hpp */,
+				5052A52120EC68E6007A38F3 /* FScrollCanvas.cpp */,
+				5052A52220EC68E6007A38F3 /* FScrollCanvas.hpp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -860,12 +885,14 @@
 				0DA0B1EA1C54500C005C75B2 /* FTextureCache.cpp in Sources */,
 				0DA0B1C61C54500C005C75B2 /* FFloatList.cpp in Sources */,
 				0DD70E8720DF039B00295D84 /* UNodeEditorMenu.cpp in Sources */,
+				5052A52C20EC86C2007A38F3 /* UIImagePickerCell.cpp in Sources */,
 				0DA0B1DC1C54500C005C75B2 /* FQuad.cpp in Sources */,
 				0DA0B1EC1C54500C005C75B2 /* FVec2.cpp in Sources */,
 				0DD70E8520DF039B00295D84 /* UTimelineEditorMenu.cpp in Sources */,
 				0DD70E8420DF039B00295D84 /* UParticleEditorMenu.cpp in Sources */,
 				0DD70E8320DF039B00295D84 /* UMainWorkspace.cpp in Sources */,
 				0DA0B1CB1C54500C005C75B2 /* FImageBundler.cpp in Sources */,
+				5052A52620EC71D6007A38F3 /* ToolMenuContent.cpp in Sources */,
 				0DA0B1FD1C54500C005C75B2 /* os_core_outlets_mac.mm in Sources */,
 				0DD70E7C20DF039B00295D84 /* FParticleSource.cpp in Sources */,
 				50971B6320D4402800381FBD /* GLApp.cpp in Sources */,
@@ -893,6 +920,7 @@
 				50971B6220D4402800381FBD /* FWindow.cpp in Sources */,
 				0DA0B1D31C54500C005C75B2 /* FModelData.cpp in Sources */,
 				0DA0B1D71C54500C005C75B2 /* FParticle.cpp in Sources */,
+				5052A52020EC5F27007A38F3 /* FGestureCanvas.cpp in Sources */,
 				0DD70E7720DF039B00295D84 /* UImagePicker.cpp in Sources */,
 				0DA0B1C51C54500C005C75B2 /* FFile.cpp in Sources */,
 				0DD70E8D20DF039B00295D84 /* FParticleTemplate.cpp in Sources */,
@@ -919,6 +947,7 @@
 				0DD70E7B20DF039B00295D84 /* FMotionKey.cpp in Sources */,
 				5006BA3420E7E2C400E329C1 /* CNVBadgeDecor4.cpp in Sources */,
 				50BB54D920EBAEA50000F79C /* ToolMenu.cpp in Sources */,
+				5052A52920EC86B0007A38F3 /* UIImagePicker.cpp in Sources */,
 				0DA0B1E91C54500C005C75B2 /* FTexture.cpp in Sources */,
 				0DD70E7920DF039B00295D84 /* UMenu.cpp in Sources */,
 				0DA0B1CA1C54500C005C75B2 /* FImage.cpp in Sources */,
@@ -930,6 +959,7 @@
 				0DD70E8A20DF039B00295D84 /* UNodeMotionPanel.cpp in Sources */,
 				0DA0B1D11C54500C005C75B2 /* FMath.cpp in Sources */,
 				0DA0B1D91C54500C005C75B2 /* FPointList.cpp in Sources */,
+				5052A52320EC68E6007A38F3 /* FScrollCanvas.cpp in Sources */,
 				0DA0B1ED1C54500C005C75B2 /* FVec3.cpp in Sources */,
 				5082482620EA96730081C541 /* FViewTransform.cpp in Sources */,
 				5082483620EAC0730081C541 /* MouseTesterCanvas.cpp in Sources */,

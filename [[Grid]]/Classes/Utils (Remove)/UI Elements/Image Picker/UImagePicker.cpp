@@ -366,7 +366,7 @@ UImagePicker::UImagePicker(FView *pListener)
     //mRectBack.mCornerRadius = 6;
     
     mDragFrameMode = true;
-    mClipsContent = true;
+    mClipEnabled = true;
     
     //mListener = 0;
     
@@ -404,7 +404,7 @@ UImagePicker::UImagePicker(FView *pListener)
  //mRectBack.mCornerRadius = 6;
  
  mDragFrameMode = true;
- mClipsContent = true;
+ mClipEnabled = true;
  
  mListener = 0;
  

@@ -39,7 +39,7 @@ FViewController::FViewController()
     mRoot.SetFrame(0.0f, 0.0f, mAppFitTargetWidth, mAppFitTargetHeight);
     //mRoot.GetContainer() = new FViewContainer(&mRoot);
     
-    mRoot.mClipsContent = false;
+    mRoot.mClipEnabled = false;
     mRoot.mConsumesTouches = false;
     mRoot.mRecievesConsumedTouches = true;
     mRoot.mRecievesOutsideTouches = true;

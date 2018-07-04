@@ -916,7 +916,6 @@ void Graphics::ClipEnable()
     }
 }
 
-
 void Graphics::ClipDisable()
 {
     //glDisable(GL_SCISSOR_TEST);

@@ -13,7 +13,8 @@
 FWindow::FWindow() {
     mRoot.mWindow = this;
     mRoot.mParent = 0;
-    mRoot.mClipsContent = false;
+    mRoot.mClipEnabled = false;
+    mRoot.mClipDisabled = true;
     mRoot.mConsumesTouches = false;
     mRoot.mDeleteWhenKilled = false;
 }

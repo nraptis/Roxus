@@ -12,7 +12,7 @@
 FScrollView::FScrollView()
 {
     mRecievesConsumedTouches = true;
-    mClipsContent = true;
+    mClipEnabled = true;
     
     mName = "Scroll View";
     

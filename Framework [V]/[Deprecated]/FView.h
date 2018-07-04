@@ -117,7 +117,7 @@ public:
     float                                   mWidth2;
     float                                   mHeight2;
     
-    bool                                    mClipsContent;
+    bool                                    mClipEnabled;
     
     bool                                    mHidden;
     bool                                    mEnabled;

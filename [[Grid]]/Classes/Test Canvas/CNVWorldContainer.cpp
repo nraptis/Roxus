@@ -15,7 +15,7 @@ CNVWorldContainer::CNVWorldContainer() {
     
     mSpriteRotation = gRand.Get(360);
     
-    mClipsContent = true;
+    mClipEnabled = true;
     
     mWobbleRot = gRand.GetFloat(360.0f);
     

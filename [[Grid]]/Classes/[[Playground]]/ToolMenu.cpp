@@ -20,9 +20,7 @@
 
 ToolMenu::ToolMenu() {
     mName = "ToolMenu";
-    mClipsContent = false;
-
-    AddChild(mHeader);
+    mClipEnabled = false;
 
     mMenuBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mMenuBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
@@ -35,6 +33,10 @@ ToolMenu::ToolMenu() {
     mMenuBackgroundShadow.SetColorTop(0.021f, 0.021f, 0.021f, 0.25f);
     mMenuBackgroundShadow.SetColorBottom(0.025f, 0.025f, 0.025f, 0.25f);
     mMenuBackgroundShadow.mCornerRadius = 8.0f;
+
+
+    AddChild(mContent);
+    AddChild(mHeader);
 }
 
 ToolMenu::~ToolMenu() {
@@ -42,7 +44,15 @@ ToolMenu::~ToolMenu() {
 }
 
 void ToolMenu::Layout() {
-    mHeader.SetFrame(1.0f, 1.0f, mWidth - 2.0f, 40.0f);
+
+    float aHeaderHeight = 56.0f;
+
+
+    mContent.SetFrame(2.0f, aHeaderHeight + 2.0f, mWidth - 4.0f, mHeight - (aHeaderHeight + 4.0f));
+    //mContentScroller.SetContentSize(mContent.mWidth, mContent.mHeight);
+
+
+    mHeader.SetFrame(1.0f, 1.0f, mWidth - 2.0f, aHeaderHeight);
 
     mMenuBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mMenuBackgroundOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);

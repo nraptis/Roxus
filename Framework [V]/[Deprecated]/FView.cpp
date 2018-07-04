@@ -7,7 +7,7 @@
 
 FView::FView()
 {
-    mClipsContent = false;
+    mClipEnabled = false;
     mConsumesTouches = true;
     mRecievesOutsideTouches = false;
     mRecievesConsumedTouches = false;

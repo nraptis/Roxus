@@ -11,6 +11,9 @@
 #include "PGMainCanvas.hpp"
 #include "ToolMenu.hpp"
 
+#include "UIImagePicker.hpp"
+
+
 ToolMenuHeader::ToolMenuHeader() {
     mMenu = 0;
 
@@ -98,8 +101,15 @@ void ToolMenuHeader::Notify(void *pSender, const char *pNotification) {
 
     if (FString(pNotification) == "click") {
     if (pSender == mButtonMinimize) {
+
+        UIImagePicker *aImagePicker = new UIImagePicker();
+        gTool->AddChild(aImagePicker);
+        aImagePicker->FillWithAny();
+
+
         printf("Minimize Button...\n");
 
+        /*
         for(int i=0;i<200;i++) {
         ToolMenu *aToolMenu = new ToolMenu();
         aToolMenu->SetFrame(gRand.Get(200), gRand.Get(200), 100 + gRand.Get(200), 100 + gRand.Get(200));
@@ -109,11 +119,11 @@ void ToolMenuHeader::Notify(void *pSender, const char *pNotification) {
         gTool->AddChild(aToolMenu);
         
         gNotify.Register(this, aToolMenu, "what");
+         */
 
         }
     }
 
-    }
 }
 
 
