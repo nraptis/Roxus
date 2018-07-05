@@ -1,5 +1,5 @@
 /*
- *  FSlider.h
+ *  FSlider.hpp
  *  Fly Swatter
  *
  *  Created by Nick Raptis on 12/31/09.
@@ -11,17 +11,15 @@
 #define FRAMEWORK_SLIDER_H
 
 #include "FSprite.h"
-#include "FView.h"
+#include "FCanvas.hpp"
 
-class FSlider : public FView
-{
+class FSlider : public FCanvas {
 public:
 	FSlider();
-	~FSlider();
-    
+	virtual ~FSlider();
+
     virtual void                            Draw();
-    
-	
+
     virtual void                            TouchDown(float pX, float pY, void *pData);
 	virtual void                            TouchMove(float pX, float pY, void *pData);
     virtual void                            TouchUp(float pX, float pY, void *pData);
@@ -34,26 +32,16 @@ public:
     void                                    ForceValue(float pValue);
 	float                                   GetValue();
 	void                                    SetValue(float pValue);
+
+    float                                   GetRotationValue();
+    void                                    SetRotationValue(float pDegrees);
     
     void                                    SetThumb(float pX, float pY, float pWidth, float pHeight);
-    
-    void                                    AttemptGrowMin(float pPercent);
-    void                                    AttemptShrinkMin(float pPercent);
-    void                                    AttemptGrowMax(float pPercent);
-    void                                    AttemptShrinkMax(float pPercent);
-    
-    void                                    AttemptGrowRange(float pPercent);
-    void                                    AttemptShrinkRange(float pPercent);
-    
-    
-    
+
     float                                   mThumbX;
     float                                   mThumbY;
     float                                   mThumbWidth;
     float                                   mThumbHeight;
-    
-    float                                   GetRotationValue();
-    void                                    SetRotationValue(float pDegrees);
     
     void                                    *mClickData;
     float                                   mClickStartThumbX;
@@ -70,7 +58,6 @@ public:
     
     float                                   mValue;
     float                                   mPercent;
-    
 };
 
 #endif

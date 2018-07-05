@@ -16,28 +16,22 @@ ToolMenuPanelHeader::ToolMenuPanelHeader() {
     mName = "ToolMenuPanelHeader";
     mConsumesTouches = false;
     mLabelTitle.mAlignment = 0;
-    mLabelTitle.mBold = true;
+    mLabelTitle.mBold = false;
     mLabelTitle.mShrink = true;
-    mLabelTitle.mScale = 1.0f;
+    mLabelTitle.mScale = 0.75f;
     mLabelTitle.SetTransparentBackground();
     AddChild(mLabelTitle);
-    mMenuBackground.SetColorTop(0.325f, 0.325f, 0.665f);
-    mMenuBackground.SetColorBottom(0.365f, 0.365f, 0.665f);
+    mMenuBackground.ResetColor(0.35f, 0.36f, 0.28f);
     mMenuBackground.mCornerRadius = 4.0f;
     mMenuBackground.mRoundBottom = false;
 
-    mButtonClose.SetTransparentBackground();
-    mButtonClose.mName = "Close Button";
-    mButtonClose.mDrawCloseX = true;
-    AddChild(mButtonClose);
 
     mButtonMinimize.SetTransparentBackground();
     mButtonMinimize.mName = "Minimize Button";
     mButtonMinimize.mDrawMinimize = true;
     AddChild(mButtonMinimize);
 
-    gNotify.Register(this, &mButtonClose, "click");
-    gNotify.Register(this, &mButtonMinimize, "click");
+    gNotify.Register(this, &mButtonMinimize, "button_click");
 }
 
 ToolMenuPanelHeader::~ToolMenuPanelHeader() {
@@ -47,9 +41,8 @@ ToolMenuPanelHeader::~ToolMenuPanelHeader() {
 void ToolMenuPanelHeader::Layout() {
     float aButtonPadding = 4.0f;
     float aButtonSize = mHeight - aButtonPadding * 2.0f;
-    mButtonClose.SetFrame(aButtonPadding, aButtonPadding, aButtonSize, aButtonSize);
     mButtonMinimize.SetFrame(mWidth - (aButtonPadding + aButtonSize), aButtonPadding, aButtonSize, aButtonSize);
-    float aLabelLeft = mButtonClose.GetRight() + 2.0f;
+    float aLabelLeft = 4.0f;
     float aLabelRight = mButtonMinimize.GetLeft() - 2.0f;
     mLabelTitle.SetFrame(aLabelLeft, 2.0f, aLabelRight - aLabelLeft, mHeight - 4.0f);
     mMenuBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
@@ -66,11 +59,7 @@ void ToolMenuPanelHeader::Draw() {
 }
 
 void ToolMenuPanelHeader::Notify(void *pSender, const char *pNotification) {
-    printf("Header Notify: [%s][%s]\n", ((FCanvas *)pSender)->mName.c(), pNotification);
-    if (FString(pNotification) == "click") {
-        if (pSender == &mButtonClose) {
-
-        }
+    if (FString(pNotification) == "button_click") {
         if (pSender == &mButtonMinimize) {
             if (mPanel) {
                 if (mPanel->mExpanded) {
@@ -82,6 +71,24 @@ void ToolMenuPanelHeader::Notify(void *pSender, const char *pNotification) {
         }
     }
 }
+
+void ToolMenuPanelHeader::SetSectionDepth(int pSectionDepth) {
+    if (pSectionDepth == 0) {
+        mMenuBackground.ResetColor(0.191f, 0.19f, 0.23f);
+    }
+    if (pSectionDepth == 1) {
+        mMenuBackground.ResetColor(0.14f, 0.13f, 0.14f);
+
+    }
+    if (pSectionDepth == 2) {
+        mMenuBackground.ResetColor(0.24f, 0.24f, 0.25f);
+    }
+    if (pSectionDepth == 3) {
+        mMenuBackground.ResetColor(0.16f, 0.15f, 0.16f);
+    }
+    Layout();
+}
+
 
 void ToolMenuPanelHeader::SetExpandedLayout() {
     mButtonMinimize.mDrawMaximize = false;

@@ -24,6 +24,11 @@ public:
     ToolMenuPanel                           *mPanel2;
     ToolMenuPanel                           *mPanel3;
 
+    ToolMenuPanel                           *mSubPanel1;
+    ToolMenuPanel                           *mSubPanel2;
+    ToolMenuPanel                           *mSubPanel3;
+    
+
     ToolMenuSection                         *mSection1;
     ToolMenuSection                         *mSection2;
     ToolMenuSection                         *mSection3;

@@ -38,7 +38,7 @@ public:
     ToolMenuPanelHeader                     mHeader;
     ToolMenuContent                         mContent;
 
-    FList                                   mSectionList;
+    
 };
 
 #endif

@@ -1,21 +1,21 @@
 //
-//  UILabel.hpp
+//  ToolMenuSection.hpp
 //  DigMMMac
 //
 //  Created by Raptis, Nicholas on 7/4/18.
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef UILabel_hpp
-#define UILabel_hpp
+#ifndef ToolMenuSection_hpp
+#define ToolMenuSection_hpp
 
-#include "FCanvas.hpp"
 #include "UIRoundedRect.hpp"
+#include "UIButton.hpp"
 
-class UILabel : public FCanvas {
+class ToolMenuSection : public FCanvas {
 public:
-    UILabel();
-    virtual ~UILabel();
+    ToolMenuSection();
+    virtual ~ToolMenuSection();
 
     virtual void                            Update();
     virtual void                            Draw();
@@ -23,17 +23,14 @@ public:
 
     void                                    SetTransparentBackground();
 
+    virtual void                            Notify(void *pSender, const char *pNotification);
+
+    int                                     mSectionDepth;
+
     UIRoundedRect                           mSectionBackgroundOutline;
     UIRoundedRect                           mSectionBackground;
 
-    FColor                                  mColor;
-    FString                                 mText;
-    int                                     mAlignment;
-    bool                                    mBold;
-    bool                                    mShrink;
-    float                                   mPadding;
-    float                                   mScale;
+    FList                                   mSectionList;
 };
 
 #endif
-

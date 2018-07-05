@@ -47,6 +47,7 @@ void ToolMenu::Layout() {
     float aContentWidth = mWidth - 4.0f;
     float aContentHeight = 0.0f;
     EnumList(ToolMenuSection, aSection, mSectionList) {
+        SetSectionDepths(aSection, 0);
         aSection->SetFrame(2.0f, aContentHeight, aContentWidth - 4.0f, aSection->mHeight);
         aContentHeight += aSection->mHeight;
     }
@@ -123,8 +124,21 @@ void ToolMenu::AddSection(ToolMenuSection *pSection) {
     } else {
         mContent.AddChild(pSection);
     }
+    SetSectionDepths(pSection, 0);
 }
 
+void ToolMenu::SetSectionDepths(ToolMenuSection *pSection, int pDepth) {
+    if (pSection) {
+        if (pSection->mSectionDepth != pDepth) {
+            pSection->mSectionDepth = pDepth;
+            pSection->FrameDidUpdate();
+        }
+
+        EnumList(ToolMenuSection, aSubsection, pSection->mSectionList) {
+            SetSectionDepths(aSubsection, pDepth + 1);
+        }
+    }
+}
 
 void ToolMenu::Expand() {
     mExpanded = true;

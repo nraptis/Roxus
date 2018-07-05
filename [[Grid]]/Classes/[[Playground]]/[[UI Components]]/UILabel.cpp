@@ -53,8 +53,11 @@ void UILabel::Layout() {
     mSectionBackgroundOutline.mRefresh = true;
 }
 
-void UILabel::Update() {
-
+void UILabel::SizeToFitText() {
+    FFont *aFont = &(gApp->mSysFont);
+    if (mBold) aFont = &(gApp->mSysFontBold);
+    float aTextWidth = aFont->Width(mText.c(), mScale);
+    SetWidth(aTextWidth + mPadding * 2.0f);
 }
 
 void UILabel::Draw() {

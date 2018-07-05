@@ -22,13 +22,16 @@ ToolMenuPanel::~ToolMenuPanel() {
 }
 
 void ToolMenuPanel::Layout() {
+
+    mHeader.SetSectionDepth(mSectionDepth);
+
     ToolMenuSection::Layout();
     float aHeaderHeight = 44.0f;
     float aContentWidth = mWidth - 4.0f;
-    float aContentHeight = 0.0f;
+    float aContentHeight = 6.0f;
     EnumList(ToolMenuSection, aSection, mSectionList) {
-        aSection->SetFrame(0.0f, aContentHeight, aContentWidth, aSection->mHeight);
-        aContentHeight += aSection->mHeight;
+        aSection->SetFrame(3.0f, aContentHeight, aContentWidth - 6.0f, aSection->mHeight);
+        aContentHeight += aSection->mHeight + 6.0f;
     }
     if (aContentHeight < 44.0f) { aContentHeight = 44.0f; }
     mContent.SetFrame(2.0f, aHeaderHeight + 2.0f, aContentWidth, aContentHeight);

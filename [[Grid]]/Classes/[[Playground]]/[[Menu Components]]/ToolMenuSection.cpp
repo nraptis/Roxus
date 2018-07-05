@@ -12,6 +12,11 @@
 ToolMenuSection::ToolMenuSection() {
     mName = "ToolMenuSection";
 
+    mSectionDepth = 0;
+
+    mSectionBackgroundOutline.mCornerRadius = 5.0f;
+    mSectionBackground.mCornerRadius = 5.0f;
+
     mSectionBackground.SetColorTop(0.325f, 0.125f, 0.125f);
     mSectionBackground.SetColorBottom(0.365f, 0.135f, 0.085f);
     mSectionBackground.mCornerRadius = 5.0f;
@@ -28,6 +33,23 @@ ToolMenuSection::~ToolMenuSection() {
 }
 
 void ToolMenuSection::Layout() {
+    if (mSectionDepth == 0) {
+        mSectionBackground.ResetColor(0.28f, 0.28f, 0.28f);
+        mSectionBackgroundOutline.ResetColor(0.36f, 0.36f, 0.36f);
+    }
+    if (mSectionDepth == 1) {
+        mSectionBackground.ResetColor(0.34f, 0.35f, 0.36f);
+        mSectionBackgroundOutline.ResetColor(0.386f, 0.40f, 0.40f);
+    }
+    if (mSectionDepth == 2) {
+        mSectionBackground.ResetColor(0.15f, 0.14f, 0.15f);
+        mSectionBackgroundOutline.ResetColor(0.24f, 0.26f, 0.24f);
+    }
+    if (mSectionDepth == 3) {
+        mSectionBackground.ResetColor(0.24f, 0.24f, 0.24f);
+        mSectionBackgroundOutline.ResetColor(0.28f, 0.28f, 0.28f);
+    }
+
     mSectionBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mSectionBackground.mRefresh = true;
     mSectionBackgroundOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);

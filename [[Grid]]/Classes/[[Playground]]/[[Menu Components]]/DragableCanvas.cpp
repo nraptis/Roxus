@@ -32,8 +32,8 @@ DragableCanvas::DragableCanvas() {
     mPanDragTouchY = 0.0f;
     mPanDragData = 0;
 
-    mSizeMinWidth = 200.0f;
-    mSizeMinHeight = 58.0f;
+    mSizeMinWidth = 280.0f;
+    mSizeMinHeight = 80.0f;
 
     mResizeDragAllowed = true;
     mClipEnabled = false;

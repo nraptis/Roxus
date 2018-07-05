@@ -10,9 +10,7 @@
 #include "ToolMenu.hpp"
 #include "PGMainCanvas.hpp"
 #include "ToolMenu.hpp"
-
 #include "UIImagePicker.hpp"
-
 
 ToolMenuHeader::ToolMenuHeader() {
     mMenu = 0;
@@ -28,8 +26,8 @@ ToolMenuHeader::ToolMenuHeader() {
     mLabelTitle.SetTransparentBackground();
     AddChild(mLabelTitle);
 
-    mMenuBackground.SetColorTop(0.325f, 0.325f, 0.325f);
-    mMenuBackground.SetColorBottom(0.365f, 0.365f, 0.345f);
+    mMenuBackground.SetColorTop(0.125f, 0.125f, 0.125f);
+    mMenuBackground.SetColorBottom(0.165f, 0.165f, 0.145f);
     mMenuBackground.mCornerRadius = 6.0f;
     mMenuBackground.mRoundBottom = false;
 
@@ -43,8 +41,8 @@ ToolMenuHeader::ToolMenuHeader() {
     mButtonMinimize.mDrawMinimize = true;
     AddChild(mButtonMinimize);
     
-    gNotify.Register(this, &mButtonClose, "click");
-    gNotify.Register(this, &mButtonMinimize, "click");
+    gNotify.Register(this, &mButtonClose, "button_click");
+    gNotify.Register(this, &mButtonMinimize, "button_click");
 }
 
 ToolMenuHeader::~ToolMenuHeader() {
@@ -77,7 +75,7 @@ void ToolMenuHeader::Draw() {
 
 void ToolMenuHeader::Notify(void *pSender, const char *pNotification) {
     printf("Header Notify: [%s][%s]\n", ((FCanvas *)pSender)->mName.c(), pNotification);
-    if (FString(pNotification) == "click") {
+    if (FString(pNotification) == "button_click") {
         if (pSender == &mButtonClose) {
             if (mMenu) { mMenu->Kill(); }
         }

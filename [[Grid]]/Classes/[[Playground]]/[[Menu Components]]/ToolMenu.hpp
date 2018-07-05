@@ -43,6 +43,8 @@ public:
     //Step 3
     void                                    AddSection(ToolMenuSection *pSection);
 
+    void                                    SetSectionDepths(ToolMenuSection *pSection, int pDepth);
+
 
     void                                    Expand();
     void                                    Collapse();

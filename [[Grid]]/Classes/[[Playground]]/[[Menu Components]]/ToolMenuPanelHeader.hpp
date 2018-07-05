@@ -28,11 +28,13 @@ public:
 
     void                                    SetExpandedLayout();
     void                                    SetCollapsedLayout();
+
+    void                                    SetSectionDepth(int pSectionDepth);
+
     
     ToolMenuPanel                           *mPanel;
 
     UILabel                                 mLabelTitle;
-    UIButton                                mButtonClose;
     UIButton                                mButtonMinimize;
 
     UIRoundedRect                           mMenuBackground;

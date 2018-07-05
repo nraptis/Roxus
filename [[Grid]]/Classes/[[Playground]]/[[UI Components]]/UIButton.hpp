@@ -39,9 +39,8 @@ public:
     bool                                    mDrawMinimize;
     bool                                    mDrawMaximize;
 
+    void                                    SetText(const char *pText) { mText = pText; }
     FString                                 mText;
-
-
 };
 
 #endif /* UIButton_hpp */
