@@ -1026,7 +1026,8 @@ USlider::USlider()
     mBaseSlider->SetFrame(0.0f, 0.0f, mWidth, mHeight);
     mBaseSlider->SetThumb(0.0f, 0.0f, 40.0f, mHeight);
     mBaseSlider->mDrawManual = true;
-    AddSubview(mBaseSlider);
+    //AddSubview(mBaseSlider);
+
     
     
     FRect aRectBar = FRect(6.0f, mHeight / 2.0f - mBarHeight / 2.0f, mWidth - 12, mBarHeight);

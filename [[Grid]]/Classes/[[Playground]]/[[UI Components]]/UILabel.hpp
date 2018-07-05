@@ -22,6 +22,9 @@ public:
     
     void                                    SizeToFitText();
 
+    void                                    SetText(const char *pText);
+    void                                    SetText(FString pText) { SetText((const char *)pText.c()); }
+    
     void                                    SetTransparentBackground();
 
     UIRoundedRect                           mSectionBackgroundOutline;

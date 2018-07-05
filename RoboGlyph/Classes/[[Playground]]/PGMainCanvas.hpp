@@ -12,9 +12,9 @@
 #include "FCanvas.hpp"
 #include "DragableCanvas.hpp"
 #include "FDrawQuad.h"
-
 #include "ToolMenu.hpp"
-
+#include "PolygonMenu.hpp"
+#include "PGMainToolbar.hpp"
 
 class PGMainCanvas : public FCanvas {
 public:
@@ -48,6 +48,10 @@ public:
     ToolMenu                                *mToolMenu1;
     ToolMenu                                *mToolMenu2;
     ToolMenu                                *mToolMenu3;
+
+    PolygonMenu                             *mPolyMenu;
+
+    PGMainToolbar                           *mMainToolbar;
 
     int                                     mMenuIndex;
 };

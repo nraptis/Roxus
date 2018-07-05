@@ -21,25 +21,19 @@
 
 UILabel::UILabel() {
     mConsumesTouches = false;
-
     mName = "Label";
-
     mText = "Text";
     mAlignment = 0;
     mBold = false;
     mShrink = true;
     mPadding = 3.0f;
     mScale = 1.0f;
-
     mSectionBackground.SetColorTop(0.125f, 0.125f, 0.145f);
     mSectionBackground.SetColorBottom(0.095f, 0.135f, 0.115f);
     mSectionBackground.mCornerRadius = 4.0f;
-
     mSectionBackgroundOutline.SetColorTop(0.4125, 0.4225, 0.3925, 1.0f);
     mSectionBackgroundOutline.SetColorBottom(0.44f, 0.475f, 0.46f, 1.0f);
     mSectionBackgroundOutline.mCornerRadius = 5.0f;
-    
-    //SetTransparentBackground();
 }
 
 UILabel::~UILabel() {
@@ -53,13 +47,6 @@ void UILabel::Layout() {
     mSectionBackgroundOutline.mRefresh = true;
 }
 
-void UILabel::SizeToFitText() {
-    FFont *aFont = &(gApp->mSysFont);
-    if (mBold) aFont = &(gApp->mSysFontBold);
-    float aTextWidth = aFont->Width(mText.c(), mScale);
-    SetWidth(aTextWidth + mPadding * 2.0f);
-}
-
 void UILabel::Draw() {
     mSectionBackgroundOutline.Draw();
     mSectionBackground.Draw();
@@ -70,7 +57,7 @@ void UILabel::Draw() {
     Graphics::BlendSetPremultiplied();
     Graphics::BlendEnable();
     Graphics::SetColor(mColor);
-    
+
     float aScale = mScale;
     if (mShrink) {
         aScale = aFont->ScaleForWidth(mText, mWidth - mPadding * 2.0f);
@@ -82,9 +69,22 @@ void UILabel::Draw() {
     } else if (mAlignment == 0) {
         aFont->Center(mText, mWidth2, mHeight2, aScale);
     } else {
-        aFont->RightCenter(mText, mWidth2, mHeight2, aScale);
+        aFont->RightCenter(mText, mWidth - mPadding, mHeight2, aScale);
     }
     Graphics::BlendSetAlpha();
+    Graphics::SetColor();
+}
+
+void UILabel::SetText(const char *pText) {
+    mText = pText;
+}
+
+void UILabel::SizeToFitText() {
+    FFont *aFont = &(gApp->mSysFont);
+    if (mBold) aFont = &(gApp->mSysFontBold);
+    float aTextWidth = aFont->Width(mText.c(), mScale);
+    if (aTextWidth < 20) { aTextWidth = 20.0f; }
+    SetWidth(aTextWidth + mPadding * 2.0f);
 }
 
 void UILabel::SetTransparentBackground() {

@@ -10,6 +10,8 @@
 #define PolygonMenu_hpp
 
 #include "ToolMenu.hpp"
+#include "UISlider.hpp"
+#include "UISegment.hpp"
 
 
 class PolygonMenu : public ToolMenu {
@@ -34,6 +36,15 @@ public:
     ToolMenuSection                         *mSection3;
 
 
+    UISlider                                *mSlider1;
+    UISlider                                *mSlider2;
+
+    UISegment                               *mSegment1;
+    UISegment                               *mSegment2;
+
+    UICheckBox                              *mCB1;
+    UICheckBox                              *mCB2;
+    
 
 };
 

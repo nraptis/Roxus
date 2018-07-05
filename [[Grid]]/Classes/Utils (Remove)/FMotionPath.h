@@ -61,9 +61,7 @@ class FMotionPathTemplate : public FObject
 public:
     FMotionPathTemplate();
     virtual ~FMotionPathTemplate();
-    
-    
-    
+
     virtual void                    Update();
     virtual void                    Draw();
     
@@ -86,7 +84,6 @@ public:
     
 	FXMLTag							*SaveXML(const char *pName);
 	void							LoadXML(FXMLTag *pTag);
-
     
 	FIndexList						mTriangleData;
 	FPointList						mTriangleDataXY;

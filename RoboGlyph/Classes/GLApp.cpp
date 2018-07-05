@@ -10,7 +10,6 @@
 #include "core_app_shell.h"
 #include "GLApp.h"
 #include "Util_ScreenFrame.h"
-#include "UMainCanvas.h"
 #include "FCanvas.hpp"
 #include "CNVWorldContainerContainer.hpp"
 #include "PGMainCanvas.hpp"

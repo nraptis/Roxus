@@ -12,9 +12,11 @@
 #include "DragableCanvas.hpp"
 #include "UIRoundedRect.hpp"
 #include "ToolMenuHeader.hpp"
+#include "UISlider.hpp"
 #include "UIButton.hpp"
+#include "UISegment.hpp"
+#include "UICheckBox.hpp"
 #include "FScrollCanvas.hpp"
-#include "ToolMenuContent.hpp"
 #include "ToolMenuSection.hpp"
 #include "ToolMenuPanel.hpp"
 
@@ -55,7 +57,7 @@ public:
     ToolMenuHeader                          mHeader;
 
     //Use either flat content or scroll content...
-    ToolMenuContent                         mContent;
+    FCanvas                                 mContent;
     FScrollCanvas                           mScrollContent;
 
 

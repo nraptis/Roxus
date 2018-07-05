@@ -18,6 +18,10 @@ UIButton::UIButton() {
     mDrawCloseX = false;
     mDrawMinimize = false;
     mDrawMaximize = false;
+
+    mFontScale = 0.75f;
+    mFontBold = true;
+
     
     mButtonBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mButtonBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
@@ -87,38 +91,34 @@ void UIButton::Draw() {
 
     if (mDrawMaximize) {
 
-        float aGraphicInset = mWidth * 0.26f;
-
-        Graphics::OutlineRect(aGraphicInset, aGraphicInset, mWidth - (aGraphicInset * 2.0f), mHeight - (aGraphicInset * 2.0f), aLineThickness);
+        if (mHeight < mWidth) {
+            float aGraphicInset = mHeight * 0.26f;
+            float aRectHeight = mHeight - (aGraphicInset * 2.0f);
+            float aShift = aRectHeight / 2.0f;
+            Graphics::OutlineRect(mWidth2 - aShift, mHeight2 - aShift, aRectHeight, aRectHeight, aLineThickness);
+        } else {
+            float aGraphicInset = mWidth * 0.26f;
+            float aRectWidth = mWidth - (aGraphicInset * 2.0f);
+            float aShift = aRectWidth / 2.0f;
+            Graphics::OutlineRect(mWidth2 - aShift, mHeight2 - aShift, aRectWidth, aRectWidth, aLineThickness);
+        }
     }
 
     if (mText.mLength > 0) {
         Graphics::BlendSetPremultiplied();
         Graphics::BlendEnable();
         if (mTouchDown) { Graphics::SetColor(0.88f, 0.88f, 0.88f); }
-        else { Graphics::SetColor(1.0f, 1.0f, 1.0f); }
+        else { Graphics::SetColor(); }
+
+        FFont *aFont = &(gApp->mSysFont);
+        if (mFontBold) aFont = &(gApp->mSysFontBold);
+
         float aScale = gApp->mSysFont.ScaleForWidth(mText, mWidth, 6.0f);
-        if (aScale > 1.0f) { aScale = 1.0f; }
+        if (aScale > mFontScale) { aScale = mFontScale; }
         gApp->mSysFont.Center(mText, mWidth2, mHeight2, aScale);
         Graphics::BlendSetAlpha();
+        Graphics::SetColor();
     }
-}
-
-
-void UIButton::TouchDown(float pX, float pY, void *pData) {
-    FButton::TouchDown(pX, pY, pData);
-}
-
-void UIButton::TouchMove(float pX, float pY, void *pData) {
-    FButton::TouchMove(pX, pY, pData);
-}
-
-void UIButton::TouchUp(float pX, float pY, void *pData) {
-    FButton::TouchUp(pX, pY, pData);
-}
-
-void UIButton::TouchFlush() {
-    FButton::TouchFlush();
 }
 
 void UIButton::SetTransparentBackground() {

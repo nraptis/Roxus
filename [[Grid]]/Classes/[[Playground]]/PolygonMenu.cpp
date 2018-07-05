@@ -7,27 +7,7 @@
 //
 
 #include "PolygonMenu.hpp"
-
-
-//
-//  PolygonMenu.cpp
-//  DigMMMac
-//
-//  Created by Raptis, Nicholas on 7/3/18.
-//  Copyright © 2018 Darkswarm LLC. All rights reserved.
-//
-
-#include "PolygonMenu.hpp"
-//
-//  PolygonMenu.cpp
-//  DigMMMac
-//
-//  Created by Raptis, Nicholas on 6/15/18.
-//  Copyright © 2018 Nick Raptis. All rights reserved.
-//
-
-#include "PolygonMenu.hpp"
-#include "GLApp.h"
+#include "FApp.h"
 
 PolygonMenu::PolygonMenu() {
     mName = "PolygonMenu";
@@ -36,12 +16,44 @@ PolygonMenu::PolygonMenu() {
     SetScrollMode(true);
 
     mPanel1 = new ToolMenuPanel();
-    mPanel1->SetTitle("Some titles");
+    mPanel1->SetTitle("Point Editor");
     mPanel1->SetFrame(10, 20, 300, 70.0f);
     AddSection(mPanel1);
 
+    UISlider *aSlider = new UISlider();
+    mPanel1->AddSection(aSlider);
+
+    UISegment *aSegment = new UISegment(2);
+    aSegment->SetTitles("Item 1", "2", "3..");
+    mPanel1->AddSection(aSegment);
+
+    aSegment = new UISegment(5);
+    aSegment->SetTitles("0001", "0002", "00003" , "000004" , "0000005");
+    mPanel1->AddSection(aSegment);
+
+
+
+    ToolMenuSectionRow *aRow = new ToolMenuSectionRow();
+
+    
+    mCB1 = new UICheckBox();
+    mCB1->SetText("Check Box 1");
+    mCB1->SetHeight(aRow->GetHeight());
+
+    aRow->AddChild(mCB1);
+
+
+    mPanel1->AddSection(aRow);
+
+
+
+    //UICheckBox                              *mCB2;
+
+
+
+
     mPanel2 = new ToolMenuPanel();
-    mPanel2->SetTitle("UnIt teZtIn@@");
+    mPanel2->SetTitle("Tangent Editor");
     mPanel2->SetFrame(-20, -100, 120, 110.0f);
     AddSection(mPanel2);
 

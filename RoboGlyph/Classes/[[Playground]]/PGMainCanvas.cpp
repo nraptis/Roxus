@@ -20,12 +20,45 @@ PGMainCanvas::PGMainCanvas() {
     mBackQuad.Corner3SetColor(0.97f, 0.96f, 0.96f);
     mBackQuad.Corner4SetColor(0.95f, 0.97f, 0.94f);
 
+    mMainToolbar = new PGMainToolbar();
+    AddChild(mMainToolbar);
+
     mToolMenu1 = new ToolMenu();
     mToolMenu1->SetFrame(20.0f, 20.0f, 300.0f, 220.0f);
     mToolMenu1->mName = "TM-1";
     AddChild(mToolMenu1);
-    
+
+
+    mToolMenu2 = new ToolMenu();
+    mToolMenu2->SetFrame(20.0f, 300.0f, 300.0f, 220.0f);
+    mToolMenu2->mName = "TM-1";
+    mToolMenu2->Collapse();
+    AddChild(mToolMenu2);
+
+    mToolMenu3 = new ToolMenu();
+    mToolMenu3->SetFrame(20.0f, 300.0f, 300.0f, 220.0f);
+    mToolMenu3->mName = "TM-1";
+    mToolMenu3->Collapse();
+    AddChild(mToolMenu3);
+
+
+
+
+    PolygonMenu *aPolyMenu = new PolygonMenu();
+    aPolyMenu->SetFrame(500.0f, 270.0f, 340.0f, 290.0f);
+    aPolyMenu->Collapse();
+    AddChild(aPolyMenu);
+
+
+
+    mPolyMenu = new PolygonMenu();
+    mPolyMenu->SetFrame(200.0f, 180.0f, 340.0f, 290.0f);
+    AddChild(mPolyMenu);
+
     mMenuIndex = 10;
+
+
+    BringChildToFront(mMainToolbar);
 
 }
 
@@ -34,7 +67,7 @@ PGMainCanvas::~PGMainCanvas() {
 }
 
 void PGMainCanvas::Layout() {
-    SetFrame(6.0f, 6.0f, gDeviceWidth - 12.0f, gDeviceHeight - 12.0f);
+    SetFrame(1.0f, 1.0f, gDeviceWidth - 2.0f, gDeviceHeight - 2.0f);
     mBackQuad.SetRect(0.0f, 0.0f, mWidth, mHeight);
 }
 
@@ -56,6 +89,7 @@ void PGMainCanvas::TouchDown(float pX, float pY, void *pData) {
             }
         }
     }
+    BringChildToFront(mMainToolbar);
 }
 
 void PGMainCanvas::TouchMove(float pX, float pY, void *pData) {

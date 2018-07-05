@@ -14,7 +14,6 @@
 #include "UIRoundedRect.hpp"
 #include "UILabel.hpp"
 
-
 class UISlider : public ToolMenuSectionRow {
 public:
     UISlider();
@@ -31,8 +30,7 @@ public:
     void                                        SetValue(float *pTargetValue);
     float                                       *mTargetValue;
     float                                       mValue;
-
-
+    
     UILabel                                     mLabelTitle;
     UILabel                                     mLabelValue;
 
@@ -44,12 +42,7 @@ public:
     float                                       mBarHeightInner;
 
     UIRoundedRect                               mRectBar;
-    UIRoundedRect                               mRectBarShine;
-
     UIRoundedRect                               mRectThumb;
-    UIRoundedRect                               mRectThumbShine;
-
-
 
     float                                       mPreviousDrawMin;
     float                                       mPreviousDrawMax;

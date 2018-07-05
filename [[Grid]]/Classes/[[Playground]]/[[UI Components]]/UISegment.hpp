@@ -12,10 +12,10 @@
 #include "ToolMenuSectionRow.hpp"
 #include "UISegmentButton.hpp"
 
-class USegment : public ToolMenuSectionRow {
+class UISegment : public ToolMenuSectionRow {
 public:
-    USegment(int pSegmentCount);
-    virtual ~USegment();
+    UISegment(int pSegmentCount);
+    virtual ~UISegment();
 
 
     virtual void                                Layout();
@@ -24,11 +24,10 @@ public:
 
     void                                        SetSegmentCount(int pSegmentCount);
 
-
     void                                        SetTitle(int pSegment, const char *pTitle);
     void                                        SetTitles(const char *pTitle1, const char *pTitle2=0, const char *pTitle3=0, const char *pTitle4=0, const char *pTitle5=0, const char *pTitle6=0);
 
-    virtual void                                SetTarget(int *pTarget);
+    void                                        SetTarget(int *pTarget);
     int                                         *mTarget;
 
     UISegmentButton                             **mButton;

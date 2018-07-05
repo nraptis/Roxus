@@ -21,12 +21,7 @@ public:
     virtual void                            Draw();
 
     virtual void                            Layout();
-
-    virtual void                            TouchDown(float pX, float pY, void *pData);
-    virtual void                            TouchMove(float pX, float pY, void *pData);
-    virtual void                            TouchUp(float pX, float pY, void *pData);
-    virtual void                            TouchFlush();
-
+    
     void                                    SetTransparentBackground();
 
     UIRoundedRect                           mButtonBackground;
@@ -41,6 +36,10 @@ public:
 
     void                                    SetText(const char *pText) { mText = pText; }
     FString                                 mText;
+
+    float                                   mFontScale;
+    bool                                    mFontBold;
+    
 };
 
 #endif /* UIButton_hpp */

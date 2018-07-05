@@ -42,13 +42,11 @@ FMotionPathTemplateNode::FMotionPathTemplateNode()
     mB = 1.0f;
     mA = 1.0f;
 
-    
     mTrackScreen = false;
     mTrackSideX = 1;
     mTrackSideY = 1;
     mTrackOffsetX = 0.0f;
     mTrackOffsetY = 0.0f;
-    
 }
 
 FMotionPathTemplate::FMotionPathTemplate()

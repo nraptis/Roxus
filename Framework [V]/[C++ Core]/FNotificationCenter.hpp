@@ -24,8 +24,14 @@ private:
     void                                                Reset();
     FString                                             mNotification;
     FCanvas                                             *mSender;
-    FList                                               mListenerList;
     FNotificationTableNode                              *mNextNode;
+
+    //List of FCanvas objects, this could be sped up
+    //by using a linked list + hash table combination
+    //structure, however, for our implementation, the
+    //overhead of the hash table is more expensive than
+    //the benefit received.
+    FList                                               mListenerList;
 };
 
 class FNotificationTable {
@@ -34,7 +40,7 @@ class FNotificationTable {
 private:
     FNotificationTable();
     virtual ~FNotificationTable();
-    FNotificationTableNode                              *Add(const char *pNotification, FCanvas *pListener, FCanvas *pSender);
+    FNotificationTableNode                              *Add(const char *pNotification, FCanvas *pObserver, FCanvas *pSender);
     bool                                                RemoveNode(FNotificationTableNode *pNode);
     FNotificationTableNode                              *GetNode(const char *pNotification, FCanvas *pSender);
     void                                                SetTableSize(int pSize);
@@ -55,8 +61,10 @@ private:
     virtual ~FNotificationReceiverMapNode();
     void                                        Reset();
     FCanvas                                     *mListener;
-    FList                                       mNotificationNodeList;
     FNotificationReceiverMapNode                *mTableNext;
+
+    //List of FNotificationTableNode
+    FList                                       mNotificationNodeList;
 };
 
 class FNotificationReceiverMap {
@@ -65,8 +73,8 @@ class FNotificationReceiverMap {
 private:
     FNotificationReceiverMap();
     ~FNotificationReceiverMap();
-    FNotificationReceiverMapNode                *Add(FCanvas *pListener, FNotificationTableNode *pNode);
-    FNotificationReceiverMapNode                *GetNode(FCanvas *pListener);
+    FNotificationReceiverMapNode                *Add(FCanvas *pObserver, FNotificationTableNode *pNode);
+    FNotificationReceiverMapNode                *GetNode(FCanvas *pObserver);
     bool                                        RemoveNode(FNotificationReceiverMapNode *pNode);
     void                                        SetTableSize(int pSize);
     FNotificationReceiverMapNode                **mTable;
@@ -80,9 +88,9 @@ public:
     FNotificationCenter();
     ~FNotificationCenter();
 
-    void                            Register(FCanvas *pListener, FCanvas *pSender, const char *pNotification);
-    void                            Unregister(FCanvas *pListener, FCanvas *pSender, const char *pNotification);
-    void                            Unregister(FCanvas *pListener);
+    void                            Register(FCanvas *pObserver, FCanvas *pSender, const char *pNotification);
+    void                            Unregister(FCanvas *pObserver, FCanvas *pSender, const char *pNotification);
+    void                            Unregister(FCanvas *pObserver);
     void                            Post(FCanvas *pSender, const char *pNotification);
 
 

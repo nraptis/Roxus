@@ -18,7 +18,7 @@
 #include "FSpline.h"
 #include "FView.h"
 #include "FButton.h"
-#include "FSlider.h"
+#include "FSlider.hpp"
 #include "FDrawQuad.h"
 #include "FModelData.h"
 

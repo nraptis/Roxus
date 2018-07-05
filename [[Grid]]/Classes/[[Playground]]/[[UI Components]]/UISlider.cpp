@@ -17,16 +17,23 @@ UISlider::UISlider() {
 
     mBarHeight = 10.0f;
 
-    mLabelTitle.mScale = 0.75f;
+    mLabelTitle.mScale = 0.6f;
     mLabelTitle.mAlignment = 1;
 
-    mLabelValue.mScale = 0.75f;
+    mLabelValue.mScale = 0.6f;
     mLabelValue.mAlignment = -1;
 
     mLabelTitleWidth = 80.0f;
     mLabelValueWidth = 60.0f;
 
+    mLabelTitle.SetTransparentBackground();
+    mLabelValue.SetTransparentBackground();
 
+    AddChild(mLabelTitle);
+    AddChild(mLabelValue);
+
+    mLabelTitle.SetText("My Value:");
+    
     mBaseSlider.SetFrame(0.0f, 0.0f, mWidth, mHeight);
     mBaseSlider.SetThumb(0.0f, 0.0f, 40.0f, mHeight);
     mBaseSlider.mDrawManual = true;
@@ -40,29 +47,16 @@ UISlider::UISlider() {
     mRectBar.mCornerRadius = 5.0f;
     mRectBar.mCornerPointCount = 6;
 
-    mRectBar.SetColorTop(0.12f, 0.14f, 0.19f);
-    mRectBar.SetColorBottom(0.05f, 0.02f, 0.06f);
+    mRectBar.SetColorTop(0.22f, 0.22f, 0.22f);
+    mRectBar.SetColorBottom(0.19f, 0.19f, 0.22f);
     mRectBar.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
 
-    mRectThumb.mCornerRadius = 10.0f;
-    mRectThumb.mCornerPointCount = 12;
-    //mRectThumb.SetColorTop(1.0f, 0.45f, 0.1f);
-    //mRectThumb.SetColorBottom(0.96f, 0.55f, 0.10f);
-    mRectThumb.SetColorTop(0.6f, 0.63f, 0.66f);
-    mRectThumb.SetColorBottom(0.54f, 0.55f, 0.60f);
+    mRectThumb.mCornerRadius = 12.0f;
+    mRectThumb.mCornerPointCount = 10;
 
-
+    mRectThumb.SetColorTop(0.2157f, 0.353f, 0.7647059f);
+    mRectThumb.SetColorBottom(0.231f, 0.373f, 0.7847059f);
     mRectThumb.SetRect(0.0f, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
-
-
-    mRectBarShine.Copy(&mRectBar);// SetRect(7.0f, mHeight / 2.0f - mBarHeightInner / 2.0f, mWidth - 14, mBarHeightInner);
-    mRectBarShine.SetColorTop(1.0f, 1.0f, 1.0f, 0.25f);
-    mRectBarShine.SetColorBottom(1.0f, 0.95f, 0.9f, 0.0f);
-
-
-    mRectThumbShine.Copy(&mRectThumb);
-    mRectThumbShine.SetColorTop(1.0f, 1.0f, 1.0f, 0.40f);
-    mRectThumbShine.SetColorBottom(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
 UISlider::~UISlider()
@@ -87,43 +81,30 @@ void UISlider::Layout() {
     mBaseSlider.SetFrame(aSliderLeft, 0.0f, aSliderWidth, mHeight);
     mBaseSlider.mThumbHeight = mHeight;
 
-
     FRect aRectBar = FRect(aSliderLeft + 6.0f, mHeight / 2.0f - mBarHeight / 2.0f, aSliderWidth - 12, mBarHeight);
-    FRect aRectThumb = FRect(aSliderLeft, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
+    FRect aRectThumb = FRect(aSliderLeft + 2.0f, 10.0f, mBaseSlider.mThumbWidth - 4.0f, mBaseSlider.mThumbHeight - 20.0f);
 
     mRectBar.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
-    mRectBarShine.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
 
     mRectThumb.SetRect(aSliderLeft, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
-    mRectThumbShine.SetRect(aSliderLeft, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
 
     mRectBar.mRefresh = true;
-    mRectBarShine.mRefresh = true;
     mRectThumb.mRefresh = true;
-    mRectThumbShine.mRefresh = true;
 
     mBaseSlider.SetValue(mValue);
 }
 
-void UISlider::Draw()
-{
+void UISlider::Draw() {
     mRectBar.Draw();
-    mRectBarShine.Draw();
-
     mRectThumb.Draw(mBaseSlider.mThumbX, 0.0f);
-    mRectThumbShine.Draw(mBaseSlider.mThumbX, 0.0f);
-
 
     bool aUpdateText = false;
-
-    if(mBaseSlider.mMin != mPreviousDrawMin)
-    {
+    if (mBaseSlider.mMin != mPreviousDrawMin) {
         mPreviousDrawMin = mBaseSlider.mMin;
         aUpdateText = true;
     }
 
-    if(mBaseSlider.mMax != mPreviousDrawMax)
-    {
+    if (mBaseSlider.mMax != mPreviousDrawMax) {
         mPreviousDrawMax = mBaseSlider.mMax;
         aUpdateText = true;
     }
@@ -169,21 +150,15 @@ float UISlider::GetValue() {
 }
 
 void UISlider::Notify(void *pSender, const char *pNotification) {
-
-
-
-
-
     if (FString("slider_update") == pNotification) {
+        if (pSender == &mBaseSlider) {
 
-    if (pSender == &mBaseSlider) {
+            mValue = mBaseSlider.mValue;
+            if (mTargetValue) {
+                *mTargetValue = mValue;
+            }
 
-         mValue = mBaseSlider.mValue;
-         if (mTargetValue) {
-         *mTargetValue = mValue;
-         }
-
-        gNotify.Post(this, "slider_update");
-    }
+            gNotify.Post(this, "slider_update");
+        }
     }
 }

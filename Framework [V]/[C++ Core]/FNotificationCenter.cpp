@@ -16,14 +16,14 @@ FNotificationCenter::FNotificationCenter() { }
 
 FNotificationCenter::~FNotificationCenter() { }
 
-void FNotificationCenter::Register(FCanvas *pListener, FCanvas *pSender, const char *pNotification) {
-    if (pListener == 0 || pNotification == 0 || pSender == 0) { return; }
-    mRegisterTable.Add(pListener, mSendTable.Add(pNotification, pListener, pSender));
+void FNotificationCenter::Register(FCanvas *pObserver, FCanvas *pSender, const char *pNotification) {
+    if (pObserver == 0 || pNotification == 0 || pSender == 0) { return; }
+    mRegisterTable.Add(pObserver, mSendTable.Add(pNotification, pObserver, pSender));
 }
 
 
-void FNotificationCenter::Unregister(FCanvas *pListener, FCanvas *pSender, const char *pNotification) {
-    FNotificationReceiverMapNode *aRegistrationNode = mRegisterTable.GetNode(pListener);
+void FNotificationCenter::Unregister(FCanvas *pObserver, FCanvas *pSender, const char *pNotification) {
+    FNotificationReceiverMapNode *aRegistrationNode = mRegisterTable.GetNode(pObserver);
     if (aRegistrationNode != 0) {
         mNodeList.RemoveAll();
         EnumList(FNotificationTableNode, aNotificationNode, aRegistrationNode->mNotificationNodeList) {
@@ -46,7 +46,7 @@ void FNotificationCenter::Unregister(FCanvas *pListener, FCanvas *pSender, const
         }
         EnumList(FNotificationTableNode, aNotificationNode, mNodeList) {
             if (aNotificationNode->mListenerList.mCount > 0) {
-                aNotificationNode->mListenerList.Remove(pListener);
+                aNotificationNode->mListenerList.Remove(pObserver);
                 if (aNotificationNode->mListenerList.mCount <= 0) {
                     mSendTable.RemoveNode(aNotificationNode);
                 }
@@ -55,8 +55,8 @@ void FNotificationCenter::Unregister(FCanvas *pListener, FCanvas *pSender, const
     }
 }
 
-void FNotificationCenter::Unregister(FCanvas *pListener) {
-    Unregister(pListener, 0, 0);
+void FNotificationCenter::Unregister(FCanvas *pObserver) {
+    Unregister(pObserver, 0, 0);
 }
 
 void FNotificationCenter::Post(FCanvas *pSender, const char *pNotification) {
@@ -107,16 +107,16 @@ FNotificationReceiverMap::~FNotificationReceiverMap() {
     FreeList(FNotificationReceiverMapNode, mQueue);
 }
 
-FNotificationReceiverMapNode *FNotificationReceiverMap::Add(FCanvas *pListener, FNotificationTableNode *pNode) {
+FNotificationReceiverMapNode *FNotificationReceiverMap::Add(FCanvas *pObserver, FNotificationTableNode *pNode) {
     FNotificationReceiverMapNode *aNode = 0;
     FNotificationReceiverMapNode *aHold = 0;
-    unsigned int aHashBase = FHashMap::Hash(pListener);
+    unsigned int aHashBase = FHashMap::Hash(pObserver);
     unsigned int aHash = 0;
     if (mTableSize > 0) {
         aHash = (aHashBase % mTableSize);
         aNode = mTable[aHash];
         while(aNode) {
-            if(aNode->mListener == pListener) {
+            if(aNode->mListener == pObserver) {
                 if (!aNode->mNotificationNodeList.Exists(pNode)) {
                     aNode->mNotificationNodeList.Add(pNode);
                 }
@@ -139,7 +139,7 @@ FNotificationReceiverMapNode *FNotificationReceiverMap::Add(FCanvas *pListener, 
         aNew = new FNotificationReceiverMapNode();
     }
 
-    aNew->mListener = pListener;
+    aNew->mListener = pObserver;
     aNew->mNotificationNodeList.Add(pNode);
     if (mTable[aHash]) {
         aNode = mTable[aHash];
@@ -155,13 +155,13 @@ FNotificationReceiverMapNode *FNotificationReceiverMap::Add(FCanvas *pListener, 
     return aNew;
 }
 
-FNotificationReceiverMapNode *FNotificationReceiverMap::GetNode(FCanvas *pListener) {
+FNotificationReceiverMapNode *FNotificationReceiverMap::GetNode(FCanvas *pObserver) {
     FNotificationReceiverMapNode *aResult = 0;
     if (mTableSize > 0) {
-        unsigned int aHash = FHashMap::Hash(pListener) % mTableSize;
+        unsigned int aHash = FHashMap::Hash(pObserver) % mTableSize;
         FNotificationReceiverMapNode *aNode = mTable[aHash];
         while (aNode) {
-            if (aNode->mListener == pListener) {
+            if (aNode->mListener == pObserver) {
                 return aNode;
             }
             aNode = aNode->mTableNext;
@@ -264,7 +264,7 @@ FNotificationTable::~FNotificationTable() {
     FreeList(FNotificationTableNode, mQueue);
 }
 
-FNotificationTableNode *FNotificationTable::Add(const char *pNotification, FCanvas *pListener, FCanvas *pSender) {
+FNotificationTableNode *FNotificationTable::Add(const char *pNotification, FCanvas *pObserver, FCanvas *pSender) {
     FNotificationTableNode *aNode = 0;
     FNotificationTableNode *aHold = 0;
     unsigned int aHashBase = Hash(pNotification, pSender);
@@ -274,8 +274,8 @@ FNotificationTableNode *FNotificationTable::Add(const char *pNotification, FCanv
         aNode = mTable[aHash];
         while (aNode) {
             if (aNode->mNotification == pNotification && aNode->mSender == pSender) {
-                if (!aNode->mListenerList.Exists(pListener)) {
-                    aNode->mListenerList.Add(pListener);
+                if (!aNode->mListenerList.Exists(pObserver)) {
+                    aNode->mListenerList.Add(pObserver);
                 }
                 return aNode;
             }
@@ -296,7 +296,7 @@ FNotificationTableNode *FNotificationTable::Add(const char *pNotification, FCanv
     if (!aNew) { aNew = new FNotificationTableNode(); }
     aNew->mNotification = pNotification;
     aNew->mSender = pSender;
-    aNew->mListenerList.Add(pListener);
+    aNew->mListenerList.Add(pObserver);
     aNew->mNextNode = 0;
     if (mTable[aHash]) {
         aNode = mTable[aHash];

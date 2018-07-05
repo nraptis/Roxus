@@ -20,6 +20,9 @@ PGMainCanvas::PGMainCanvas() {
     mBackQuad.Corner3SetColor(0.97f, 0.96f, 0.96f);
     mBackQuad.Corner4SetColor(0.95f, 0.97f, 0.94f);
 
+    mMainToolbar = new PGMainToolbar();
+    AddChild(mMainToolbar);
+
     mToolMenu1 = new ToolMenu();
     mToolMenu1->SetFrame(20.0f, 20.0f, 300.0f, 220.0f);
     mToolMenu1->mName = "TM-1";
@@ -54,6 +57,9 @@ PGMainCanvas::PGMainCanvas() {
 
     mMenuIndex = 10;
 
+
+    BringChildToFront(mMainToolbar);
+
 }
 
 PGMainCanvas::~PGMainCanvas() {
@@ -83,6 +89,7 @@ void PGMainCanvas::TouchDown(float pX, float pY, void *pData) {
             }
         }
     }
+    BringChildToFront(mMainToolbar);
 }
 
 void PGMainCanvas::TouchMove(float pX, float pY, void *pData) {

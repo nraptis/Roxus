@@ -27,7 +27,7 @@
 #include "FColor.h"
 #include "FView.h"
 #include "FDrawQuad.h"
-#include "FSlider.h"
+#include "FSlider.hpp"
 
 class UNode;
 class UMenuRow;

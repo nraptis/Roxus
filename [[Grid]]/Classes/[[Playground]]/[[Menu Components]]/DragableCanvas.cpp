@@ -14,7 +14,6 @@ DragableCanvas::DragableCanvas() {
     mRecievesOutsideTouches = false;
     mRecievesConsumedTouches = false;
     mClipEnabled = false;
-
     mResizeDragTouchX = 0.0f;
     mResizeDragTouchY = 0.0f;
     mResizeCornerIndex = -1;
@@ -27,16 +26,16 @@ DragableCanvas::DragableCanvas() {
     mResizeCornerY[2] = gVirtualDevY;
     mResizeCornerX[3] = gVirtualDevX + gVirtualDevWidth;
     mResizeCornerY[3] = gVirtualDevY + gVirtualDevHeight;
-
     mPanDragTouchX = 0.0f;
     mPanDragTouchY = 0.0f;
     mPanDragData = 0;
-
     mSizeMinWidth = 280.0f;
     mSizeMinHeight = 80.0f;
-
     mResizeDragAllowed = true;
+    mResizeDragAllowedH = true;
+    mResizeDragAllowedV = true;
     mClipEnabled = false;
+    mPanConstrainToScreen = false;
 }
 
 DragableCanvas::~DragableCanvas() {
@@ -90,7 +89,6 @@ FCanvas *DragableCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
     if (mResizeCornerIndex != -1 || mPanDragData != 0) {
         return aChild;
     }
-
 
     if (mResizeDragAllowed == false) {
         mResizeDragData = 0;
@@ -178,13 +176,15 @@ void DragableCanvas::UpdatePanDrag(float pX, float pY, void *pData) {
         float aNewY = mDragFrameStartY + (pY - mPanDragTouchY);
         float aNewWidth = mWidth;
         float aNewHeight = mHeight;
-        if (aNewX < 0) { aNewX = 0; }
-        if (aNewY < 0) { aNewY = 0; }
-        if (aNewX + aNewWidth > mParent->mWidth) {
-            aNewX = mParent->mWidth - aNewWidth;
-        }
-        if (aNewY + aNewHeight > mParent->mHeight) {
-            aNewY = mParent->mHeight - aNewHeight;
+        if (mPanConstrainToScreen) {
+            if (aNewX < 0) { aNewX = 0; }
+            if (aNewY < 0) { aNewY = 0; }
+            if (aNewX + aNewWidth > mParent->mWidth) {
+                aNewX = mParent->mWidth - aNewWidth;
+            }
+            if (aNewY + aNewHeight > mParent->mHeight) {
+                aNewY = mParent->mHeight - aNewHeight;
+            }
         }
         SetX(aNewX);
         SetY(aNewY);
@@ -194,12 +194,10 @@ void DragableCanvas::UpdatePanDrag(float pX, float pY, void *pData) {
 }
 
 void DragableCanvas::UpdateCornerDrag(float pX, float pY, void *pData) {
-
     if (mResizeDragAllowed == false) {
         mResizeDragData = 0;
         mResizeCornerIndex = -1;
     }
-
     if (mResizeDragData == pData) {
         if((mResizeCornerIndex >= 0) && (mResizeCornerIndex < 4)) {
             float aDeltaX = (pX - mResizeDragTouchX);
@@ -305,10 +303,14 @@ void DragableCanvas::UpdateCornerDrag(float pX, float pY, void *pData) {
                     aNewHeight = mSizeMinHeight;
                 }
             }
-            SetX(aNewX);
-            SetY(aNewY);
-            SetWidth(aNewWidth);
-            SetHeight(aNewHeight);
+            if (mResizeDragAllowedH) {
+                SetX(aNewX);
+                SetWidth(aNewWidth);
+            }
+            if (mResizeDragAllowedV) {
+                SetY(aNewY);
+                SetHeight(aNewHeight);
+            }
             ResetCorners();
         }
     }

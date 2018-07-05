@@ -63,14 +63,13 @@ int gVirtualHeight = gWindowHeight;
 //Toying around screen...
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 700.0f * 1.5;
-int gWindowHeight = 568.0f * 1.5;
+int gWindowWidth = 320.0f;
+int gWindowHeight = 568.0f;
 
 int gVirtualX = 8.0f;
 int gVirtualY = 8.0f;
 int gVirtualWidth = gWindowWidth - 16.0f;
 int gVirtualHeight = gWindowHeight - 16.0f;
-
 
 using namespace std;
 

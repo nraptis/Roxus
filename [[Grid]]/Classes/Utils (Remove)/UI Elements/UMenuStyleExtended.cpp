@@ -413,23 +413,23 @@ void UExtendedSlider::Notify(void *pSender)
     {
         if(pSender == mButtonMinAdd1)
         {
-            mSlider->mBaseSlider->AttemptGrowMin(0.25f);
+            //mSlider->mBaseSlider->AttemptGrowMin(0.25f);
         }
         if(pSender == mButtonMinSub1)
         {
-            mSlider->mBaseSlider->AttemptShrinkMin(0.25f);
+            //mSlider->mBaseSlider->AttemptShrinkMin(0.25f);
         }
         if(pSender == mButtonMaxAdd1)
         {
-            mSlider->mBaseSlider->AttemptGrowMax(0.25f);
+            //mSlider->mBaseSlider->AttemptGrowMax(0.25f);
         }
         if(pSender == mButtonMaxSub1)
         {
-            mSlider->mBaseSlider->AttemptShrinkMax(0.1f);
+            //mSlider->mBaseSlider->AttemptShrinkMax(0.1f);
         }
         if(pSender == mButtonRangeShrink)
         {
-            mSlider->mBaseSlider->AttemptShrinkRange(0.25f);
+            //mSlider->mBaseSlider->AttemptShrinkRange(0.25f);
         }
         
         if(pSender == mButtonDisplayMinMax)

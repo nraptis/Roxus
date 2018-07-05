@@ -10,13 +10,17 @@
 #include "GLApp.h"
 
 ToolMenuSectionRow::ToolMenuSectionRow() {
-    mName = "ToolMenuSectionRow";
-    
-    SetHeight(52.0f);
+    mConsumesTouches = false;
+    mName = "row";
+    SetHeight(ToolMenuSectionRow::RowHeight());
 }
 
 ToolMenuSectionRow::~ToolMenuSectionRow() {
 
+}
+
+float ToolMenuSectionRow::RowHeight() {
+    return 48.0f;
 }
 
 void ToolMenuSectionRow::Layout() {

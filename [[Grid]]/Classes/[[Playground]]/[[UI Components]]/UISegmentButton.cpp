@@ -15,6 +15,11 @@ UISegmentButton::UISegmentButton() {
 
     mSelected = false;
     SetSelected(mSelected);
+
+    mButtonBackground.mCornerRadius = 8.0f;
+    mButtonBackgroundDown.mCornerRadius = 8.0f;
+    mButtonOutline.mCornerRadius = 8.0f;
+    mButtonOutlineDown.mCornerRadius = 8.0f;
 }
 
 UISegmentButton::~UISegmentButton() {
@@ -93,25 +98,45 @@ void UISegmentButton::StyleSetRight() {
 
 void UISegmentButton::SetSelected(bool pState) {
     mSelected = pState;
-
     if (mSelected) {
+        mButtonBackground.SetColorTop(1.0f, 0.49412f, 0.0f);
+        mButtonBackground.SetColorBottom(0.965f, 0.4825f, 0.025f);
 
-        mButtonBackground.SetColorTop(0.05f, 0.05f, 0.35f);
-        mButtonBackground.SetColorBottom(0.07f, 0.07f, 0.37f);
-        mButtonOutline.SetColorTop(0.78f, 0.78f, 0.78f);
-        mButtonOutline.SetColorBottom(0.75f, 0.75f, 0.75f);
+        mButtonBackgroundDown.SetColorTop(1.0f * 0.85f, 0.49412f * 0.85f, 0.0f);
+        mButtonBackgroundDown.SetColorBottom(0.965f * 0.85f, 0.4825f * 0.85f, 0.025f * 0.85f);
 
-        //mButtonBackgroundDown.SetColorTop(0.165f, 0.165f, 0.165f);
-        //mButtonBackgroundDown.SetColorBottom(0.1825f, 0.1825f, 0.1825f);
-        //mButtonOutlineDown.SetColorTop(0.855f, 0.825f, 0.125f);
-        //mButtonOutlineDown.SetColorBottom(0.865f, 0.865f, 0.125f);
 
-        
+        mButtonOutline.SetColorTop(1.0f, 1.0f, 1.0f);
+        mButtonOutline.SetColorBottom(1.0f, 1.0f, 1.0f);
+
+        mButtonOutlineDown.SetColorTop(0.85f, 0.85f, 0.85f);
+        mButtonOutlineDown.SetColorBottom(0.85f, 0.85f, 0.85f);
+
+
+        //let styleColorBlue = UIColor(red: 0.2156863, green: 0.352941, blue: 0.7647059, alpha: 1.0)
+        //let styleColorBlueLight = UIColor(red: 0.2156863 * 1.2, green: 0.352941 * 1.2, blue: 0.7647059 * 1.2, alpha: 1.0)
+        //let styleColorBlueDark = UIColor(red: 0.2156863 * 0.8, green: 0.352941 * 0.8, blue: 0.7647059 * 0.8, alpha: 1.0)
+
+        //let styleColorOrange = UIColor(red: 1.0, green: 0.49412, blue: 0.0, alpha: 1.0)
+        //let styleColorOrangeLight = UIColor(red: 1.0, green: 0.57, blue: 0.1125, alpha: 1.0)
+        //let styleColorOrangeDark = UIColor(red: 1.0 * 0.8, green: 0.49412 * 0.8, blue: 0.0 * 0.8, alpha: 1.0)
+
     } else {
         mButtonBackground.SetColorTop(0.167f, 0.167f, 0.167f);
         mButtonBackground.SetColorBottom(0.175f, 0.175f, 0.175f);
+
+        mButtonBackgroundDown.SetColorTop(0.127f, 0.127f, 0.127f);
+        mButtonBackgroundDown.SetColorBottom(0.0988f, 0.1f, 0.1f);
+
         mButtonOutline.SetColorTop(0.375, 0.375, 0.373);
         mButtonOutline.SetColorBottom(0.366f, 0.366f, 0.366f);
+
+        mButtonOutlineDown.SetColorTop(0.345, 0.345, 0.343);
+        mButtonOutlineDown.SetColorBottom(0.32f, 0.32f, 0.32f);
     }
+    mButtonBackground.mRefresh = true;
+    mButtonBackgroundDown.mRefresh = true;
+    mButtonOutline.mRefresh = true;
+    mButtonOutlineDown.mRefresh = true;
 }
 

@@ -19,6 +19,7 @@
 
 #include "FList.h"
 #include "FHashTable.hpp"
+#include "FHashMap.hpp"
 
 class FCanvas;
 class FNotificationBucket;

@@ -339,7 +339,6 @@ void FButton::TouchDown(float pX, float pY, void *pData) {
     gNotify.Post(this, "button_down");
     if (mTriggerOnDown) {
         gNotify.Post(this, "button_click");
-
     }
 }
 
