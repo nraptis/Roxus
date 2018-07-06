@@ -15,6 +15,8 @@ UISegmentButton::UISegmentButton() {
 
     mSelected = false;
     SetSelected(mSelected);
+    
+    mBackgroundVerticalPadding = 4.0f;
 
     mButtonBackground.mCornerRadius = 8.0f;
     mButtonBackgroundDown.mCornerRadius = 8.0f;
@@ -27,16 +29,7 @@ UISegmentButton::~UISegmentButton() {
 }
 
 void UISegmentButton::Layout() {
-    mButtonBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
-    mButtonBackgroundDown.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
-
-    mButtonOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);
-    mButtonOutlineDown.SetRect(0.0f, 0.0f, mWidth, mHeight);
-
-    mButtonBackground.mRefresh = true;
-    mButtonBackgroundDown.mRefresh = true;
-    mButtonOutline.mRefresh = true;
-    mButtonOutlineDown.mRefresh = true;
+    UIButton::Layout();
 }
 
 void UISegmentButton::StyleSetLeft() {

@@ -12,6 +12,7 @@
 ToolMenuPanel::ToolMenuPanel() {
     mName = "ToolMenuPanel";
     mExpanded = true;
+    mContent.mConsumesTouches = false;
     AddChild(mContent);
     mHeader.mPanel = this;
     AddChild(mHeader);
@@ -22,9 +23,25 @@ ToolMenuPanel::~ToolMenuPanel() {
 }
 
 void ToolMenuPanel::Layout() {
-
+    
     mHeader.SetSectionDepth(mSectionDepth);
-
+    if (mSectionDepth == 0) {
+        mSectionBackground.ResetColor(0.28f, 0.28f, 0.28f);
+        mSectionBackgroundOutline.ResetColor(0.36f, 0.36f, 0.36f);
+    }
+    if (mSectionDepth == 1) {
+        mSectionBackground.ResetColor(0.34f, 0.35f, 0.36f);
+        mSectionBackgroundOutline.ResetColor(0.386f, 0.40f, 0.40f);
+    }
+    if (mSectionDepth == 2) {
+        mSectionBackground.ResetColor(0.15f, 0.14f, 0.15f);
+        mSectionBackgroundOutline.ResetColor(0.24f, 0.26f, 0.24f);
+    }
+    if (mSectionDepth == 3) {
+        mSectionBackground.ResetColor(0.24f, 0.24f, 0.24f);
+        mSectionBackgroundOutline.ResetColor(0.28f, 0.28f, 0.28f);
+    }
+    
     ToolMenuSection::Layout();
     float aHeaderHeight = 44.0f;
     float aContentWidth = mWidth - 4.0f;

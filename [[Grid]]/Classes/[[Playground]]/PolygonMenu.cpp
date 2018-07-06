@@ -23,7 +23,8 @@ PolygonMenu::PolygonMenu() {
     UISlider *aSlider = new UISlider();
     mPanel1->AddSection(aSlider);
 
-    UISegment *aSegment = new UISegment(2);
+    UISegment *aSegment = new UISegment();
+    aSegment->SetSegmentCount(3);
     aSegment->SetTitles("Item 1", "2", "3..");
     mPanel1->AddSection(aSegment);
 

@@ -44,19 +44,38 @@ UISlider::UISlider() {
     FRect aRectBar = FRect(6.0f, mHeight / 2.0f - mBarHeight / 2.0f, mWidth - 12, mBarHeight);
     FRect aRectThumb = FRect(0.0f, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
 
-    mRectBar.mCornerRadius = 5.0f;
-    mRectBar.mCornerPointCount = 6;
-
-    mRectBar.SetColorTop(0.22f, 0.22f, 0.22f);
-    mRectBar.SetColorBottom(0.19f, 0.19f, 0.22f);
-    mRectBar.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
-
-    mRectThumb.mCornerRadius = 12.0f;
+    mRectBarLeft.mCornerRadius = 5.0f;
+    mRectBarLeft.mRoundRight = false;
+    mRectBarLeft.SetColorTop(0.231f, 0.373f, 0.7847059f);
+    mRectBarLeft.SetColorBottom(0.2157f, 0.353f, 0.7647059f);
+    mRectBarLeft.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
+    
+    mRectBarRight.mCornerRadius = 5.0f;
+    mRectBarRight.mRoundLeft = false;
+    mRectBarRight.SetColorTop(0.16f, 0.16f, 0.16f);
+    mRectBarRight.SetColorBottom(0.18f, 0.18f, 0.18f);
+    mRectBarRight.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
+    
+    mRectBarOutline.mCornerRadius = 5.0f;
+    mRectBarOutline.mCornerPointCount = 6;
+    mRectBarOutline.SetColorTop(0.46f, 0.46f, 0.46f);
+    mRectBarOutline.SetColorBottom(0.50f, 0.50f, 0.50f);
+    mRectBarOutline.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
+    
+    mRectThumb.mCornerRadius = 8.0f;
     mRectThumb.mCornerPointCount = 10;
-
-    mRectThumb.SetColorTop(0.2157f, 0.353f, 0.7647059f);
-    mRectThumb.SetColorBottom(0.231f, 0.373f, 0.7847059f);
+    mRectThumb.SetColorTop(0.76f, 0.76f, 0.79f);
+    mRectThumb.SetColorBottom(0.73f, 0.73f, 0.74f);
     mRectThumb.SetRect(0.0f, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
+    
+    mRectThumbOutline.mCornerRadius = 8.0f;
+    mRectThumbOutline.mCornerPointCount = 10;
+    mRectThumbOutline.SetColorTop(0.96f, 0.96f, 0.96f, 1.0f);
+    mRectThumbOutline.SetColorBottom(0.94f, 0.94f, 0.94f, 1.0f);
+    mRectThumbOutline.SetRect(-1.0f, -1.0f, mBaseSlider.mThumbWidth + 2.0f, mBaseSlider.mThumbHeight + 2.0f);
+    
+    
+    
 }
 
 UISlider::~UISlider()
@@ -84,18 +103,29 @@ void UISlider::Layout() {
     FRect aRectBar = FRect(aSliderLeft + 6.0f, mHeight / 2.0f - mBarHeight / 2.0f, aSliderWidth - 12, mBarHeight);
     FRect aRectThumb = FRect(aSliderLeft + 2.0f, 10.0f, mBaseSlider.mThumbWidth - 4.0f, mBaseSlider.mThumbHeight - 20.0f);
 
-    mRectBar.SetRect(aRectBar.mX, aRectBar.mY, aRectBar.mWidth, aRectBar.mHeight);
+    mRectBarOutline.SetRect(aRectBar.mX - 1.0f, aRectBar.mY - 1.0f, aRectBar.mWidth + 2.0f, aRectBar.mHeight + 2.0f);
 
-    mRectThumb.SetRect(aSliderLeft, 0.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight);
-
-    mRectBar.mRefresh = true;
+    
+    mRectThumbOutline.SetRect(aSliderLeft - 1.0f + 1.0f, -1.0f + 5.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight + 2.0f - 10.0f);
+    mRectThumb.SetRect(aSliderLeft + 1.0f, 0.0f + 5.0f, mBaseSlider.mThumbWidth - 2.0f, mBaseSlider.mThumbHeight - 10.0f);
+    
     mRectThumb.mRefresh = true;
+    mRectThumbOutline.mRefresh = true;
+    mRectBarOutline.mRefresh = true;
 
     mBaseSlider.SetValue(mValue);
+    
+    SliderDidUpdate();
 }
 
 void UISlider::Draw() {
-    mRectBar.Draw();
+    
+    mRectBarOutline.Draw();
+    //mRectBar.Draw();
+    mRectBarLeft.Draw();
+    mRectBarRight.Draw();
+    
+    mRectThumbOutline.Draw(mBaseSlider.mThumbX, 0.0f);
     mRectThumb.Draw(mBaseSlider.mThumbX, 0.0f);
 
     bool aUpdateText = false;
@@ -149,6 +179,41 @@ float UISlider::GetValue() {
     return mBaseSlider.GetValue();
 }
 
+
+void UISlider::SliderDidUpdate() {
+    float aSliderLeft = mLabelTitle.GetRight() + 2.0f;
+    float aSliderRight = mLabelValue.GetLeft() - 2.0f;
+    float aSliderWidth = (aSliderRight - aSliderLeft);
+    
+    FRect aRectBar = FRect(aSliderLeft + 6.0f, mHeight / 2.0f - mBarHeight / 2.0f, aSliderWidth - 12, mBarHeight);
+    FRect aRectThumb = FRect(aSliderLeft, 10.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight - 20.0f);
+    
+    
+    float aSliderSplit = aSliderLeft + mBaseSlider.mThumbX + mBaseSlider.mThumbWidth / 2.0f;
+    
+    
+    
+    FRect aRectBarLeft = FRect(aRectBar.mX, aRectBar.mY,
+                               aSliderSplit - aRectBar.mX,
+                               aRectBar.mHeight);
+    
+    FRect aRectBarRight = FRect(aRectBarLeft.Right(), aRectBar.mY,
+                                aRectBar.mWidth - aRectBarLeft.mWidth,
+                                aRectBar.mHeight);
+    
+    
+    
+    mRectBarLeft.SetRect(aRectBarLeft.mX, aRectBarLeft.mY, aRectBarLeft.mWidth, aRectBarLeft.mHeight);
+    mRectBarRight.SetRect(aRectBarRight.mX, aRectBarRight.mY, aRectBarRight.mWidth, aRectBarRight.mHeight);
+    
+    
+    
+    mRectBarLeft.mRefresh = true;
+    mRectBarRight.mRefresh = true;
+    
+    
+}
+
 void UISlider::Notify(void *pSender, const char *pNotification) {
     if (FString("slider_update") == pNotification) {
         if (pSender == &mBaseSlider) {
@@ -157,6 +222,8 @@ void UISlider::Notify(void *pSender, const char *pNotification) {
             if (mTargetValue) {
                 *mTargetValue = mValue;
             }
+            
+            SliderDidUpdate();
 
             gNotify.Post(this, "slider_update");
         }

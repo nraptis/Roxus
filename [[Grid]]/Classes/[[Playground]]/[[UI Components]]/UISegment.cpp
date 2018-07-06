@@ -8,12 +8,17 @@
 
 #include "UISegment.hpp"
 
-UISegment::UISegment(int pSegmentCount) {
+UISegment::UISegment() {
     mTarget = 0;
     mSelectedIndex = -1;
     mButton = 0;
     mSegmentCount = 0;
+}
+
+UISegment::UISegment(int pSegmentCount) : UISegment() {
     SetSegmentCount(pSegmentCount);
+    //SetTransparentBackground();
+    
 }
 
 UISegment::~UISegment() {

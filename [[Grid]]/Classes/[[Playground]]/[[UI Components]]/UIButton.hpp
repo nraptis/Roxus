@@ -40,6 +40,8 @@ public:
     float                                   mFontScale;
     bool                                    mFontBold;
     
+    float                                   mBackgroundVerticalPadding;
+    
 };
 
 #endif /* UIButton_hpp */

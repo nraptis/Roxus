@@ -11,6 +11,7 @@
 
 ToolMenuSection::ToolMenuSection() {
     mName = "ToolMenuSection";
+    mConsumesTouches = false;
 
     mSectionDepth = 0;
 
@@ -33,22 +34,7 @@ ToolMenuSection::~ToolMenuSection() {
 }
 
 void ToolMenuSection::Layout() {
-    if (mSectionDepth == 0) {
-        mSectionBackground.ResetColor(0.28f, 0.28f, 0.28f);
-        mSectionBackgroundOutline.ResetColor(0.36f, 0.36f, 0.36f);
-    }
-    if (mSectionDepth == 1) {
-        mSectionBackground.ResetColor(0.34f, 0.35f, 0.36f);
-        mSectionBackgroundOutline.ResetColor(0.386f, 0.40f, 0.40f);
-    }
-    if (mSectionDepth == 2) {
-        mSectionBackground.ResetColor(0.15f, 0.14f, 0.15f);
-        mSectionBackgroundOutline.ResetColor(0.24f, 0.26f, 0.24f);
-    }
-    if (mSectionDepth == 3) {
-        mSectionBackground.ResetColor(0.24f, 0.24f, 0.24f);
-        mSectionBackgroundOutline.ResetColor(0.28f, 0.28f, 0.28f);
-    }
+    
 
     mSectionBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mSectionBackground.mRefresh = true;

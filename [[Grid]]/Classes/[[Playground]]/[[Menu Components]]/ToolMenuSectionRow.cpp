@@ -10,9 +10,10 @@
 #include "GLApp.h"
 
 ToolMenuSectionRow::ToolMenuSectionRow() {
-    mConsumesTouches = false;
     mName = "row";
     SetHeight(ToolMenuSectionRow::RowHeight());
+    SetTransparentBackground();
+    
 }
 
 ToolMenuSectionRow::~ToolMenuSectionRow() {
@@ -20,7 +21,7 @@ ToolMenuSectionRow::~ToolMenuSectionRow() {
 }
 
 float ToolMenuSectionRow::RowHeight() {
-    return 48.0f;
+    return 44.0f;
 }
 
 void ToolMenuSectionRow::Layout() {
@@ -34,6 +35,8 @@ void ToolMenuSectionRow::Update() {
 void ToolMenuSectionRow::Draw() {
     mSectionBackgroundOutline.Draw();
     mSectionBackground.Draw();
+    
+    
 }
 
 void ToolMenuSectionRow::Notify(void *pSender, const char *pNotification) {

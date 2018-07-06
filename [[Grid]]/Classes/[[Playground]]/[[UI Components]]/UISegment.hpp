@@ -14,6 +14,8 @@
 
 class UISegment : public ToolMenuSectionRow {
 public:
+    
+    UISegment();
     UISegment(int pSegmentCount);
     virtual ~UISegment();
 

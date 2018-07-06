@@ -30,6 +30,7 @@ ToolMenu::ToolMenu() {
     mMenuBackgroundShadow.mCornerRadius = 8.0f;
 
     mScrollContent.mScrollHorizontalEnabled = false;
+    mScrollContent.mRecievesConsumedTouches = false;
     AddChild(mScrollContent);
 
     AddChild(mContent);

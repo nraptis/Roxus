@@ -15,6 +15,8 @@ UIButton::UIButton() {
     
     mConsumesTouches = true;
     
+    mBackgroundVerticalPadding = 0.0f;
+    
     mDrawCloseX = false;
     mDrawMinimize = false;
     mDrawMaximize = false;
@@ -45,11 +47,11 @@ UIButton::~UIButton() {
 }
 
 void UIButton::Layout() {
-    mButtonBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
-    mButtonBackgroundDown.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
+    mButtonBackground.SetRect(2.0f, mBackgroundVerticalPadding + 2.0f, mWidth - 4.0f, mHeight - (4.0f + mBackgroundVerticalPadding * 2.0f));
+    mButtonBackgroundDown.SetRect(2.0f, mBackgroundVerticalPadding + 2.0f, mWidth - 4.0f, mHeight - (4.0f + mBackgroundVerticalPadding * 2.0f));
 
-    mButtonOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);
-    mButtonOutlineDown.SetRect(0.0f, 0.0f, mWidth, mHeight);
+    mButtonOutline.SetRect(0.0f, mBackgroundVerticalPadding, mWidth, mHeight - mBackgroundVerticalPadding * 2.0f);
+    mButtonOutlineDown.SetRect(0.0f, mBackgroundVerticalPadding, mWidth, mHeight - mBackgroundVerticalPadding * 2.0f);
 
 
     mButtonBackground.mRefresh = true;

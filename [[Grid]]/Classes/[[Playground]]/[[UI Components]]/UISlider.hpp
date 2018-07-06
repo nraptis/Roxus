@@ -31,6 +31,8 @@ public:
     float                                       *mTargetValue;
     float                                       mValue;
     
+    void                                        SliderDidUpdate();
+    
     UILabel                                     mLabelTitle;
     UILabel                                     mLabelValue;
 
@@ -41,8 +43,16 @@ public:
     float                                       mBarHeight;
     float                                       mBarHeightInner;
 
-    UIRoundedRect                               mRectBar;
+    
+    UIRoundedRect                               mRectBarOutline;
+    UIRoundedRect                               mRectBarLeft;
+    UIRoundedRect                               mRectBarRight;
+    
+    
+    
+    UIRoundedRect                               mRectThumbOutline;
     UIRoundedRect                               mRectThumb;
+    
 
     float                                       mPreviousDrawMin;
     float                                       mPreviousDrawMax;

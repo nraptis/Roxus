@@ -126,7 +126,7 @@ FCanvas *FGestureCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
 
     bool aContainsPoint = mTransformAbsolute.ContainsPoint(pX, pY);
     bool aTrack = false;
-    bool aIsChild = IsChild(aChild) || (aChild == this);
+    bool aIsChild = (aChild == this);
 
     if (!pOutsideParent) {
         if (aIsChild) { aTrack = true; }
