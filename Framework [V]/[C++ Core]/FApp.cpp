@@ -136,13 +136,14 @@ void FApp::BaseLoad() {
 
         mImageLoadExtensionList += new FString("jpg");
         mImageLoadExtensionList += new FString("png");
-        mImageLoadSuffixList += new FString("_ipad");
+
+
+        if (gSpriteScale == 1) mImageLoadMutableSuffixList += new FString("@1X");
+        if (gSpriteScale == 2) mImageLoadMutableSuffixList += new FString("@2X");
+        if (gSpriteScale == 3) mImageLoadMutableSuffixList += new FString("@3X");
+        if (gSpriteScale == 4) mImageLoadMutableSuffixList += new FString("@4X");
         mImageLoadSuffixList += new FString("");
 
-        mImageLoadMutableSuffixList += new FString("@2x");
-        mImageLoadMutableSuffixList += new FString("");
-
-        mImageLoadMutableSuffixList += new FString("");
     }
 
     if (mDidInitialize == false) {
@@ -154,13 +155,13 @@ void FApp::BaseLoad() {
         gImageBundler.Load("bundle_sys_font_bold", "bundle_sys_font_bold_256");
         mSysFontBold.Load("sys_font_bold_256_", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-=.,()[]!/");
         mSysFontBold.mDataScale = 0.125f;
-        mSysFontBold.mSpriteScale = 1.0f;
+        mSysFontBold.mSpriteScale = 0.125f;
         mSysFontBold.mPointSize = 290.0f;
         
         gImageBundler.Load("bundle_sys_font", "bundle_sys_font_256");
         mSysFont.Load("sys_font_256_", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-=.,()[]!/{}_*&%$?");
         mSysFont.mDataScale = 0.125f;
-        mSysFont.mSpriteScale = 1.0f;
+        mSysFont.mSpriteScale = 0.125f;
         mSysFont.mPointSize = 290.0f;
 
         gImageBundler.Clear();

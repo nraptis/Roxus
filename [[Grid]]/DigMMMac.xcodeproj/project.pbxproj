@@ -153,6 +153,11 @@
 		50398E7220EEB50E00DCE050 /* OSMusicPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50398E1420EEB50E00DCE050 /* OSMusicPlayer.mm */; };
 		50398E8120EEC1E900DCE050 /* UICheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50398E7F20EEC1E900DCE050 /* UICheckBox.cpp */; };
 		50398E8420EEC21800DCE050 /* UIStepper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50398E8220EEC21800DCE050 /* UIStepper.cpp */; };
+		50CBEA5320F0018600DD30B2 /* PGPathEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA5120F0018600DD30B2 /* PGPathEditor.cpp */; };
+		50CBEA5620F0019200DD30B2 /* PGNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA5420F0019200DD30B2 /* PGNode.cpp */; };
+		50CBEA5920F0416000DD30B2 /* PathEditorMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA5720F0416000DD30B2 /* PathEditorMenu.cpp */; };
+		50CBEA5C20F044AA00DD30B2 /* UIAlignmentPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA5A20F044AA00DD30B2 /* UIAlignmentPicker.cpp */; };
+		50CBEA5F20F044EB00DD30B2 /* UIAlignmentPickerButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA5D20F044EB00DD30B2 /* UIAlignmentPickerButton.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -452,6 +457,16 @@
 		50398E8020EEC1E900DCE050 /* UICheckBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UICheckBox.hpp; sourceTree = "<group>"; };
 		50398E8220EEC21800DCE050 /* UIStepper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIStepper.cpp; sourceTree = "<group>"; };
 		50398E8320EEC21800DCE050 /* UIStepper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIStepper.hpp; sourceTree = "<group>"; };
+		50CBEA5120F0018600DD30B2 /* PGPathEditor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PGPathEditor.cpp; sourceTree = "<group>"; };
+		50CBEA5220F0018600DD30B2 /* PGPathEditor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGPathEditor.hpp; sourceTree = "<group>"; };
+		50CBEA5420F0019200DD30B2 /* PGNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PGNode.cpp; sourceTree = "<group>"; };
+		50CBEA5520F0019200DD30B2 /* PGNode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PGNode.hpp; sourceTree = "<group>"; };
+		50CBEA5720F0416000DD30B2 /* PathEditorMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PathEditorMenu.cpp; sourceTree = "<group>"; };
+		50CBEA5820F0416000DD30B2 /* PathEditorMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PathEditorMenu.hpp; sourceTree = "<group>"; };
+		50CBEA5A20F044AA00DD30B2 /* UIAlignmentPicker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIAlignmentPicker.cpp; sourceTree = "<group>"; };
+		50CBEA5B20F044AA00DD30B2 /* UIAlignmentPicker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIAlignmentPicker.hpp; sourceTree = "<group>"; };
+		50CBEA5D20F044EB00DD30B2 /* UIAlignmentPickerButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIAlignmentPickerButton.cpp; sourceTree = "<group>"; };
+		50CBEA5E20F044EB00DD30B2 /* UIAlignmentPickerButton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UIAlignmentPickerButton.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -541,6 +556,12 @@
 				50398CD420EEB50400DCE050 /* PGMainToolbar.hpp */,
 				50398CD520EEB50400DCE050 /* PolygonMenu.cpp */,
 				50398CD620EEB50400DCE050 /* PolygonMenu.hpp */,
+				50CBEA5120F0018600DD30B2 /* PGPathEditor.cpp */,
+				50CBEA5220F0018600DD30B2 /* PGPathEditor.hpp */,
+				50CBEA5420F0019200DD30B2 /* PGNode.cpp */,
+				50CBEA5520F0019200DD30B2 /* PGNode.hpp */,
+				50CBEA5720F0416000DD30B2 /* PathEditorMenu.cpp */,
+				50CBEA5820F0416000DD30B2 /* PathEditorMenu.hpp */,
 			);
 			path = "[[Playground]]";
 			sourceTree = "<group>";
@@ -587,6 +608,10 @@
 				50398E8020EEC1E900DCE050 /* UICheckBox.hpp */,
 				50398E8220EEC21800DCE050 /* UIStepper.cpp */,
 				50398E8320EEC21800DCE050 /* UIStepper.hpp */,
+				50CBEA5A20F044AA00DD30B2 /* UIAlignmentPicker.cpp */,
+				50CBEA5B20F044AA00DD30B2 /* UIAlignmentPicker.hpp */,
+				50CBEA5D20F044EB00DD30B2 /* UIAlignmentPickerButton.cpp */,
+				50CBEA5E20F044EB00DD30B2 /* UIAlignmentPickerButton.hpp */,
 			);
 			path = "[[UI Components]]";
 			sourceTree = "<group>";
@@ -994,6 +1019,7 @@
 				50398E6C20EEB50E00DCE050 /* os_core_includes.cpp in Sources */,
 				50398E4620EEB50E00DCE050 /* FPointList.cpp in Sources */,
 				50398E8120EEC1E900DCE050 /* UICheckBox.cpp in Sources */,
+				50CBEA5F20F044EB00DD30B2 /* UIAlignmentPickerButton.cpp in Sources */,
 				50398E5B20EEB50E00DCE050 /* FVertexBuffer.cpp in Sources */,
 				50398E3A20EEB50E00DCE050 /* FJoystick.cpp in Sources */,
 				50398D3B20EEB50400DCE050 /* UIButton.cpp in Sources */,
@@ -1005,12 +1031,15 @@
 				50398E5D20EEB50E00DCE050 /* FXML.cpp in Sources */,
 				50398E3620EEB50E00DCE050 /* FImage.cpp in Sources */,
 				50398E4120EEB50E00DCE050 /* FMotionObject.cpp in Sources */,
+				50CBEA5620F0019200DD30B2 /* PGNode.cpp in Sources */,
 				50398E5020EEB50E00DCE050 /* FSound.cpp in Sources */,
 				50398D7020EEB50400DCE050 /* UMainWorkspace.cpp in Sources */,
 				50398E5920EEB50E00DCE050 /* FVec2.cpp in Sources */,
 				50398E2D20EEB50E00DCE050 /* FCanvas.cpp in Sources */,
+				50CBEA5320F0018600DD30B2 /* PGPathEditor.cpp in Sources */,
 				50398E4B20EEB50E00DCE050 /* FRect.cpp in Sources */,
 				50398D5020EEB50400DCE050 /* CNVBoard.cpp in Sources */,
+				50CBEA5920F0416000DD30B2 /* PathEditorMenu.cpp in Sources */,
 				50398D4120EEB50400DCE050 /* UISlider.cpp in Sources */,
 				50398E4220EEB50E00DCE050 /* FNotificationCenter.cpp in Sources */,
 				50398D4D20EEB50400DCE050 /* CNVBadgeDecor2.cpp in Sources */,
@@ -1040,6 +1069,7 @@
 				50398D4020EEB50400DCE050 /* UISegmentButton.cpp in Sources */,
 				50398D5520EEB50400DCE050 /* CNVWorld.cpp in Sources */,
 				50398D3920EEB50400DCE050 /* ToolMenuSection.cpp in Sources */,
+				50CBEA5C20F044AA00DD30B2 /* UIAlignmentPicker.cpp in Sources */,
 				50398E3120EEB50E00DCE050 /* FFloatList.cpp in Sources */,
 				50398E4D20EEB50E00DCE050 /* FScrollCanvas.cpp in Sources */,
 				50398D5D20EEB50400DCE050 /* UParentPane.cpp in Sources */,

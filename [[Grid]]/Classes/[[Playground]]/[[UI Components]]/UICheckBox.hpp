@@ -23,8 +23,10 @@ public:
     virtual void                            Layout();
 
     virtual void                            TouchUp(float pX, float pY, void *pData);
-
     void                                    CheckedStateDidUpdate();
+    
+    float                                   GetIdealSize();
+    
 
     void                                    SetTarget(bool *pTarget);
     bool                                    *mTarget;

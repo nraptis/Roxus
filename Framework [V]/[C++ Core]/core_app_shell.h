@@ -25,8 +25,14 @@ void AppShellSetVirtualFrame(int pX, int pY, int pWidth, int pHeight);
 void AppShellSetDirectoryBundle(const char *pFilePath);
 //Directory to which data is saved.
 void AppShellSetDirectoryDocuments(const char *pFilePath);
+//Directory where files can be exported...
+void AppShellSetDirectoryExport(const char *pFilePath);
 
 void AppShellSetOSVersion(float pOSVersion);
+
+//1X, 2X, 3X, 4X...
+void AppShellSetSpriteScale(int pScale);
+
 
 ////
 ////

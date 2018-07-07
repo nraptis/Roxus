@@ -103,8 +103,12 @@ extern bool gIsRetina;
 
 extern int gEnvironment;
 
+extern int gSpriteScale;
+
+
 extern FString gDirDocuments;
 extern FString gDirBundle;
+extern FString gDirExport;
 
 extern FRandomizer gRand;
 extern Graphics gG;

@@ -201,12 +201,3 @@ int FStringBuffer::WriteInt(int pNumber, int pIndex)
     return Write(cStringBufferNumberChar, pIndex);
 }
 
-void FStringBuffer::Insert(const char *pString, int pIndex, int pCount)
-{
-    if(pCount <= 0)return;
-    
-    
-}
-
-
-

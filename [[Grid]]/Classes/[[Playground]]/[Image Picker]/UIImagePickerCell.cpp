@@ -30,8 +30,6 @@ UIImagePickerCell::UIImagePickerCell(const char *pPath) {
 }
 
 UIImagePickerCell::~UIImagePickerCell() {
-    printf("Dealloc[UIImagePickerCell]\n");
-    
     if (mDestroySprite == true) {
         if (mSprite != 0) {
             delete mSprite;

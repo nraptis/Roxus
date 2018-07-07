@@ -20,7 +20,7 @@ public:
     virtual void                            Draw();
     virtual void                            Layout();
     
-    void                                    SizeToFitText();
+    float                                   GetIdealSize();
 
     void                                    SetText(const char *pText);
     void                                    SetText(FString pText) { SetText((const char *)pText.c()); }
@@ -37,6 +37,8 @@ public:
     bool                                    mShrink;
     float                                   mPadding;
     float                                   mScale;
+    float                                   mMinWidth;
+
 };
 
 #endif

@@ -8,6 +8,7 @@
 
 #include "ToolMenuSection.hpp"
 #include "GLApp.h"
+#include "ToolMenu.hpp"
 
 ToolMenuSection::ToolMenuSection() {
     mName = "ToolMenuSection";
@@ -26,6 +27,8 @@ ToolMenuSection::ToolMenuSection() {
     mSectionBackgroundOutline.SetColorBottom(0.565f, 0.965f, 0.965f);
     mSectionBackgroundOutline.mCornerRadius = 5.0f;
 
+    mMenu = 0;
+
     mLayoutBubbleUpDepth = 2;
 }
 
@@ -34,8 +37,6 @@ ToolMenuSection::~ToolMenuSection() {
 }
 
 void ToolMenuSection::Layout() {
-    
-
     mSectionBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mSectionBackground.mRefresh = true;
     mSectionBackgroundOutline.SetRect(0.0f, 0.0f, mWidth, mHeight);
@@ -52,6 +53,9 @@ void ToolMenuSection::Draw() {
 }
 
 void ToolMenuSection::Notify(void *pSender, const char *pNotification) {
+    if (mMenu) {
+        mMenu->Notify(pSender, pNotification);
+    }
 
 }
 

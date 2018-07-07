@@ -39,6 +39,11 @@ public:
     virtual void                            KeyDown(int pKey);
     virtual void                            KeyUp(int pKey);
 
+    void                                    SetBackgroundDark();
+    void                                    SetBackgroundGray();
+    void                                    SetBackgroundLight();
+
+
     DragableCanvas                          *mDragCanvas1;
     DragableCanvas                          *mDragCanvas2;
     DragableCanvas                          *mDragCanvas3;

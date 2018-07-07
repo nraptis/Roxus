@@ -16,6 +16,7 @@
 #include "UIButton.hpp"
 #include "UISegment.hpp"
 #include "UICheckBox.hpp"
+#include "UIAlignmentPicker.hpp"
 #include "FScrollCanvas.hpp"
 #include "ToolMenuSection.hpp"
 #include "ToolMenuPanel.hpp"
@@ -46,6 +47,8 @@ public:
     void                                    AddSection(ToolMenuSection *pSection);
 
     void                                    SetSectionDepths(ToolMenuSection *pSection, int pDepth);
+    void                                    SetMenu(ToolMenuSection *pSection);
+
 
 
     void                                    Expand();
@@ -60,6 +63,7 @@ public:
     FCanvas                                 mContent;
     FScrollCanvas                           mScrollContent;
 
+    bool                                    mManualSectionLayout;
 
     FList                                   mSectionList;
 

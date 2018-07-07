@@ -5,19 +5,10 @@
 #include "FStringBuffer.h"
 #include "core_includes.h"
 
-bool gFSpriteIgnoreRetina=false;
-
+//TODO: Turn off for release...
 bool gSpriteListEnabled = true;
 FList gSpriteList;
 FList gSpriteSequenceList;
-
-
-#ifdef SETUP_MODE
-
-int gTestSpriteIndex = 0;
-int gTestSpriteSequenceIndex = 0;
-
-#endif
 
 FSprite::FSprite()
 {
@@ -155,10 +146,6 @@ void FSprite::LoadNode(FImageBundler *pImageBundler, FImageBundlerLoadNode *pNod
 
     FTexture *aTexture = gTextureCache.GetTexture(pImageBundler->mBundleName.c());
 
-    if(aTexture == 0) { return; }
-    bool aHoldRetinaResize = gFSpriteIgnoreRetina;
-    gFSpriteIgnoreRetina = true;
-
     SetTexture(aTexture);
 
     float aStartU,aStartV,aEndU,aEndV;
@@ -166,7 +153,6 @@ void FSprite::LoadNode(FImageBundler *pImageBundler, FImageBundlerLoadNode *pNod
 
     aStartU = pNode->mSpriteUStart;
     aStartV = pNode->mSpriteVStart;
-    
     aEndU = pNode->mSpriteUEnd;
     aEndV = pNode->mSpriteVEnd;
     
@@ -199,12 +185,9 @@ void FSprite::Load(char *pName, FImageBundler *pBundler) {
     if (pBundler->mDidLoad == false) { return; }
     FImageBundlerLoadNode *aNode = pBundler->FetchNode(pName);
     FTexture *aTexture = gTextureCache.GetTexture(pBundler->mBundleName.c());
-    bool aHoldRetinaResize = gFSpriteIgnoreRetina;
-    gFSpriteIgnoreRetina = true;
     if ((aNode != 0) && (aTexture != 0)) {
         LoadNode(pBundler, aNode);
     }
-    gFSpriteIgnoreRetina = aHoldRetinaResize;
 }
 
 void FSprite::Load(char *pFile) {
@@ -219,12 +202,12 @@ void FSprite::Load(char *pFile) {
     mFileName.RemovePath();
     mFileName.RemoveExtension();
     
-    
     if (gImageBundler.mAutoBundle) {
         if (gImageBundler.mBundleName.mLength > 0) {
-            FImage aImage;
-            aImage.Load(pFile);
-            gImageBundler.AddImage(&aImage);
+            //FImage aImage;
+            //aImage.Load(pFile);
+
+            gImageBundler.AddImage(pFile);
         }
     }
 

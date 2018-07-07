@@ -9,6 +9,7 @@
 #include "UIButton.hpp"
 #include "GLApp.h"
 #include "PGMainCanvas.hpp"
+#include "ToolMenuSectionRow.hpp"
 
 UIButton::UIButton() {
     mName = "UIButton";
@@ -23,7 +24,7 @@ UIButton::UIButton() {
 
     mFontScale = 0.75f;
     mFontBold = true;
-
+    mFontPadding = 6.0f;
     
     mButtonBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mButtonBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
@@ -40,6 +41,8 @@ UIButton::UIButton() {
     mButtonOutlineDown.SetColorTop(0.855f, 0.825f, 0.125f);
     mButtonOutlineDown.SetColorBottom(0.865f, 0.865f, 0.125f);
     mButtonOutlineDown.mCornerRadius = 4.0f;
+
+    SetHeight(ToolMenuSectionRow::RowHeight());
 }
 
 UIButton::~UIButton() {
@@ -49,10 +52,8 @@ UIButton::~UIButton() {
 void UIButton::Layout() {
     mButtonBackground.SetRect(2.0f, mBackgroundVerticalPadding + 2.0f, mWidth - 4.0f, mHeight - (4.0f + mBackgroundVerticalPadding * 2.0f));
     mButtonBackgroundDown.SetRect(2.0f, mBackgroundVerticalPadding + 2.0f, mWidth - 4.0f, mHeight - (4.0f + mBackgroundVerticalPadding * 2.0f));
-
     mButtonOutline.SetRect(0.0f, mBackgroundVerticalPadding, mWidth, mHeight - mBackgroundVerticalPadding * 2.0f);
     mButtonOutlineDown.SetRect(0.0f, mBackgroundVerticalPadding, mWidth, mHeight - mBackgroundVerticalPadding * 2.0f);
-
 
     mButtonBackground.mRefresh = true;
     mButtonBackgroundDown.mRefresh = true;
@@ -114,13 +115,23 @@ void UIButton::Draw() {
 
         FFont *aFont = &(gApp->mSysFont);
         if (mFontBold) aFont = &(gApp->mSysFontBold);
-
-        float aScale = gApp->mSysFont.ScaleForWidth(mText, mWidth, 6.0f);
+        
+        float aScale = gApp->mSysFont.ScaleForWidth(mText, mWidth, mFontPadding);
         if (aScale > mFontScale) { aScale = mFontScale; }
         gApp->mSysFont.Center(mText, mWidth2, mHeight2, aScale);
         Graphics::BlendSetAlpha();
         Graphics::SetColor();
     }
+}
+
+float UIButton::GetIdealSize() {
+    if (mText.mLength > 0) {
+        FFont *aFont = &(gApp->mSysFont);
+        if (mFontBold) aFont = &(gApp->mSysFontBold);
+        float aWidth = aFont->Width(mText.c(), mFontScale);
+        return aWidth;
+    }
+    return mWidth;
 }
 
 void UIButton::SetTransparentBackground() {

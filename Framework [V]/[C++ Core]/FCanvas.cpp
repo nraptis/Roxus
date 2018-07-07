@@ -191,24 +191,34 @@ bool FCanvas::IsChild(FCanvas *pCanvas) {
 }
 
 void FCanvas::BringChildToFront(FCanvas *pCanvas) {
-    mChildren.MoveToLast(pCanvas);
-    if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    if (mChildren.Last() != pCanvas && mChildren.Exists(pCanvas)) {
+        mChildren.MoveToLast(pCanvas);
+        if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    }
 }
 
 void FCanvas::SendChildToBack(FCanvas *pCanvas) {
-    mChildren.MoveToFirst(pCanvas);
-    if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
-}
-
-void FCanvas::SendChildBackward(FCanvas *pCanvas) {
-    mChildren.MoveObjectUp(pCanvas);
-    if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    if (mChildren.First() != pCanvas && mChildren.Exists(pCanvas)) {
+        mChildren.MoveToFirst(pCanvas);
+        if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    }
 }
 
 void FCanvas::BringChildForward(FCanvas *pCanvas) {
-    mChildren.MoveObjectDown(pCanvas);
-    if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    if (mChildren.Last() != pCanvas && mChildren.Exists(pCanvas)) {
+        mChildren.MoveObjectDown(pCanvas);
+        if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    }
 }
+
+void FCanvas::SendChildBackward(FCanvas *pCanvas) {
+    if (mChildren.First() != pCanvas && mChildren.Exists(pCanvas)) {
+        mChildren.MoveObjectUp(pCanvas);
+        if (mWindow) { mWindow->RegisterChildrenDidUpdate(this); }
+    }
+}
+
+
 
 void FCanvas::PrintTransform() {
     Log("%s", mName.c());

@@ -7,55 +7,37 @@
 FStringBuffer cImageLoadBuffer;
 FStringBuffer cImageLoadBufferAlphaMask;
 
-FImage::FImage()
-{
-    mData=0;
-    mExpandedWidth=0;
-    mExpandedHeight=0;
-    mWidth=0;
-    mHeight=0;
-    mOffsetX=0;
-    mOffsetY=0;
-    mScale=1.0f;
+FImage::FImage() {
+    mData = 0;
+    mExpandedWidth = 0;
+    mExpandedHeight = 0;
+    mWidth = 0;
+    mHeight = 0;
+    mOffsetX = 0;
+    mOffsetY = 0;
+    mScale = 1;
 }
 
-FImage::~FImage()
-{
+FImage::~FImage() {
     Kill();
 }
 
-
-void FImage::LoadDirect(char *pFile)
-{
+void FImage::LoadDirect(char *pFile) {
     Kill();
-    
     mFileName = pFile;
     mFileName.RemovePath();
-    
     mScale = 1.0f;
-    
-    //TODO: Fix..
     mData = os_load_image(pFile, mWidth, mHeight);//,mScale);
-    
     mExpandedWidth = mWidth;
     mExpandedHeight = mHeight;
-    
-    if(mWidth > 0 && mHeight > 0 && mData != 0)
-    {
-        //Log("Successfull Load [%s]\n", mFileName.c());
-        
-    }
-    
     mOffsetX = 0;
     mOffsetY = 0;
 }
 
 
 //And now we have the basic foundation for a good "multiple sets of images" cross platform nightmare headache loading system..! Yay!
-void FImage::Load(char *pFile)
-{
+void FImage::Load(char *pFile) {
     FString aFile = pFile;
-    
     aFile.RemoveExtension();
     mFileName = aFile;
     
@@ -64,20 +46,8 @@ void FImage::Load(char *pFile)
     
     bool aDidLoad = false;
     bool aDidLoadMask = false;
-    
-    if(gRes.mTable.mTableCount > 0)
-    {
-        const char *aResourcePath = gRes.GetResourcePathImage(pFile);
-        while ((aResourcePath != 0) && (aDidLoad == false))//(mWidth <= 0) && (mHeight <= 0))
-        {
-            LoadDirect(aResourcePath);
-            if((mWidth > 0) && (mHeight > 0) && (mData != 0))aDidLoad = true;
-            else aResourcePath = gRes.GetNextResourcePath();
-        }
-    }
-    
-    if(aDidLoad == false)
-    {
+
+    if (aDidLoad == false) {
         FString *aPathDirectory = 0;
         FString *aPathSuffix = 0;
         FString *aPathMutableSuffix = 0;
@@ -86,59 +56,61 @@ void FImage::Load(char *pFile)
         cImageLoadBuffer.Reset();
         cImageLoadBufferAlphaMask.Reset();
         
-        for(int aDirectoryIndex = 0; (aDirectoryIndex < gAppBase->mImageLoadDirectoryList.mCount) && (aDidLoad == false); aDirectoryIndex++) {
+        for (int aDirectoryIndex = 0; (aDirectoryIndex < gAppBase->mImageLoadDirectoryList.mCount) && (aDidLoad == false); aDirectoryIndex++) {
             aPathDirectory = (FString *)(gAppBase->mImageLoadDirectoryList.Fetch(aDirectoryIndex));
             aWriteIndex = cImageLoadBuffer.Write(aPathDirectory->c(), 0, aPathDirectory->mLength);
             aWriteIndex = cImageLoadBuffer.Write(aFile.c(), aWriteIndex, aFile.mLength);
             aWriteIndexHold[0] = aWriteIndex;
-            for(int aSuffixIndex = 0; (aSuffixIndex < gAppBase->mImageLoadSuffixList.mCount) && (aDidLoad == false); aSuffixIndex++)
-            {
+            for (int aSuffixIndex = 0; (aSuffixIndex < gAppBase->mImageLoadSuffixList.mCount) && (aDidLoad == false); aSuffixIndex++) {
                 aPathSuffix = (FString *)(gAppBase->mImageLoadSuffixList.Fetch(aSuffixIndex));
                 
                 aWriteIndex = cImageLoadBuffer.Write(aPathSuffix->c(), aWriteIndexHold[0], aPathSuffix->mLength);
                 
                 aWriteIndexHold[1] = aWriteIndex;
-                for(int aMutableSuffixIndex = 0; (aMutableSuffixIndex < gAppBase->mImageLoadMutableSuffixList.mCount) && (aDidLoad == false); aMutableSuffixIndex++)
-                {
+                for (int aMutableSuffixIndex = 0; (aMutableSuffixIndex < gAppBase->mImageLoadMutableSuffixList.mCount) && (aDidLoad == false); aMutableSuffixIndex++) {
                     aPathMutableSuffix = (FString *)(gAppBase->mImageLoadMutableSuffixList.Fetch(aMutableSuffixIndex));
                     
                     aWriteIndex = cImageLoadBuffer.Write(aPathMutableSuffix->c(), aWriteIndexHold[1], aPathMutableSuffix->mLength);
                     aWriteIndex = cImageLoadBuffer.Write((const char *)".", aWriteIndex, 1);
                     
-                    for(int aExtensionIndex = 0; (aExtensionIndex < gAppBase->mImageLoadExtensionList.mCount) && (aDidLoad == false); aExtensionIndex++)
+                    for (int aExtensionIndex = 0; (aExtensionIndex < gAppBase->mImageLoadExtensionList.mCount) && (aDidLoad == false); aExtensionIndex++)
                     {
                         aPathExtension = (FString *)(gAppBase->mImageLoadExtensionList.Fetch(aExtensionIndex));
                         cImageLoadBuffer.WriteTerminate(aPathExtension->c(), aWriteIndex, aPathExtension->mLength);
-                        
-                        //printf("Img[%s]\n", cImageLoadBuffer.c());
-                        
                         LoadDirect(cImageLoadBuffer.c());
                         
-                        if((mWidth > 0) && (mHeight > 0) && (mData != 0))
-                        {
+                        if ((mWidth > 0) && (mHeight > 0) && (mData != 0)) {
+                            if (aMutableSuffixIndex > 0) {
+                                //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
+                            } else {
+                                mScale = gSpriteScale;
+                                //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
+                            }
                             aDidLoad = true;
-                        }
-                        else
-                        {
-                            if((gRes.mTable.mTableCount > 0) && (aDirectoryIndex == 0))
-                            {
+                        } else {
+                            if ((gRes.mTable.mTableCount > 0) && (aDirectoryIndex == 0)) {
                                 const char *aResourcePath = gRes.GetResourcePathImage(cImageLoadBuffer.c());
-                                while ((aResourcePath != 0) && (aDidLoad == false))//(mWidth <= 0) && (mHeight <= 0))
-                                {
+                                while ((aResourcePath != 0) && (aDidLoad == false)) {
                                     LoadDirect(aResourcePath);
-                                    if((mWidth > 0) && (mHeight > 0) && (mData != 0))aDidLoad = true;
-                                    else aResourcePath = gRes.GetNextResourcePath();
+                                    if((mWidth > 0) && (mHeight > 0) && (mData != 0)) {
+                                        if (aMutableSuffixIndex > 0) {
+                                            //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
+                                        } else {
+                                            mScale = gSpriteScale;
+                                            //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
+                                        }
+                                        aDidLoad = true;
+                                    } else {
+                                        aResourcePath = gRes.GetNextResourcePath();
+                                    }
                                 }
-                                
-                                
                             }
                         }
                     }
                     
-                    
-                    if(aDidLoad)
-                    {
-                        
+
+                    /*
+                    if (aDidLoad) {
                         aWriteIndex = cImageLoadBufferAlphaMask.Write(aPathDirectory->c(), 0, aPathDirectory->mLength);
                         aWriteIndex = cImageLoadBufferAlphaMask.Write(aFile.c(), aWriteIndex, aFile.mLength);
                         aWriteIndex = cImageLoadBufferAlphaMask.Write(aPathSuffix->c(), aWriteIndex, aPathSuffix->mLength);
@@ -152,121 +124,43 @@ void FImage::Load(char *pFile)
                         {
                             aPathExtension = (FString *)(gAppBase->mImageLoadExtensionList.Fetch(aExtensionIndex));
                             cImageLoadBufferAlphaMask.WriteTerminate(aPathExtension->c(), aWriteIndex, aPathExtension->mLength);
-                            
                             aMask.LoadDirect(cImageLoadBufferAlphaMask.c());
-                            
-                            if((aMask.mWidth > 0) && (aMask.mHeight > 0) && (aMask.mData != 0))
-                            {
-                                if((mExpandedWidth == aMask.mExpandedWidth) && (mExpandedHeight == aMask.mExpandedHeight))
-                                {
+                            if ((aMask.mWidth > 0) && (aMask.mHeight > 0) && (aMask.mData != 0)) {
+                                if ((mExpandedWidth == aMask.mExpandedWidth) && (mExpandedHeight == aMask.mExpandedHeight)) {
                                     ApplyGreyscaleAlpha(&aMask);
                                 }
-                                
                                 aMask.Kill();
                                 aDidLoadMask = true;
                             }
                         }
                     }
+                    */
                 }
             }
         }
     }
     
-    /*
-     
-     if(gIsLargeScreen)
-     {
-     
-     if(gDirBundle.mLength > 0)
-     {
-     if(mWidth == 0)LoadDirect(gDirBundle + aFile + FString("_ipad@2x.png"));
-     if(mWidth == 0)LoadDirect(gDirBundle + aFile + FString("_ipad@2x.jpg"));
-     }
-     
-     if(gDirDocuments.mLength > 0)
-     {
-     if(mWidth == 0)LoadDirect(gDirDocuments + aFile + FString("_ipad@2x.png"));
-     if(mWidth == 0)LoadDirect(gDirDocuments + aFile + FString("_ipad@2x.jpg"));
-     }
-     
-     if(mWidth == 0)LoadDirect(aFile + FString("_ipad@2x.png"));
-     if(mWidth == 0)LoadDirect(aFile + FString("_ipad@2x.jpg"));
-     
-     
-     
-     if(gDirBundle.mLength > 0)
-     {
-     if(mWidth == 0)LoadDirect(gDirBundle + aFile + FString("_ipad.png"));
-     if(mWidth == 0)LoadDirect(gDirBundle + aFile + FString("_ipad.jpg"));
-     }
-     
-     
-     if(gDirDocuments.mLength > 0)
-     {
-     if(mWidth == 0)LoadDirect(gDirDocuments + aFile + FString("_ipad.png"));
-     if(mWidth == 0)LoadDirect(gDirDocuments + aFile + FString("_ipad.jpg"));
-     }
-     
-     if(mWidth == 0)LoadDirect(aFile + FString("_ipad.png"));
-     if(mWidth == 0)LoadDirect(aFile + FString("_ipad.jpg"));
-     }
-     
-     
-     if(gDirBundle.mLength > 0)
-     {
-     if(mWidth == 0)LoadDirect(gDirBundle + aFile + FString(".png"));
-     if(mWidth == 0)LoadDirect(gDirBundle + aFile + FString(".jpg"));
-     }
-     
-     
-     if(gDirDocuments.mLength > 0)
-     {
-     if(mWidth == 0)LoadDirect(gDirDocuments + aFile + FString(".png"));
-     if(mWidth == 0)LoadDirect(gDirDocuments + aFile + FString(".jpg"));
-     }
-     
-     
-     if(mWidth == 0)LoadDirect(aFile + FString(".png"));
-     if(mWidth == 0)LoadDirect(aFile + FString(".jpg"));
-     
-     */
-    
-    /*
-     if(gFImageBundler.mAutoBundle)
-     {
-     if(mWidth > 0 && mHeight > 0)
-     {
-     FImage *aBundled = new FImage();
-     
-     aBundled->Make(mWidth, mHeight);
-     aBundled->Stamp(this);
-     aBundled->mFileName=mFileName;
-     gFImageBundler.AddFImage(aBundled);
-     
-     delete aBundled;
-     }
-     }
-     */
-    
-    LoadAlphaMask();
-    
+    if (gRes.mTable.mTableCount > 0) {
+        const char *aResourcePath = gRes.GetResourcePathImage(aFile.c());
+        while ((aResourcePath != 0) && (aDidLoad == false)) {
+            LoadDirect(aResourcePath);
+            if((mWidth > 0) && (mHeight > 0) && (mData != 0)) {
+                //printf("Scale {Default} (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, aFile.c());
+                aDidLoad = true;
+
+            }
+            else aResourcePath = gRes.GetNextResourcePath();
+        }
+    }
 }
 
-FTexture *FImage::GetTexture()
-{
+FTexture *FImage::GetTexture() {
     FTexture *aResult = 0;
     aResult = gTextureCache.GetTexture(mFileName.c());
     return aResult;
 }
 
-
-void FImage::LoadAlphaMask()
-{
-    
-}
-
-void FImage::Kill()
-{
+void FImage::Kill() {
     delete [] mData;
     mData = 0;
     mExpandedWidth = 0;
@@ -276,8 +170,6 @@ void FImage::Kill()
     mOffsetX = 0;
     mOffsetY = 0;
     mFileName = "";
-    
-    //mBindIndex=-1;
 }
 
 void FImage::ExportACompressed(char *pFile)
@@ -342,11 +234,8 @@ void FImage::ExportRGB(char *pFile)
             
             aFile.WriteChar((mData[i]>>8)&0xFF);
             aFile.WriteChar((mData[i]>>0)&0xFF);
-            
-            //aFile.WriteChar((mData[i]>>24)&0xFF);
         }
     }
-    //aFile.Save(gDirDocuments + pFile);
 }
 
 void FImage::ExportA(char *pFile)
@@ -386,43 +275,6 @@ void FImage::ExportA(char *pFile)
         }
     }
     //aFile.Save(gDirDocuments + pFile);
-}
-
-void FImage::ExportSlices(int pWidth, int pHeight, char *pFileRoot, bool namedWithRowAndColumn, bool ignoreBlanks)
-{
-    /*
-     int aIndex=0;
-     
-     int aCol=0;
-     for(int n=0;n<mHeight;n+=pHeight)
-     {
-     int aRow=0;
-     for(int i=0;i<mWidth;i+=pWidth)
-     {
-     
-     FImage aImage;
-     aImage.MakeBlank(pWidth,pHeight);
-     aImage.Stamp(this,0,0,i,n,pWidth,pHeight);
-     bool aBlank=aImage.IsBlank();
-     FString aFile = gDirDocuments + FString(pFileRoot) + FString("_");
-     if(namedWithRowAndColumn)
-     {
-     aFile += FString(aRow);
-     aFile += FString("_");
-     aFile += FString(aCol);
-     }
-     else aFile += FString(aIndex+1);
-     aFile += ".png";
-     if(!(aBlank && ignoreBlanks))
-     {
-     ExportPNGFImage(aImage.mData,aFile.c(),aImage.mWidth,aImage.mHeight);
-     }
-     aIndex++;
-     aCol++;
-     }
-     aRow++;
-     }
-     */
 }
 
 void FImage::ApplyGreyscaleAlphaInverse(FImage *pImage)

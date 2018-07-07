@@ -19,17 +19,11 @@ FImageBundler::FImageBundler()
     mEdgeBorder=2;
     mBorder=2;
     mInset=0;
-    
-    mSpacingRadix = 16;
-    
-    mSequenceStartIndex = -1;
-    mSequenceEndIndex = -1;
-    
+
     mMultiRez=false;
     
     mAutoBundle=false;
-    
-    //mModelMode=false;
+
     mSeamlessBorders = false;
     
     mTextureWidth = 0;
@@ -37,99 +31,130 @@ FImageBundler::FImageBundler()
     
     mBundleWidth = 0;
     mBundleHeight = 0;
-    
     mBundleScale = 1.0f;
-    
     mSplatArea = 0;
-    
-    mTileBorderSize=2;
-    mTileMode=false;
-    
-    mRotationEnabled=true;
-    
     mSuccess=false;
-    
     mDidLoad = false;
-    
-    mLoadSequential=true;
-    mSequentialLoadIndex=0;
-    
 }
 
-FImageBundler::~FImageBundler()
-{
+FImageBundler::~FImageBundler() {
     Clear();
 }
 
-void FImageBundler::Clear()
-{
+void FImageBundler::Clear() {
     FreeList(FImageBundlerSaveNode,mSaveNodeList);
     FreeList(FImageBundlerLoadNode,mLoadNodeList);
-    
-    mSequentialLoadIndex = 0;
-    
     mDidLoad = false;
-    
     mBundleWidth = 0;
     mBundleHeight = 0;
-    
     mTextureWidth = 0;
     mTextureHeight = 0;
-    
     mSplatArea = 0;
-    
     mSuccess = false;
-    
     mImage.Kill();
-    
 }
 
-void FImageBundler::AddImage(FImage *pImage)
-{
-    
-    if(!pImage)return;
-    if(pImage->mWidth<=0||pImage->mHeight<=0)return;
-    
-    FString aPath = pImage->mFileName;
-    
+void FImageBundler::AddImage(const char*pImagePath) {
+    FString aPath = pImagePath;
     aPath.RemovePath();
     aPath.RemoveExtension();
+    aPath.Replace("@1x", "");
     aPath.Replace("@2x", "");
-    aPath.Replace("highrez", "");
-    aPath.Replace("_hd", "");
-    
+    aPath.Replace("@1_5x", "");
+    aPath.Replace("@3x", "");
+    aPath.Replace("@4x", "");
+    aPath.Replace("@2X", "");
+    aPath.Replace("@1_5X", "");
+    aPath.Replace("@3X", "");
+    aPath.Replace("@4X", "");
+
+    FImage aImage;
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1X.png"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1X.jpg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1X.jpeg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1X.PNG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1X.JPG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1X.JPEG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.png"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.jpg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.jpeg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.PNG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.JPG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.JPEG"));
+
+    /*
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".png"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".jpg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".jpeg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".PNG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".JPG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".JPEG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".png"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".jpg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".jpeg"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".PNG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".JPG"));
+    if (aImage. mWidth == 0) aImage.Load(aPath + FString(".JPEG"));
+    */
+
+    if (aImage.mWidth == 0) {
+        printf("** Image Bundler FAILED [%s] **\n\n", pImagePath);
+        return;
+    }
+
+
     FImage aDoubleRez;
-    if(aDoubleRez.mWidth==0)aDoubleRez.LoadDirect(gDirBundle + aPath + FString("_hd.png"));
-    if(aDoubleRez.mWidth==0)aDoubleRez.LoadDirect(gDirBundle + aPath + FString("_hd.jpg"));
-    if(aDoubleRez.mWidth==0)aDoubleRez.LoadDirect(gDirBundle + aPath + FString("_hd.jpeg"));
-    if(aDoubleRez.mWidth==0)aDoubleRez.LoadDirect(gDirBundle + aPath + FString("_hd.PNG"));
-    if(aDoubleRez.mWidth==0)aDoubleRez.LoadDirect(gDirBundle + aPath + FString("_hd.JPG"));
-    if(aDoubleRez.mWidth==0)aDoubleRez.LoadDirect(gDirBundle + aPath + FString("_hd.JPEG"));
-    if(aDoubleRez.mWidth > 0)
-    {
-        if(aDoubleRez.mWidth != (pImage->mWidth * 2))Log("***\nWIDTH MISMATCH (%s) Low[%d] Hi[%d]\n***\n", aPath.c(), pImage->mWidth, aDoubleRez.mWidth);
-        if(aDoubleRez.mHeight != (pImage->mHeight * 2))Log("***\nHEIGHT MISMATCH (%s) Low[%d] Hi[%d]\n***\n", aPath.c(), pImage->mHeight, aDoubleRez.mHeight);
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2X.png"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2X.jpg"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2X.jpeg"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2X.PNG"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2X.JPG"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2X.JPEG"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2x.png"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2x.jpg"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2x.jpeg"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2x.PNG"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2x.JPG"));
+    if (aDoubleRez. mWidth == 0) aDoubleRez.Load(aPath + FString("@2x.JPEG"));
+    if (aDoubleRez.mWidth > 0) {
+        if(aDoubleRez.mWidth != (aImage.mWidth * 2))Log("***\nWIDTH MISMATCH (%s) Low[%d] Hi[%d]\n***\n", aPath.c(), aImage.mWidth, aDoubleRez.mWidth);
+        if(aDoubleRez.mHeight != (aImage.mHeight * 2))Log("***\nHEIGHT MISMATCH (%s) Low[%d] Hi[%d]\n***\n", aPath.c(), aImage.mHeight, aDoubleRez.mHeight);
     }
-    else
-    {
-        //Log("No High Rez Image For [%s]\n", aPath.c());
+
+    FImage aTripleRez;
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3X.png"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3X.jpg"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3X.jpeg"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3X.PNG"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3X.JPG"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3X.JPEG"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3x.png"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3x.jpg"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3x.jpeg"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3x.PNG"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3x.JPG"));
+    if (aTripleRez. mWidth == 0) aTripleRez.Load(aPath + FString("@3x.JPEG"));
+    if (aTripleRez.mWidth > 0) {
+        if(aTripleRez.mWidth != (aImage.mWidth * 3))Log("***\nWIDTH MISMATCH (%s) Low[%d] Hi[%d]\n***\n", aPath.c(), aImage.mWidth, aTripleRez.mWidth);
+        if(aTripleRez.mHeight != (aImage.mHeight * 3))Log("***\nHEIGHT MISMATCH (%s) Low[%d] Hi[%d]\n***\n", aPath.c(), aImage.mHeight, aTripleRez.mHeight);
     }
-    
+
     FImage aQuadrupleRez;
-    if(aQuadrupleRez.mWidth==0)aQuadrupleRez.LoadDirect(gDirBundle + aPath + FString("_uhd.png"));
-    if(aQuadrupleRez.mWidth==0)aQuadrupleRez.LoadDirect(gDirBundle + aPath + FString("_uhd.jpg"));
-    if(aQuadrupleRez.mWidth==0)aQuadrupleRez.LoadDirect(gDirBundle + aPath + FString("_uhd.jpeg"));
-    if(aQuadrupleRez.mWidth==0)aQuadrupleRez.LoadDirect(gDirBundle + aPath + FString("_uhd.PNG"));
-    if(aQuadrupleRez.mWidth==0)aQuadrupleRez.LoadDirect(gDirBundle + aPath + FString("_uhd.JPG"));
-    if(aQuadrupleRez.mWidth==0)aQuadrupleRez.LoadDirect(gDirBundle + aPath + FString("_uhd.JPEG"));
-    if(aQuadrupleRez.mWidth > 0)
-    {
-        if(aQuadrupleRez.mWidth != (pImage->mWidth * 4))Log("***\nWIDTH MISMATCH (%s) Low[%d] Ultra[%d]\n***\n", aPath.c(), pImage->mWidth, aQuadrupleRez.mWidth);
-        if(aQuadrupleRez.mHeight != (pImage->mHeight * 4))Log("***\nHEIGHT MISMATCH (%s) Low[%d] Ultra[%d]\n***\n", aPath.c(), pImage->mHeight, aQuadrupleRez.mHeight);
-    }
-    else
-    {
-        //Log("No High Rez Image For [%s]\n", aPath.c());
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4X.png"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4X.jpg"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4X.jpeg"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4X.PNG"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4X.JPG"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4X.JPEG"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4x.png"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4x.jpg"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4x.jpeg"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4x.PNG"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4x.JPG"));
+    if (aQuadrupleRez. mWidth == 0) aQuadrupleRez.Load(aPath + FString("@4x.JPEG"));
+    if (aQuadrupleRez.mWidth > 0) {
+        if(aQuadrupleRez.mWidth != (aImage.mWidth * 4))Log("***\nWIDTH MISMATCH (%s) Low[%d] Ultra[%d]\n***\n", aPath.c(), aImage.mWidth, aQuadrupleRez.mWidth);
+        if(aQuadrupleRez.mHeight != (aImage.mHeight * 4))Log("***\nHEIGHT MISMATCH (%s) Low[%d] Ultra[%d]\n***\n", aPath.c(), aImage.mHeight, aQuadrupleRez.mHeight);
     }
     
     
@@ -141,165 +166,75 @@ void FImageBundler::AddImage(FImage *pImage)
     aNode->mX=0;
     aNode->mY=0;
     
-    aNode->mOriginalWidth=pImage->mWidth;
-    aNode->mOriginalHeight=pImage->mHeight;
-    
-    if(mInset > 0)
-    {
-        
-        //mInset);
-        
-        aNode->mImage = pImage->Clone();
-        
-        //if(mSeamlessBorders)aNode->mImage->BufferEdgesSeamless(mInset);
-        //else aNode->mImage->BufferEdges(mInset);
+    aNode->mOriginalWidth=aImage.mWidth;
+    aNode->mOriginalHeight=aImage.mHeight;
+
+    if (mInset > 0) {
+        aNode->mImage = aImage.Clone();
         aNode->mImage->BufferEdges(mInset);
-        
         aNode->mInset = mInset;
-        
         aNode->mOffsetX = 0;
         aNode->mOffsetY = 0;
-        
         aNode->mWidth = (aNode->mImage->mWidth);
         aNode->mHeight = (aNode->mImage->mHeight);
-        
-        aNode->mArea=aNode->mWidth*aNode->mHeight;
-        
-        //ExportPNGImage(pImage, , , )
-        
-        if(aDoubleRez.mWidth > 0)
-        {
-            aNode->mImageDoubleRez = aDoubleRez.Clone();
-            
-            //if(mSeamlessBorders)aNode->mImageDoubleRez->BufferEdgesSeamless(mInset * 2);
-            //else
-            aNode->mImageDoubleRez->BufferEdges(mInset * 2);
-            
-            //FString aPrefix = FString("/Users/nraptis/Desktop/Exports/");
-            //ExportPNGImage(aNode->mImageDoubleRez->mData, FString(aPrefix + aPath + FString("_border_lol_double.png")).c(), aNode->mImageDoubleRez->mWidth, aNode->mImageDoubleRez->mHeight);
-            
+        aNode->mArea = aNode->mWidth * aNode->mHeight;
+        if (aDoubleRez.mWidth > 0) {
+            aNode->mImageRez2X = aDoubleRez.Clone();
+            aNode->mImageRez2X->BufferEdges(mInset * 2);
             aDoubleRez.Kill();
         }
-        
-        if(aQuadrupleRez.mWidth > 0)
-        {
-            aNode->mImageQuadrupleRez = aQuadrupleRez.Clone();
-            
-            
-            //if(mSeamlessBorders)aNode->mImageDoubleRez->BufferEdgesSeamless(mInset * 4);
-            //else
-            aNode->mImageQuadrupleRez->BufferEdges(mInset * 4);
-            
-            //ExportPNGImage(aNode->mImageQuadrupleRez->mData, FString(aPrefix + aPath + FString("_border_lol_quad.png")).c(), aNode->mImageQuadrupleRez->mWidth, aNode->mImageQuadrupleRez->mHeight);
-            
+        if (aTripleRez.mWidth > 0) {
+            aNode->mImageRez3X = aTripleRez.Clone();
+            aNode->mImageRez3X->BufferEdges(mInset * 3);
+            aTripleRez.Kill();
+        }
+        if (aQuadrupleRez.mWidth > 0) {
+            aNode->mImageRez4X = aQuadrupleRez.Clone();
+            aNode->mImageRez4X->BufferEdges(mInset * 4);
             aQuadrupleRez.Kill();
         }
-        
-        //aNode->mIm
-        
-        //ExportPNGImage(aNode->mImage->mData, FString(aPrefix + aPath + FString("_border_lol.png")).c(), aNode->mImage->mWidth, aNode->mImage->mHeight);
-        
         return;
     }
-    
-    //pImage->FixTileBorders(20);
-    
+
     int aLeft, aRight, aTop, aBottom, aWidth, aHeight;
-    pImage->GetEdges(aLeft,aRight,aTop,aBottom);
-    
-    
-    if(mSeamlessBorders)
-    {
-        
-        aWidth = pImage->mWidth;
-        aHeight = pImage->mHeight;
-        
+    aImage.GetEdges(aLeft,aRight,aTop,aBottom);
+
+    if (mSeamlessBorders) {
+        aWidth = aImage.mWidth;
+        aHeight = aImage.mHeight;
         aLeft = 0;
         aRight = (aWidth - 1);
-        
         aTop = 0;
         aBottom = (aHeight - 1);
-        
     }
-    
-    //int aStartLeft = aLeft;
-    //int aStartRight = aRight;
-    //int aStartTop = aTop;
-    //int aStartBottom = aBottom;
-    
-    //int aStartWidth = (aStartRight - aStartLeft) + 1;
-    //int aStartHeight = (aStartBottom - aStartTop) + 1;
-    
-    //aLeft -= mInset;
-    //aTop -= mInset;
-    
-    //aRight += mInset;
-    //aBottom += mInset;
-    
+
     aWidth = aRight - aLeft + 1;
     aHeight = aBottom - aTop + 1;
-    
-    
+
     aNode->mWidth = aWidth;
     aNode->mHeight = aHeight;
     aNode->mArea=aNode->mWidth*aNode->mHeight;
-    
     aNode->mOffsetX = aLeft;
     aNode->mOffsetY = aTop;
-    
-    /*
-     if(mCurrentGroup)
-     {
-     mCurrentGroup->AddNode(aNode);
-     
-     if(mCurrentGroup->mGroupType == IMAGE_BUNDLER_GROUP_SAME_SIZE)
-     {
-     Image *aNewImage=new Image();
-     aNewImage->MakeBlank(pImage->mWidth,pImage->mHeight);
-     aNewImage->Stamp(pImage);
-     aNewImage->mFileName=pImage->mFileName;
-     aNewImage->mFileName.RemovePath(true);
-     aNode->mImage=aNewImage;
-     
-     return;
-     }
-     }
-     
-     */
-    
-    
+
     FImage *aNewImage = 0;
-    
-    if(mSeamlessBorders)
-    {
-        aNewImage = pImage->Clone();
+    if (mSeamlessBorders) {
+        aNewImage = aImage.Clone();
+    } else {
+        aNewImage = aImage.Crop(aLeft,aTop,aWidth,aHeight);
     }
-    else
-    {
-        aNewImage = pImage->Crop(aLeft,aTop,aWidth,aHeight);
-    }
-    
-    //aNewImage->mFileName=pImage->mFileName;
-    
-    //aNewImage->mFileName.RemovePath(true);
     aNode->mImage=aNewImage;
-    
-    if(aDoubleRez.mWidth > 0)aNode->mImageDoubleRez=aDoubleRez.Crop(aLeft*2, aTop*2, aWidth*2, aHeight*2);
-    //else Log("No High Rez Image For [%s]\n", aNode->mName.c());
-    
-    if(aQuadrupleRez.mWidth > 0)aNode->mImageQuadrupleRez=aQuadrupleRez.Crop(aLeft*4, aTop*4, aWidth*4, aHeight*4);
-    //else Log("No High Rez Image For [%s]\n", aNode->mName.c());
-    
+
+    if (aDoubleRez.mWidth > 0) aNode->mImageRez2X = aDoubleRez.Crop(aLeft*2, aTop*2, aWidth*2, aHeight*2);
+    if (aTripleRez.mWidth > 0) aNode->mImageRez3X = aTripleRez.Crop(aLeft*3, aTop*3, aWidth*3, aHeight*3);
+    if (aQuadrupleRez.mWidth > 0) aNode->mImageRez4X = aQuadrupleRez.Crop(aLeft*4, aTop*4, aWidth*4, aHeight*4);
 }
 
-void FImageBundler::AddNode(FImageBundlerSaveNode *pNode)
-{
+void FImageBundler::AddNode(FImageBundlerSaveNode *pNode) {
     mSaveNodeList += pNode;
 }
 
-
-void FImageBundler::ExportChunksWithCropData()
-{
+void FImageBundler::ExportChunksWithCropData() {
     FXML aXML;
     
     FString aName;
@@ -310,36 +245,20 @@ void FImageBundler::ExportChunksWithCropData()
     FXMLTag *aCropListTag = new FXMLTag("crop_list");
     *aRootTag += aCropListTag;
     
-    FString aPrefix;os_getTestDirectory(&aPrefix);
-    
-    EnumList(FImageBundlerSaveNode, aSaveNode, mSaveNodeList)
-    {
+    FString aPrefix = gDirExport;
+    EnumList(FImageBundlerSaveNode, aSaveNode, mSaveNodeList) {
         aName = aSaveNode->mName;
-        
         FXMLTag *aCropTag = new FXMLTag("crop");
         *aCropListTag += aCropTag;
-        
         aCropTag->AddParam("offset_x", FString(aSaveNode->mOffsetX).c());
         aCropTag->AddParam("offset_y", FString(aSaveNode->mOffsetY).c());
         aCropTag->AddParam("name", aName.c());
-        
-        
-        
         FString aImagePath = FString(aPrefix + FString("bundle_") + FString(aName) + FString(".png")).c();
-        
-        
-        //os_exportPNGImage(aSaveNode->mImage->mData, FString(FString("Exports/") + FString(aName) + FString("_cropped.png")).c(), aSaveNode->mImage->mWidth, aSaveNode->mImage->mHeight);
         os_exportPNGImage(aSaveNode->mImage->mData, aImagePath.c(), aSaveNode->mImage->mWidth, aSaveNode->mImage->mHeight);
-        
-        //aName
-        
-        
     }
     
     FString aPathXML = FString(aPrefix + FString("image_crop_data") + FString(aName) + FString(".xml")).c();
-    
     aXML.Save(aPathXML.c());
-    
 }
 
 void FImageBundler::Save(char *pName)
@@ -351,12 +270,11 @@ void FImageBundler::Save(char *pName)
     }
     
     mSuccess=false;
-    
+
     int aTryWidth[32];
     int aTryHeight[32];
-    
+
     aTryWidth[0]=256;aTryHeight[0]=256;
-    
     aTryWidth[1]=256;aTryHeight[1]=256;
     aTryWidth[2]=512;aTryHeight[2]=512;
     aTryWidth[3]=1024;aTryHeight[3]=512;
@@ -375,19 +293,14 @@ void FImageBundler::Save(char *pName)
     
     int aLowRezCount=0;
     int aDoubleRezCount=0;
+    int aTripleRezCount=0;
     int aQuadrupleRezCount=0;
     
-    EnumList(FImageBundlerSaveNode, aSaveNode, mSaveNodeList)
-    {
+    EnumList (FImageBundlerSaveNode, aSaveNode, mSaveNodeList) {
         aLowRezCount++;
-        if(aSaveNode->mImageDoubleRez)
-        {
-            aDoubleRezCount++;
-        }
-        if(aSaveNode->mImageQuadrupleRez)
-        {
-            aQuadrupleRezCount++;
-        }
+        if (aSaveNode->mImageRez2X) aDoubleRezCount++;
+        if (aSaveNode->mImageRez3X) aTripleRezCount++;
+        if (aSaveNode->mImageRez4X) aQuadrupleRezCount++;
         aSaveNode->mArea=aSaveNode->mWidth*aSaveNode->mHeight;
     }
     
@@ -419,67 +332,45 @@ void FImageBundler::Save(char *pName)
     
     bool aNodePlaced;
     bool aIntersects;
-    bool aCanRotate;
     bool aEdgeIntersect;
     
-    FString aPrefix;os_getTestDirectory(&aPrefix);
-    
-    for(int aSplatSizeIndex=0;aSplatSizeIndex<7;aSplatSizeIndex++)
-    {
+    FString aPrefix = gDirExport;
+    for (int aSplatSizeIndex=0;aSplatSizeIndex<7;aSplatSizeIndex++) {
         mBundleWidth = aTryWidth[aSplatSizeIndex];
         mBundleHeight = aTryHeight[aSplatSizeIndex];
-        
-        
-        for(int i=0;i<aNodeCount;i++)
-        {
+
+        for (int i=0;i<aNodeCount;i++) {
             aArray[i]->mPlaced=false;
-            aArray[i]->Unrotate();
         }
-        
-        for(int i=0;i<aNodeCount;i++)
-        {
+
+        for (int i=0;i<aNodeCount;i++) {
             aNode=aArray[i];
             aNodePlaced=false;
             
-            for(int q=0;q<2&&(aNodePlaced==false);q++)
-            {
-                
-                
-                
+
+            //Old rotation loop, we don't use for now..
+            //for (int q=0;q<2&&(aNodePlaced==false);q++) {
+
                 aNodeWidth=aNode->mWidth;
                 aNodeHeight=aNode->mHeight;
-                
-                
-                //mBundleWidth
-                //mBundleHeight
-                
-                for(int aY=0;aNodePlaced==false && aY<=mBundleHeight-aNodeHeight;aY+=mSpacingRadix)
-                {
-                    
-                    for(int aX=0;aNodePlaced==false && aX <= mBundleWidth - aNodeWidth;aX+=mSpacingRadix)
-                    {
+                for (int aY=0;aNodePlaced==false && aY<=mBundleHeight-aNodeHeight;aY+=4) {
+                    for (int aX=0;aNodePlaced==false && aX <= mBundleWidth - aNodeWidth;aX+=4) {
                         aEdgeIntersect = ((aX+aNodeWidth >(mBundleWidth-mEdgeBorder))
                                           || (aY+aNodeHeight>(mBundleHeight-mEdgeBorder))
                                           || (aX<mEdgeBorder)
                                           || (aY<mEdgeBorder));
-                        
-                        if(aEdgeIntersect==false)
-                        {
-                            aIntersects=false;
-                            for(int aCheckIndex=i-1;aCheckIndex>=0;aCheckIndex--)
-                            {
+                        if (aEdgeIntersect == false) {
+                            aIntersects = false;
+                            for (int aCheckIndex=i-1;aCheckIndex>=0;aCheckIndex--) {
                                 aCheckNode = aArray[aCheckIndex];
-                                
-                                if(!((aX+aNodeWidth<=(aCheckNode->mX-mBorder))
+                                if (!((aX+aNodeWidth<=(aCheckNode->mX-mBorder))
                                      || (aY+aNodeHeight<=(aCheckNode->mY-mBorder))
                                      || (aX>=(aCheckNode->mX+aCheckNode->mWidth+mBorder))
-                                     || (aY>=(aCheckNode->mY+aCheckNode->mHeight+mBorder))))
-                                {
+                                     || (aY>=(aCheckNode->mY+aCheckNode->mHeight+mBorder)))) {
                                     aIntersects=true;
                                 }
                             }
-                            if(aIntersects == false)
-                            {
+                            if (aIntersects == false) {
                                 aNode->mX=aX;
                                 aNode->mY=aY;
                                 aNodePlaced=true;
@@ -487,13 +378,12 @@ void FImageBundler::Save(char *pName)
                         }
                     }
                 }
-            }
-            if(aNodePlaced==false)
-            {
+
+            //}
+
+            if (aNodePlaced==false) {
                 break;
-            }
-            else
-            {
+            } else {
                 aNode->mPlaced=true;
             }
         }
@@ -501,72 +391,42 @@ void FImageBundler::Save(char *pName)
         mSuccess=true;
         
         int aHitCount=0;
-        for(int i=0;i<aNodeCount;i++)
-        {
-            if(aArray[i]->mPlaced == false)
-            {
+        for (int i=0;i<aNodeCount;i++) {
+            if (aArray[i]->mPlaced == false) {
                 mSuccess = false;
-            }
-            else
-            {
+            } else {
                 aHitCount++;
             }
         }
         
-        if(aNodeCount == 0)
-        {
+        if (aNodeCount == 0) {
             mSuccess = false;
         }
 
-        if(mSuccess)
-        {
+        if (mSuccess) {
             mImage.Kill();
             mImage.MakeBlank(mBundleWidth, mBundleHeight);
             
-            FImage aImageHigh;
-            if(aDoubleRezCount > 0)aImageHigh.MakeBlank(mBundleWidth * 2, mBundleHeight * 2);
-            
-            FImage aImageUltra;
-            if(aQuadrupleRezCount > 0)aImageUltra.MakeBlank(mBundleWidth * 4, mBundleHeight * 4);
-            
-            
-            
-            
-            
-            
-            for(int i=0;i<aNodeCount;i++)
-            {
+            FImage aImage2X;
+            if(aDoubleRezCount > 0)aImage2X.MakeBlank(mBundleWidth * 2, mBundleHeight * 2);
+
+            FImage aImage3X;
+            if(aTripleRezCount > 0)aImage3X.MakeBlank(mBundleWidth * 4, mBundleHeight * 4);
+
+            FImage aImage4X;
+            if (aQuadrupleRezCount > 0)aImage4X.MakeBlank(mBundleWidth * 4, mBundleHeight * 4);
+
+            for (int i=0;i<aNodeCount;i++) {
                 aNode = aArray[i];
-                if(aArray[i]->mRotated)
-                {
-                    aArray[i]->mImage->RotateLeft();
-                    mImage.Stamp(aNode->mImage,aNode->mX,aNode->mY);
-                    aNode->mImage->RotateRight();
-                    
-                    if(aNode->mImageDoubleRez)
-                    {
-                        aArray[i]->mImageDoubleRez->RotateLeft();
-                        aImageHigh.Stamp(aNode->mImageDoubleRez,aNode->mX*2,aNode->mY*2);
-                        aNode->mImageDoubleRez->RotateRight();
-                    }
-                    if(aNode->mImageQuadrupleRez)
-                    {
-                        aArray[i]->mImageQuadrupleRez->RotateLeft();
-                        aImageUltra.Stamp(aNode->mImageQuadrupleRez,aNode->mX*4,aNode->mY*4);
-                        aNode->mImageQuadrupleRez->RotateRight();
-                    }
+                mImage.Stamp(aNode->mImage,aNode->mX,aNode->mY);
+                if (aNode->mImageRez2X) {
+                    aImage2X.Stamp(aNode->mImageRez2X, aNode->mX*2, aNode->mY*2);
                 }
-                else
-                {
-                    mImage.Stamp(aNode->mImage,aNode->mX,aNode->mY);
-                    if(aNode->mImageDoubleRez)
-                    {
-                        aImageHigh.Stamp(aNode->mImageDoubleRez, aNode->mX*2, aNode->mY*2);
-                    }
-                    if(aNode->mImageQuadrupleRez)
-                    {
-                        aImageUltra.Stamp(aNode->mImageQuadrupleRez, aNode->mX*4, aNode->mY*4);
-                    }
+                if (aNode->mImageRez2X) {
+                    aImage3X.Stamp(aNode->mImageRez3X, aNode->mX*3, aNode->mY*3);
+                }
+                if (aNode->mImageRez4X) {
+                    aImage4X.Stamp(aNode->mImageRez4X, aNode->mX*4, aNode->mY*4);
                 }
             }
             
@@ -576,259 +436,147 @@ void FImageBundler::Save(char *pName)
             
             FXMLTag *aNodeListTag = new FXMLTag("node_list");
             *aRoot += aNodeListTag;
-            
+
             aRoot->AddParam("width", FString(mImage.mWidth).c());
             aRoot->AddParam("height", FString(mImage.mHeight).c());
             aRoot->AddParam("border", FString(mBorder).c());
             aRoot->AddParam("edge", FString(mEdgeBorder).c());
-            
-            aRoot->AddParam("sequence_start", FString(mSequenceStartIndex).c());
-            aRoot->AddParam("sequence_end", FString(mSequenceEndIndex).c());
-            
-            
-                            
-            int aLoopIndex=0;
-            
-            
-            EnumList(FImageBundlerSaveNode, aSaveNode, mSaveNodeList)
-            {
+            EnumList(FImageBundlerSaveNode, aSaveNode, mSaveNodeList) {
                 FXMLTag *aNodeTag = new FXMLTag("node");
                 *aNodeListTag += aNodeTag;
-                
                 aNodeTag->AddTag("name", aSaveNode->mName.c());
-                
                 aNodeTag->AddTag("inset", FString(aSaveNode->mInset).c());
-                
-                //aRoot->AddParam("inset", FString(aNode->mInset).c());
-                
                 aNodeTag->AddTag("image_width", FString(aSaveNode->mOriginalWidth).c());
                 aNodeTag->AddTag("image_height", FString(aSaveNode->mOriginalHeight).c());
-                
                 aNodeTag->AddTag("offset_x", FString(aSaveNode->mOffsetX).c());
                 aNodeTag->AddTag("offset_y", FString(aSaveNode->mOffsetY).c());
-                
                 aNodeTag->AddTag("rect_x", FString(aSaveNode->mX + aSaveNode->mInset).c());
                 aNodeTag->AddTag("rect_y", FString(aSaveNode->mY + aSaveNode->mInset).c());
-                
                 aNodeTag->AddTag("rect_width", FString(aSaveNode->mWidth - (aSaveNode->mInset * 2)).c());
                 aNodeTag->AddTag("rect_height", FString(aSaveNode->mHeight - (aSaveNode->mInset * 2)).c());
-                
-                if(aSaveNode->mRotated)aNodeTag->AddTag("rotated", "true");
             }
-            
-            
-            FString aPath = FString(aPrefix + FString("") + FString(pName) + FString(".png")).c();
-            os_exportPNGImage(mImage.mData, aPath.c(), mImage.mWidth, mImage.mHeight);
 
-            
+            FString aPath = FString(aPrefix + FString("") + FString(pName) + FString("@1X.png")).c();
+            FString aPath2X = FString(aPrefix + FString("") + FString(pName) + FString("@2X.png")).c();
+            FString aPath3X = FString(aPrefix + FString("") + FString(pName) + FString("@3X.png")).c();
+            FString aPath4X = FString(aPrefix + FString("") + FString(pName) + FString("@4X.png")).c();
+
+            if (mImage.mWidth >= 32 && mImage.mHeight >= 32) {
+                os_exportPNGImage(mImage.mData, aPath.c(), mImage.mWidth, mImage.mHeight);
+            }
+            if (aImage2X.mWidth >= 32 && aImage2X.mHeight >= 32) {
+                os_exportPNGImage(aImage2X.mData, aPath2X.c(), aImage2X.mWidth, aImage2X.mHeight);
+            }
+            if (aImage3X.mWidth >= 32 && aImage3X.mHeight >= 32) {
+                os_exportPNGImage(aImage3X.mData, aPath3X.c(), aImage3X.mWidth, aImage3X.mHeight);
+            }
+            if (aImage4X.mWidth >= 32 && aImage4X.mHeight >= 32) {
+                os_exportPNGImage(aImage4X.mData, aPath4X.c(), aImage4X.mWidth, aImage4X.mHeight);
+            }
+
             aPath = FString(aPrefix + FString("") + FString(pName) + FString("_data.xml")).c();
             aXML.Save(aPath.c());
-            
-            //os_exportPNGImage(aImageUltra.mData, FString(FString(pName) + FString("_ipad@2x.png")).c(), aImageUltra.mWidth, aImageUltra.mHeight);
+
             return;
         }
     }
 }
 
-void FImageBundler::StartBundle(const char *pBundleName)
-{
-    if(mAutoBundle)
-    {
-        if(mSaveNodeList.mCount > 0)
-        {
+void FImageBundler::StartBundle(const char *pBundleName) {
+    if (mAutoBundle) {
+        if (mSaveNodeList.mCount > 0) {
             Save(mBundleName);
             Clear();
         }
         mBundleName = pBundleName;
-    }
-    else
-    {
+    } else {
         Load(pBundleName);
     }
 }
 
-void FImageBundler::EndBundle()
-{
-    if(mAutoBundle)
-    {
-        if(mSaveNodeList.mCount > 0)
-        {
+void FImageBundler::EndBundle() {
+    if (mAutoBundle) {
+        if (mSaveNodeList.mCount > 0) {
             Save(mBundleName);
             Clear();
         }
     }
 }
 
-
-void FImageBundler::Load(const char *pFileName, const char *pImageName)
-{
+void FImageBundler::Load(const char *pFileName, const char *pImageName) {
     Clear();
-    
     mBundleName = FString(pImageName);
     mBundleName.RemoveExtension();
-    
+    FImage aImage;
+    aImage.Load(pImageName);
+    if (aImage.mScale == 1) {
+        mBundleScale = 1;
+    } else if (aImage.mScale == 2) {
+        mBundleScale = 2;
+    } else if (aImage.mScale == 3) {
+        mBundleScale = 3;
+    } else if (aImage.mScale == 4) {
+        mBundleScale = 4;
+    }
     LoadBundle(pFileName);
-    
-    if(mLoadNodeList.mCount > 0)
-    {
+    if (mLoadNodeList.mCount > 0) {
         mDidLoad = true;
     }
-    
-    FTexture *aTexture = gTextureCache.GetTexture(pImageName);
-    if(aTexture)
-    {
-        //int aTextureWidth = aTexture->mExpandedWidth;
-        //int aTextureHeight = aTexture->mExpandedHeight;
-        
-
-        if((aTexture->mExpandedWidth > 0) && (aTexture->mExpandedHeight > 0))
-        {
-            
-            if(mBundleWidth > 0)
-            {
-                mBundleScale = ((float)aTexture->mExpandedWidth) / ((float)mBundleWidth);
-            }
-            
-        }
-    }
-
-    
-    
 }
 
 
-void FImageBundler::LoadBundle(const char *pFileXML)
-{
+void FImageBundler::LoadBundle(const char *pFileXML) {
     FXML aXML;
     aXML.Load(pFileXML);
-    
     FXMLTag *aRoot = aXML.GetRoot();
-    
-//#define BUNDLE_IMG_PREFIX "BNDL_IMG_"
-//#define BUNDLE_DATA_PREFIX "BNDL_DAT_"
-    
-    //FString(BUNDLE_DATA_PREFIX) +
-    //_data
-    
-    //if(aRoot == 0){aXML.Load(gDirBundle + FString("Bundles/") + mBundleName + FString(".xml"));aRoot = aXML.GetRoot();}
-    //if(aRoot == 0){aXML.Load(gDirBundle + FString("[Bundles]/") + mBundleName + FString(".xml"));aRoot = aXML.GetRoot();}
-    //if(aRoot == 0){aXML.Load(gDirBundle + FString("[[Bundles]]/") + mBundleName + FString(".xml"));aRoot = aXML.GetRoot();}
-    
-    if(gEnvironment == ENV_IPHONE)
-    {
-        if(aRoot == 0){aXML.Load(mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot();}
-        if(aRoot == 0){aXML.Load(gDirBundle + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot();}
-        if(aRoot == 0){aXML.Load(gDirDocuments + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot();}
+    if (gEnvironment == ENV_IPHONE) {
+        if(aRoot == 0) { aXML.Load(mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot(); }
+        if(aRoot == 0) { aXML.Load(gDirBundle + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot(); }
+        if(aRoot == 0) { aXML.Load(gDirDocuments + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot(); }
     }
-    
-    if(aRoot == 0){aXML.Load(gDirBundle + FString("Bundles/") + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot();}
-    if(aRoot == 0){aXML.Load(gDirBundle + FString("[Bundles]/") + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot();}
-    if(aRoot == 0){aXML.Load(gDirBundle + FString("[[Bundles]]/") + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot();}
-    
-    
-    
-    //if(aRoot == 0)Log("++++ FAILED TO LOAD BUNDLE [%s]\n\n", pFileXML);
-    
-    if(aRoot)
-    {
-        //aXML.Print();
-        
+    if (aRoot == 0) { aXML.Load(gDirBundle + FString("Bundles/") + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot(); }
+    if (aRoot == 0) { aXML.Load(gDirBundle + FString("[Bundles]/") + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot(); }
+    if (aRoot == 0) { aXML.Load(gDirBundle + FString("[[Bundles]]/") + mBundleName + FString("_data.xml"));aRoot = aXML.GetRoot(); }
+    if (aRoot) {
         mBundleWidth = 0;
         mBundleHeight = 0;
-        
-        EnumParams(aRoot, aParam)
-        {
-            if(FString(aParam->mName) == "width")
-            {
+        EnumParams (aRoot, aParam) {
+            if (FString(aParam->mName) == "width") {
                 mBundleWidth = FString(aParam->mValue).ToInt();
             }
-            if(FString(aParam->mName) == "height")
-            {
+            if (FString(aParam->mName) == "height") {
                 mBundleHeight = FString(aParam->mValue).ToInt();
             }
         }
-
-        EnumTags(aRoot, aNodeListTag)
-        {
-            EnumTags(aNodeListTag, aNodeTag)
-            {
-                
+        if (mBundleScale == 3) {
+            mBundleWidth *= 3;
+            mBundleWidth /= 4;
+            mBundleHeight *= 3;
+            mBundleHeight /= 4;
+        }
+        EnumTags(aRoot, aNodeListTag) {
+            EnumTags(aNodeListTag, aNodeTag) {
                 FImageBundlerLoadNode *aNode = new FImageBundlerLoadNode();
                 mLoadNodeList += aNode;
-                
-                EnumTags(aNodeTag,aNodeSubtag)
-                {
-                    if(FString(aNodeSubtag->mName) == "name")
-                    {
-                        aNode->mName = aNodeSubtag->mValue;
-                    }
-                    if(FString(aNodeSubtag->mName) == "image_width")
-                    {
-                        aNode->mOriginalWidth = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "image_height")
-                    {
-                        aNode->mOriginalHeight = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "offset_x")
-                    {
-                        aNode->mOffsetX = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "offset_y")
-                    {
-                        aNode->mOffsetY = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "rect_x")
-                    {
-                        aNode->mX = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "rect_y")
-                    {
-                        aNode->mY = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "rect_width")
-                    {
-                        aNode->mWidth = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "rect_height")
-                    {
-                        aNode->mHeight = FString(aNodeSubtag->mValue).ToInt();
-                    }
-                    if(FString(aNodeSubtag->mName) == "rotated")
-                    {
-                        aNode->mRotated = FString(aNodeSubtag->mValue).ToBool();
-                    }
+                EnumTags(aNodeTag,aNodeSubtag) {
+                    if (FString(aNodeSubtag->mName) == "name") aNode->mName = aNodeSubtag->mValue;
+                    if (FString(aNodeSubtag->mName) == "image_width") aNode->mOriginalWidth = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "image_height") aNode->mOriginalHeight = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "offset_x") aNode->mOffsetX = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "offset_y") aNode->mOffsetY = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "rect_x") aNode->mX = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "rect_y") aNode->mY = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "rect_width") aNode->mWidth = FString(aNodeSubtag->mValue).ToInt();
+                    if (FString(aNodeSubtag->mName) == "rect_height") aNode->mHeight = FString(aNodeSubtag->mValue).ToInt();
                 }
-                
-                /*
-                if(mSeamlessBorders)
-                {
-                    
-                    float aStartX = aNode->mX - aNode->mOffsetX;
-                    float aStartY = aNode->mY - aNode->mOffsetY;
-                    
-                    aNode->mSpriteUStart=(float)(aStartX) / (float)mBundleWidth;
-                    aNode->mSpriteVStart=(float)(aStartY) / (float)mBundleHeight;
-                    aNode->mSpriteUEnd  =(float)(aStartX + aNode->mOriginalWidth) / (float)mBundleWidth;
-                    aNode->mSpriteVEnd  =(float)(aStartY + aNode->mOriginalHeight) / (float)mBundleHeight;
-                }
-                else
-                {
-                */
-                    
-                    aNode->mSpriteUStart=(float)(aNode->mX) / (float)mBundleWidth;
-                    aNode->mSpriteVStart=(float)(aNode->mY) / (float)mBundleHeight;
-                    aNode->mSpriteUEnd = (float)(aNode->mX + aNode->mWidth) / (float)mBundleWidth;
-                    aNode->mSpriteVEnd = (float)(aNode->mY + aNode->mHeight) / (float)mBundleHeight;
-                    
-                //}
-                
+                aNode->mSpriteUStart = (float)(aNode->mX) / (float)mBundleWidth;
+                aNode->mSpriteVStart = (float)(aNode->mY) / (float)mBundleHeight;
+                aNode->mSpriteUEnd = (float)(aNode->mX + aNode->mWidth) / (float)mBundleWidth;
+                aNode->mSpriteVEnd = (float)(aNode->mY + aNode->mHeight) / (float)mBundleHeight;
                 aNode->mSpriteLeft = (float)aNode->mOffsetX - ((float)aNode->mOriginalWidth / 2.0f);
                 aNode->mSpriteRight = aNode->mSpriteLeft + (float)aNode->mWidth;
-                
                 aNode->mSpriteTop = (float)aNode->mOffsetY - ((float)aNode->mOriginalHeight / 2.0f);
                 aNode->mSpriteBottom = aNode->mSpriteTop + (float)aNode->mHeight;
-                
                 aNode->mSpriteWidth = (float)aNode->mOriginalWidth;
                 aNode->mSpriteHeight = (float)aNode->mOriginalHeight;
             }
@@ -836,530 +584,280 @@ void FImageBundler::LoadBundle(const char *pFileXML)
     }
 }
 
-void FImageBundler::Load(char *pName)
-{
+void FImageBundler::Load(char *pName) {
     Clear();
     Load(pName, pName);
 }
 
-
-bool FImageBundler::SliceUpBundle(FImage *pImage, FList *pImageList, int pTolerance)
-{
+bool FImageBundler::SliceUpBundle(FImage *pImage, FList *pImageList, int pTolerance) {
     bool aResult = false;
-    
-    
-    if((pImage != 0) && (pImageList != 0))
-    {
-        if((pImage->mExpandedWidth > 0) && (pImage->mExpandedHeight > 0))
-        {
-            
-            
-        }
-    }
-    
-    
-    int aWidth=pImage->mExpandedWidth ;//min(pOriginal.mWidth,pMask.mWidth);
-    int aHeight=pImage->mExpandedHeight;//min(pOriginal.mHeight,pMask.mHeight);
-    
-    int aArea=aWidth*aHeight;
-    
+    int aWidth = pImage->mExpandedWidth ;
+    int aHeight = pImage->mExpandedHeight;
+    int aArea = aWidth * aHeight;
     char *aMaskLinear = new char[aArea];
     char **aMask = new char*[aHeight];
-    
-    
-    
-    char *aPtr=aMaskLinear;
-    
-    
-    
-    unsigned int *aWriteData=pImage->mData;
-    for(int i=0;i<aArea;i++)
-    {
-        //if(((*aWriteData)&0xFF)==0)
-        
-        if(IMAGE_ALPHA(*aWriteData) <= 4)
-        {
-            aMaskLinear[i]=1;
-            //aHopsBase[i] = ((char)pTolerance);
+    char *aPtr = aMaskLinear;
+    unsigned int *aWriteData = pImage->mData;
+    for (int i = 0;i < aArea;i++) {
+        if (IMAGE_ALPHA(*aWriteData) <= 4) {
+            aMaskLinear[i] = 1;
+        } else {
+            aMaskLinear[i] = 0;
         }
-        else
-        {
-            aMaskLinear[i]=0;
-            //aHops[i] = 0;
-            //aHopsBase[i] = 0;
-        }
-        
         aWriteData++;
     }
-    
-    for(int i=0;i<aHeight;i++)
-    {
+    for (int i=0;i<aHeight;i++) {
         aMask[i]=aPtr;
         aPtr+=aWidth;
     }
-    
-    
-    //bool aExpand = true;
-    //int
-    
-    
-    
-    //..
-    //delete [] aHopsBase;
-    //delete [] aHops;
-    
-    
     unsigned int **aData=new unsigned int*[aHeight];
     aWriteData = pImage->mData;
-    for(int i=0;i<aHeight;i++)
-    {
-        aData[i]=aWriteData;
-        aWriteData+=aWidth;
+    for (int i=0;i<aHeight;i++) {
+        aData[i] = aWriteData;
+        aWriteData += aWidth;
     }
-    
-    aArea=aWidth*aHeight;
-    
-    
-    
-    int aListCount=0;
-    int aStackCount=0;
+    aArea = aWidth * aHeight;
+    int aListCount = 0;
+    int aStackCount = 0;
     int aLeft, aRight, aTop, aBottom;
     int aXOffset, aYOffset;
-    int aNewImageWidth,aNewImageHeight;
-    int aX=0;
-    int aY=0;
-    //unsigned int *aSource,*aDest;
-    
-    unsigned int **aNewData=new unsigned int *[aHeight];
-    
-    short *aXList=new short[aArea];
-    short *aYList=new short[aArea];
-    short *aXStack=new short[aArea];
-    short *aYStack=new short[aArea];
-    
-    
-    for(int x=0;x<aWidth;x++)
-    {
-        
-        for(int y=0;y<aHeight;y++)
-        {
-            
-            if(!aMask[y][x])
-            {
-                aXList[0]=x;
-                aYList[0]=y;
-                aXStack[0]=x;
-                aYStack[0]=y;
-                aListCount=0;
-                aStackCount=1;
-                while(aStackCount>0)
-                {
+    int aNewImageWidth, aNewImageHeight;
+    int aX = 0;
+    int aY = 0;
+    unsigned int **aNewData = new unsigned int *[aHeight];
+    short *aXList = new short[aArea];
+    short *aYList = new short[aArea];
+    short *aXStack = new short[aArea];
+    short *aYStack = new short[aArea];
+    for (int x=0;x<aWidth;x++) {
+        for (int y=0;y<aHeight;y++) {
+            if (!aMask[y][x]) {
+                aXList[0] = x;
+                aYList[0] = y;
+                aXStack[0] = x;
+                aYStack[0] = y;
+                aListCount = 0;
+                aStackCount = 1;
+                while (aStackCount > 0) {
                     aStackCount--;
-                    aX=aXStack[aStackCount];
-                    aY=aYStack[aStackCount];
-                    if(!aMask[aY][aX])
-                    {
-                        aXList[aListCount]=aX;
-                        aYList[aListCount]=aY;
+                    aX = aXStack[aStackCount];
+                    aY = aYStack[aStackCount];
+                    if (!aMask[aY][aX]) {
+                        aXList[aListCount] = aX;
+                        aYList[aListCount] = aY;
                         aListCount++;
-                        aMask[aY][aX]=1;
-                        //top
-                        if(aY>0)
-                        {
-                            if(!aMask[aY-1][aX])
-                            {
-                                aXStack[aStackCount]=aX;
-                                aYStack[aStackCount]=aY-1;
+                        aMask[aY][aX] = 1;
+                        if (aY > 0) {
+                            if (!aMask[aY-1][aX]) {
+                                aXStack[aStackCount] = aX;
+                                aYStack[aStackCount] = aY - 1;
                                 aStackCount++;
                             }
                         }
-                        //right
-                        if(aX<aWidth-1)
-                        {
-                            if(!aMask[aY][aX+1])
-                            {
-                                aXStack[aStackCount]=aX+1;
-                                aYStack[aStackCount]=aY;
+                        if (aX < aWidth - 1) {
+                            if(!aMask[aY][aX+1]) {
+                                aXStack[aStackCount] = aX + 1;
+                                aYStack[aStackCount] = aY;
                                 aStackCount++;
                             }
                         }
-                        //bottom
-                        if(aY<aHeight-1)
-                        {
-                            if(!aMask[aY+1][aX])
-                            {
-                                aXStack[aStackCount]=aX;
-                                aYStack[aStackCount]=aY+1;
+                        if (aY < aHeight - 1) {
+                            if (!aMask[aY+1][aX]) {
+                                aXStack[aStackCount] = aX;
+                                aYStack[aStackCount] = aY + 1;
                                 aStackCount++;
                             }
                         }
-                        //left
-                        if(aX>0)
-                        {
-                            if(!aMask[aY][aX-1])
-                            {
-                                aXStack[aStackCount]=aX-1;
-                                aYStack[aStackCount]=aY;
+                        if (aX > 0) {
+                            if (!aMask[aY][aX-1]) {
+                                aXStack[aStackCount] = aX - 1;
+                                aYStack[aStackCount] = aY;
                                 aStackCount++;
                             }
                         }
                     }
                 }
-                
-                aLeft=x;
-                aRight=x;
-                aTop=y;
-                aBottom=y;
-                
-                for(int i=0;i<aListCount;i++)if(aXList[i]<aLeft)aLeft=aXList[i];
-                for(int i=0;i<aListCount;i++)if(aXList[i]>aRight)aRight=aXList[i];
-                for(int i=0;i<aListCount;i++)if(aYList[i]<aTop)aTop=aYList[i];
-                for(int i=0;i<aListCount;i++)if(aYList[i]>aBottom)aBottom=aYList[i];
-                
+                aLeft = x;
+                aRight = x;
+                aTop = y;
+                aBottom = y;
+                for (int i = 0;i < aListCount;i++) if (aXList[i] < aLeft) aLeft = aXList[i];
+                for (int i = 0;i < aListCount;i++) if (aXList[i] > aRight) aRight = aXList[i];
+                for (int i = 0;i < aListCount;i++) if (aYList[i] < aTop) aTop = aYList[i];
+                for (int i = 0;i < aListCount;i++) if (aYList[i] > aBottom) aBottom = aYList[i];
                 aRight++;
                 aBottom++;
-                
-                
-                //FImage *aImage
-                
                 FImage *aImage = new FImage();
-                aNewImageWidth=aRight-aLeft;
-                aNewImageHeight=aBottom-aTop;
-                
-                //mImageList+=aImage;
-                
+                aNewImageWidth = aRight - aLeft;
+                aNewImageHeight = aBottom - aTop;
                 pImageList->Add(aImage);
-                
-                
-                
-                //mPointList+=new Vector2((float)(aLeft-pBorder)+((float)aNewImageWidth)/2, (float)(aTop-pBorder)+((float)aNewImageHeight)/2);
-                
                 aImage->MakeBlank((aNewImageWidth),(aNewImageHeight));
-                
                 aWriteData=aImage->mData;
-                for(int i=0;i<aNewImageHeight;i++)
-                {
-                    aNewData[i]=aWriteData;
-                    aWriteData+=aNewImageWidth;
+                for (int i=0;i<aNewImageHeight;i++) {
+                    aNewData[i] = aWriteData;
+                    aWriteData += aNewImageWidth;
                 }
-                
                 aXOffset = aLeft;
                 aYOffset = aTop;
-                
-                for(int i=0;i<aListCount;i++)
-                {
-                    aX=aXList[i];
-                    aY=aYList[i];
-                    aNewData[aY-aYOffset][aX-aXOffset]=aData[aY][aX];
-                    //aNewData[aX-aXOffset][aY-aYOffset]=aData[aX][aY];
-                    
+                for (int i = 0;i < aListCount;i++) {
+                    aX = aXList[i];
+                    aY = aYList[i];
+                    aNewData[aY - aYOffset][aX - aXOffset] = aData[aY][aX];
                 }
-
-                //os_exportPNGImage(aImage->mData, FString(FString("/Users/nraptis/Desktop/Exports/") + FString(FString("SLICE") + FString(pImageList->mCount)) + FString("_cropped.png")).c(), aImage->mExpandedWidth, aImage->mExpandedHeight);
-                
-                
                 aImage->mOffsetX = aLeft;
                 aImage->mOffsetY = aTop;
-                
-                //os_ex  (aImage->mData, <#const char *pFilePath#>, <#int pWidth#>, <#int pHeight#>)
-                
-                //if(pStroke)aImage->Stroke(0xFF000000,128,pStroke);
-                
-                //Sprite *aSprite=new Sprite();
-                //aSprite->Load(aImage);
-                //mSpriteList+=aSprite;
-                
             }
         }
     }
-    delete[]aNewData;
-    delete[]aMaskLinear;
-    delete[]aMask;
-    delete[]aXList;
-    delete[]aYList;
-    delete[]aXStack;
-    delete[]aYStack;
-    delete[]aData;
-    
-    
+    delete [] aNewData;
+    delete [] aMaskLinear;
+    delete [] aMask;
+    delete [] aXList;
+    delete [] aYList;
+    delete [] aXStack;
+    delete [] aYStack;
+    delete [] aData;
     return aResult;
 }
 
-bool FImageBundler::FindSequenceCrop(FList *pFileList, int &pCropX, int &pCropY, int &pCropWidth, int &pCropHeight)
-{
+bool FImageBundler::FindSequenceCrop(FList *pFileList, int &pCropX, int &pCropY, int &pCropWidth, int &pCropHeight) {
     bool aResult = false;
-    
     pCropX = 0;
     pCropY = 0;
     pCropWidth = -1;
     pCropHeight = -1;
-    
-
 	int aSequenceWidth = -1;
 	int aSequenceHeight = -1;
-    
     int aMinInsetTop = -1;
     int aMinInsetRight = -1;
     int aMinInsetBottom = -1;
     int aMinInsetLeft = -1;
-    
-    if(pFileList)
-    {
-        //int aMaxImageWidth = 0;
-        //int aMaxImageHeight = 0;
-        
-        
-        
-        //int aCharCount = 0;
-        
-        for(int aIndex=0;aIndex<(pFileList->mCount);aIndex++)
-        {
+    if (pFileList) {
+        for (int aIndex=0;aIndex<(pFileList->mCount);aIndex++) {
             FString *aPath = (FString *)(pFileList->Fetch(aIndex));
-            
-            
-            if(aPath)
-            {
+            if (aPath) {
                 FImage aImage;
                 aImage.Load(aPath->c());
-                
-                if((aSequenceWidth == -1) && (aImage.mWidth > 0))
-                {
+                if ((aSequenceWidth == -1) && (aImage.mWidth > 0)) {
                     aSequenceWidth = aImage.mWidth;
                     aSequenceHeight = aImage.mHeight;
-                    
                 }
-                
-                if(aImage.mWidth > 0)
-                {
-					if(aImage.IsBlank() == false)
-					{
-						if((aImage.mWidth != aSequenceWidth) || (aImage.mHeight != aSequenceHeight))
-						{
-
-							//Log("SEQUENCE ERROR [%d x %d] != [%d %d] (%s)\n", aImage.mWidth, aImage.mHeight, aSequenceWidth, aSequenceHeight, aPath->c());
-
+                if (aImage.mWidth > 0) {
+					if (aImage.IsBlank() == false) {
+						if ((aImage.mWidth != aSequenceWidth) || (aImage.mHeight != aSequenceHeight)) {
 							aImage.Kill();
-
 							aResult = false;
-
 							break;
-						}
-						else
-						{
+						} else {
 							int aPaddingTop = -1;
 							int aPaddingRight = -1;
 							int aPaddingBottom = -1;
 							int aPaddingLeft = -1;
-
 							aImage.GetEdges(aPaddingLeft, aPaddingRight, aPaddingTop, aPaddingBottom);
-
 							int aInsetTop = aPaddingTop;
 							int aInsetRight = ((aImage.mWidth - aPaddingRight));
 							int aInsetBottom = ((aImage.mHeight - aPaddingBottom));
 							int aInsetLeft = aPaddingLeft;
-
-							//Log("Ins[%d %d %d %d]\n", aInsetTop, aInsetRight, aInsetBottom, aInsetLeft);
-
-							if(aMinInsetTop == -1)aMinInsetTop = aInsetTop;
-							else if(aInsetTop < aMinInsetTop)aMinInsetTop = aInsetTop;
-
-							if(aMinInsetRight == -1)aMinInsetRight = aInsetRight;
-							else if(aInsetRight < aMinInsetRight)aMinInsetRight = aInsetRight;
-
-							if(aMinInsetBottom == -1)aMinInsetBottom = aInsetBottom;
-							else if(aInsetBottom < aMinInsetBottom)aMinInsetBottom = aInsetBottom;
-
-							if(aMinInsetLeft == -1)aMinInsetLeft = aInsetLeft;
-							else if(aInsetLeft < aMinInsetLeft)aMinInsetLeft = aInsetLeft;
+							if (aMinInsetTop == -1) aMinInsetTop = aInsetTop;
+							else if (aInsetTop < aMinInsetTop) aMinInsetTop = aInsetTop;
+							if (aMinInsetRight == -1) aMinInsetRight = aInsetRight;
+							else if(aInsetRight < aMinInsetRight) aMinInsetRight = aInsetRight;
+							if (aMinInsetBottom == -1) aMinInsetBottom = aInsetBottom;
+							else if(aInsetBottom < aMinInsetBottom) aMinInsetBottom = aInsetBottom;
+							if (aMinInsetLeft == -1) aMinInsetLeft = aInsetLeft;
+							else if (aInsetLeft < aMinInsetLeft) aMinInsetLeft = aInsetLeft;
 						}
 					}
                 }
             }
         }
-        
-        //Log("Best Crop For The [%d x %d] Seq Is (%d %d %d %d)\n", aSequenceWidth, aSequenceHeight, aMinInsetLeft, aMinInsetTop, aMinInsetRight, aMinInsetBottom);
-        
-        
-        if(aMinInsetRight < aMinInsetLeft)
-        {
+        if (aMinInsetRight < aMinInsetLeft) {
             aMinInsetLeft = aMinInsetRight;
         }
-        
-        if(aMinInsetLeft < aMinInsetRight)
-        {
+        if (aMinInsetLeft < aMinInsetRight) {
             aMinInsetRight = aMinInsetLeft;
         }
-        
-        if(aMinInsetTop < aMinInsetBottom)
-        {
+        if (aMinInsetTop < aMinInsetBottom) {
             aMinInsetBottom = aMinInsetTop;
         }
-        
-        if(aMinInsetBottom < aMinInsetTop)
-        {
+        if (aMinInsetBottom < aMinInsetTop) {
             aMinInsetTop = aMinInsetBottom;
         }
-        
-        //Log("2 - Best Crop For The [%d x %d] Seq Is (%d %d %d %d)\n", aSequenceWidth, aSequenceHeight, aMinInsetLeft, aMinInsetTop, aMinInsetRight, aMinInsetBottom);
     }
-
 	pCropX = aMinInsetLeft;
 	pCropY = aMinInsetTop;
 	pCropWidth = aSequenceWidth - (aMinInsetRight + aMinInsetLeft);
 	pCropHeight = aSequenceHeight - (aMinInsetTop + aMinInsetBottom);
-    
     return aResult;
 }
 
 
-FImageBundlerLoadNode *FImageBundler::FetchNode(char *pName)
-{
-    FImageBundlerLoadNode *aResult=0;
-    
-    if(mLoadSequential && false)
-    {
-        if(mSequentialLoadIndex >= 0 && mSequentialLoadIndex < mLoadNodeList.mCount)
-        {
-            aResult = ((FImageBundlerLoadNode*)mLoadNodeList.Fetch(mSequentialLoadIndex));
-        }
-        mSequentialLoadIndex++;
-    }
-    else
-    {
-        
-        EnumList(FImageBundlerLoadNode, aNode, mLoadNodeList)
-        {
-            if(aNode->mName == pName)
-            {
+FImageBundlerLoadNode *FImageBundler::FetchNode(char *pName) {
+    FImageBundlerLoadNode *aResult = 0;
+        EnumList(FImageBundlerLoadNode, aNode, mLoadNodeList) {
+            if (aNode->mName == pName) {
                 aResult = aNode;
                 break;
             }
         }
-    }
     return aResult;
 }
 
-FImageBundlerLoadNode::FImageBundlerLoadNode()
-{
-    mX=0;
-    mY=0;
-    
-    mWidth=0;
-    mHeight=0;
-    
-    
-    //mBundleWidth=0;
-    //mBundleHeight=0;
-    
-    mOriginalWidth=0;
-    mOriginalHeight=0;
-    
-    mOffsetX=0;
-    mOffsetY=0;
-    
-    mRotated=false;
+FImageBundlerLoadNode::FImageBundlerLoadNode() {
+    mX = 0;
+    mY = 0;
+    mWidth = 0;
+    mHeight = 0;
+    mOriginalWidth = 0;
+    mOriginalHeight = 0;
+    mOffsetX = 0;
+    mOffsetY = 0;
 }
 
-FImageBundlerLoadNode::~FImageBundlerLoadNode()
-{
-    
-}
+FImageBundlerLoadNode::~FImageBundlerLoadNode() { }
 
-
-FImageBundlerLoadNode *FImageBundlerLoadNode::Clone()
-{
+FImageBundlerLoadNode *FImageBundlerLoadNode::Clone() {
     FImageBundlerLoadNode *aResult = new FImageBundlerLoadNode();
-    
-    //aResult->mBundleWidth = mBundleWidth;
-    //aResult->mBundleHeight = mBundleHeight;
-    
     aResult->mX=mX;
     aResult->mY=mY;
-    
     aResult->mWidth=mWidth;
     aResult->mHeight=mHeight;
-    
     aResult->mOffsetX=mOffsetX;
     aResult->mOffsetY=mOffsetY;
-    
     aResult->mOriginalWidth=mOriginalWidth;
     aResult->mOriginalHeight=mOriginalHeight;
-    
-    
     aResult->mSpriteLeft=mSpriteLeft;
     aResult->mSpriteRight=mSpriteRight;
     aResult->mSpriteTop=mSpriteTop;
     aResult->mSpriteBottom=mSpriteBottom;
-    
     aResult->mSpriteUStart=mSpriteUStart;
     aResult->mSpriteUEnd=mSpriteUEnd;
-    
     aResult->mSpriteVStart=mSpriteVStart;
     aResult->mSpriteVEnd=mSpriteVEnd;
-    
     aResult->mSpriteWidth=mSpriteWidth;
     aResult->mSpriteHeight=mSpriteHeight;
-    
-    aResult->mRotated=mRotated;
-    
     aResult->mName=mName;
-    
     return aResult;
 }
 
-
-
-FImageBundlerSaveNode::FImageBundlerSaveNode()
-{
+FImageBundlerSaveNode::FImageBundlerSaveNode() {
     mX=0;
     mY=0;
-    
     mWidth=0;
     mHeight=0;
-    
-    
     mOriginalWidth=0;
     mOriginalHeight=0;
-    
     mOffsetX=0;
     mOffsetY=0;
-    
     mArea=0;
-    
     mInset=0;
-    
     mImage=0;
-    mImageQuadrupleRez=0;
-    mImageDoubleRez=0;
-    
-    mRotated=false;
-    mCanRotate=true;
+    mImageRez2X=0;
+    mImageRez3X=0;
+    mImageRez4X=0;
 }
 
-FImageBundlerSaveNode::~FImageBundlerSaveNode()
-{
+FImageBundlerSaveNode::~FImageBundlerSaveNode() {
     delete mImage;
     mImage=0;
-}
-
-void FImageBundlerSaveNode::Rotate()
-{
-    if(!mRotated)
-    {
-        mRotated=true;
-        int aHold=mWidth;
-        mWidth=mHeight;
-        mHeight=aHold;
-    }
-}
-
-void FImageBundlerSaveNode::Unrotate()
-{
-    if(mRotated)
-    {
-        mRotated=false;
-        int aHold=mWidth;
-        mWidth=mHeight;
-        mHeight=aHold;
-    }
 }

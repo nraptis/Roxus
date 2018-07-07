@@ -107,6 +107,53 @@ public:
     bool                                        mAnimationSide;
     FCanvasAnimation                            mAnimation;
 
+
+
+
+    FSprite                                     gi_chaos_egg_back_blue_steel;
+    FSprite                                     gi_chaos_egg_back_chrome;
+    FSprite                                     gi_chaos_egg_back_grey;
+    FSprite                                     gi_chaos_egg_back_megabronze;
+    FSprite                                     gi_chaos_egg_back_red;
+    FSprite                                     gi_chaos_egg_back_tan;
+    FSprite                                     gi_chaos_egg_diamond_glow_large;
+    FSprite                                     gi_chaos_egg_diamond_glow_small;
+    FSprite                                     gi_chaos_egg_diamond_slot;
+    FSprite                                     gi_chaos_egg_gem_diamond;
+    FSprite                                     gi_chaos_egg_mockup_2;
+    FSprite                                     gi_chaos_egg_mockup;
+    FSprite                                     gi_chaos_egg_spots_blue_glowing;
+    FSprite                                     gi_chaos_egg_spots_blue;
+    FSprite                                     gi_chaos_egg_spots_hot_yellow_glowing;
+    FSprite                                     gi_chaos_egg_spots_purple_glowing;
+    FSprite                                     gi_chaos_egg_spots_red_glowing;
+    FSprite                                     gi_chaos_egg_spots_teal_glowing;
+    FSprite                                     gi_chaos_egg_spots_white;
+    FSprite                                     gi_chaos_egg_spots_yellow_glowing;
+    FSprite                                     gi_chaos_egg_stroke_blue;
+    FSprite                                     gi_chaos_egg_stroke_glowing;
+    FSprite                                     gi_chaos_egg_stroke_white;
+
+
+
+    FSprite                                     gi_item_back_bottom_overlay;
+    FSprite                                     gi_item_back_inset_active;
+    FSprite                                     gi_item_back_inset;
+    FSprite                                     gi_item_back;
+    FSprite                                     gi_item_charge_count_indicator;
+    FSprite                                     gi_item_crystal;
+    FSprite                                     gi_item_lock;
+    FSprite                                     gi_item_locked_mockup;
+    FSprite                                     gi_item_locked;
+    FSprite                                     gi_item_mace;
+    FSprite                                     gi_item_mockup;
+    FSprite                                     gi_item_progress_bar_fill;
+    FSprite                                     gi_item_progress_bar;
+    FSprite                                     gi_item_stone_back;
+
+    
+
+
 };
 
 extern GLApp *gApp;

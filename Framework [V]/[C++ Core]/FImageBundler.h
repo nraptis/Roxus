@@ -10,29 +10,14 @@
 #ifndef IMAGE_BUNDLER_H
 #define IMAGE_BUNDLER_H
 
-#define IMAGE_BUNDLER_GROUP_SAME_SIZE 0x0001
-#define IMAGE_BUNDLER_GROUP_TILES 0x0002
-
-#define BUNDLE_IMG_PREFIX "BNDL_IMG_"
-#define BUNDLE_DATA_PREFIX "BNDL_DAT_"
-
-
 #include "FImage.h"
 #include "FString.h"
 #include "FList.h"
 
-//TODO: Add width skips..
-
-class FImageBundlerSaveNode
-{
-    
+class FImageBundlerSaveNode {
 public:
-	
 	FImageBundlerSaveNode();
 	~FImageBundlerSaveNode();
-    
-    void                Rotate();
-    void                Unrotate();
     
 	int					mX;
 	int					mY;
@@ -49,21 +34,19 @@ public:
 	int					mArea;
     
     int                 mInset;
-    
-    bool                mRotated;
-    bool                mCanRotate;
-    
+
     bool                mPlaced;
     
-    FImage              *mImageQuadrupleRez;
-    FImage              *mImageDoubleRez;
-	FImage				*mImage;
+    //TODO:
+    FImage              *mImage;
+    FImage              *mImageRez2X;
+    FImage              *mImageRez3X;
+    FImage              *mImageRez4X;
+
 	FString				mName;
 };
 
-
-class FImageBundlerLoadNode
-{
+class FImageBundlerLoadNode {
 public:
     
 	FImageBundlerLoadNode();
@@ -97,8 +80,6 @@ public:
     float                           mSpriteWidth;
     float                           mSpriteHeight;
     
-    bool                            mRotated;
-    
 	FString                         mName;
 };
 
@@ -110,11 +91,13 @@ public:
 	FImageBundler();
 	~FImageBundler();
 	
-	void                            AddImage(FImage *pImage);
+    void                            AddImage(const char*pImagePath);
+    void                            AddImage(char*pImagePath) { AddImage((const char*)pImagePath); }
+    void                            AddImage(FString pImagePath) { AddImage((const char*)pImagePath.c()); }
+
 	void                            AddNode(FImageBundlerSaveNode *pNode);
 	FImageBundlerLoadNode           *FetchNode(char *pName);
-    
-    
+
     void                            ExportChunksWithCropData();
     
     FList                           mSaveNodeList;
@@ -127,45 +110,27 @@ public:
 	//The number of border pixels between each tile on the splat,
 	//except for edges, see above.
 	int                             mBorder;
-	
-	
+
 	//This is basically for edge bleeding fixers, like a duplicated
 	//ring of pixels so opengl can blend tiles more sexy.
 	int                             mInset;
     
-    
     bool                            mDidLoad;
-    
-    bool                            mTileMode;
-    int                             mTileBorderSize;
     
     bool                            mAutoBundle;
     bool                            mMultiRez;
-    
-    bool                            mLoadSequential;
-    int                             mSequentialLoadIndex;
-    
-    int                             mSequenceStartIndex;
-    int                             mSequenceEndIndex;
-    
-    bool                            mRotationEnabled;
-    
-    bool                            mModelMode;
-    
+
     bool                            mSeamlessBorders;
 	
     int                             mBundleWidth;
     int                             mBundleHeight;
     
-    float                           mBundleScale;
-    
-    
+    int                             mBundleScale;
+
 	int                             mSplatArea;
     
     int                             mTextureWidth;
     int                             mTextureHeight;
-    
-    int                             mSpacingRadix;
 	
 	bool                            mSuccess;
     
@@ -184,20 +149,14 @@ public:
 	inline void                     Load(FString pName){Load((char*)pName.c());}
     
     void                            Load(const char *pFileName, const char *pImageName);
-    
-    
     void                            LoadBundle(const char *pFileXML);
-    
-    
+
     void                            StartBundle(const char *pBundleName);
     void                            EndBundle();
     FString                         mBundleName;
-    
+
     static bool                     SliceUpBundle(FImage *pImage, FList *pImageList, int pTolerance=3);
     static bool                     FindSequenceCrop(FList *pFileList, int &pCropX, int &pCropY, int &pCropWidth, int &pCropHeight);
-    
-    
-	
 };
 
 extern FImageBundler gImageBundler;

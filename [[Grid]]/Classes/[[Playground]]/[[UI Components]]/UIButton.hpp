@@ -22,6 +22,8 @@ public:
 
     virtual void                            Layout();
     
+    float                                   GetIdealSize();
+
     void                                    SetTransparentBackground();
 
     UIRoundedRect                           mButtonBackground;
@@ -39,6 +41,7 @@ public:
 
     float                                   mFontScale;
     bool                                    mFontBold;
+    float                                   mFontPadding;
     
     float                                   mBackgroundVerticalPadding;
     

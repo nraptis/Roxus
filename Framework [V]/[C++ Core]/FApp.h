@@ -113,6 +113,12 @@ public:
     void                                        BaseMouseMove(float pX, float pY);
     void                                        BaseMouseUp(float pX, float pY, int pButton);
     void                                        BaseMouseWheel(int pDirection);
+
+
+    
+
+
+
 };
 
 extern FApp *gAppBase;

@@ -34,6 +34,10 @@ GLApp::GLApp() {
     mSelectedPoint = 0;
 
     mAnimationSide = false;
+
+
+
+    
 }
 
 GLApp::~GLApp() {
@@ -260,6 +264,52 @@ bool GLApp::SegmentSegmentIntersection(FPoint l1p1, FPoint l1p2, FPoint l2p1, FP
 }
 
 void GLApp::Load() {
+
+    gImageBundler.mAutoBundle = false;
+    gImageBundler.StartBundle("chaos_egg");
+
+    gi_chaos_egg_back_blue_steel.Load("gi_chaos_egg_back_blue_steel");
+    gi_chaos_egg_back_chrome.Load("gi_chaos_egg_back_chrome");
+    gi_chaos_egg_back_grey.Load("gi_chaos_egg_back_grey");
+    gi_chaos_egg_back_megabronze.Load("gi_chaos_egg_back_megabronze");
+    gi_chaos_egg_back_red.Load("gi_chaos_egg_back_red");
+    gi_chaos_egg_back_tan.Load("gi_chaos_egg_back_tan");
+    gi_chaos_egg_diamond_glow_large.Load("gi_chaos_egg_diamond_glow_large");
+    gi_chaos_egg_diamond_glow_small.Load("gi_chaos_egg_diamond_glow_small");
+    gi_chaos_egg_diamond_slot.Load("gi_chaos_egg_diamond_slot");
+    gi_chaos_egg_gem_diamond.Load("gi_chaos_egg_gem_diamond");
+    gi_chaos_egg_mockup_2.Load("gi_chaos_egg_mockup_2");
+    gi_chaos_egg_mockup.Load("gi_chaos_egg_mockup");
+    gi_chaos_egg_spots_blue_glowing.Load("gi_chaos_egg_spots_blue_glowing");
+    gi_chaos_egg_spots_blue.Load("gi_chaos_egg_spots_blue");
+    gi_chaos_egg_spots_hot_yellow_glowing.Load("gi_chaos_egg_spots_hot_yellow_glowing");
+    gi_chaos_egg_spots_purple_glowing.Load("gi_chaos_egg_spots_purple_glowing");
+    gi_chaos_egg_spots_red_glowing.Load("gi_chaos_egg_spots_red_glowing");
+    gi_chaos_egg_spots_teal_glowing.Load("gi_chaos_egg_spots_teal_glowing");
+    gi_chaos_egg_spots_white.Load("gi_chaos_egg_spots_white");
+    gi_chaos_egg_spots_yellow_glowing.Load("gi_chaos_egg_spots_yellow_glowing");
+    gi_chaos_egg_stroke_blue.Load("gi_chaos_egg_stroke_blue");
+    gi_chaos_egg_stroke_glowing.Load("gi_chaos_egg_stroke_glowing");
+    gi_chaos_egg_stroke_white.Load("gi_chaos_egg_stroke_white");
+    gImageBundler.StartBundle("items");
+    gi_item_back_bottom_overlay.Load("gi_item_back_bottom_overlay");
+    gi_item_back_inset_active.Load("gi_item_back_inset_active");
+    gi_item_back_inset.Load("gi_item_back_inset");
+    gi_item_back.Load("gi_item_back");
+    gi_item_charge_count_indicator.Load("gi_item_charge_count_indicator");
+    gi_item_crystal.Load("gi_item_crystal");
+    gi_item_lock.Load("gi_item_lock");
+    gi_item_locked_mockup.Load("gi_item_locked_mockup");
+    gi_item_locked.Load("gi_item_locked");
+    gi_item_mace.Load("gi_item_mace");
+    gi_item_mockup.Load("gi_item_mockup");
+    gi_item_progress_bar_fill.Load("gi_item_progress_bar_fill");
+    gi_item_progress_bar.Load("gi_item_progress_bar");
+    gi_item_stone_back.Load("gi_item_stone_back");
+    gImageBundler.EndBundle();
+    gImageBundler.mAutoBundle = false;
+
+
     mBackground.Load("1024x1024");
     mTestSprite.Load("widge");
     mTessPattern.Load("tess_1");

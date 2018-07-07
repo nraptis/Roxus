@@ -60,9 +60,26 @@ public:
     ToolMenuSectionRow                      mMainRow;
     ToolMenuSectionRow                      mRow1;
     ToolMenuSectionRow                      mRow2;
-    
 
-    
+
+    UISegment                               *mSegmentBackground;
+
+    UIButton                                *mButtonNodeEditor;
+    UIButton                                *mButtonPathEditor;
+    UIButton                                *mButtonQuadEditor;
+    UIButton                                *mButtonSceneEditor;
+
+
+    UILabel                                 *mLabelTitle;
+
+    UILabel                                 *mLabel1;
+    UILabel                                 *mLabel2;
+    UILabel                                 *mLabel3;
+
+    UICheckBox                              *mCheck1;
+    UICheckBox                              *mCheck2;
+    UICheckBox                              *mCheck3;
+
 };
 
 #endif /* PGMainToolbar_hpp */

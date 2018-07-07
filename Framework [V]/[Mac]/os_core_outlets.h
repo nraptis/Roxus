@@ -19,9 +19,6 @@ void os_load_image_to_buffer(char *pFile, unsigned int *pData);
 unsigned int *os_load_image(char *pFile, int &pWidth, int &pHeight);
 
 bool os_createDirectory(const char *pDirectory);
-//FString os_getTestDirectory();
-void os_getTestDirectory(FString *pString);
-
 void os_getFilesInDirectory(const char *pFilePath, FList *pList);
 void os_getFilesInDirectoryRecursive(const char *pFilePath, FList *pList);
 

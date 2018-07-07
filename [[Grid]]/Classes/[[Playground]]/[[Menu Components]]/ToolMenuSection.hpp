@@ -12,6 +12,7 @@
 #include "UIRoundedRect.hpp"
 #include "UIButton.hpp"
 
+class ToolMenu;
 class ToolMenuSection : public FCanvas {
 public:
     ToolMenuSection();
@@ -31,6 +32,8 @@ public:
     UIRoundedRect                           mSectionBackground;
 
     FList                                   mSectionList;
+
+    ToolMenu                                *mMenu;
 };
 
 #endif

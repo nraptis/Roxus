@@ -305,6 +305,8 @@ FHashMap::FHashMap() {
     mTable = 0;
     mTableCount = 0;
     mTableSize = 0;
+    mListHead = 0;
+    mListTail = 0;
 }
 
 FHashMap::~FHashMap() {

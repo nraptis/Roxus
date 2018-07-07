@@ -466,14 +466,6 @@ bool os_createDirectory(const char *pDirectory)
     return aValid;
 }
 
-void os_getTestDirectory(FString *pString)
-{
-    if(pString)
-    {
-        pString->Set("/Users/nraptis/Desktop/[[[EXPORTED]]]/");
-    }
-}
-
 void os_exportPNGImage(unsigned int *pData, const char *pFilePath, int pWidth, int pHeight)
 {
     int aArea = (pWidth * pHeight);

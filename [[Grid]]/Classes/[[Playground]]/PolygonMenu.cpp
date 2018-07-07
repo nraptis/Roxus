@@ -32,26 +32,14 @@ PolygonMenu::PolygonMenu() {
     aSegment->SetTitles("0001", "0002", "00003" , "000004" , "0000005");
     mPanel1->AddSection(aSegment);
 
-
-
     ToolMenuSectionRow *aRow = new ToolMenuSectionRow();
 
-    
     mCB1 = new UICheckBox();
     mCB1->SetText("Check Box 1");
     mCB1->SetHeight(aRow->GetHeight());
-
     aRow->AddChild(mCB1);
 
-
     mPanel1->AddSection(aRow);
-
-
-
-    //UICheckBox                              *mCB2;
-
-
-
 
     mPanel2 = new ToolMenuPanel();
     mPanel2->SetTitle("Tangent Editor");
@@ -74,10 +62,6 @@ PolygonMenu::PolygonMenu() {
     mSection3->SetFrame(30.0f, 80.0f, 220.0f, 280.0f);
     AddSection(mSection3);
 
-
-
-
-
     mSubPanel1 = new ToolMenuPanel();
     mSubPanel1->SetTitle("+[]ASDF.,|");
     mSubPanel1->SetFrame(10, 20, 300, 70.0f);
@@ -87,7 +71,6 @@ PolygonMenu::PolygonMenu() {
     mSubSub1->SetTitle("+[]ASDF.,|");
     mSubSub1->SetFrame(10, 20, 300, 70.0f);
     mSubPanel1->AddSection(mSubSub1);
-
 
     ToolMenuPanel *mSubSub2 = new ToolMenuPanel();
     mSubSub2->SetTitle("+[]ASDF.,|");
@@ -99,13 +82,10 @@ PolygonMenu::PolygonMenu() {
     mSubSubSub1->SetFrame(10, 20, 300, 70.0f);
     mSubSub2->AddSection(mSubSubSub1);
 
-
     mSubPanel2 = new ToolMenuPanel();
     mSubPanel2->SetTitle("Amazing??");
     mSubPanel2->SetFrame(10, 20, 300, 70.0f);
     mPanel1->AddSection(mSubPanel2);
-
-
 
     mSubPanel1 = new ToolMenuPanel();
     mSubPanel1->SetTitle("Amazing journey through junkyard");
@@ -121,11 +101,6 @@ PolygonMenu::PolygonMenu() {
     mSubPanel1->SetTitle("journey through junkyard");
     mSubPanel1->SetFrame(10, 20, 300, 70.0f);
     mPanel2->AddSection(mSubPanel1);
-
-
-
-
-    
 
 }
 

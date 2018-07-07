@@ -14,11 +14,6 @@
 #include "ToolMenuSection.hpp"
 #include "UIElement.hpp"
 
-class UIButton;
-class UILabel;
-class UISlider;
-class UISegment;
-
 class ToolMenuSectionRow : public ToolMenuSection {
 public:
     ToolMenuSectionRow();
@@ -29,8 +24,16 @@ public:
     virtual void                            Layout();
 
     static float                            RowHeight();
-
     virtual void                            Notify(void *pSender, const char *pNotification);
+
+    void                                    AddLabel(UILabel *pLabel);
+    void                                    AddButton(UIButton *pButton);
+    void                                    AddCheckBox(UICheckBox *pCheckBox);
+    void                                    AddAlignmentPicker(UIAlignmentPicker *pAlignmentPicker);
+
+    void                                    AddElement(UIElement *pElement);
+
+    FList                                   mElementList;
 };
 
-#endif /* ToolMenuSectionRow_hpp */
+#endif

@@ -63,8 +63,8 @@ int gVirtualHeight = gWindowHeight;
 //Toying around screen...
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 320.0f;
-int gWindowHeight = 568.0f;
+int gWindowWidth = 1100.0f;
+int gWindowHeight = 800.0f;
 
 int gVirtualX = 8.0f;
 int gVirtualY = 8.0f;
@@ -99,63 +99,49 @@ void os_core_findDirectories() {
 
     AppShellSetDirectoryBundle(aPathBundle.c());
     AppShellSetDirectoryDocuments(aPathDocuments.c());
+
+    //TODO: What scale?
+    AppShellSetSpriteScale(2);
+
 }
 
-void os_core_refreshModifierKeys()
-{
+void os_core_refreshModifierKeys() {
     int aModifier = glutGetModifiers();
-    
-    if((aModifier & GLUT_ACTIVE_SHIFT) != 0)
-    {
-        if(gKeyDownShift == false)
-        {
+    if ((aModifier & GLUT_ACTIVE_SHIFT) != 0) {
+        if (gKeyDownShift == false) {
             gKeyDownShift = true;
             AppShellKeyDown(DIK_LSHIFT);
         }
-    }
-    else
-    {
-        if(gKeyDownShift == true)
-        {
+    } else {
+        if (gKeyDownShift == true) {
             gKeyDownShift = false;
             AppShellKeyUp(DIK_LSHIFT);
         }
     }
-    
-    if((aModifier & GLUT_ACTIVE_CTRL) != 0)
-    {
-        if(gKeyDownCtrl == false)
-        {
+
+    if ((aModifier & GLUT_ACTIVE_CTRL) != 0) {
+        if (gKeyDownCtrl == false) {
             gKeyDownCtrl = true;
             AppShellKeyDown(DIK_LCONTROL);
         }
-    }
-    else
-    {
-        if(gKeyDownCtrl == true)
-        {
+    } else {
+        if (gKeyDownCtrl == true) {
             gKeyDownCtrl = false;
             AppShellKeyUp(DIK_LCONTROL);
         }
     }
     
-    if((aModifier & GLUT_ACTIVE_ALT) != 0)
-    {
-        if(gKeyDownAlt == false)
-        {
+    if ((aModifier & GLUT_ACTIVE_ALT) != 0) {
+        if (gKeyDownAlt == false) {
             gKeyDownAlt = true;
             AppShellKeyDown(DIK_LALT);
         }
-    }
-    else
-    {
-        if(gKeyDownAlt == true)
-        {
+    } else {
+        if (gKeyDownAlt == true) {
             gKeyDownAlt = false;
             AppShellKeyUp(DIK_LALT);
         }
     }
-    
 }
 
 

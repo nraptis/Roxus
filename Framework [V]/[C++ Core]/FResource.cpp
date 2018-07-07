@@ -147,13 +147,11 @@ FResource *FResourceManager::AddResource(const char *pResourcePath, bool pPrint)
     return aResult;
 }
 
-FString FResourceManager::ResourceName(const char *pFilePath)
-{
+FString FResourceManager::ResourceName(const char *pFilePath) {
     FString aFullPath = FString(pFilePath);
     FString aName;// = aFullPath;
     int aPathIndex = aFullPath.GetPathIndex();
-    if((aPathIndex >= 0) && (aPathIndex < aFullPath.mLength))
-    {
+    if ((aPathIndex >= 0) && (aPathIndex < aFullPath.mLength)) {
         aName = aFullPath.GetSubString(aPathIndex, ((aFullPath.mLength - aPathIndex) + 1));
     }
     aName.RemoveExtension();

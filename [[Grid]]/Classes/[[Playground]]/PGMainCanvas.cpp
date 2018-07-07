@@ -15,10 +15,8 @@ PGMainCanvas::PGMainCanvas() {
     gTool = this;
     mName = "_Playground_";
     mClipEnabled = false;
-    mBackQuad.Corner1SetColor(0.96f, 0.92f, 0.88f);
-    mBackQuad.Corner2SetColor(0.98f, 0.95f, 0.99f);
-    mBackQuad.Corner3SetColor(0.97f, 0.96f, 0.96f);
-    mBackQuad.Corner4SetColor(0.95f, 0.97f, 0.94f);
+
+    SetBackgroundDark();
 
     mMainToolbar = new PGMainToolbar();
     AddChild(mMainToolbar);
@@ -72,8 +70,8 @@ void PGMainCanvas::Layout() {
 }
 
 void PGMainCanvas::Update() {
-    //SetContentSize(gApp->mBackgroundLarge.mWidth, gApp->mBackgroundLarge.mHeight);
 
+    BringChildToFront(mMainToolbar);
 
 }
 
@@ -128,3 +126,23 @@ void PGMainCanvas::KeyUp(int pKey) {
 
 }
 
+void PGMainCanvas::SetBackgroundDark() {
+    mBackQuad.Corner2SetColor(0.06f, 0.02f, 0.03f);
+    mBackQuad.Corner4SetColor(0.08f, 0.05f, 0.09f);
+    mBackQuad.Corner3SetColor(0.07f, 0.06f, 0.06f);
+    mBackQuad.Corner1SetColor(0.05f, 0.07f, 0.04f);
+}
+
+void PGMainCanvas::SetBackgroundGray() {
+    mBackQuad.Corner1SetColor(0.48f, 0.45f, 0.49f);
+    mBackQuad.Corner3SetColor(0.46f, 0.47f, 0.48f);
+    mBackQuad.Corner4SetColor(0.47f, 0.46f, 0.46f);
+    mBackQuad.Corner2SetColor(0.45f, 0.47f, 0.44f);
+}
+
+void PGMainCanvas::SetBackgroundLight() {
+    mBackQuad.Corner1SetColor(0.96f, 0.92f, 0.88f);
+    mBackQuad.Corner2SetColor(0.98f, 0.95f, 0.99f);
+    mBackQuad.Corner3SetColor(0.97f, 0.96f, 0.96f);
+    mBackQuad.Corner4SetColor(0.95f, 0.97f, 0.94f);
+}

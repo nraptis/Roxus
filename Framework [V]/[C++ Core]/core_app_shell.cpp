@@ -42,6 +42,7 @@ bool gKeyPressed[256];
 
 FString gDirDocuments;
 FString gDirBundle;
+FString gDirExport;
 
 FRandomizer gRand;
 FTouchManager gTouch;
@@ -49,7 +50,10 @@ FNotificationCenter gNotify;
 FTextureCache gTextureCache;
 Graphics gG;
 
+
 int gEnvironment = ENV_IPHONE;
+int gSpriteScale = 1;
+
 bool gIsLargeScreen = false;
 bool gIsRetina = false;
 
@@ -247,23 +251,26 @@ void AppShellSetVirtualFrame(int pX, int pY, int pWidth, int pHeight)
 	}
 }
 
-
-
-
-
-void AppShellSetDirectoryBundle(const char *pFilePath)
-{
+void AppShellSetDirectoryBundle(const char *pFilePath) {
     gDirBundle = pFilePath;
 }
 
-void AppShellSetDirectoryDocuments(const char *pFilePath)
-{
+void AppShellSetDirectoryDocuments(const char *pFilePath) {
     gDirDocuments = pFilePath;
+}
+
+void AppShellSetDirectoryExport(const char *pFilePath) {
+    gDirExport = pFilePath;
 }
 
 void AppShellSetOSVersion(float pOSVersion)
 {
     gOSVersion = pOSVersion;
+}
+
+//1X, 2X, 3X, 4X...
+void AppShellSetSpriteScale(int pScale) {
+    gSpriteScale = pScale;
 }
 
 void AppShellLoad()

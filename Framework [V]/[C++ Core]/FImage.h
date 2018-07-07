@@ -47,17 +47,14 @@ public:
 	~FImage();
     
     void                            Load(char *pFile);
-	inline void                     Load(const char *pFile){Load((char*)pFile);}
-	inline void                     Load(FString pFile){Load(pFile.c());}
-    
+	inline void                     Load(const char *pFile) { Load((char*)pFile); }
+	inline void                     Load(FString pFile){ Load(pFile.c()); }
+
     void                            LoadDirect(char *pFile);
 	inline void                     LoadDirect(const char *pFile){LoadDirect((char*)pFile);}
 	inline void                     LoadDirect(FString pFile){LoadDirect(pFile.c());}
-    
-    
+
     FTexture                        *GetTexture();
-    
-    void                            LoadAlphaMask();
     
 	void                            SetPixel(int x, int y, unsigned int pColor);
 	void                            SetPixel(int x, int y, unsigned int pRed, unsigned int pGreen, unsigned int pBlue, unsigned int pAlpha=0xFF);
@@ -86,11 +83,7 @@ public:
 	
 	void                            ApplyGreyscaleAlpha(FImage *pImage);
     void                            ApplyGreyscaleAlphaInverse(FImage *pImage);
-    
-    
-	
-	void                            ExportSlices(int pWidth, int pHeight, char *pFileRoot, bool namedWithRowAndColumn=true, bool ignoreBlanks=true);
-	
+
 	void                            ExportBMP(char *pFile);
 	inline void                     ExportBMP(FString pFile){ExportBMP(pFile.c());}
 	
@@ -102,9 +95,7 @@ public:
 	
 	void                            ExportACompressed(char *pFile);
 	inline void                     ExportACompressed(FString pFile){ExportACompressed(pFile.c());}
-    
-    
-    
+
     unsigned int                    **Get2DGrid();
     
     void                            DivideRGBA();
@@ -197,7 +188,7 @@ public:
 	int                             mWidth, mHeight;
 	int                             mOffsetX, mOffsetY;
     
-    float                           mScale;
+    int                             mScale;
     
 	//int                           mBindIndex;
     

@@ -7,7 +7,9 @@
 //
 
 #include "UICheckBox.hpp"
+#include "ToolMenuSectionRow.hpp"
 #include "FApp.h"
+
 
 UICheckBox::UICheckBox() {
     mName = "UICheckBox";
@@ -27,6 +29,8 @@ UICheckBox::UICheckBox() {
     mCheckBackground.mCornerPointCount = 6;
     mCheckOutline.mCornerPointCount = 6;
 
+    SetHeight(ToolMenuSectionRow::RowHeight());
+
     CheckedStateDidUpdate();
 }
 
@@ -35,17 +39,14 @@ UICheckBox::~UICheckBox() {
 }
 
 void UICheckBox::Layout() {
-
-
     float aTextWidth = gAppBase->mSysFont.Width(mText.c(), mFontScale);
     if (aTextWidth < 20.0f) { aTextWidth = 20.0f; }
 
     float aTextRight = aTextWidth + 4.0f + 4.0f;
-    mTextCenterX = aTextWidth / 2.0f + 6.0f;
+
 
     float aCheckSize = 24.0f;
-
-    SetWidth(aTextRight + aCheckSize + 8.0f);
+    //SetWidth(aTextRight + aCheckSize + 8.0f);
 
     mButtonBackground.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
     mButtonBackgroundDown.SetRect(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f);
@@ -53,9 +54,17 @@ void UICheckBox::Layout() {
     mButtonOutlineDown.SetRect(0.0f, 0.0f, mWidth, mHeight);
 
     float aCheckTop = mHeight2 - aCheckSize / 2.0f;
+    float aExpectedWidth = aTextRight + aCheckSize + 8.0f;
+    float aShift = 0.0f;
 
-    mCheckBackground.SetRect(aTextRight + 2.0f, aCheckTop + 2.0f, aCheckSize - 4.0f, aCheckSize - 4.0f);
-    mCheckOutline.SetRect(aTextRight, aCheckTop, aCheckSize, aCheckSize);
+    if (mWidth > aExpectedWidth) {
+        aShift += (mWidth - aExpectedWidth)  / 2.0f;
+    }
+
+    mTextCenterX = aTextWidth / 2.0f + 6.0f + aShift;
+
+    mCheckBackground.SetRect(aTextRight + 2.0f + aShift, aCheckTop + 2.0f, aCheckSize - 4.0f, aCheckSize - 4.0f);
+    mCheckOutline.SetRect(aTextRight + aShift, aCheckTop, aCheckSize, aCheckSize);
 
     mButtonBackground.mRefresh = true;
     mButtonBackgroundDown.mRefresh = true;
@@ -99,12 +108,20 @@ void UICheckBox::TouchUp(float pX, float pY, void *pData) {
                 *mTarget = mIsChecked;
             }
             CheckedStateDidUpdate();
+
+            gNotify.Post(this, "checkbox");
         }
         mClickData = 0;
     }
 }
 
-
+float UICheckBox::GetIdealSize() {
+    float aTextWidth = gAppBase->mSysFont.Width(mText.c(), mFontScale);
+    if (aTextWidth < 20.0f) { aTextWidth = 20.0f; }
+    float aTextRight = aTextWidth + 4.0f + 4.0f;
+    float aCheckSize = 24.0f;
+    return aTextRight + aCheckSize + 8.0f;
+}
 
 void UICheckBox::SetTarget(bool *pTarget) {
     mTarget = pTarget;

@@ -12,9 +12,7 @@
 #include "FView.h"
 #include "UMenu.h"
 #include "UMenuStyleExtended.h"
-
 #include "FMotionPath.h"
-
 #include "FSpline.h"
 #include "FView.h"
 #include "FButton.h"
@@ -265,22 +263,13 @@ public:
     FColor                                          mBackgroundColor;
     float                                           mOpacity;
     
-    
     UNode                                           *mNode;
-    
-    
-    
+
     FPointList                                      mTrianglePointList;
     int                                             mTriangleSelectionStep;
     int                                             mTriangleSelectionIndex1;
     int                                             mTriangleSelectionIndex2;
     int                                             mTriangleSelectionIndex3;
-    
-    
-    
-    
-    
-    
 };
 
 #endif /* defined(___015_Fleet_XP__UUPathMaker__) */

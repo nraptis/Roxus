@@ -172,58 +172,39 @@ void FSpriteSequence::Load(const char *pFilePrefix, int pStartIndex, int pEndInd
     
     int aLoops = 0;
     
-    for(int aStartIndex=pStartIndex;aStartIndex <= pEndIndex;aStartIndex++)
-    {
+    for (int aStartIndex=pStartIndex;aStartIndex <= pEndIndex;aStartIndex++) {
         aLoops++;
-        
-        for(int aLeadingZeroes=1;(aLeadingZeroes < 7) && (aSuccess == false) ;aLeadingZeroes++)
-        {
+        for (int aLeadingZeroes=1;(aLeadingZeroes < 7)&&(aSuccess == false);aLeadingZeroes++) {
             aLoops++;
-            
             aNumberString = FString(aStartIndex);
-            if(aNumberString.mLength < aLeadingZeroes)
-            {
+            if (aNumberString.mLength < aLeadingZeroes) {
                 FString aZeroString;
 				aZeroString.InsChars('0', (aLeadingZeroes - aNumberString.mLength), 0);
-
-				//aZeroString.Write('0', (aLeadingZeroes - aNumberString.mLength), 0);
                 aNumberString = FString(aZeroString + aNumberString);
             }
-            
             aPath = FString(aFileBase + aNumberString);
-            
             aSprite->Load(aPath);
-            
-            if(aSprite->DidLoad())
-            {
+            if (aSprite->DidLoad()) {
                 mList += aSprite;
                 aSprite = new FSprite();
                 aSprite->mAddToSpriteList = false;
-                
                 int aIndex = aStartIndex + 1;
-                
-                while(aIndex <= pEndIndex)
-                {
+                while (aIndex <= pEndIndex) {
                     aLoops++;
-                    
                     aNumberString = FString(aIndex);
-                    if(aNumberString.mLength < aLeadingZeroes)
-                    {
+                    if (aNumberString.mLength < aLeadingZeroes) {
                         FString aZeroString;
 						aZeroString.InsChars('0', (aLeadingZeroes - aNumberString.mLength), 0);
                         aNumberString = FString(aZeroString + aNumberString);
                     }
                     aPath = FString(aFileBase + aNumberString);
                     aSprite->Load(aPath);
-                    if(aSprite->DidLoad())
-                    {
+                    if (aSprite->DidLoad()) {
                         mList += aSprite;
                         aSprite = new FSprite();
                         aSprite->mAddToSpriteList = false;
                         aIndex++;
-                    }
-                    else
-                    {
+                    } else {
                         break;
                     }
                 }
@@ -232,10 +213,8 @@ void FSpriteSequence::Load(const char *pFilePrefix, int pStartIndex, int pEndInd
         }
     }
     
-    if(mList.mCount > 0)
-    {
-        if(gSpriteSequenceList.Exists(this) == false)
-        {
+    if (mList.mCount > 0) {
+        if (gSpriteSequenceList.Exists(this) == false) {
             gSpriteSequenceList.Add(this);
         }
     }
@@ -560,6 +539,8 @@ void FSpriteSequence::FindAllFileSequences(FList &pFileList, FList &pSearchBucke
 
 void FSpriteSequence::PrintAllFileSequences(FList &pFileList)
 {
+
+    /*
     FList aBucketList;
     
     FindAllFileSequences(pFileList, aBucketList);
@@ -585,11 +566,12 @@ void FSpriteSequence::PrintAllFileSequences(FList &pFileList)
 			{
 				FSpriteSequenceSearchNode *aNode = (FSpriteSequenceSearchNode *)(aCheckBucket->mNodeList.Fetch(i));
 
-				if(aNode)
-				{
-					FImage *aImage = new FImage();
-					aImage->Load(aNode->mFilePath.c());
-					gImageBundler.AddImage(aImage);
+				if (aNode) {
+                    gImageBundler.AddImage(aNode->mFilePath.c());
+					//FImage *aImage = new FImage();
+					//aImage->Load(aNode->mFilePath.c());
+					//gImageBundler.AddImage(aImage);
+
 				}
 			}
 
@@ -634,6 +616,7 @@ void FSpriteSequence::PrintAllFileSequences(FList &pFileList)
 		Log("mTestSequence[aSeqIndex++].LoadBundle(\"%s\");\n", aString->c());
 	}
 	FreeList(FString, aNameList);
+    */
 }
 
 FSpriteSequenceSearchNode::FSpriteSequenceSearchNode(const char *pFilePath, const char *pName, int pIndex)

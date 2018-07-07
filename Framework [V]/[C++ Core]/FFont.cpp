@@ -915,12 +915,11 @@ FFontImportData *FFont::BitmapDataImport(const char *pDataPath, const char *pIma
 }
 
 void FFont::BitmapDataExportTestStrips(FFontImportData *pImport, const char *pName, int pCount) {
-    if(pImport == 0)return;
+    if (pImport == 0) { return; }
     FFontImportGlyph *aGlyph = 0;
     bool aStamped = true;
     int aStripX = 8;
     int aPointSize = pImport->mPointSize;
-
     for (int aTestStrip=0;aTestStrip<pCount;aTestStrip++) {
         if ((aStamped == true) && (pImport->mPointSize >= 1) && (pImport->mPointSize <= 2048)) {
             FImage aStrip;
@@ -940,20 +939,14 @@ void FFont::BitmapDataExportTestStrips(FFontImportData *pImport, const char *pNa
                     }
                 }
             }
-            
             if (aStamped) {
-                FString aPrefix;
-                os_getTestDirectory(&aPrefix);
-
+                FString aPrefix = gDirExport;
                 FString aNumberString = FString((int)(aTestStrip + 1));
                 if(aNumberString.mLength < 2)aNumberString = FString(FString("0") + FString(aNumberString.c())).c();
                 if(aNumberString.mLength < 2)aNumberString = FString(FString("0") + FString(aNumberString.c())).c();
-                
                 FString aPath = aPrefix + FString(FString("STRIP_") + FString(pName) + aNumberString + FString("_test.png")).c();
                 aPath.Replace(" ", "_");
                 for(int i=0;i<4;i++)aPath.Replace("__", "_");
-                
-                //FString aPath = aPrefix + FString(pName) + FString("_STRIP_") + FString((int)(aTestStrip + 1)) + FString(".png");
                 os_exportPNGImage(aStrip.mData, aPath.c(), aStrip.mWidth, aStrip.mHeight);
             }
         }
@@ -964,7 +957,7 @@ void FFont::BitmapDataExportGlyphs(FFontImportData *pImport, const char *pName) 
     if (pImport == 0) return;
     FFontImportGlyph *aGlyph = 0;
     FImage *aImage = 0;
-    FString aPrefix;os_getTestDirectory(&aPrefix);
+    FString aPrefix = gDirExport;
     for (int i=0;i<256;i++) {
         aGlyph = pImport->GetGlyph(i);
         if (aGlyph != 0) {
@@ -982,63 +975,41 @@ void FFont::BitmapDataExportGlyphs(FFontImportData *pImport, const char *pName) 
 }
 
 
-void FFont::BitmapDataExportData(FFontImportData *pImport, const char *pName)
-{
-    if(pImport == 0)return;
-    
+void FFont::BitmapDataExportData(FFontImportData *pImport, const char *pName) {
+    if (pImport == 0) { return; }
     FFile aFile;
-    
     int aKern = 0;
     unsigned char aKernChar = 0;
-    
     FFontImportGlyph *aGlyph = 0;
-    
     aFile.WriteShort((short)(pImport->mPointSize));
     aFile.WriteShort((short)(pImport->mCharactersLoadedCount));
-    
-    for(int aIndex=0;aIndex<256;aIndex++)
-    {
+    for (int aIndex = 0;aIndex < 256;aIndex++) {
         aGlyph = pImport->GetGlyph(aIndex);
-        
-        if(aGlyph)
-        {
-            if(aGlyph->Valid())
-            {
+        if (aGlyph) {
+            if (aGlyph->Valid()) {
                 aFile.WriteChar(aGlyph->mChar);
                 aFile.WriteShort(aGlyph->mStrideX);
                 aFile.WriteShort((short)(aGlyph->mImageOffsetX));
             }
         }
     }
-    
-    if((pImport->mKerningEnabled == false) || (pImport->mKernCount == 0))
-    {
+
+    if ((pImport->mKerningEnabled == false) || (pImport->mKernCount == 0)) {
         aFile.WriteBool(false);
-    }
-    else
-    {
+    } else {
         aFile.WriteBool(true);
         aFile.WriteShort(pImport->mKernCount);
     }
-    
-    
-    for(int aIndex=0;aIndex<256;aIndex++)
-    {
+
+    for (int aIndex=0;aIndex<256;aIndex++) {
         aGlyph = pImport->GetGlyph(aIndex);
-        
-        if(aGlyph)
-        {
-            if(aGlyph->Valid())
-            {
+        if (aGlyph) {
+            if (aGlyph->Valid()) {
                 aFile.WriteShort(aGlyph->mKernCount);
-                
-                for(int k=0;k<256;k++)
-                {
+                for (int k=0;k<256;k++) {
                     aKern = aGlyph->mKern[k];
-                    if(aKern != 0)
-                    {
+                    if (aKern != 0) {
                         aKernChar = k;
-                        
                         aFile.WriteChar(aKernChar);
                         aFile.WriteShort((char)(aKern));
                     }
@@ -1047,11 +1018,10 @@ void FFont::BitmapDataExportData(FFontImportData *pImport, const char *pName)
         }
     }
     
-    FString aPrefix;os_getTestDirectory(&aPrefix);
+    FString aPrefix = gDirExport;
     FString aPath = FString(aPrefix + FString(pName) + FString("_font.kern")).c();
     aPath.Replace(" ", "_");
-    for(int i=0;i<4;i++)aPath.Replace("__", "_");
-    
+    for (int i=0;i<4;i++) { aPath.Replace("__", "_"); }
     os_write_file(aPath.c(), aFile.mData, aFile.mLength);
 }
 

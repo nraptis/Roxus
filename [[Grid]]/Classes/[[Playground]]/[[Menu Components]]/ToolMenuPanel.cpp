@@ -62,6 +62,7 @@ void ToolMenuPanel::Layout() {
 }
 
 void ToolMenuPanel::Notify(void *pSender, const char *pNotification) {
+    ToolMenuSection::Notify(pSender, pNotification);
 
 }
 
@@ -70,6 +71,7 @@ void ToolMenuPanel::SetTitle(const char *pText) {
 }
 
 void ToolMenuPanel::AddSection(ToolMenuSection *pSection) {
+    if (mMenu) { pSection->mMenu = mMenu; }
     mSectionList.Add(pSection);
     mContent.AddChild(pSection);
 }

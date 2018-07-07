@@ -18,8 +18,7 @@ public:
     UISegment();
     UISegment(int pSegmentCount);
     virtual ~UISegment();
-
-
+    
     virtual void                                Layout();
 
     virtual void                                Notify(void *pSender, const char *pNotification);
