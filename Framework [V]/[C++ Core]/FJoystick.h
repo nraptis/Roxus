@@ -65,10 +65,10 @@ public:
     
     void                                    SetRadius(float pRadius){mRadius=pRadius;mRadiusSquared=mRadius*mRadius;}
     
-    //virtual void                            MultiTouch(int x, int y, void *pData);
-	//virtual void                            MultiRelease(int x, int y, void *pData);
-    //virtual void                            MultiDrag(int x, int y, void *pData);
-    //virtual void                            FlushMultiTouch();
+    //virtual void                            TouchDown(int x, int y, void *pData);
+	//virtual void                            TouchUp(int x, int y, void *pData);
+    //virtual void                            TouchMove(int x, int y, void *pData);
+    //virtual void                            TouchFlush();
     
     FSprite                                 *mSpriteBackground;
     FSprite                                 *mSpriteKnob;

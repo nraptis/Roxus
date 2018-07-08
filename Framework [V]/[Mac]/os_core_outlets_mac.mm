@@ -1,30 +1,24 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-
-#include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
+#include <Foundation/Foundation.h>
 
 #include "os_core_outlets.h"
 #include "core_includes.h"
-
 #include "FString.h"
 #include "FFile.h"
 #include "FList.h"
-
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
 #include <time.h>
 #include <dirent.h>
 #include <errno.h>
-
 #include <algorithm>
 #include <vector>
 #include <thread>
 #include <string>
 #include <iostream>
-
-
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -87,18 +81,9 @@ unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
         if(aData != nil)
         {
             pLength = (unsigned int)([aData length]);
-            
-            if(pLength > 0)
-            {
+            if (pLength > 0) {
                 unsigned char *aFileData = (unsigned char *)[aData bytes];
-                
                 aResult = new unsigned char[pLength];
-                
-                for(int i=0;i<pLength;i++)
-                {
-                    //aResult[i] = aFileData[i];
-                }
-                
                 memcpy(aResult, aFileData, pLength);
                 
                 

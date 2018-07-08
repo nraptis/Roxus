@@ -25,10 +25,10 @@ public:
     virtual void                                Initialize(){}
     
 
-    virtual void                                SetDeviceSize(float pWidth, float pHeight){}
+    virtual void                                SetDeviceSize(float pWidth, float pHeight) { }
     
 
-	virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight){}
+	virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight) { }
     virtual void                                Load(){}
     virtual void                                LoadComplete(){}
 

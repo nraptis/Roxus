@@ -292,16 +292,12 @@ void os_core_keyDownSpecial(int pKey, int pX, int pY)
     AppShellKeyDown(os_core_getSystemKeySpecial(pKey));
 }
 
-void os_core_keyUpSpecial(int pKey, int pX, int pY)
-{
+void os_core_keyUpSpecial(int pKey, int pX, int pY) {
     os_core_refreshModifierKeys();
     AppShellKeyUp(os_core_getSystemKeySpecial(pKey));
 }
 
-
-
-void os_core_mouseAction(int pButton, int pState, int pX, int pY)
-{
+void os_core_mouseAction(int pButton, int pState, int pX, int pY) {
     os_core_refreshModifierKeys();
     if(pState == 0)AppShellMouseDown(pX, pY, pButton);
     else if(pState == 1)AppShellMouseUp(pX, pY, pButton);
@@ -312,8 +308,7 @@ void os_core_mouseMove(int pX, int pY)
     AppShellMouseMove(pX, pY);
 }
 
-int os_core_main(int argc, char **argv)
-{
+int os_core_main(int argc, char **argv) {
     gEnvironment = ENV_MAC;
     
     glutInit(&argc, argv);
@@ -329,11 +324,8 @@ int os_core_main(int argc, char **argv)
     AppShellSetOSVersion(gOSVersion);
     
     AppShellInitialize(ENV_MAC);
-    
+
     AppShellSetDeviceSize(gWindowWidth, gWindowHeight);
-    //AppShellSetVirtualFrame(20, 20, 460, 720);
-    
-    
     AppShellSetVirtualFrame(gVirtualX, gVirtualY, gVirtualWidth, gVirtualHeight);
     
     
@@ -355,9 +347,7 @@ int os_core_main(int argc, char **argv)
     glutMainLoop();
     
     glutDestroyWindow(gOpenGLWindow);
-    
-    exit(0);
-    
+
     return 0;
 
 }

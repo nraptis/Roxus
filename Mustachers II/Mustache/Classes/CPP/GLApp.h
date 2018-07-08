@@ -90,18 +90,20 @@ public:
     Sprite                                  mTowerDetailMenuButtonUpgrade;
     
     Sprite                                  mGridOverlay[2];
-    
+
+
+    Sprite                                  mLevelBackTunnel;
+    Sprite                                  mLevelBackFloor;
+    Sprite                                  mLevelBackBridge;
+
+
+    Sprite mCheck;
     
     virtual void                            AchProgress(const char *pAchievementName, int pCount=1);
     virtual void                            AchProgressGroup(const char *pGroupName, int pCount=1);
     
     
-    Sprite                                  mLevelBackTunnel;
-    Sprite                                  mLevelBackFloor;
-    Sprite                                  mLevelBackBridge;
-    
-    
-    Sprite mCheck;
+
     
 };
 

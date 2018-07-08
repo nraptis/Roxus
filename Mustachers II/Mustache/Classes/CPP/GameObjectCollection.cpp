@@ -24,14 +24,26 @@ GameObjectCollection::~GameObjectCollection()
 void GameObjectCollection::Update()
 {
     GameObject *aObject = 0;
+    //List aDeleteList;
     for(int i=0;i<mCount;i++)
     {
         aObject = mList[i];
         if(aObject->mKill == 0)
         {
             aObject->Update();
+        } else {
+            aObject->mKill--;
+            if (aObject->mKill <= 0) {
+                aDeleteList.Add(aObject);
+
+            }
         }
     }
+    for(int i=0;i<mCount;i++)
+    {
+        //aObject = (GameObject *)aDeleteList.mData[i];
+    }
+
 }
 
 void GameObjectCollection::Draw()
