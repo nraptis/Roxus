@@ -8,6 +8,7 @@
 
 #include "ToolMenu.hpp"
 #include "GLApp.h"
+#include "PGMainCanvas.hpp"
 
 ToolMenu::ToolMenu() {
     mName = "ToolMenu";
@@ -41,7 +42,9 @@ ToolMenu::ToolMenu() {
 }
 
 ToolMenu::~ToolMenu() {
-
+    if (gTool) {
+        
+    }
 }
 
 void ToolMenu::Layout() {

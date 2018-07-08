@@ -1584,4 +1584,3 @@ void FCanvasAbsoluteTransform::Transform(float &pX, float &pY, float pWidth, flo
     pX = aDirX * (aDist / (mScale * mScaleX)) + mAnchorX * pWidth;
     pY = aDirY * (aDist / (mScale * mScaleY)) + mAnchorY * pHeight;
 }
-

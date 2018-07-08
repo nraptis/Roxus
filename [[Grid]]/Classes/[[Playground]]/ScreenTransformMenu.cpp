@@ -1,16 +1,37 @@
 //
-//  PolygonMenu.cpp
+//  ScreenTransformMenu.cpp
+//  DigMMMac
+//
+//  Created by Raptis, Nicholas on 7/7/18.
+//  Copyright © 2018 Darkswarm LLC. All rights reserved.
+//
+
+#include "ScreenTransformMenu.hpp"
+
+
+//
+//  PathEditorMenu.cpp
+//  DigMMMac
+//
+//  Created by Raptis, Nicholas on 7/6/18.
+//  Copyright © 2018 Darkswarm LLC. All rights reserved.
+//
+
+#include "PathEditorMenu.hpp"
+
+//
+//  ScreenTransformMenu.cpp
 //  DigMMMac
 //
 //  Created by Raptis, Nicholas on 7/4/18.
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#include "PolygonMenu.hpp"
+#include "ScreenTransformMenu.hpp"
 #include "FApp.h"
 
-PolygonMenu::PolygonMenu() {
-    mName = "PolygonMenu";
+ScreenTransformMenu::ScreenTransformMenu() {
+    mName = "ScreenTransformMenu";
 
     SetTitle("Polygon Editor");
     SetScrollMode(true);
@@ -104,17 +125,17 @@ PolygonMenu::PolygonMenu() {
 
 }
 
-PolygonMenu::~PolygonMenu() {
+ScreenTransformMenu::~ScreenTransformMenu() {
 
 }
 
-void PolygonMenu::Layout() {
+void ScreenTransformMenu::Layout() {
     ToolMenu::Layout();
 
 }
 
 
-void PolygonMenu::Notify(void *pSender, const char *pNotification) {
+void ScreenTransformMenu::Notify(void *pSender, const char *pNotification) {
 
 }
 

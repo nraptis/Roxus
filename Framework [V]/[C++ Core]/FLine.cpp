@@ -60,7 +60,7 @@ void FLine::Make(float x1,float y1,float x2,float y2)
     mNormalX = -mDirY;
     mNormalY = mDirX;
     
-    mCross=(-PHYSICS_DOT(mX1,mY1,mNormalX,mNormalY));
+    mCosAlpha=(-PHYSICS_DOT(mX1,mY1,mNormalX,mNormalY));
 }
 
 bool FLine::SegmentSegmentIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
@@ -122,10 +122,10 @@ bool FLine::SegmentPlaneIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2
     float aLineNormX = -aLineDirY;
     float aLineNormY = aLineDirX;
     
-    float aLineCross = (-PHYSICS_DOT(pL_1_x1, pL_1_y1, aLineNormX, aLineNormY));
+    float aLineDot = (-PHYSICS_DOT(pL_1_x1, pL_1_y1, aLineNormX, aLineNormY));
     
     float aDenom = pPlaneDirX * aLineNormX + pPlaneDirY * aLineNormY;
-    float aNumer = aLineNormX * pPlaneX + aLineNormY * pPlaneY + aLineCross;
+    float aNumer = aLineNormX * pPlaneX + aLineNormY * pPlaneY + aLineDot;
     
     if((aDenom < (-SQRT_EPSILON)) || (aDenom > SQRT_EPSILON))
     {
@@ -203,80 +203,52 @@ bool FLine::SegmentClosestPoint(float pLineX1, float pLineY1, float pLineX2, flo
 
 bool FLine::SegmentRayIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
                                    float pRayX, float pRayY, float pRayDirX, float pRayDirY, float pRayLength,
-                                   float &pCollideX, float &pCollideY, float &pCollideDistance)
-{
+                                   float &pCollideX, float &pCollideY, float &pCollideDistance) {
     FLine aLine;
-    
     aLine.Make(pL_1_x1, pL_1_y1, pL_1_x2, pL_1_y2);
-    
-    
-    
     float aPlaneDist = aLine.RayPlaneDist(pRayX, pRayY, pRayDirX, pRayDirY);
-    
-    if((aPlaneDist > pRayLength) || (aPlaneDist < 0.0f))
-    {
+    if ((aPlaneDist > pRayLength) || (aPlaneDist < 0.0f)) {
         return false;
     }
-    
     pCollideX = pRayX + pRayDirX * aPlaneDist;
     pCollideY = pRayY + pRayDirY * aPlaneDist;
-    
     pCollideDistance = aPlaneDist;
-    
     return true;
 }
 
-
-float FLine::RayPlaneDist(float x, float y, float pDirX, float pDirY)
-{
-    float aDenom=pDirX*mNormalX+pDirY*mNormalY;
-    if(aDenom <= SQRT_EPSILON && aDenom>=0)return 0;
-    if(aDenom >= SQRT_EPSILON && aDenom<=0)return 0;
-    float aCosAlpha=mCross;
-    float aNumer=mNormalX*x+mNormalY*y + aCosAlpha;
-    return -(aNumer/aDenom);
+float FLine::RayPlaneDist(float x, float y, float pDirX, float pDirY) {
+    float aDenom = pDirX * mNormalX + pDirY * mNormalY;
+    if (aDenom <= SQRT_EPSILON && aDenom >= -SQRT_EPSILON) return 0;
+    float aNumer = mNormalX * x + mNormalY * y + mCosAlpha;
+    return -(aNumer / aDenom);
 }
 
-void FLine::ClosestPoint(float x, float y, float &pClosestX, float &pClosestY)
-{
+void FLine::ClosestPoint(float x, float y, float &pClosestX, float &pClosestY) {
     pClosestX = mX1;
     pClosestY = mY1;
-    
     float aFactor1X = (x - mX1);
     float aFactor1Y = (y - mY1);
-    
     float aFactor2X = mX2 - mX1;
     float aFactor2Y = mY2 - mY1;
-    
     float aLength = mLength;
-    
-    if(aLength > SQRT_EPSILON)
-    {
+    if (aLength > SQRT_EPSILON) {
         aFactor2X /= mLength;
         aFactor2Y /= mLength;
-        
-        float aScalar=aFactor2X*aFactor1X+aFactor2Y*aFactor1Y;
-        
-        if(aScalar<0)
-        {
+        float aScalar = aFactor2X * aFactor1X + aFactor2Y * aFactor1Y;
+        if (aScalar < 0) {
             pClosestX = mX1;
             pClosestY = mY1;
-        }
-        else if(aScalar>mLength)
-        {
+        } else if (aScalar > mLength) {
             pClosestX = mX2;
             pClosestY = mY2;
-        }
-        else
-        {
-            pClosestX=mX1+aFactor2X*aScalar;
-            pClosestY=mY1+aFactor2Y*aScalar;
+        } else {
+            pClosestX = mX1 + aFactor2X * aScalar;
+            pClosestY = mY1 + aFactor2Y * aScalar;
         }
     }
 }
 
-float FLine::GetDist(float x, float y, int &pIndex)
-{
+float FLine::GetDist(float x, float y, int &pIndex) {
     float aDiffX, aDiffY, aDist1, aDist2;
     
     aDiffX=x-mX1;

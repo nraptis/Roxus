@@ -466,7 +466,7 @@ BEGIN_STACK_LOOP:
 			while(*aSeek&&XML_VARIABLE_BODY(*aSeek))aSeek++;
 			if(*aSeek==0)goto XML_PARSE_ERROR;
 			
-			aLength=aSeek-aHold;
+			aLength=(int)(aSeek-aHold);
 			aName=new char[aLength+1];
 			memcpy(aName,aHold,aLength);
 			aName[aLength]=0;

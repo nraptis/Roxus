@@ -278,16 +278,13 @@ void FPointList::DrawEdgesOpen(float pLineSize)
 
 void FPointList::DrawEdgeLists(FPointList *pEdgeList1, FPointList *pEdgeList2, int pStartIndex, int pSkipAmount)
 {
-    if(pSkipAmount < 1)pSkipAmount = 1;
-    if((pEdgeList1 != 0) && (pEdgeList2 != 0))
-    {
+    if (pSkipAmount < 1)pSkipAmount = 1;
+    if ((pEdgeList1 != 0) && (pEdgeList2 != 0)) {
         int aCount = ((pEdgeList1->mCount < pEdgeList2->mCount) ? (pEdgeList1->mCount) : (pEdgeList2->mCount));
         int aIndex = pStartIndex;
         
-        if(aIndex >= 0)
-        {
-        while(aIndex < aCount)
-              {
+        if (aIndex >= 0) {
+        while (aIndex < aCount) {
             Graphics::DrawLine(pEdgeList1->mX[aIndex], pEdgeList1->mY[aIndex], pEdgeList2->mX[aIndex], pEdgeList2->mY[aIndex], 2);
             aIndex += pSkipAmount;
         }
@@ -295,243 +292,170 @@ void FPointList::DrawEdgeLists(FPointList *pEdgeList1, FPointList *pEdgeList2, i
     }
 }
 
-void FPointList::DrawTriangleList(GFX_MODEL_INDEX_TYPE *pIndex, int pCount)
-{
-
+void FPointList::DrawTriangleList(GFX_MODEL_INDEX_TYPE *pIndex, int pCount) {
 	int aIndex1 = 0;
 	int aIndex2 = 0;
 	int aIndex3 = 0;
-
 	int aSlot = 0;
-
 	int aCap = (pCount - 2);
-
-	while (aSlot < aCap)
-	{
+	while (aSlot < aCap) {
 		aIndex1 = pIndex[aSlot++];
 		aIndex2 = pIndex[aSlot++];
 		aIndex3 = pIndex[aSlot++];
-
 		Graphics::DrawTriangle2D(mX[aIndex1], mY[aIndex1], mX[aIndex2], mY[aIndex2], mX[aIndex3], mY[aIndex3]);
 
 	}
-
-
-
 }
 
 
-void FPointList::Save(FFile *pFile)
-{
-    if(pFile)
-    {
+void FPointList::Save(FFile *pFile) {
+    if (pFile) {
         pFile->WriteInt(mCount);
-        
-        for(int i=0;i<mCount;i++)
-        {
+        for (int i=0;i<mCount;i++) {
             pFile->WriteFloat(mX[i]);
             pFile->WriteFloat(mY[i]);
         }
     }
 }
 
-void FPointList::Load(FFile *pFile)
-{
+void FPointList::Load(FFile *pFile) {
     Clear();
-    
-    if(pFile)
-    {
+    if (pFile) {
         int aCount = pFile->ReadInt();
-        
         Size(aCount);
-        
         float aReadX = 0.0f;
         float aReadY = 0.0f;
-        
-        for(int i=0;i<aCount;i++)
-        {
+        for (int i=0;i<aCount;i++) {
             aReadX = pFile->ReadFloat();
             aReadY = pFile->ReadFloat();
-            
             Add(aReadX, aReadY);
         }
     }
 }
 
-void FPointList::Reverse()
-{
-    if(mCount > 1)
-    {
+void FPointList::Reverse() {
+    if (mCount > 1) {
         int aStartIndex = 0;
         int aEndIndex = (mCount - 1);
-        
         float aHoldX = 0.0f;
         float aHoldY = 0.0f;
-        
-        while (aStartIndex < aEndIndex)
-        {
+        while (aStartIndex < aEndIndex) {
             aHoldX = mX[aEndIndex];
             aHoldY = mY[aEndIndex];
-            
             mX[aEndIndex] = mX[aStartIndex];
             mY[aEndIndex] = mY[aStartIndex];
-            
             mX[aStartIndex] = aHoldX;
             mY[aStartIndex] = aHoldY;
-            
             aStartIndex++;
             aEndIndex--;
         }
-        
     }
-    
 }
 
-void FPointList::RotateRight90()
-{
+void FPointList::RotateRight90() {
 	float aHold = 0.0f;
-	for(int i = 0; i < mCount; i++)
-	{
+
+	for (int i = 0; i < mCount; i++) {
 		aHold = mX[i];
 		mX[i] = (-mY[i]);
 		mY[i] = aHold;
-
-
 	}
 }
 
-void FPointList::FlipH()
-{
-	for(int i = 0; i < mCount; i++)
-	{
+void FPointList::FlipH() {
+	for (int i = 0; i < mCount; i++) {
 		mX[i] = -(mX[i]);
 	}
 }
 
-void FPointList::FlipV()
-{
-	for(int i = 0; i < mCount; i++)
-	{
+void FPointList::FlipV() {
+	for (int i = 0; i < mCount; i++) {
 		mY[i] = -(mY[i]);
 	}
 }
 
 
 
-void FPointList::GenerateRect(float pX, float pY, float pWidth, float pHeight)
-{
-    if(mSize < 4)Size(4);
-    
+void FPointList::GenerateRect(float pX, float pY, float pWidth, float pHeight) {
+    if (mSize < 4)Size(4);
     Reset();
-    
     Add(pX, pY);
     Add(pX + pWidth, pY);
     Add(pX + pWidth, pY + pHeight);
     Add(pX, pY + pHeight);
 }
 
-void FPointList::GenerateCircle(float pRadius, float pMinDist)
-{
+void FPointList::GenerateCircle(float pRadius, float pMinDist) {
     float aCircumference = PI2 * (pRadius);
-    
     int aPointCount = 12;
-    if(pMinDist > 0.5f)
-    {
+    if (pMinDist > 0.5f) {
         aPointCount = (int)((aCircumference / pMinDist) + 0.5f);
         if(aPointCount < 4)aPointCount = 4;
     }
-    
     float aFactor = (float)(aPointCount);
-    if(aFactor <= 1.0f)aFactor = 1.0f;
-    
+    if (aFactor <= 1.0f) aFactor = 1.0f;
     if(aPointCount > mSize)SetSize(aPointCount);
-    
     float aPercent = 0.0f;
     float aRotation = 0.0f;
-    
     Reset();
-    
-    for(int i=0;i<aPointCount;i++)
-    {
+    for (int i=0;i<aPointCount;i++) {
         aPercent = ((float)i) / aFactor;
 		aRotation = aPercent * (PI2);
-        
         Add(sin(aRotation) * pRadius, -cos(aRotation) * pRadius);
     }
 }
 
-bool FPointList::ContainsPoint(float pX, float pY)
-{
+bool FPointList::ContainsPoint(float pX, float pY) {
     bool aResult = false;
-    
-    for(int aStart=0,aEnd=(mCount - 1);aStart<mCount;aEnd=aStart++)
-    {
-        if((((mY[aStart] <= pY) && (pY < mY[aEnd]))||
+    for (int aStart=0,aEnd=(mCount - 1);aStart<mCount;aEnd=aStart++) {
+        if ((((mY[aStart] <= pY) && (pY < mY[aEnd]))||
              ((mY[aEnd] <= pY) && (pY < mY[aStart])))&&
             (pX < (mX[aEnd] - mX[aStart]) * (pY - mY[aStart])
-             / (mY[aEnd] - mY[aStart]) + mX[aStart]))
-        {
+             / (mY[aEnd] - mY[aStart]) + mX[aStart])) {
             aResult = !aResult;
         }
     }
-    
     return aResult;
 }
 
-bool FPointList::IsClockwise()
-{
-    float aAreaSum=0;
-    for(int aStart=0,aEnd=mCount-1;aStart<mCount;aEnd=aStart++)
-    {
+bool FPointList::IsClockwise() {
+    float aAreaSum = 0;
+    for (int aStart = 0,aEnd = mCount-1;aStart < mCount;aEnd = aStart++) {
         aAreaSum+=PHYSICS_CROSS(mX[aStart], mY[aStart], mX[aEnd], mY[aEnd]);
     }
     return aAreaSum < 0;
 }
 
-
-void FPointList::ValueAdd(float pAddX, float pAddY)
-{
-    for(int i=0;i<mCount;i++)
-    {
+void FPointList::ValueAdd(float pAddX, float pAddY) {
+    for (int i=0;i<mCount;i++) {
         mX[i] += pAddX;
         mY[i] += pAddY;
     }
 }
 
-void FPointList::ValueMultiply(float pFactorX, float pFactorY)
-{
-    for(int i=0;i<mCount;i++)
-    {
+void FPointList::ValueMultiply(float pFactorX, float pFactorY) {
+    for (int i=0;i<mCount;i++) {
         mX[i] *= pFactorX;
         mY[i] *= pFactorY;
     }
 }
 
-void FPointList::ValueDivide(float pFactorX, float pFactorY)
-{
-    for(int i=0;i<mCount;i++)
-    {
+void FPointList::ValueDivide(float pFactorX, float pFactorY) {
+    for (int i=0;i<mCount;i++) {
         mX[i] /= pFactorX;
         mY[i] /= pFactorY;
     }
 }
 
 
-void FPointList::Clone(FPointList *pPointList)
-{
-	if(pPointList)
-	{
-		if(pPointList->mCount > mSize)
-		{
+void FPointList::Clone(FPointList *pPointList) {
+	if (pPointList) {
+		if (pPointList->mCount > mSize) {
 			Size(pPointList->mCount);
 		}
-
 		Reset();
-
 		int aCount = pPointList->mCount;
-
-		for(int i = 0; i<aCount; i++)
-		{
+		for (int i = 0; i<aCount; i++) {
 			Add(pPointList->mX[i], pPointList->mY[i]);
 		}
 	}
@@ -1124,56 +1048,41 @@ void FPointList::GetSymmetryFromEdges(FPointList *pEdgeP1, FPointList *pEdgeP2, 
 }
 
 
-void FPointList::GetSymmetry(FPointList *pOriginalPath, bool pOriginalPathClosed, bool pSliceSide, float pSliceLineX1, float pSliceLineY1, float pSliceLineX2, float pSliceLineY2)
-{
+void FPointList::GetSymmetry(FPointList *pOriginalPath, bool pOriginalPathClosed, bool pSliceSide, float pSliceLineX1, float pSliceLineY1, float pSliceLineX2, float pSliceLineY2) {
     Reset();
-    
     FPointList aEdgeP1;
     FPointList aEdgeP2;
-    
-    if(pOriginalPath)
-    {
+    if (pOriginalPath) {
         pOriginalPath->GenerateEdgeLists(&aEdgeP1, &aEdgeP2, pOriginalPathClosed);
-        
         float aSlicePlaneDirX = (pSliceLineX2 - pSliceLineX1);
         float aSlicePlaneDirY = (pSliceLineY2 - pSliceLineY1);
-        
         float aSlicePlaneLength = (aSlicePlaneDirX * aSlicePlaneDirX) + (aSlicePlaneDirY * aSlicePlaneDirY);
         
-        if(aSlicePlaneLength >= SQRT_EPSILON)
-        {
+        if (aSlicePlaneLength >= SQRT_EPSILON) {
             aSlicePlaneLength = sqrtf(aSlicePlaneLength);
             
             aSlicePlaneDirX /= aSlicePlaneLength;
             aSlicePlaneDirY /= aSlicePlaneLength;
-        }
-        else
-        {
+        } else {
             aSlicePlaneDirX = 0.0f;
             aSlicePlaneDirY = -1.0f;
         }
-        
         GetSymmetryFromEdges(&aEdgeP1, &aEdgeP2, pSliceSide, pSliceLineX1, pSliceLineY1, aSlicePlaneDirX, aSlicePlaneDirY);
     }
 }
 
-float FPointList::GetX(int pIndex)
-{
+float FPointList::GetX(int pIndex) {
     return ((pIndex >= 0) && (pIndex < mCount)) ? mX[pIndex] : 0.0f;
 }
 
-float FPointList::GetY(int pIndex)
-{
+float FPointList::GetY(int pIndex) {
     return ((pIndex >= 0) && (pIndex < mCount)) ? mY[pIndex] : 0.0f;
 }
 
 
-int FPointList::GetPrintLineCount()
-{
+int FPointList::GetPrintLineCount() {
     int aLineCount = 0;
-    
-    if(mCount > 0)
-    {
+    if (mCount > 0) {
     int aIndex = 0;
     bool aDone = false;
     while(aDone == false)

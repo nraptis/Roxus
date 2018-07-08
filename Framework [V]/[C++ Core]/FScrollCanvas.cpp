@@ -10,10 +10,7 @@
 #include "core_includes.h"
 
 FScrollCanvas::FScrollCanvas() {
-    mRecievesConsumedTouches = true;
-    mRecievesOutsideTouches = false;
     mClipEnabled = true;
-    mClipDisabled = false;
     mScrollUpdateFlingDecayMultiply = 0.940f;
     mScrollUpdateFlingDecaySubtract = 0.10f;
     mScrollMaxDistance = 240.0f;

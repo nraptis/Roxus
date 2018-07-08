@@ -81,10 +81,6 @@ PGMainToolbar::PGMainToolbar() {
 
     UIAlignmentPicker *aAlignment = new UIAlignmentPicker();
     mMainRow.AddAlignmentPicker(aAlignment);
-    //mMainRow.Add
-    //mMainRow.
-
-
 
     mButtonNodeEditor = new UIButton();
     mButtonNodeEditor->SetText("Node Editor");
@@ -207,14 +203,14 @@ void PGMainToolbar::Notify(void *pSender, const char *pNotification) {
         }
 
         if (pSender == mButtonPathEditor) {
-            PGPathEditor *aEditor = new PGPathEditor();
-            gTool->AddChild(aEditor);
+            if (gTool) gTool->ShowPathEditor(0);
+
+            //PGPathEditor *aEditor = new PGPathEditor();
+            //gTool->AddChild(aEditor);
         }
         
         if (pSender == mButtonNodeEditor) {
-            UIImagePicker *aImagePicker = new UIImagePicker();
-            gTool->AddChild(aImagePicker);
-            aImagePicker->FillWithAny();
+            
         }
     }
 

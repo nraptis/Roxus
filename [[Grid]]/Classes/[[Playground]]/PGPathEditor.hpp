@@ -12,11 +12,15 @@
 #include "FCanvas.hpp"
 #include "ToolMenu.hpp"
 #include "FPointList.h"
+#include "FSprite.h"
 
+class PathEditorMenu;
 class PGPathEditor : public FCanvas {
 public:
     PGPathEditor();
     virtual ~PGPathEditor();
+
+    PathEditorMenu                          *mEditorMenu;
 
     virtual void                            Update();
     virtual void                            Draw();
@@ -31,10 +35,14 @@ public:
     virtual void                            KeyDown(int pKey);
     virtual void                            KeyUp(int pKey);
 
+    virtual void                            Notify(void *pSender, const char *pNotification);
+
+    FIntPoint                               mOutputAlignment;
+    bool                                    mOutputNormalize;
 
     FPointList                              mPointList;
 
-    
+    FSprite                                 *mSprite;
 };
 
 #endif

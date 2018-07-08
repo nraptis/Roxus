@@ -264,6 +264,8 @@ bool GLApp::SegmentSegmentIntersection(FPoint l1p1, FPoint l1p2, FPoint l2p1, FP
 }
 
 void GLApp::Load() {
+    
+    mJiggleMascott.Load("mascot_mockup");
 
     gImageBundler.mAutoBundle = false;
     gImageBundler.StartBundle("chaos_egg");
@@ -342,8 +344,6 @@ void GLApp::Load() {
     mTile2.Load("tile_back_2");
     mTile3.Load("tile_back_3");
     mTile4.Load("tile_back_4");
-
-    mInterfaceBottom.Load("game_interface_bottom_back_colored");
 }
 
 void GLApp::SetVirtualFrame(float pX, float pY, float pWidth, float pHeight) {

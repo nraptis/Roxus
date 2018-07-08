@@ -1798,11 +1798,9 @@ void UPathMakerMenu::Notify(void *pSender)
     if(pSender == mPointSelectButtonNext)mPathMaker->PointSelectionNext();
     if(pSender == mPointSelectButtonPrev)mPathMaker->PointSelectionPrev();
     if(pSender == mPointSelectButtonClear)mPathMaker->PointSelectionClear();
-    
-    
+
     if(pSender == mPathButtonTriangleDeleteLast)mPathMaker->PointSelectionTrianglesDeleteLast();
     if(pSender == mPathButtonTriangleDeleteAll)mPathMaker->PointSelectionTrianglesDeleteAll();
-    
     
     Refresh();
 }

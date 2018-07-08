@@ -7,17 +7,24 @@
 //
 
 #include "PGPathEditor.hpp"
-
+#include "PathEditorMenu.hpp"
+#include "UIImagePicker.hpp"
+#include "PGMainCanvas.hpp"
 
 PGPathEditor::PGPathEditor() {
     mName = "path_editor";
 
+    mSprite = 0;
 
-    mPointList.Add(100.0f, 100.0f);
-    mPointList.Add(300.0f, 100.0f);
-    mPointList.Add(400.0f, 500.0f);
+    mOutputAlignment.mX = -1;
+    mOutputAlignment.mY = 1;
+
+    mOutputNormalize = false;
 
 
+    mEditorMenu = new PathEditorMenu(this);
+    mEditorMenu->mPathEditor = this;
+    AddChild(mEditorMenu);
 }
 
 PGPathEditor::~PGPathEditor() {
@@ -35,7 +42,22 @@ void PGPathEditor::Update() {
 
 void PGPathEditor::Draw() {
 
+    //Graphics::SetColor(0.66f, 0.25f, 0.45f, 1.0f);
+    //mPointList.DrawEdges(6.0f);
 
+    Graphics::SetColor();
+    if (mSprite) {
+        mSprite->Center(mWidth2, mHeight2);
+    }
+
+
+    Graphics::SetColor(0.125f, 0.125f, 0.125f, 0.65f);
+    mPointList.DrawPoints(9.0f);
+
+    Graphics::SetColor(0.95f, 0.95f, 0.0f, 1.0f);
+    mPointList.DrawPoints(6.0f);
+
+    Graphics::SetColor();
 }
 
 void PGPathEditor::TouchDown(float pX, float pY, void *pData) {
@@ -47,6 +69,28 @@ void PGPathEditor::TouchDown(float pX, float pY, void *pData) {
         }
     }
 
+    mPointList.Add(pX, pY);
+
+    /*
+    if (mSprite) {
+        float aStartX = mWidth2 - mSprite->mWidth / 2.0f;
+        float aStartY = mHeight2 - mSprite->mHeight / 2.0f;
+
+        for (int i=0;i<mPointList.mCount;i++) {
+            float aX = mPointList.GetX(i);
+            float aY = mPointList.GetY(i);
+
+            aX -= aStartX;
+            aY -= aStartY;
+
+            aX /= mSprite->mWidth;
+            aY /= mSprite->mHeight;
+
+            printf("CGPointMake(x: %.6f, y: %.6f)\n", aX, aY);
+        }
+    }
+    */
+    
 }
 
 void PGPathEditor::TouchMove(float pX, float pY, void *pData) {
@@ -69,3 +113,10 @@ void PGPathEditor::KeyUp(int pKey) {
 
 }
 
+void PGPathEditor::Notify(void *pSender, const char *pNotification) {
+    if (FString(pNotification) == "pick_image") {
+        UIImagePicker *aImagePicker = (UIImagePicker *)pSender;
+        mSprite = aImagePicker->mSelectedSprite;
+        if (gTool) gTool->PopModal(aImagePicker);
+    }
+}

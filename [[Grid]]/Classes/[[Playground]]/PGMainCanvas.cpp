@@ -8,7 +8,9 @@
 
 #include "PGMainCanvas.hpp"
 #include "GLApp.h"
-
+#include "ToolMenuModalUnderlay.hpp"
+#include "UIImagePicker.hpp"
+#include "PGPathEditor.hpp"
 
 PGMainCanvas *gTool = 0;
 PGMainCanvas::PGMainCanvas() {
@@ -16,48 +18,16 @@ PGMainCanvas::PGMainCanvas() {
     mName = "_Playground_";
     mClipEnabled = false;
 
+    mImagePicker = 0;
+    mPathEditor = 0;
+
+
+
+
     SetBackgroundDark();
 
     mMainToolbar = new PGMainToolbar();
     AddChild(mMainToolbar);
-
-    mToolMenu1 = new ToolMenu();
-    mToolMenu1->SetFrame(20.0f, 20.0f, 300.0f, 220.0f);
-    mToolMenu1->mName = "TM-1";
-    AddChild(mToolMenu1);
-
-
-    mToolMenu2 = new ToolMenu();
-    mToolMenu2->SetFrame(20.0f, 300.0f, 300.0f, 220.0f);
-    mToolMenu2->mName = "TM-1";
-    mToolMenu2->Collapse();
-    AddChild(mToolMenu2);
-
-    mToolMenu3 = new ToolMenu();
-    mToolMenu3->SetFrame(20.0f, 300.0f, 300.0f, 220.0f);
-    mToolMenu3->mName = "TM-1";
-    mToolMenu3->Collapse();
-    AddChild(mToolMenu3);
-
-
-
-
-    PolygonMenu *aPolyMenu = new PolygonMenu();
-    aPolyMenu->SetFrame(500.0f, 270.0f, 340.0f, 290.0f);
-    aPolyMenu->Collapse();
-    AddChild(aPolyMenu);
-
-
-
-    mPolyMenu = new PolygonMenu();
-    mPolyMenu->SetFrame(200.0f, 180.0f, 340.0f, 290.0f);
-    AddChild(mPolyMenu);
-
-    mMenuIndex = 10;
-
-
-    BringChildToFront(mMainToolbar);
-
 }
 
 PGMainCanvas::~PGMainCanvas() {
@@ -65,14 +35,12 @@ PGMainCanvas::~PGMainCanvas() {
 }
 
 void PGMainCanvas::Layout() {
-    SetFrame(1.0f, 1.0f, gDeviceWidth - 2.0f, gDeviceHeight - 2.0f);
+    SetFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     mBackQuad.SetRect(0.0f, 0.0f, mWidth, mHeight);
 }
 
 void PGMainCanvas::Update() {
-
-    BringChildToFront(mMainToolbar);
-
+    
 }
 
 void PGMainCanvas::Draw() {
@@ -87,7 +55,6 @@ void PGMainCanvas::TouchDown(float pX, float pY, void *pData) {
             }
         }
     }
-    BringChildToFront(mMainToolbar);
 }
 
 void PGMainCanvas::TouchMove(float pX, float pY, void *pData) {
@@ -124,6 +91,124 @@ void PGMainCanvas::KeyDown(int pKey) {
 
 void PGMainCanvas::KeyUp(int pKey) {
 
+}
+
+void PGMainCanvas::Notify(void *pSender, const char *pNotification) {
+
+    if (FString(pNotification) == "path_edit") {
+        PGPathEditor *aPathEditor = (PGPathEditor *)pSender;
+
+        if (aPathEditor == mPathEditor) {
+            PopModal(mPathEditor);
+        }
+
+
+
+
+    }
+
+
+}
+
+bool PGMainCanvas::IsModal(FCanvas *pCanvas) {
+    EnumList(FCanvas, aCanvas, mModalList) {
+        if (aCanvas == pCanvas) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void PGMainCanvas::PushModal(FCanvas *pCanvas) {
+    if (pCanvas) {
+        ToolMenuModalUnderlay *aUnderlay = new ToolMenuModalUnderlay();
+        AddChild(aUnderlay);
+        aUnderlay->Layout();
+        aUnderlay->AddChild(pCanvas);
+        mModalUnderlayList.Add(aUnderlay);
+        mModalList.Add(pCanvas);
+    }
+    RefreshModalStack();
+}
+
+void PGMainCanvas::PopModal(FCanvas *pCanvas) {
+    if (!pCanvas) return;
+
+    int aIndex = mModalList.Find(pCanvas);
+    if (aIndex != -1) {
+        ToolMenuModalUnderlay *aUnderlay = (ToolMenuModalUnderlay *)mModalUnderlayList.Fetch(aIndex);
+        FCanvas *aModal = (FCanvas *)mModalList.Fetch(aIndex);
+
+        if (aModal == mImagePicker) {
+            mImagePicker = 0;
+            printf("NULLING IMAGE PICKR\n");
+        }
+
+        if (aModal == mPathEditor) {
+            mPathEditor = 0;
+            printf("NULLING PATH EDITOR\n");
+        }
+
+        mModalUnderlayList.RemoveAtIndex(aIndex);
+        mModalList.RemoveAtIndex(aIndex);
+
+        aUnderlay->Kill();
+    }
+    RefreshModalStack();
+}
+
+void PGMainCanvas::PopModal() {
+    PopModal((FCanvas *)(mModalList.Last()));
+}
+
+void PGMainCanvas::RefreshModalStack() {
+
+    for (int i=0;i<mModalList.mCount;i++) {
+        ToolMenuModalUnderlay *aUnderlay = (ToolMenuModalUnderlay *)mModalUnderlayList.Fetch(i);
+        FCanvas *aModal = (FCanvas *)mModalList.Fetch(i);
+        if (i >= mModalList.mCount - 1) {
+            aUnderlay->mEnabled = true;
+            aUnderlay->mHidden = false;
+            aModal->mEnabled = true;
+            aModal->mHidden = false;
+        } else {
+            aUnderlay->mEnabled = false;
+            aUnderlay->mHidden = true;
+            aModal->mEnabled = false;
+            aModal->mHidden = true;
+        }
+    }
+
+    if (mModalList.mCount > 0) {
+        mMainToolbar->mEnabled = false;
+        mMainToolbar->mHidden = true;
+    } else {
+        mMainToolbar->mEnabled = true;
+        mMainToolbar->mHidden = false;
+    }
+}
+
+PGPathEditor *PGMainCanvas::ShowPathEditor(FCanvas *pObserver) {
+    if (mPathEditor) {
+        PopModal(mPathEditor);
+        mImagePicker = 0;
+    }
+    mPathEditor = new PGPathEditor();
+    gNotify.Register(pObserver, mPathEditor, "path_edit");
+    PushModal(mPathEditor);
+    return mPathEditor;
+}
+
+UIImagePicker *PGMainCanvas::ShowImagePicker(FCanvas *pObserver) {
+    if (mImagePicker) {
+        PopModal(mImagePicker);
+        mImagePicker = 0;
+    }
+    mImagePicker = new UIImagePicker();
+    mImagePicker->FillWithImages();
+    gNotify.Register(pObserver, mImagePicker, "pick_image");
+    PushModal(mImagePicker);
+    return mImagePicker;
 }
 
 void PGMainCanvas::SetBackgroundDark() {

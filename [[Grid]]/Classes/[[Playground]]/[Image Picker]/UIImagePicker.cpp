@@ -25,6 +25,9 @@ UIImagePicker::UIImagePicker() {
 
     SetFrame(aX, aY, aWidth, aHeight);
 
+    mSelectedSprite = 0;
+    mSelectedSpriteSequence = 0;
+
     SetTitle("Image Picker");
     SetScrollMode(false);
 
@@ -55,6 +58,19 @@ void UIImagePicker::Update() {
 
 void UIImagePicker::Draw() {
     ToolMenu::Draw();
+}
+
+void UIImagePicker::Notify(void *pSender, const char *pNotification) {
+    if (FString(pNotification) == "pick_image_sequence") {
+        UIImagePickerCellSequence *aCell = (UIImagePickerCellSequence *)pSender;
+        mSelectedSpriteSequence = aCell->mSequence;
+        gNotify.Post(this, "pick_image");
+    }
+    if (FString(pNotification) == "pick_image") {
+        UIImagePickerCell *aCell = (UIImagePickerCell *)pSender;
+        mSelectedSprite = aCell->mSprite;
+        gNotify.Post(this, "pick_image");
+    }
 }
 
 void UIImagePicker::AddSprite(const char *pSpritePath) {

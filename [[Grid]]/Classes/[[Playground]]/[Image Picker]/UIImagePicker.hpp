@@ -13,6 +13,8 @@
 #include "ToolMenu.hpp"
 #include "FDrawQuad.h"
 #include "ToolMenuSection.hpp"
+#include "FSprite.h"
+#include "FSpriteSequence.h"
 
 class UIImagePickerCell;
 class UIImagePickerScrollContent : public FGestureCanvas {
@@ -73,6 +75,9 @@ public:
     virtual void                                Layout();
     virtual void                                Update();
     virtual void                                Draw();
+
+    virtual void                                Notify(void *pSender, const char *pNotification);
+
     
     void                                        FillWithAny();
     void                                        FillWithImages();
@@ -80,6 +85,10 @@ public:
     
     UIImagePickerScrollContent                  *mScrollContent;
     ToolMenuSection                             *mSection;
+
+    FSprite                                     *mSelectedSprite;
+    FSpriteSequence                             *mSelectedSpriteSequence;
+
 
     void                                        AddSprite(const char *pSpritePath);
     void                                        AddSprite(FSprite *pSprite);

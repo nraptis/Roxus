@@ -70,6 +70,13 @@ void UIImagePickerCell::Draw()
 }
 
 void UIImagePickerCell::TouchUp(float pX, float pY, void *pData) {
+    if ((mTouchCanceled == false) && (mParent != 0)) {
+        if (mParent) {
+            if (mParent->mParent) {
+                mParent->mParent->Notify(this, "pick_image");
+            }
+        }
+    }
     mTouchCanceled = false;
 }
 
@@ -133,11 +140,13 @@ void UIImagePickerCellSequence::Draw() {
 }
 
 void UIImagePickerCellSequence::TouchUp(float pX, float pY, void *pData) {
-
-    //if((mTouchCanceled == false) && (mParent != 0))
-    //{
-    //    mParent->Notify(this, IMG_PICK_RESPONSE_SEQUENCE, mSequence);
-    //}
+    if ((mTouchCanceled == false) && (mParent != 0)) {
+        if (mParent) {
+            if (mParent->mParent) {
+                mParent->mParent->Notify(this, "pick_image_sequence");
+            }
+        }
+    }
 
     mTouchCanceled = false;
 }

@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Nick Raptis. All rights reserved.
 //
 
-#ifndef ___015_Fleet_XP__FFloatList__
-#define ___015_Fleet_XP__FFloatList__
+#ifndef FRAMEWORK_POINT_LIST_HPP
+#define FRAMEWORK_POINT_LIST_HPP
 
 #include "FString.h"
 #include "FPrimitive.h"
@@ -16,21 +16,15 @@
 #include "FFloatList.h"
 
 class FFile;
-class FPointList
-{
+class FPointList {
 public:
-    
-    //FPointList(float *pX, float *pY, int pCount);
+
     FPointList();
     virtual ~FPointList();
-    
-    
-    
+
     float                   *mX;
     float                   *mY;
-    //bool                    mClosed;
-    
-    
+
     void                    Clear();
     void                    Reset();
     

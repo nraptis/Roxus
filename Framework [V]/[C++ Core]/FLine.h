@@ -65,7 +65,7 @@ public:
     
     float					mLength;
     
-    float					mCross;
+    float					mCosAlpha;
     
 };
 

@@ -63,7 +63,11 @@ public:
     float                                       mFont2ScaleSin;
     
     FModelDataIndexed                           mSphere;
+
+
+    FSprite                                     mJiggleMascott;
     
+
     FSprite                                     mTestSprite;
     FSprite                                     mBackground;
     FSprite                                     mBackgroundLarge;

@@ -1,21 +1,21 @@
 //
-//  PolygonMenu.hpp
+//  ScreenTransformMenu.hpp
 //  DigMMMac
 //
-//  Created by Raptis, Nicholas on 7/4/18.
+//  Created by Raptis, Nicholas on 7/7/18.
 //  Copyright © 2018 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef PolygonMenu_hpp
-#define PolygonMenu_hpp
+#ifndef ScreenTransformMenu_hpp
+#define ScreenTransformMenu_hpp
 
 #include "ToolMenu.hpp"
 
-class PolygonMenu : public ToolMenu {
+class ScreenTransformMenu : public ToolMenu {
 public:
-    PolygonMenu();
-    virtual ~PolygonMenu();
-    
+    ScreenTransformMenu();
+    virtual ~ScreenTransformMenu();
+
     virtual void                            Layout();
     virtual void                            Notify(void *pSender, const char *pNotification);
 
@@ -39,8 +39,9 @@ public:
 
     UICheckBox                              *mCB1;
     UICheckBox                              *mCB2;
-    
+
 
 };
 
 #endif
+
