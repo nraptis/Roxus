@@ -26,6 +26,9 @@ public:
 
     virtual void                                Notify(void *pSender, const char *pNotification);
 
+    void                                        SetText(const char *pText);
+    void                                        SetRange(float pMin, float pMax);
+
     float                                       GetValue();
     void                                        SetValue(float *pTargetValue);
     float                                       *mTargetValue;
@@ -47,12 +50,9 @@ public:
     UIRoundedRect                               mRectBarOutline;
     UIRoundedRect                               mRectBarLeft;
     UIRoundedRect                               mRectBarRight;
-    
-    
-    
+
     UIRoundedRect                               mRectThumbOutline;
     UIRoundedRect                               mRectThumb;
-    
 
     float                                       mPreviousDrawMin;
     float                                       mPreviousDrawMax;

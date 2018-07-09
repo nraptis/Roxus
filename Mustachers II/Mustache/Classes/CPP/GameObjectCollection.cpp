@@ -34,7 +34,7 @@ void GameObjectCollection::Update()
         } else {
             aObject->mKill--;
             if (aObject->mKill <= 0) {
-                aDeleteList.Add(aObject);
+                //aDeleteList.Add(aObject);
 
             }
         }

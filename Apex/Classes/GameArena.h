@@ -3,7 +3,7 @@
 //  Mustache
 //
 //  Created by Nick Raptis on 6/15/13.
-//  Copyright (c) 2013 Scott Shuptrine Interiors. All rights reserved.
+//  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
 #ifndef GAME_ARENA_H
@@ -27,17 +27,10 @@
 #define TILE_TYPE_RAMP_D 2
 #define TILE_TYPE_RAMP_L 3
 #define TILE_TYPE_RAMP_R 4
-
 #define TILE_TYPE_BLOCKED 5
 
-//Tunnel = 0
-//Floor = 1
-//Bridge = 2
-
-class GameArena
-{
+class GameArena {
 public:
-    
     GameArena();
     virtual ~GameArena();
     
@@ -57,8 +50,7 @@ public:
     
     void                                RemoveTower(Tower *pTower);
     void                                RemoveTower(int pGridX, int pGridY);
-    
-    
+
     bool                                mTileVisible[GRID_DEPTH];
     float                               mTileOpacity[GRID_DEPTH];
     
@@ -89,25 +81,26 @@ public:
     //List                                mTowerList;
     GameObjectCollection                mTowers;
     
-    FList                                mUnitList;
-    FList                                mUnitListKill;
-    FList                                mUnitListKillThisUpdate;
-    FList                                mUnitListDelete;
-    
+    FList                               mUnitList;
+    FList                               mUnitListKill;
+    FList                               mUnitListKillThisUpdate;
+    FList                               mUnitListDelete;
+
     int                                 GetGridX(float pX);
     int                                 GetGridY(float pY);
-    
+
     void                                Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
-    
-    void                                Save(const char *pPath=0);
-    void                                Load(const char *pPath=0);
-    
+
     int                                 mTempUnitSpawnTimer1;
     int                                 mTempUnitSpawnTime1;
     
     int                                 mTempUnitSpawnTimer2;
     int                                 mTempUnitSpawnTime2;
+
+    void                                Save(const char *pPath=0);
+    void                                Load(const char *pPath=0);
+    
 };
 
 extern GameArena *gArena;

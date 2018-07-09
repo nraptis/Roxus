@@ -11,10 +11,9 @@
 
 #include "GLApp.h"
 
-class GameObject
-{
+class GameObject {
 public:
-    
+
     GameObject();
     virtual ~GameObject();
     
@@ -36,8 +35,6 @@ public:
     
     void                                SetUp(int pGridX, int pGridY);
     void                                SetUp(int pGridX, int pGridY, int pGridZ);
-    
-    
 };
 
 

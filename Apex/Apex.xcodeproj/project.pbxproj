@@ -127,14 +127,17 @@
 		50183E4320F2D5D700C776FA /* GameObjectCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E2920F2D5D300C776FA /* GameObjectCollection.cpp */; };
 		50183E4420F2D5D700C776FA /* GamePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E2C20F2D5D400C776FA /* GamePath.cpp */; };
 		50183E4520F2D5D700C776FA /* TowerPickerMenuButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E2D20F2D5D400C776FA /* TowerPickerMenuButton.cpp */; };
-		50183E4620F2D5D700C776FA /* SpawnPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E2F20F2D5D400C776FA /* SpawnPath.cpp */; };
 		50183E4720F2D5D700C776FA /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E3320F2D5D500C776FA /* GameTile.cpp */; };
 		50183E4920F2D5D700C776FA /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E3620F2D5D500C776FA /* Game.cpp */; };
 		50183E4A20F2D5D700C776FA /* TilePathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E3820F2D5D600C776FA /* TilePathFinder.cpp */; };
 		50183E4B20F2D5D700C776FA /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E3A20F2D5D600C776FA /* Unit.cpp */; };
 		50183E4C20F2D5D700C776FA /* TowerPickerMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E3B20F2D5D600C776FA /* TowerPickerMenu.cpp */; };
 		50183E4E20F2D9FB00C776FA /* EditorGameArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183E4D20F2D9FA00C776FA /* EditorGameArena.cpp */; };
+		509962C920F40C8300237491 /* WorldMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509962C720F40C8300237491 /* WorldMenu.cpp */; };
 		50CBEA8F20F2C40800DD30B2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA8E20F2C40800DD30B2 /* main.cpp */; };
+		50D0A60220F3A58200279E96 /* WorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D0A60020F3A58200279E96 /* WorldContainer.cpp */; };
+		50D0A60520F3A61B00279E96 /* WorldTransformContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D0A60320F3A61B00279E96 /* WorldTransformContainer.cpp */; };
+		50D0A60820F3A7A300279E96 /* WorldGestureContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D0A60620F3A7A300279E96 /* WorldGestureContainer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -364,7 +367,6 @@
 		50183E2220F2D5D200C776FA /* EditorGameArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorGameArena.h; sourceTree = "<group>"; };
 		50183E2320F2D5D200C776FA /* GameObjectCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectCollection.h; sourceTree = "<group>"; };
 		50183E2420F2D5D200C776FA /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
-		50183E2520F2D5D300C776FA /* Include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Include.h; sourceTree = "<group>"; };
 		50183E2620F2D5D300C776FA /* TowerDetailMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerDetailMenu.cpp; sourceTree = "<group>"; };
 		50183E2720F2D5D300C776FA /* Unit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unit.h; sourceTree = "<group>"; };
 		50183E2820F2D5D300C776FA /* TowerBullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerBullet.cpp; sourceTree = "<group>"; };
@@ -374,22 +376,28 @@
 		50183E2C20F2D5D400C776FA /* GamePath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamePath.cpp; sourceTree = "<group>"; };
 		50183E2D20F2D5D400C776FA /* TowerPickerMenuButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerPickerMenuButton.cpp; sourceTree = "<group>"; };
 		50183E2E20F2D5D400C776FA /* Tower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tower.h; sourceTree = "<group>"; };
-		50183E2F20F2D5D400C776FA /* SpawnPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpawnPath.cpp; sourceTree = "<group>"; };
 		50183E3120F2D5D400C776FA /* TilePathFinderHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilePathFinderHeap.h; sourceTree = "<group>"; };
 		50183E3220F2D5D500C776FA /* TowerBullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerBullet.h; sourceTree = "<group>"; };
 		50183E3320F2D5D500C776FA /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
 		50183E3520F2D5D500C776FA /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTile.h; sourceTree = "<group>"; };
 		50183E3620F2D5D500C776FA /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
-		50183E3720F2D5D600C776FA /* SpawnPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpawnPath.h; sourceTree = "<group>"; };
 		50183E3820F2D5D600C776FA /* TilePathFinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilePathFinder.cpp; sourceTree = "<group>"; };
 		50183E3920F2D5D600C776FA /* GameArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameArena.h; sourceTree = "<group>"; };
 		50183E3A20F2D5D600C776FA /* Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Unit.cpp; sourceTree = "<group>"; };
 		50183E3B20F2D5D600C776FA /* TowerPickerMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerPickerMenu.cpp; sourceTree = "<group>"; };
 		50183E4D20F2D9FA00C776FA /* EditorGameArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorGameArena.cpp; sourceTree = "<group>"; };
+		509962C720F40C8300237491 /* WorldMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldMenu.cpp; sourceTree = "<group>"; };
+		509962C820F40C8300237491 /* WorldMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldMenu.hpp; sourceTree = "<group>"; };
 		50CBEA7A20F2C31000DD30B2 /* Apex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CBEA8520F2C31000DD30B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CBEA8820F2C31000DD30B2 /* Apex.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Apex.entitlements; sourceTree = "<group>"; };
 		50CBEA8E20F2C40800DD30B2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		50D0A60020F3A58200279E96 /* WorldContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldContainer.cpp; sourceTree = "<group>"; };
+		50D0A60120F3A58200279E96 /* WorldContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldContainer.hpp; sourceTree = "<group>"; };
+		50D0A60320F3A61B00279E96 /* WorldTransformContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldTransformContainer.cpp; sourceTree = "<group>"; };
+		50D0A60420F3A61B00279E96 /* WorldTransformContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldTransformContainer.hpp; sourceTree = "<group>"; };
+		50D0A60620F3A7A300279E96 /* WorldGestureContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldGestureContainer.cpp; sourceTree = "<group>"; };
+		50D0A60720F3A7A300279E96 /* WorldGestureContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldGestureContainer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,9 +439,6 @@
 				50183E1B20F2D5D100C776FA /* GamePath.h */,
 				50183E3320F2D5D500C776FA /* GameTile.cpp */,
 				50183E3520F2D5D500C776FA /* GameTile.h */,
-				50183E2520F2D5D300C776FA /* Include.h */,
-				50183E2F20F2D5D400C776FA /* SpawnPath.cpp */,
-				50183E3720F2D5D600C776FA /* SpawnPath.h */,
 				50183E1F20F2D5D200C776FA /* SpriteSequenceNested.cpp */,
 				50183E1A20F2D5D100C776FA /* SpriteSequenceNested.h */,
 				50183E3820F2D5D600C776FA /* TilePathFinder.cpp */,
@@ -454,6 +459,14 @@
 				50183E2720F2D5D300C776FA /* Unit.h */,
 				50183CB620F2C4A900C776FA /* Util_ScreenFrame.cpp */,
 				50183CB720F2C4A900C776FA /* Util_ScreenFrame.h */,
+				50D0A60020F3A58200279E96 /* WorldContainer.cpp */,
+				50D0A60120F3A58200279E96 /* WorldContainer.hpp */,
+				50D0A60620F3A7A300279E96 /* WorldGestureContainer.cpp */,
+				50D0A60720F3A7A300279E96 /* WorldGestureContainer.hpp */,
+				50D0A60320F3A61B00279E96 /* WorldTransformContainer.cpp */,
+				50D0A60420F3A61B00279E96 /* WorldTransformContainer.hpp */,
+				509962C720F40C8300237491 /* WorldMenu.cpp */,
+				509962C820F40C8300237491 /* WorldMenu.hpp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -740,8 +753,8 @@
 		50CBEA7120F2C31000DD30B2 = {
 			isa = PBXGroup;
 			children = (
-				50183CFF20F2C4B100C776FA /* Framework [V] */,
 				50183C2020F2C4A900C776FA /* Classes */,
+				50183CFF20F2C4B100C776FA /* Framework [V] */,
 				50CBEA7C20F2C31000DD30B2 /* Apex */,
 				50CBEA7B20F2C31000DD30B2 /* Products */,
 				50183E0720F2C53700C776FA /* Frameworks */,
@@ -847,6 +860,7 @@
 				50183CC220F2C4A900C776FA /* UICheckBox.cpp in Sources */,
 				50183E4220F2D5D700C776FA /* TowerBullet.cpp in Sources */,
 				50183DE720F2C4B100C776FA /* FVertexBuffer.cpp in Sources */,
+				509962C920F40C8300237491 /* WorldMenu.cpp in Sources */,
 				50183E4C20F2D5D700C776FA /* TowerPickerMenu.cpp in Sources */,
 				50183CC920F2C4A900C776FA /* UIStepper.cpp in Sources */,
 				50CBEA8F20F2C40800DD30B2 /* main.cpp in Sources */,
@@ -877,6 +891,7 @@
 				50183DCD20F2C4B100C776FA /* FMotionObject.cpp in Sources */,
 				50183E4E20F2D9FB00C776FA /* EditorGameArena.cpp in Sources */,
 				50183DFE20F2C4B100C776FA /* OSMusicPlayer.mm in Sources */,
+				50D0A60820F3A7A300279E96 /* WorldGestureContainer.cpp in Sources */,
 				50183DB320F2C4B100C776FA /* core_social.cpp in Sources */,
 				50183CCA20F2C4A900C776FA /* UIImagePicker.cpp in Sources */,
 				50183CCB20F2C4A900C776FA /* UIImagePickerCell.cpp in Sources */,
@@ -941,6 +956,7 @@
 				50183CBF20F2C4A900C776FA /* UIAlignmentPicker.cpp in Sources */,
 				50183DB120F2C4B100C776FA /* core_app_shell.cpp in Sources */,
 				50183DCE20F2C4B100C776FA /* FNotificationCenter.cpp in Sources */,
+				50D0A60220F3A58200279E96 /* WorldContainer.cpp in Sources */,
 				50183CBE20F2C4A900C776FA /* ToolMenuSectionRow.cpp in Sources */,
 				50183CCF20F2C4A900C776FA /* PGNode.cpp in Sources */,
 				50183CC020F2C4A900C776FA /* UIAlignmentPickerButton.cpp in Sources */,
@@ -949,13 +965,13 @@
 				50183DF120F2C4B100C776FA /* FScrollViewPaged.cpp in Sources */,
 				50183DD420F2C4B100C776FA /* FPrimitive.cpp in Sources */,
 				50183CC720F2C4A900C776FA /* UISegmentButton.cpp in Sources */,
-				50183E4620F2D5D700C776FA /* SpawnPath.cpp in Sources */,
 				50183DC220F2C4B100C776FA /* FImage.cpp in Sources */,
 				50183CD120F2C4A900C776FA /* PGPathEditor.cpp in Sources */,
 				50183CC620F2C4A900C776FA /* UISegment.cpp in Sources */,
 				50183DC820F2C4B100C776FA /* FList.cpp in Sources */,
 				50183E4120F2D5D700C776FA /* TowerDetailMenu.cpp in Sources */,
 				50183CD020F2C4A900C776FA /* PGPath.cpp in Sources */,
+				50D0A60520F3A61B00279E96 /* WorldTransformContainer.cpp in Sources */,
 				50183DCA20F2C4B100C776FA /* FMatrix.cpp in Sources */,
 				50183E4B20F2D5D700C776FA /* Unit.cpp in Sources */,
 				50183E4720F2D5D700C776FA /* GameTile.cpp in Sources */,

@@ -3,7 +3,7 @@
 //  Mustache
 //
 //  Created by Nick Raptis on 7/5/13.
-//  Copyright (c) 2013 Scott Shuptrine Interiors. All rights reserved.
+//  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
 #include "TilePathFinder.h"
@@ -60,46 +60,30 @@ bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd)
         
         mOpenList.Add(aCurrent);
         
-        while(mOpenList.mCount > 0)
-        {
+        while (mOpenList.mCount > 0) {
             aCurrent = mOpenList.Pop();
             mClosedList.Add(aCurrent);
-            
             aTile = aCurrent->mTile;
-            
-            if(aTile->mGridX == aEndX && aTile->mGridY == aEndY && aTile->mGridZ == aEndZ)
-            {
+            if(aTile->mGridX == aEndX && aTile->mGridY == aEndY && aTile->mGridZ == aEndZ) {
                 mPathEnd = aCurrent;
                 break;
-            }
-            else
-            {
-                for(int k=0;k<aTile->mPathConnectionCount;k++)
-                {
+            } else {
+                for (int k=0;k<aTile->mPathConnectionCount;k++) {
                     aConnection = &(aTile->mPathConnection[k]);
-                    
                     int aCostG = aCurrent->mCostG + aConnection->mCost;
-                    
-                    if(mClosedList.Contains(aConnection) && aCostG >= aConnection->mCostG)continue;
-                    
-                    bool aOpenListContains = mOpenList.Contains(aConnection); // OpenListContains(aConnection);
-                    
-                    if((aOpenListContains == false) || (aCostG < aConnection->mCostG))
-                    {
+                    //TODO: Speed-up this lookup.
+                    if (mClosedList.Contains(aConnection) && aCostG >= aConnection->mCostG) { continue; }
+                    bool aOpenListContains = mOpenList.Contains(aConnection);
+                    if ((aOpenListContains == false) || (aCostG < aConnection->mCostG)) {
                         aConnection->mParent = aCurrent;
                         aConnection->mCostG = aCostG;
-                        
                         aDiffX = aConnection->mTile->mGridX - aEndX;
                         if(aDiffX < 0)aDiffX = -aDiffX;
-                        
                         aDiffY = aConnection->mTile->mGridY - aEndY;
                         if(aDiffY < 0)aDiffY = -aDiffY;
                         aConnection->mCostH = (aDiffX + aDiffY) * 100;
-                        
                         aConnection->mCostTotal = aConnection->mCostH + aConnection->mCostG;
-                        
-                        if(aOpenListContains == false)
-                        {
+                        if (aOpenListContains == false) {
                             mOpenList.Add(aConnection);
                         }
                     }
@@ -107,7 +91,6 @@ bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd)
             }
         }
     }
-    
     return aReturn;
 }
 

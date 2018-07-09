@@ -3,7 +3,7 @@
 //  Mustache
 //
 //  Created by Nick Raptis on 9/6/13.
-//  Copyright (c) 2013 Scott Shuptrine Interiors. All rights reserved.
+//  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
 #include "TowerDetailMenu.h"
@@ -178,14 +178,11 @@ void TowerDetailMenu::Draw()
         
         if(mButtonClickedIndex == 2)Graphics::SetColor(0.75f,0.75f,0.75f);else Graphics::SetColor();
         mApp->mTowerDetailMenuButtonUpgrade.Draw(mButtonX[2], mButtonY[2], mScale, 0.0f);
-        
     }
 }
 
-void TowerDetailMenu::AnimateIn(float x, float y, float pZoomScale, Tower *pTower)
-{
-    if(pTower)
-    {
+void TowerDetailMenu::AnimateIn(float x, float y, float pZoomScale, Tower *pTower) {
+    if (pTower) {
         mCenterX = x;
         mCenterY = y;
         
@@ -204,10 +201,8 @@ void TowerDetailMenu::AnimateIn(float x, float y, float pZoomScale, Tower *pTowe
     }
 }
 
-void TowerDetailMenu::AnimateOut()
-{
-    if(mAnimating == false)
-    {
+void TowerDetailMenu::AnimateOut() {
+    if (mAnimating == false) {
         mAnimatingIn = false;
         mAnimating = true;
         mButtonClickedIndex = -1;

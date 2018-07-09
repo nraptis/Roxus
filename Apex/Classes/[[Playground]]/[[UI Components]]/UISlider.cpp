@@ -73,9 +73,6 @@ UISlider::UISlider() {
     mRectThumbOutline.SetColorTop(0.96f, 0.96f, 0.96f, 1.0f);
     mRectThumbOutline.SetColorBottom(0.94f, 0.94f, 0.94f, 1.0f);
     mRectThumbOutline.SetRect(-1.0f, -1.0f, mBaseSlider.mThumbWidth + 2.0f, mBaseSlider.mThumbHeight + 2.0f);
-    
-    
-    
 }
 
 UISlider::~UISlider()
@@ -84,10 +81,7 @@ UISlider::~UISlider()
 }
 
 void UISlider::Layout() {
-
     ToolMenuSectionRow::Layout();
-
-
 
     mLabelTitle.SetFrame(2.0f, 2.0f, mLabelTitleWidth, mHeight - 4.0f);
     mLabelValue.SetFrame(mWidth - (mLabelValueWidth + 2.0f), 2.0f, mLabelValueWidth, mHeight - 4.0f);
@@ -96,7 +90,6 @@ void UISlider::Layout() {
     float aSliderRight = mLabelValue.GetLeft() - 2.0f;
     float aSliderWidth = (aSliderRight - aSliderLeft);
 
-
     mBaseSlider.SetFrame(aSliderLeft, 0.0f, aSliderWidth, mHeight);
     mBaseSlider.mThumbHeight = mHeight;
 
@@ -104,17 +97,15 @@ void UISlider::Layout() {
     FRect aRectThumb = FRect(aSliderLeft + 2.0f, 10.0f, mBaseSlider.mThumbWidth - 4.0f, mBaseSlider.mThumbHeight - 20.0f);
 
     mRectBarOutline.SetRect(aRectBar.mX - 1.0f, aRectBar.mY - 1.0f, aRectBar.mWidth + 2.0f, aRectBar.mHeight + 2.0f);
-
-    
     mRectThumbOutline.SetRect(aSliderLeft - 1.0f + 1.0f, -1.0f + 5.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight + 2.0f - 10.0f);
     mRectThumb.SetRect(aSliderLeft + 1.0f, 0.0f + 5.0f, mBaseSlider.mThumbWidth - 2.0f, mBaseSlider.mThumbHeight - 10.0f);
     
     mRectThumb.mRefresh = true;
     mRectThumbOutline.mRefresh = true;
     mRectBarOutline.mRefresh = true;
-
-    mBaseSlider.SetValue(mValue);
     
+    mBaseSlider.SetValue(mValue);
+
     SliderDidUpdate();
 }
 
@@ -187,45 +178,40 @@ void UISlider::SliderDidUpdate() {
     
     FRect aRectBar = FRect(aSliderLeft + 6.0f, mHeight / 2.0f - mBarHeight / 2.0f, aSliderWidth - 12, mBarHeight);
     FRect aRectThumb = FRect(aSliderLeft, 10.0f, mBaseSlider.mThumbWidth, mBaseSlider.mThumbHeight - 20.0f);
-    
-    
+
     float aSliderSplit = aSliderLeft + mBaseSlider.mThumbX + mBaseSlider.mThumbWidth / 2.0f;
-    
-    
-    
-    FRect aRectBarLeft = FRect(aRectBar.mX, aRectBar.mY,
-                               aSliderSplit - aRectBar.mX,
-                               aRectBar.mHeight);
-    
-    FRect aRectBarRight = FRect(aRectBarLeft.Right(), aRectBar.mY,
-                                aRectBar.mWidth - aRectBarLeft.mWidth,
-                                aRectBar.mHeight);
-    
-    
-    
+
+    FRect aRectBarLeft = FRect(aRectBar.mX, aRectBar.mY, aSliderSplit - aRectBar.mX, aRectBar.mHeight);
+    FRect aRectBarRight = FRect(aRectBarLeft.Right(), aRectBar.mY, aRectBar.mWidth - aRectBarLeft.mWidth, aRectBar.mHeight);
+
     mRectBarLeft.SetRect(aRectBarLeft.mX, aRectBarLeft.mY, aRectBarLeft.mWidth, aRectBarLeft.mHeight);
     mRectBarRight.SetRect(aRectBarRight.mX, aRectBarRight.mY, aRectBarRight.mWidth, aRectBarRight.mHeight);
-    
-    
-    
+
     mRectBarLeft.mRefresh = true;
     mRectBarRight.mRefresh = true;
-    
-    
 }
 
 void UISlider::Notify(void *pSender, const char *pNotification) {
     if (FString("slider_update") == pNotification) {
         if (pSender == &mBaseSlider) {
-
             mValue = mBaseSlider.mValue;
             if (mTargetValue) {
                 *mTargetValue = mValue;
             }
-            
             SliderDidUpdate();
-
             gNotify.Post(this, "slider_update");
         }
     }
 }
+
+void UISlider::SetText(const char *pText) {
+    mLabelTitle.SetText(pText);
+    SliderDidUpdate();
+}
+
+void UISlider::SetRange(float pMin, float pMax) {
+    mBaseSlider.SetMin(pMin);
+    mBaseSlider.SetMax(pMax);
+    SliderDidUpdate();
+}
+

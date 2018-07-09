@@ -3,7 +3,7 @@
 //  Mustache
 //
 //  Created by Nick Raptis on 9/9/13.
-//  Copyright (c) 2013 Scott Shuptrine Interiors. All rights reserved.
+//  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
 #include "SpriteSequenceNested.h"

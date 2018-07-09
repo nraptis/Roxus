@@ -3,7 +3,7 @@
 //  Mustache
 //
 //  Created by Nick Raptis on 7/5/13.
-//  Copyright (c) 2013 Scott Shuptrine Interiors. All rights reserved.
+//  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
 #include "TilePathFinderHeap.h"
@@ -48,51 +48,35 @@ void TilePathFinderHeap::Add(GameTileConnection *pConnection)
     
     mData[mCount] = pConnection;
     mCount++;
-    
 }
 
-bool TilePathFinderHeap::Contains(GameTileConnection *pConnection)
-{
+bool TilePathFinderHeap::Contains(GameTileConnection *pConnection) {
     bool aReturn = false;
-    
-    for(int i=0;i<mCount;i++)
-    {
+    for (int i=0;i<mCount;i++) {
         if(mData[i] == pConnection)aReturn = true;
     }
-    
     return aReturn;
 }
 
-GameTileConnection *TilePathFinderHeap::Pop()
-{
+GameTileConnection *TilePathFinderHeap::Pop() {
     GameTileConnection *aReturn = 0;
-    
-    int aMinCost = 521849300;
+    int aMinCost = 866686668;
     int aMinIndex = -1;
-    
-    for(int i=0;i<mCount;i++)
-    {
+    for (int i=0;i<mCount;i++) {
         GameTileConnection *aCheck = mData[i];
-        
-        if(aCheck->mCostTotal < aMinCost)
-        {
+        if (aCheck->mCostTotal < aMinCost) {
             aMinCost = aCheck->mCostTotal;
             aReturn = aCheck;
             aMinIndex = i;
         }
     }
-    
-    if(aReturn)
-    {
-        for(int i=(aMinIndex + 1);i<mCount;i++)
-        {
+    if (aReturn) {
+        for (int i=(aMinIndex + 1);i<mCount;i++) {
             mData[i - 1] = mData[i];
         }
         mCount--;
     }
-    
     return aReturn;
-    
 }
 
 

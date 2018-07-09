@@ -226,7 +226,12 @@ void AppShellSetDeviceSize(int pWidth, int pHeight) {
     if (aApp) {
 		aApp->BaseSetDeviceSize(gDeviceWidth, gDeviceHeight);
         if ((gVirtualDevWidth > 0.0f) && (gVirtualDevHeight > 0.0f)) {
-            aApp->BaseSetVirtualFrame(gVirtualDevX, gVirtualDevY, gVirtualDevWidth, gVirtualDevHeight);
+
+            //TODO: Toggle for crop tool...
+            //aApp->BaseSetVirtualFrame(gVirtualDevX, gVirtualDevY, gVirtualDevWidth, gVirtualDevHeight);
+
+            //TODO:
+            aApp->BaseSetVirtualFrame(5.0f, 5.0f, gDeviceWidth - 10.0f, gDeviceHeight - 10.0f);
         }
     }
 }

@@ -5,48 +5,6 @@
 
 static int gOpenGLWindow = 0;
 
-//This is the sizing for large monitor at home.
-
-/*
-int gWindowX = 400.0f;
-int gWindowY = 40.0f;
-int gWindowWidth = 768.0f;
-int gWindowHeight = 1024.0f;
-int gVirtualX = 0.0f;
-int gVirtualY = 0.0f;
-int gVirtualWidth = 768.0f;
-int gVirtualHeight = 1024.0f;
-*/
-
-/*
-int gWindowX = 400.0f;
-int gWindowY = 40.0f;
-int gWindowWidth = 1360.0f;
-int gWindowHeight = 1024.0f;
-int gVirtualX = 640.0f;
-int gVirtualY = 24.0f;
-int gVirtualWidth = 640.0f;
-int gVirtualHeight = 980.0f;
-*/
-
-/*
-//This is the sizing group for the laptop screen, lol..!
-int gWindowX = 200.0f;
-int gWindowY = 8.0f;
-int gWindowWidth = 1024;
-int gWindowHeight = 768;
-
-//int gVirtualX = 10.0f;
-//int gVirtualY = 10.0f;
-//int gVirtualWidth = (gWindowWidth - 20.0f);
-//int gVirtualHeight = (gWindowHeight - 20.0f);
-
-int gVirtualX = 0.0f;
-int gVirtualY = 0.0f;
-int gVirtualWidth = gWindowWidth;
-int gVirtualHeight = gWindowHeight;
-*/
-
 //Here is a iPad emulating screen, LOL!!
 /*
 int gWindowX = 300.0f;
@@ -60,16 +18,15 @@ int gVirtualWidth = gWindowWidth;
 int gVirtualHeight = gWindowHeight;
 */
 
-//Toying around screen...
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 1100.0f;
-int gWindowHeight = 800.0f;
+int gWindowWidth = 320.0f * 1.44f;
+int gWindowHeight = 568.0f * 1.44f;
 
-int gVirtualX = 8.0f;
-int gVirtualY = 8.0f;
-int gVirtualWidth = gWindowWidth - 16.0f;
-int gVirtualHeight = gWindowHeight - 16.0f;
+int gVirtualX = 4.0f;
+int gVirtualY = 4.0f;
+int gVirtualWidth = gWindowWidth - 8.0f;
+int gVirtualHeight = gWindowHeight - 8.0f;
 
 using namespace std;
 
@@ -190,22 +147,14 @@ int os_core_getSystemKeySpecial(int pKey)
     else if(pKey == 102){aKey = DIK_RIGHT;}
     else if(pKey == 103){aKey = DIK_DOWN;}
     else if(pKey == 100){aKey = DIK_LEFT;}
-    
-    
     return aKey;
 }
 
-int os_core_getSystemKey(char pKey)
-{
+int os_core_getSystemKey(char pKey) {
     int aKey = (int)pKey;
-    
-    if(((aKey)>=65)&&((aKey)<=90))aKey += 32;
-    
-    //unsigned char aKeyUnsigned = pKey;
-    //aKeyUnsigned;
-    
-    if((aKey >= 'a') && (aKey <= 'z'))
-    {
+    if (((aKey) >= 65) && ((aKey) <= 90)) { aKey += 32; }
+
+    if ((aKey >= 'a') && (aKey <= 'z')) {
         aKey -= 'a';
         
              if(aKey == 0 )aKey = DIK_A;
@@ -252,9 +201,7 @@ int os_core_getSystemKey(char pKey)
     }
     else if(aKey == 127)aKey = DIK_DELETE;
     else if(aKey == 13)aKey = DIK_ENTER;
-    else
-    {
-        
+    else {
              if(aKey == ')')aKey = DIK_0;
         else if(aKey == '!')aKey = DIK_1;
         else if(aKey == '@')aKey = DIK_2;
