@@ -13,9 +13,10 @@
 #include "DragableCanvas.hpp"
 #include "FDrawQuad.h"
 #include "ToolMenu.hpp"
-#include "PolygonMenu.hpp"
 #include "PGMainToolbar.hpp"
 
+class UIImagePicker;
+class PGPathEditor;
 class PGMainCanvas : public FCanvas {
 public:
     PGMainCanvas();
@@ -39,24 +40,34 @@ public:
     virtual void                            KeyDown(int pKey);
     virtual void                            KeyUp(int pKey);
 
-    DragableCanvas                          *mDragCanvas1;
-    DragableCanvas                          *mDragCanvas2;
-    DragableCanvas                          *mDragCanvas3;
+    virtual void                            Notify(void *pSender, const char *pNotification);
 
-    FDrawQuad                               mBackQuad;
+    bool                                    IsModal(FCanvas *pCanvas);
+    void                                    PushModal(FCanvas *pCanvas);
+    void                                    PopModal(FCanvas *pCanvas);
+    void                                    PopModal();
+    void                                    RefreshModalStack();
 
-    ToolMenu                                *mToolMenu1;
-    ToolMenu                                *mToolMenu2;
-    ToolMenu                                *mToolMenu3;
+    FList                                   mModalList;
+    FList                                   mModalUnderlayList;
 
-    PolygonMenu                             *mPolyMenu;
 
+    void                                    SetBackgroundDark();
+    void                                    SetBackgroundGray();
+    void                                    SetBackgroundLight();
+    
     PGMainToolbar                           *mMainToolbar;
 
-    int                                     mMenuIndex;
+    PGPathEditor                            *ShowPathEditor(FCanvas *pObserver);
+    PGPathEditor                            *mPathEditor;
+
+    UIImagePicker                           *ShowImagePicker(FCanvas *pObserver);
+    UIImagePicker                           *mImagePicker;
+
+    FDrawQuad                               mBackQuad;
 };
 
 extern PGMainCanvas *gTool;
 
+#endif
 
-#endif /* PGMainCanvas_hpp */

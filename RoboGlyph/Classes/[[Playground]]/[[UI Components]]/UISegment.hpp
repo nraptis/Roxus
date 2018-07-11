@@ -14,21 +14,21 @@
 
 class UISegment : public ToolMenuSectionRow {
 public:
+    
+    UISegment();
     UISegment(int pSegmentCount);
     virtual ~UISegment();
-
-
+    
     virtual void                                Layout();
 
     virtual void                                Notify(void *pSender, const char *pNotification);
 
     void                                        SetSegmentCount(int pSegmentCount);
 
-
     void                                        SetTitle(int pSegment, const char *pTitle);
     void                                        SetTitles(const char *pTitle1, const char *pTitle2=0, const char *pTitle3=0, const char *pTitle4=0, const char *pTitle5=0, const char *pTitle6=0);
 
-    virtual void                                SetTarget(int *pTarget);
+    void                                        SetTarget(int *pTarget);
     int                                         *mTarget;
 
     UISegmentButton                             **mButton;

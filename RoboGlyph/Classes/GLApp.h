@@ -9,105 +9,116 @@
 #ifndef GLApp_hpp
 #define GLApp_hpp
 
+#define TOWER_FRAMES 24
+
+#define GAPP (gApp)
+
 #include "FApp.h"
 #include "FSprite.h"
 #include "FFont.h"
 #include "FModelData.h"
 #include "FCanvas.hpp"
+#include "SpriteSequenceNested.h"
 
-class CNVWorldContainerContainer;
-class TestWorldContainerContainer;
-class TestWorldContainer;
-class TempView;
+class Game;
+class TilePathFinder;
+class WorldContainer;
+
 class GLApp : public FApp {
 public:
     GLApp();
     virtual ~GLApp();
-
-    virtual void                                Update();
-    virtual void                                Draw();
-    virtual void                                Load();
-    virtual void                                LoadComplete();
-
-    void                                        UpdateRot(float pX);
-
-    virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight);
-    virtual void                                SetDeviceSize(float pWidth, float pHeight);
-
-    bool                                        SegmentSegmentIntersection(FPoint l1p1, FPoint l1p2, FPoint l2p1, FPoint l2p2, FPoint *intersection);
     
-    virtual void                                MouseWheel(int pDirection);
-    virtual void                                KeyDown(int pKey);
-    virtual void                                KeyUp(int pKey);
+    //Game                                        *mGame;
+    WorldContainer                          *mWorld;
+
+    virtual void                            Update();
+    virtual void                            Draw();
+    virtual void                            Load();
+    virtual void                            LoadComplete();
+
+    virtual void                            SetVirtualFrame(float pX, float pY, float pWidth, float pHeight);
+    virtual void                            SetDeviceSize(float pWidth, float pHeight);
+
+    virtual void                            MouseWheel(int pDirection);
+    virtual void                            KeyDown(int pKey);
+    virtual void                            KeyUp(int pKey);
     
-    virtual void                                TouchDown(float pX, float pY, void *pData);
-    virtual void                                TouchMove(float pX, float pY, void *pData);
-    virtual void                                TouchUp(float pX, float pY, void *pData);
-    virtual void                                TouchFlush();
-    
-    CNVWorldContainerContainer                  *mCanvasContainer;
-
-    FSound                                      mSound;
-    
-    FPoint                                      mLine1Point1;
-    FPoint                                      mLine1Point2;
-    
-    FPoint                                      mLine2Point1;
-    FPoint                                      mLine2Point2;
-
-    FPoint                                      *mSelectedPoint;
-    FPoint                                      mSelectedPointStart;
-    FPoint                                      mSelectedTouchStart;
-
-    float                                       mFont1ScaleSin;
-    float                                       mFont2ScaleSin;
-    
-    FModelDataIndexed                           mSphere;
-    
-    FSprite                                     mTestSprite;
-    FSprite                                     mBackground;
-    FSprite                                     mBackgroundLarge;
-    
-    FSprite                                     mTessPattern;
-    
-    FSprite                                     mDarkTile;
-
-    FSprite                                     mWallLeft;
-    FSprite                                     mWallRight;
-
-    FSprite                                     mSillyMeme;
-
-    FSprite                                     mTest_800x600_1;
-    FSprite                                     mTest_800x600_2;
-    FSprite                                     mTest_Small_1;
-
-    FSprite                                     mInterfaceBottom;
-    FSprite                                     mInterfaceBottomGray;
+    virtual void                            TouchDown(float pX, float pY, void *pData);
+    virtual void                            TouchMove(float pX, float pY, void *pData);
+    virtual void                            TouchUp(float pX, float pY, void *pData);
+    virtual void                            TouchFlush();
 
 
-    FSpriteSequence                             mSequenceSquare;
-    FSpriteSequence                             mParticleStream;
+    FSprite                                 mTileTunnel;
+    FSprite                                 mTileFloor;
+    FSprite                                 mTileBridge;
 
-    FSpriteSequence                             mSequencePlasmaBolt;
-    FSpriteSequence                             mSequencePlasmaBoltGlow;
+    FSprite                                 mBridgeRampU;
+    FSprite                                 mBridgeRampD;
+    FSprite                                 mBridgeRampL;
+    FSprite                                 mBridgeRampR;
+
+    FSprite                                 mFloorRampU;
+    FSprite                                 mFloorRampD;
+    FSprite                                 mFloorRampL;
+    FSprite                                 mFloorRampR;
+
+    FSprite                                 mBlocker;
+
+    FSprite                                 mUnitCircleSoft;
+    FSprite                                 mUnitCircleHard;
+
+    FSpriteSequence                         mTowerBasicOff;
+    FSpriteSequence                         mTowerBasicOn;
 
 
-    FSpriteSequence                             mSequenceSmokePuff;
-    FSpriteSequence                             mSequenceTwinkle;
-    FSpriteSequence                             mSequenceSparkBlast;
+    SpriteSequenceNested                    mRobot;
 
-    
-    FSprite                                     mTile1;
-    FSprite                                     mTile2;
-    FSprite                                     mTile3;
-    FSprite                                     mTile4;
+    FSprite                                 mTowerMenuButtonBack[2];
+    FSprite                                 mTowerMenuButtonPrice8;
+    FSprite                                 mTowerMenuButtonPrice20;
+    FSprite                                 mTowerMenuButtonPrice45;
+    FSprite                                 mTowerMenuButtonPrice65;
+    FSprite                                 mTowerMenuButtonPrice75;
+    FSprite                                 mTowerMenuButtonPrice100;
+    FSprite                                 mTowerMenuButtonPrice125;
 
-    int                                         mSpawnNewWorldTimer;
-    
-    bool                                        mAnimationSide;
-    FCanvasAnimation                            mAnimation;
 
+    FSprite                                 mTowerDetailMenuButtonInfo;
+    FSprite                                 mTowerDetailMenuButtonSell;
+    FSprite                                 mTowerDetailMenuButtonUpgrade;
+
+    FSprite                                 mGridOverlay[2];
+
+    FSprite                                 mLevelBackTunnel;
+    FSprite                                 mLevelBackFloor;
+    FSprite                                 mLevelBackBridge;
+
+    FSprite                                 mCheck;
+
+    FSprite                                 m1024x1024;
+    FSprite                                 m2048x2048;
 };
+
+
+float CX(int pGridX);
+float CY(int pGridY);
+
+float CX(int pGridX, int pGridZ);
+float CY(int pGridY, int pGridZ);
+
+
+extern Game *gGame;
+extern TilePathFinder *gPathFinder;
+
+extern float gArenaWidth;
+extern float gArenaWidth2;
+
+extern float gArenaHeight;
+extern float gArenaHeight2;
+
+
 
 extern GLApp *gApp;
 

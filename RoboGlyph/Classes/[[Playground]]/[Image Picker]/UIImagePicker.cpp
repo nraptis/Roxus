@@ -10,6 +10,135 @@
 #include "UIImagePickerCell.hpp"
 #include "core_includes.h"
 
+
+UIImagePicker::UIImagePicker() {
+    float aX = gDeviceWidth2 / 3.0f;
+    float aY = gDeviceHeight2 / 3.0f;
+    float aWidth = gDeviceWidth2 + gDeviceWidth2 / 2.0f;
+    float aHeight = gDeviceHeight2 + gDeviceHeight2 / 2.0f;
+    if (aWidth > 768.0f) {
+        aWidth = 768.0f;
+    }
+    if (aHeight > 640.0f) {
+        aHeight = 640.0f;
+    }
+
+    SetFrame(aX, aY, aWidth, aHeight);
+
+    mSelectedSprite = 0;
+    mSelectedSpriteSequence = 0;
+
+    SetTitle("Image Picker");
+    SetScrollMode(false);
+
+    mManualSectionLayout = true;
+    mResizeDragAllowedV = false;
+
+    mSection = new ToolMenuSection();
+    AddSection(mSection);
+    mName = "Image Picker";
+    mDidSetUp = false;
+    mScrollContent = new UIImagePickerScrollContent();
+    mSection->AddChild(mScrollContent);
+}
+
+UIImagePicker::~UIImagePicker()
+{
+
+}
+
+void UIImagePicker::Update() {
+    if (mDidSetUp == false) {
+        if (mScrollContent) {
+            mScrollContent->SetUp();
+            mDidSetUp = true;
+        }
+    }
+}
+
+void UIImagePicker::Draw() {
+    ToolMenu::Draw();
+}
+
+void UIImagePicker::Notify(void *pSender, const char *pNotification) {
+    if (FString(pNotification) == "pick_image_sequence") {
+        UIImagePickerCellSequence *aCell = (UIImagePickerCellSequence *)pSender;
+        mSelectedSpriteSequence = aCell->mSequence;
+        gNotify.Post(this, "pick_image");
+    }
+    if (FString(pNotification) == "pick_image") {
+        UIImagePickerCell *aCell = (UIImagePickerCell *)pSender;
+        mSelectedSprite = aCell->mSprite;
+        gNotify.Post(this, "pick_image");
+    }
+}
+
+void UIImagePicker::AddSprite(const char *pSpritePath) {
+    FSprite *aSprite = new FSprite();
+    aSprite->Load(pSpritePath);
+    UIImagePickerCell *aCell = new UIImagePickerCell(aSprite, true);
+    aCell->SetUp(0.0f, 0.0f, mScrollContent->mCellWidth, mScrollContent->mCellHeight);
+    mScrollContent->AddCell(aCell);
+    FrameDidUpdate();
+}
+
+void UIImagePicker::AddSprite(FSprite *pSprite) {
+    if (pSprite) {
+        FString aPath = pSprite->mFileName.c();
+        EnumList(FString, aString, mBlockedSprites) {
+            if (*aString == aPath) {
+                return;
+            }
+        }
+        UIImagePickerCell *aCell = new UIImagePickerCell(pSprite, false);
+        aCell->SetUp(0.0f, 0.0f, mScrollContent->mCellWidth, mScrollContent->mCellHeight);
+        mScrollContent->AddCell(aCell);
+        FrameDidUpdate();
+    }
+}
+
+void UIImagePicker::AddSpriteSequence(FSpriteSequence *pSpriteSequence) {
+    if (pSpriteSequence) {
+        FString aPath = pSpriteSequence->mFilePrefix.c();
+        EnumList(FString, aString, mBlockedSprites) {
+            if (*aString == aPath) {
+                return;
+            }
+        }
+        UIImagePickerCellSequence *aCell = new UIImagePickerCellSequence(pSpriteSequence, false);
+        aCell->SetUp(0.0f, 0.0f, mScrollContent->mCellWidth, mScrollContent->mCellHeight);
+        mScrollContent->AddCell(aCell);
+        FrameDidUpdate();
+    }
+}
+
+void UIImagePicker::Layout() {
+    ToolMenu::Layout();
+    mSection->SetSize(mContent.GetWidth(), mContent.GetHeight());
+}
+
+void UIImagePicker::FillWithAny() {
+    EnumList(FSprite, aSprite, gSpriteList) {
+        AddSprite(aSprite);
+    }
+    EnumList(FSpriteSequence, aSequence, gSpriteSequenceList) {
+        AddSpriteSequence(aSequence);
+    }
+}
+
+void UIImagePicker::FillWithImages() {
+    EnumList(FSprite, aSprite, gSpriteList) {
+        AddSprite(aSprite);
+    }
+}
+
+void UIImagePicker::FillWithImageSequences() {
+    EnumList(FSpriteSequence, aSequence, gSpriteSequenceList) {
+        AddSpriteSequence(aSequence);
+    }
+}
+
+
 UIImagePickerScrollContent::UIImagePickerScrollContent() {
     mClipEnabled = true;
     mName = "Image Picker Scroller";
@@ -46,7 +175,7 @@ UIImagePickerScrollContent::UIImagePickerScrollContent() {
 
 UIImagePickerScrollContent::~UIImagePickerScrollContent() {
     for (int aCol=0;aCol<mColCount;aCol++) {
-        delete [] mCellGrid[aCol];// = new UIImagePickerScrollContentCell *[mRowCount];
+        delete [] mCellGrid[aCol];
     }
     delete [] mCellGrid;
     mCellGrid = 0;
@@ -82,19 +211,14 @@ void UIImagePickerScrollContent::SetUp() {
         mCellHeight /= aMaxRows;
         mCellWidth = mCellHeight * 1.46f;
     }
-
     int aCount = mCellList.mCount;
     for (int aCol=0;aCol<mColCount;aCol++) {
-        delete [] mCellGrid[aCol];// = new UIImagePickerScrollContentCell *[mRowCount];
+        delete [] mCellGrid[aCol];
     }
-
-    if(mScreenGridWidth < 2)mScreenGridWidth = 2;
-
+    if(mScreenGridWidth < 2) { mScreenGridWidth = 2; }
     mCellGrid = 0;
-
     mColCount = 0;
     mRowCount = 1;
-
     if (aCount > 0) {
         if (aCount <= mScreenGridWidth) {
             mColCount = aCount;
@@ -104,7 +228,6 @@ void UIImagePickerScrollContent::SetUp() {
                 aScan -= mScreenGridWidth;
                 mRowCount++;
             }
-
             if (mRowCount > mMaxRows) {
                 mRowCount = mMaxRows;
                 mColCount = (aCount / mRowCount);
@@ -184,10 +307,8 @@ void UIImagePickerScrollContent::Update() {
         }
 
         int aIndex = 0;
-
         float aProbeX = mCellSpacingH;
         float aProbeY = mCellSpacingV;
-
         for (int aRow = 0; aRow < mRowCount; aRow++) {
             aProbeX = (mCellSpacingH - aCellWidth);
 
@@ -218,7 +339,6 @@ void UIImagePickerScrollContent::Draw() {
 }
 
 void UIImagePickerScrollContent::AddCell(UIImagePickerCell *pCell) {
-
     if (pCell) {
         float aPlaceX = ((float)(mCellList.mCount)) * mCellWidth;
         pCell->SetFrame(aPlaceX, 0.0f, mCellWidth, mCellHeight);
@@ -237,15 +357,9 @@ void UIImagePickerScrollContent::TouchDown(float pX, float pY, void *pData)
 }
 
 void UIImagePickerScrollContent::PanBegin(float pX, float pY) {
-
     mStartOffsetX = mScrollOffsetX;
     mStartOffsetY = mScrollOffsetY;
-
-
-    //mScrollOffsetX += pX;
-    //mScrollOffsetY += pY;
 }
-
 
 void UIImagePickerScrollContent::Pan(float pX, float pY) {
     mScrollOffsetX = mStartOffsetX + mGesturePanDistX;
@@ -255,17 +369,14 @@ void UIImagePickerScrollContent::Pan(float pX, float pY) {
     }
 }
 
-void UIImagePickerScrollContent::PanEnd(float pX, float pY, float pSpeedX, float pSpeedY)
-{
+void UIImagePickerScrollContent::PanEnd(float pX, float pY, float pSpeedX, float pSpeedY) {
     float aSpeed = pSpeedX * pSpeedX + pSpeedY * pSpeedY;
-
-    if(aSpeed > 0.1f)
-    {
+    if (aSpeed > 0.1f) {
         aSpeed = sqrtf(aSpeed);
         pSpeedX /= aSpeed;
         pSpeedY /= aSpeed;
     }
-
+    
     mScrollSpeedX = (pSpeedX);
     mScrollSpeedY = (pSpeedY);
 
@@ -283,135 +394,5 @@ void UIImagePickerScrollContent::PanEnd(float pX, float pY, float pSpeedX, float
 
 
 
-UIImagePicker::UIImagePicker() {
-    float aX = gDeviceWidth2 / 3.0f;
-    float aY = gDeviceHeight2 / 3.0f;
 
-    float aWidth = gDeviceWidth2 + gDeviceWidth2 / 2.0f;
-    float aHeight = gDeviceHeight2 + gDeviceHeight2 / 2.0f;
-
-    if (aWidth > 768.0f) {
-        aWidth = 768.0f;
-    }
-    if (aHeight > 640.0f) {
-        aHeight = 640.0f;
-    }
-
-    SetFrame(aX, aY, aWidth, aHeight);
-
-    SetTitle("Image Picker");
-    SetScrollMode(false);
-
-    mSection = new ToolMenuSection();
-    AddSection(mSection);
-
-    //UIImagePicker::UIImagePicker(gAppWidth2 / 3.0f, gAppHeight2 / 3.0f, gAppWidth2 + gAppWidth2 / 2.0f, gAppHeight2 + gAppHeight2 / 2.0f);
-    mName = "Image Picker";
-
-
-    //UMenu::SetUp(aX, aY, aWidth, "Image Picker!");
-    //SetHeight(aHeight);
-
-    //UMenu::SetUp(pX, pY, pWidth, pHeight);
-
-    //mRectToolbar.mRoundBottom = false;
-    //mRectBack.mCornerRadius = 6;
-
-    mDidSetUp = false;
-
-    mClipEnabled = true;
-
-    //mListener = 0;
-
-
-    //float aWidth = pWidth;
-
-    mScrollContent = new UIImagePickerScrollContent();
-    mSection->AddChild(mScrollContent);
-
-    //mContent.AddChild(mScrollContent);
-}
-
-UIImagePicker::~UIImagePicker()
-{
-
-}
-
-void UIImagePicker::Update() {
-    if (mDidSetUp == false) {
-        if (mScrollContent) {
-            mScrollContent->SetUp();
-            mDidSetUp = true;
-        }
-    }
-}
-
-void UIImagePicker::Draw() {
-    ToolMenu::Draw();
-}
-
-void UIImagePicker::AddSprite(const char *pSpritePath) {
-    FSprite *aSprite = new FSprite();
-    aSprite->Load(pSpritePath);
-    UIImagePickerCell *aCell = new UIImagePickerCell(aSprite, true);
-    aCell->SetUp(0.0f, 0.0f, mScrollContent->mCellWidth, mScrollContent->mCellHeight);
-    mScrollContent->AddCell(aCell);
-    FrameDidUpdate();
-}
-
-void UIImagePicker::AddSprite(FSprite *pSprite) {
-    if (pSprite) {
-        FString aPath = pSprite->mFileName.c();
-        EnumList(FString, aString, mBlockedSprites) {
-            if (*aString == aPath) {
-                return;
-            }
-        }
-        UIImagePickerCell *aCell = new UIImagePickerCell(pSprite, false);
-        aCell->SetUp(0.0f, 0.0f, mScrollContent->mCellWidth, mScrollContent->mCellHeight);
-        mScrollContent->AddCell(aCell);
-        FrameDidUpdate();
-    }
-}
-
-void UIImagePicker::AddSpriteSequence(FSpriteSequence *pSpriteSequence) {
-    if (pSpriteSequence) {
-        FString aPath = pSpriteSequence->mFilePrefix.c();
-        EnumList(FString, aString, mBlockedSprites) {
-            if (*aString == aPath) {
-                return;
-            }
-        }
-        UIImagePickerCellSequence *aCell = new UIImagePickerCellSequence(pSpriteSequence, false);
-        aCell->SetUp(0.0f, 0.0f, mScrollContent->mCellWidth, mScrollContent->mCellHeight);
-        mScrollContent->AddCell(aCell);
-        FrameDidUpdate();
-    }
-}
-
-void UIImagePicker::Layout() {
-    ToolMenu::Layout();
-    mSection->SetSize(mContent.GetWidth(), mContent.GetHeight());
-}
-
-void UIImagePicker::FillWithAny() {
-    EnumList(FSprite, aSprite, gSpriteList) {
-        AddSprite(aSprite);
-    }
-    EnumList(FSpriteSequence, aSequence, gSpriteSequenceList) {
-        AddSpriteSequence(aSequence);
-    }
-}
-
-void UIImagePicker::FillWithImages() {
-    EnumList(FSprite, aSprite, gSpriteList) {
-        AddSprite(aSprite);
-    }
-}
-
-void UIImagePicker::FillWithImageSequences() {
-    EnumList(FSpriteSequence, aSequence, gSpriteSequenceList) {
-        AddSpriteSequence(aSequence);
-    }
-}
 

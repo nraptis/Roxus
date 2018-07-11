@@ -7,14 +7,20 @@
 //
 
 #include "PGMainToolbar.hpp"
+#include "PGMainCanvas.hpp"
 #include "GLApp.h"
-
+#include "UIImagePicker.hpp"
+#include "PGPathEditor.hpp"
+#include "UIAlignmentPicker.hpp"
 
 PGMainToolbar::PGMainToolbar() {
     mName = "PGMainToolbar";
     mClipEnabled = false;
     mClipDisabled = true;
     mExpanded = true;
+    mResizeDragAllowedV = false;
+    
+
     mExpandedWidth = 0.0f;
 
     mContent.mConsumesTouches = false;
@@ -38,16 +44,83 @@ PGMainToolbar::PGMainToolbar() {
     AddRow(&mRow2);
 
     float aRowHeight = ToolMenuSectionRow::RowHeight();
-    mButtonMinimize.SetFrame(2.0f, 2.0f, aRowHeight * 1.5f - 4.0f, aRowHeight - 4.0f);
-    mButtonMinimize.mDrawMaximize = true;
-    AddChild(mButtonMinimize);
+    mButtonMinimize.SetFrame(2.0f, 2.0f, aRowHeight * 1.5f - 4.0f, aRowHeight);
+    mButtonMinimize.mDrawMinimize = true;
+    mButtonMinimize.mButtonBackground.SetColorTop(0.231f, 0.373f, 0.7847059f);
+    mButtonMinimize.mButtonBackground.SetColorBottom(0.2157f, 0.353f, 0.7647059f);
 
+    mButtonMinimize.mButtonBackgroundDown.SetColorTop(0.231f * 0.82f, 0.373f * 0.82f, 0.7847059f * 0.82f);
+    mButtonMinimize.mButtonBackgroundDown.SetColorBottom(0.2157f * 0.82f, 0.353f * 0.82f, 0.7647059f * 0.82f);
+    AddChild(mButtonMinimize);
     gNotify.Register(this, &mButtonMinimize, "button_click");
+
+    mSegmentBackground = new UISegment();
+    mSegmentBackground->SetSegmentCount(3);
+    mSegmentBackground->SetTitles("Dark", "Gray", "Light");
+    gNotify.Register(this, mSegmentBackground, "segment");
+    mSegmentBackground->SetWidth(160.0f);
+    mSegmentBackground->SetY(4.0f);
+    AddChild(mSegmentBackground);
 
     mSizeMinWidth = 500.0f;
     mSizeMinHeight = aRowHeight + 4.0f;
 
-    SetWidth(mSizeMinWidth + 200.0f);
+    SetX(70.0f);
+    SetY(110.0f);
+    SetWidth(mSizeMinWidth + 260.0f);
+
+    mLabelTitle = new UILabel();
+    mLabelTitle->SetText("Main Toolbar");
+    mLabelTitle->SetTransparentBackground();
+    mMainRow.AddLabel(mLabelTitle);
+
+    mButtonPathEditor = new UIButton();
+    mButtonPathEditor->SetText("Path Editor");
+    mMainRow.AddButton(mButtonPathEditor);
+    gNotify.Register(this, mButtonPathEditor, "button_click");
+
+    UIAlignmentPicker *aAlignment = new UIAlignmentPicker();
+    mMainRow.AddAlignmentPicker(aAlignment);
+
+    mButtonNodeEditor = new UIButton();
+    mButtonNodeEditor->SetText("Node Editor");
+    mMainRow.AddButton(mButtonNodeEditor);
+
+
+    mButtonQuadEditor = new UIButton();
+    mButtonQuadEditor->SetText("Quad Editor");
+    mRow1.AddButton(mButtonQuadEditor);
+
+    mButtonSceneEditor = new UIButton();
+    mButtonSceneEditor->SetText("Scene Editor");
+    mRow1.AddButton(mButtonSceneEditor);
+
+
+    mLabel1 = new UILabel();
+    mLabel1->SetText("Here are some buttons");
+    mRow2.AddLabel(mLabel1);
+
+
+    mLabel2 = new UILabel();
+    mLabel2->SetText("Small");
+    mRow2.AddLabel(mLabel2);
+
+    mLabel3 = new UILabel();
+    mLabel3->SetText("Loooooooonger");
+    mRow1.AddLabel(mLabel3);
+
+
+    mCheck1 = new UICheckBox();
+    mCheck1->SetText("Toggle SOmething");
+    mRow2.AddCheckBox(mCheck1);
+
+    mCheck2 = new UICheckBox();
+    mCheck2->SetText("Toggle");
+    mRow2.AddCheckBox(mCheck2);
+
+
+
+
 }
 
 PGMainToolbar::~PGMainToolbar() {
@@ -61,9 +134,12 @@ void PGMainToolbar::Layout() {
     int aRowIndex = 0;
     float aInset = 2.0f;
     float aRowHeight = ToolMenuSectionRow::RowHeight();
+
+    mSegmentBackground->SetX(GetWidth() - aInset * 2.0f - (mSegmentBackground->GetWidth()));
+
     EnumList(ToolMenuSectionRow, aRow, mRowList) {
         if (aRowIndex == 0) {
-            float aTopContentWidth = aContentWidth - (mButtonMinimize.GetRight() + aInset * 2.0f);
+            float aTopContentWidth = aContentWidth - (mButtonMinimize.GetRight() + aInset * 3.0f + mSegmentBackground->GetWidth());
             aRow->SetFrame(mButtonMinimize.GetRight() + aInset, aInset, aTopContentWidth, aRowHeight);
         } else {
             aRow->SetFrame(aInset, aContentHeight + aInset, aContentWidth - (aInset * 2.0f), aRowHeight);
@@ -119,12 +195,41 @@ void PGMainToolbar::Notify(void *pSender, const char *pNotification) {
 
     if (FString(pNotification) == "button_click") {
         if (pSender == &mButtonMinimize) {
-                if (mExpanded) {
-                    Collapse();
-                } else {
-                    Expand();
-                }
+            if (mExpanded) {
+                Collapse();
+            } else {
+                Expand();
+            }
         }
+
+        if (pSender == mButtonPathEditor) {
+            if (gTool) gTool->ShowPathEditor(0);
+
+            //PGPathEditor *aEditor = new PGPathEditor();
+            //gTool->AddChild(aEditor);
+        }
+        
+        if (pSender == mButtonNodeEditor) {
+            
+        }
+    }
+
+    if (FString(pNotification) == "segment") {
+        UISegment *aSegment = (UISegment *)pSender;
+
+        if (aSegment == mSegmentBackground) {
+            if (aSegment->mSelectedIndex == 0) {
+                gTool->SetBackgroundDark();
+            }
+            if (aSegment->mSelectedIndex == 1) {
+                gTool->SetBackgroundGray();
+            }
+            if (aSegment->mSelectedIndex == 2) {
+                gTool->SetBackgroundLight();
+            }
+        }
+
+
     }
 }
 
@@ -142,6 +247,8 @@ void PGMainToolbar::Expand() {
     }
     mContent.mEnabled = true;
     mContent.mHidden = false;
+    mSegmentBackground->mEnabled = true;
+    mSegmentBackground->mHidden = false;
     SetExpandedLayout();
     SetHeight(aContentHeight + 4.0f);
     SetWidth(mExpandedWidth);
@@ -153,9 +260,12 @@ void PGMainToolbar::Collapse() {
     mResizeDragAllowed = false;
     mContent.mEnabled = false;
     mContent.mHidden = true;
+    mSegmentBackground->mEnabled = false;
+    mSegmentBackground->mHidden = true;
+
     float aRowHeight = ToolMenuSectionRow::RowHeight();
     SetHeight(aRowHeight + 4.0f);
-    SetWidth(200.0f);
+    SetWidth(260.0f);
     SetCollapsedLayout();
 }
 

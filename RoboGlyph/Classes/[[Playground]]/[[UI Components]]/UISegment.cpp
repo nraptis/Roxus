@@ -8,12 +8,19 @@
 
 #include "UISegment.hpp"
 
-UISegment::UISegment(int pSegmentCount) {
+UISegment::UISegment() {
     mTarget = 0;
     mSelectedIndex = -1;
     mButton = 0;
     mSegmentCount = 0;
+
+    SetHeight(ToolMenuSectionRow::RowHeight());
+}
+
+UISegment::UISegment(int pSegmentCount) : UISegment() {
     SetSegmentCount(pSegmentCount);
+    //SetTransparentBackground();
+    
 }
 
 UISegment::~UISegment() {
@@ -107,12 +114,13 @@ void UISegment::Notify(void *pSender, const char *pNotification) {
         for (int aCheckIndex=0;aCheckIndex<mSegmentCount;aCheckIndex++) {
             if (pSender == mButton[aCheckIndex]) {
                 mSelectedIndex = aCheckIndex;
-
                 for(int i=0;i<mSegmentCount;i++)mButton[i]->SetSelected(false);
                 mButton[mSelectedIndex]->SetSelected(true);
                 if (mTarget) {
                     *mTarget = mSelectedIndex;
                 }
+                gNotify.Post(this, "segment");
+
             }
         }
     }

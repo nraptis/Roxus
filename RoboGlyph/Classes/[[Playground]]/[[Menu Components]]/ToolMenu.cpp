@@ -8,6 +8,7 @@
 
 #include "ToolMenu.hpp"
 #include "GLApp.h"
+#include "PGMainCanvas.hpp"
 
 ToolMenu::ToolMenu() {
     mName = "ToolMenu";
@@ -16,6 +17,7 @@ ToolMenu::ToolMenu() {
     mScrollMode = true;
     mExpanded = true;
     mExpandedHeight = 340.0f;
+    mManualSectionLayout = false;
 
     mMenuBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mMenuBackground.SetColorBottom(0.165f, 0.135f, 0.085f);
@@ -30,6 +32,7 @@ ToolMenu::ToolMenu() {
     mMenuBackgroundShadow.mCornerRadius = 8.0f;
 
     mScrollContent.mScrollHorizontalEnabled = false;
+    mScrollContent.mRecievesConsumedTouches = false;
     AddChild(mScrollContent);
 
     AddChild(mContent);
@@ -39,7 +42,9 @@ ToolMenu::ToolMenu() {
 }
 
 ToolMenu::~ToolMenu() {
-
+    if (gTool) {
+        
+    }
 }
 
 void ToolMenu::Layout() {
@@ -48,7 +53,10 @@ void ToolMenu::Layout() {
     float aContentHeight = 0.0f;
     EnumList(ToolMenuSection, aSection, mSectionList) {
         SetSectionDepths(aSection, 0);
-        aSection->SetFrame(2.0f, aContentHeight, aContentWidth - 4.0f, aSection->mHeight);
+        SetMenu(aSection);
+        if (mManualSectionLayout == false) {
+            aSection->SetFrame(2.0f, aContentHeight, aContentWidth - 4.0f, aSection->mHeight);
+        }
         aContentHeight += aSection->mHeight;
     }
     mContent.SetFrame(2.0f, aHeaderHeight + 2.0f, aContentWidth, mHeight - (aHeaderHeight + 4.0f));
@@ -118,6 +126,8 @@ void ToolMenu::SetTitle(const char *pText) {
 }
 
 void ToolMenu::AddSection(ToolMenuSection *pSection) {
+    if (pSection) {
+
     mSectionList.Add(pSection);
     if (mScrollMode) {
         mScrollContent.AddChild(pSection);
@@ -125,6 +135,8 @@ void ToolMenu::AddSection(ToolMenuSection *pSection) {
         mContent.AddChild(pSection);
     }
     SetSectionDepths(pSection, 0);
+        SetMenu(pSection);
+    }
 }
 
 void ToolMenu::SetSectionDepths(ToolMenuSection *pSection, int pDepth) {
@@ -136,6 +148,15 @@ void ToolMenu::SetSectionDepths(ToolMenuSection *pSection, int pDepth) {
 
         EnumList(ToolMenuSection, aSubsection, pSection->mSectionList) {
             SetSectionDepths(aSubsection, pDepth + 1);
+        }
+    }
+}
+
+void ToolMenu::SetMenu(ToolMenuSection *pSection) {
+    if (pSection) {
+        pSection->mMenu = this;
+        EnumList(ToolMenuSection, aSubsection, pSection->mSectionList) {
+            SetMenu(aSubsection);
         }
     }
 }
