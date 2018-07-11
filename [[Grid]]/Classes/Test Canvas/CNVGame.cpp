@@ -157,22 +157,22 @@ void CNVGame::Draw() {
     Graphics::DrawLine(mTransformAbsolute.mCornerX[0],
                        mTransformAbsolute.mCornerY[0],
                        mTransformAbsolute.mCornerX[1],
-                       mTransformAbsolute.mCornerY[1], 12.0);
+                       mTransformAbsolute.mCornerY[1], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[1],
                        mTransformAbsolute.mCornerY[1],
                        mTransformAbsolute.mCornerX[2],
-                       mTransformAbsolute.mCornerY[2], 12.0);
+                       mTransformAbsolute.mCornerY[2], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[2],
                        mTransformAbsolute.mCornerY[2],
                        mTransformAbsolute.mCornerX[3],
-                       mTransformAbsolute.mCornerY[3], 12.0);
+                       mTransformAbsolute.mCornerY[3], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[3],
                        mTransformAbsolute.mCornerY[3],
                        mTransformAbsolute.mCornerX[0],
-                       mTransformAbsolute.mCornerY[0], 12.0);
+                       mTransformAbsolute.mCornerY[0], 1.0);
 }
 
 void CNVGame::TouchDown(float pX, float pY, void *pData) {

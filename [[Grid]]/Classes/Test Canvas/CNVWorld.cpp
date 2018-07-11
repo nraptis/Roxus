@@ -53,6 +53,7 @@ void CNVWorld::Draw() {
     Graphics::DrawRect(-2.0f, -2.0f, mWidth + 4.0f, mHeight + 4.0f);
     Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.55f);
 
+    Graphics::SetColor();
     if (mLarge) {
         gApp->mBackgroundLarge.Draw(0.0f, 0.0f);
     } else {
@@ -92,22 +93,22 @@ void CNVWorld::Draw() {
     Graphics::DrawLine(mTransformAbsolute.mCornerX[0],
                        mTransformAbsolute.mCornerY[0],
                        mTransformAbsolute.mCornerX[1],
-                       mTransformAbsolute.mCornerY[1], 5.0);
+                       mTransformAbsolute.mCornerY[1], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[1],
                        mTransformAbsolute.mCornerY[1],
                        mTransformAbsolute.mCornerX[2],
-                       mTransformAbsolute.mCornerY[2], 5.0);
+                       mTransformAbsolute.mCornerY[2], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[2],
                        mTransformAbsolute.mCornerY[2],
                        mTransformAbsolute.mCornerX[3],
-                       mTransformAbsolute.mCornerY[3], 5.0);
+                       mTransformAbsolute.mCornerY[3], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[3],
                        mTransformAbsolute.mCornerY[3],
                        mTransformAbsolute.mCornerX[0],
-                       mTransformAbsolute.mCornerY[0], 5.0);
+                       mTransformAbsolute.mCornerY[0], 1.0);
 }
 
 void CNVWorld::TouchDown(float pX, float pY, void *pData) {

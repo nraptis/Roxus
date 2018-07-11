@@ -75,6 +75,7 @@ void GLApp::Draw() {
     //aQuad.SetRect(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     aQuad.Draw();
 
+    /*
     Graphics::Clear(0.125f, 0.125f, 0.133f);
     Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.6);
     for (float aX = 0.0f;aX < gAppWidth;aX += 10.0) {
@@ -105,8 +106,8 @@ void GLApp::Draw() {
         Graphics::SetColor(0.25, 0.25, 0.25);
         Graphics::DrawPoint(aCollide.mX, aCollide.mY, 6.0f);
     }
-
-
+    
+    */
 
 
     /*
