@@ -17,6 +17,8 @@ CNVWorld::CNVWorld() {
     
     mTouchMarkerColor1 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
     mTouchMarkerColor2 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
+
+    SetTransformAnchor(0.66f, 0.66f);
     
     mGame = new CNVGame();
     AddChild(mGame);
@@ -49,7 +51,7 @@ void CNVWorld::Draw() {
     
     Graphics::SetColor(1.0f, 0.22f, 0.22f, 0.44f);
     Graphics::DrawRect(-2.0f, -2.0f, mWidth + 4.0f, mHeight + 4.0f);
-    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.15f);
+    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.55f);
 
     if (mLarge) {
         gApp->mBackgroundLarge.Draw(0.0f, 0.0f);

@@ -8,6 +8,7 @@
 
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
+#include "GLApp.h"
 
 WorldGestureContainer::WorldGestureContainer() {
     mName = "path_editor";
@@ -22,6 +23,10 @@ WorldGestureContainer::WorldGestureContainer() {
     mWorldScale = 0.75f;
     mWorldPinchStartScale = mWorldScale;
 
+    SetTransformScaleX(0.25f);
+    SetTransformAnchor(1.0f, 0.5f);
+    SetTransformRotation(10.0f);
+
 }
 
 WorldGestureContainer::~WorldGestureContainer() {
@@ -29,8 +34,13 @@ WorldGestureContainer::~WorldGestureContainer() {
 }
 
 void WorldGestureContainer::Layout() {
+
+    if (mWorldTransform) {
+        SetFrame(0.0f, 0.0f, mWorldTransform->mWidth, mWorldTransform->mHeight);
+
+    }
     if (mParent) {
-        SetFrame(0.0f, 0.0f, mParent->mWidth, mParent->mHeight);
+        //SetFrame(0.0f, 0.0f, mParent->mWidth, mParent->mHeight);
     }
 }
 
@@ -40,18 +50,18 @@ void WorldGestureContainer::Update() {
         mWorldTransform->SetTransformX(mWorldOffsetX);
         mWorldTransform->SetTransformY(mWorldOffsetY);
 
-        mWorldTransform->SetTransformScaleX(mWorldScale);
+        mWorldTransform->SetTransformScale(mWorldScale);
         //mWorldTransform->SetTransformScaleY(mWorldScale);
 
         mWorldTransform->SetTransformRotation(mWorldRotation);
-
     }
-    
-
 }
 
 void WorldGestureContainer::Draw() {
+    Graphics::SetColor(1.0f, 0.66f, 0.66f, 0.25f);
+    Graphics::DrawRect(0.0f, 0.0f, mWidth, mHeight);
 
+    Graphics::SetColor();
 }
 
 void WorldGestureContainer::TouchDown(float pX, float pY, void *pData) {

@@ -7,8 +7,22 @@ FRandomizer::FRandomizer()
     mPings = 0;
     
     //Seed((int)(os_system_time()));
-    
-    Seed(239);
+
+    int *aMemory1 = new int[10];
+    int *aMemory2 = new int[10];
+    int *aMemory3 = new int[10];
+
+    int aSeed1 = aMemory1[0];
+    int aSeed2 = aMemory2[4];
+    int aSeed3 = aMemory3[8];
+
+    int aSeed4 = (long)(&(aMemory1));
+    int aSeed5 = (long)(&(aMemory2));
+    int aSeed6 = (long)(&(aMemory3));
+
+    int aSeed = aSeed1 ^ aSeed2 ^ aSeed3 ^ aSeed4 ^ aSeed5 ^ aSeed6;
+
+    Seed(aSeed);
     
     //Seed(os_system_time());
 }

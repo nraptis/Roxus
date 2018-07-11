@@ -17,6 +17,7 @@ CNVBadge::CNVBadge() {
     
     mName = "CNVBadge";
 
+    SetTransformAnchor(0.0f, 0.0f);
 
     AddChild(mDecor1);
     AddChild(mDecor2);

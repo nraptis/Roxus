@@ -18,6 +18,8 @@ CNVFooter::CNVFooter() {
     mInsetRight = 100.0f;
     mInsetBottom = 40.0f;
 
+    SetTransformAnchor(0.0f, 0.0f);
+
     mTouchMarkerColor1 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
     mTouchMarkerColor2 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
 
@@ -51,9 +53,13 @@ void CNVFooter::Layout() {
             float aBorderSize = 8.0f;
             FRect aFit = FRect::FitAspectFit(aBounds, mWidth, mHeight, aBorderSize, aScale);
 
+            SetX(-mWidth * aScale / 2.0f);
+            SetY(-mHeight * aScale / 2.0f);
+
             SetTransformScale(aScale);
-            SetX(aFit.mX);
-            SetY(aParentHeight - (mHeight * aScale + aBorderSize));
+
+            SetTransformX(aParentWidth / 2.0f);
+            SetTransformY(aParentHeight - mHeight * aScale / 2.0f);
         }
     }
 
@@ -67,9 +73,14 @@ void CNVFooter::Layout() {
 
         FRect aFit = FRect::FitAspectFit(aBadgeContainer, aBadgeWidth, aBadgeHeight, 2.0f, aBadgeScale);
 
+        mBadgeLeft->SetX(-mBadgeLeft->mWidth * aBadgeScale / 2.0f);
+        mBadgeLeft->SetY(-mBadgeLeft->mHeight * aBadgeScale / 2.0f);
+
+
         mBadgeLeft->SetTransformScaleX(aBadgeScale);
         mBadgeLeft->SetTransformScaleY(aBadgeScale);
-        mBadgeLeft->SetTransformTranslate(mInsetLeft, 2.0f);
+        mBadgeLeft->SetTransformTranslate(mBadgeLeft->mWidth * aBadgeScale / 2.0f, mBadgeLeft->mHeight * aBadgeScale / 2.0f);
+
     }
 
     if (mBadgeRight) {
@@ -78,9 +89,13 @@ void CNVFooter::Layout() {
         float aBadgeScale = 1.0f;
         FRect aBadgeContainer = FRect(mInsetLeft, 0.0f, (GetWidth() - (mInsetLeft + mInsetRight)) / 2.0f, GetHeight() - mInsetBottom);
         FRect aFit = FRect::FitAspectFit(aBadgeContainer, aBadgeWidth, aBadgeHeight, 2.0f, aBadgeScale);
-        mBadgeRight->SetTransformScaleX(aBadgeScale);
-        mBadgeRight->SetTransformScaleY(aBadgeScale);
-        mBadgeRight->SetTransformTranslate(GetWidth() - (mInsetRight + mBadgeRight->GetWidth() * mBadgeRight->GetTransformScaleX()), 2.0f);
+
+        mBadgeRight->SetX(-mBadgeRight->mWidth * aBadgeScale / 2.0f);
+        mBadgeRight->SetY(-mBadgeRight->mHeight * aBadgeScale / 2.0f);
+
+        mBadgeRight->SetTransformScale(aBadgeScale);
+        mBadgeRight->SetTransformTranslate(GetWidth() - (mBadgeRight->mWidth * aBadgeScale / 2.0f), mBadgeRight->mHeight * aBadgeScale / 2.0f);
+
     }
 }
 

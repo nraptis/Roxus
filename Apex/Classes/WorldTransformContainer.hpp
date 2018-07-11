@@ -32,6 +32,9 @@ public:
     virtual void                            Notify(void *pSender, const char *pNotification);
 
 
+    FCanvas                                 *mPinCanvas1;
+    FCanvas                                 *mPinCanvas2;
+    
     
 
 };

@@ -60,8 +60,8 @@ void FApp::BaseSetDeviceSize(float pWidth, float pHeight)
     //mWindowTools.SetVirtualFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
 
-    //mWindowTools.SetDeviceSize(gDeviceWidth, gDeviceHeight);
-    //mWindowModal.SetDeviceSize(gDeviceWidth, gDeviceHeight);
+    mWindowTools.SetDeviceSize(gDeviceWidth, gDeviceHeight);
+    mWindowModal.SetDeviceSize(gDeviceWidth, gDeviceHeight);
     mWindowMain.SetDeviceSize(gDeviceWidth, gDeviceHeight);
 }
 
@@ -76,8 +76,8 @@ void FApp::BaseSetVirtualFrame(float pX, float pY, float pWidth, float pHeight) 
     //mViewControllerTools.DeviceSizeChanged(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
     mWindowMain.SetVirtualFrame(pX, pY, pWidth, pHeight);
-    //mWindowModal.SetVirtualFrame(pX, pY, pWidth, pHeight);
-    //mWindowTools.SetVirtualFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
+    mWindowModal.SetVirtualFrame(pX, pY, pWidth, pHeight);
+    mWindowTools.SetVirtualFrame(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
 
     
 	SetVirtualFrame(pX, pY, pWidth, pHeight);
@@ -98,9 +98,8 @@ void FApp::BaseUpdate() {
     Update();
 
     mWindowMain.Update();
-    //mWindowModal.Update();
-    //mWindowTools.Update();
-
+    mWindowModal.Update();
+    mWindowTools.Update();
 
     core_sound_update();
 }

@@ -49,6 +49,12 @@ FCanvas::FCanvas() {
     mMouseLeftDownInside = false;
     mMouseMiddleDownInside = false;
     mMouseRightDownInside = false;
+
+    SetTransformAnchor(gRand.GetFloat(), gRand.GetFloat());
+
+    if (gRand.GetBool()) {
+        //SetTransformRotation(gRand.GetFloat(-5.0f, 5.0f));
+    }
 }
 
 FCanvas::~FCanvas() {
@@ -1373,6 +1379,8 @@ FCanvasAbsoluteTransform::FCanvasAbsoluteTransform() {
 
 FCanvasAbsoluteTransform::~FCanvasAbsoluteTransform() { }
 
+//... Original...
+/*
 void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
     mAnchorX = pTransform->mAnchorX;
     mAnchorY = pTransform->mAnchorY;
@@ -1461,6 +1469,366 @@ void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransf
         mCornerY[3] = aCornerStartY;
     }
 }
+*/
+
+/*
+void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
+    mAnchorX = pTransform->mAnchorX;
+    mAnchorY = pTransform->mAnchorY;
+    float aAnchorWidth = mAnchorX * pWidth;
+    float aAnchorHeight = mAnchorY * pHeight;
+    float aAnchorX = aAnchorWidth * pTransform->mScale * pTransform->mScaleX;
+    float aAnchorY = aAnchorHeight * pTransform->mScale * pTransform->mScaleY;
+    mRotation = pTransform->mRotation;
+    mScale = pTransform->mScale;
+    mScaleX = pTransform->mScaleX;
+    mScaleY = pTransform->mScaleY;
+    float aParentX = pParentTransform->mX;
+    float aParentY = pParentTransform->mY;
+    float aParentScaleX = pParentTransform->mScale * pParentTransform->mScaleX;
+    float aParentScaleY = pParentTransform->mScale * pParentTransform->mScaleY;
+    mScale *= pParentTransform->mScale;
+    mScaleX *= pParentTransform->mScaleX;
+    mScaleY *= pParentTransform->mScaleY;
+    if((pParentTransform->mAnchorX != 0.0f) || (pParentTransform->mAnchorY != 0.0f)) {
+
+        float aParentAnchorWidth = pParentTransform->mAnchorX * pParentWidth;
+        float aParentAnchorHeight = pParentTransform->mAnchorY * pParentHeight;
+        float aParentAnchorX = aParentAnchorWidth * aParentScaleX;
+        float aParentAnchorY = aParentAnchorHeight * aParentScaleY;
+
+        //Parent had this applied -- BEFORE it was rotated.
+
+
+        //adjust the anchor...
+        //aParentX += aParentAnchorWidth  - aParentAnchorX;
+        //aParentY += aParentAnchorHeight - aParentAnchorY;
+        //rotate...
+
+        //We need to unwind it, taking into account that the parent
+        //is ALREADY rotated...
+
+
+        float aParentShiftX = aParentAnchorX - (aParentAnchorWidth - aParentAnchorX) * aParentScaleX;
+        float aParentShiftY = aParentAnchorY - (aParentAnchorHeight - aParentAnchorY) * aParentScaleY;
+
+        //float aParentShiftX = pParentWidth * pParentTransform->mAnchorX * (aParentScaleX);
+        //float aParentShiftY = pParentHeight * pParentTransform->mAnchorY * (aParentScaleY);
+        if(pParentTransform->mRotation != 0.0f) {
+            float aDist = aParentShiftX * aParentShiftX + aParentShiftY * aParentShiftY;
+            float aSwivel = 180.0f - FaceTarget(-aParentShiftX, -aParentShiftY);
+            if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+            aSwivel -= pParentTransform->mRotation;
+            float aDirX = Sin(aSwivel);
+            float aDirY = Cos(aSwivel);
+            aParentShiftX = aDirX * aDist;
+            aParentShiftY = aDirY * aDist;
+        }
+        aParentX -= aParentShiftX;
+        aParentY -= aParentShiftY;
+    }
+    mX = ((pX + pTransform->mX + aAnchorX) * (aParentScaleX));
+    mY = ((pY + pTransform->mY + aAnchorY) * (aParentScaleY));
+
+
+    //mX += ;
+    //mY += ((aAnchorHeight) - (aAnchorY)) * aParentScaleY;
+
+
+
+    if(pParentTransform->mRotation != 0) {
+        float aPivotRotation = FaceTarget(mX, mY);
+        float aDist = mX * mX + mY * mY;
+        if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+        aPivotRotation += pParentTransform->mRotation;
+        float aDirX = Sin(-aPivotRotation);
+        float aDirY = Cos(-aPivotRotation);
+        mX = aDirX * (aDist) + aParentX;
+        mY = aDirY * (aDist) + aParentY;
+    } else {
+        mX += aParentX;
+        mY += aParentY;
+    }
+
+    float aCornerShiftX = ((aAnchorWidth) - (aAnchorX)) * aParentScaleX;
+    float aCornerShiftY = ((aAnchorHeight) - (aAnchorY)) * aParentScaleY;
+
+    if(pParentTransform->mRotation != 0) {
+        float aPivotRotation = FaceTarget(aCornerShiftX, aCornerShiftY);
+        float aDist = aCornerShiftX * aCornerShiftX + aCornerShiftY * aCornerShiftY;
+        if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+        aPivotRotation += pParentTransform->mRotation;
+        float aDirX = Sin(-aPivotRotation);
+        float aDirY = Cos(-aPivotRotation);
+        aCornerShiftX = aDirX * aDist;
+        aCornerShiftY = aDirY * aDist;
+    }
+
+    mRotation += pParentTransform->mRotation;
+    float aScaleX = mScale * mScaleX;
+    float aScaleY = mScale * mScaleY;
+    float aWidth = pWidth * (aScaleX);
+    float aHeight = pHeight * (aScaleY);
+    float aCornerStartX = mX + aCornerShiftX;
+    float aCornerStartY = mY + aCornerShiftY;
+    if(mRotation != 0) {
+        float aDirX = Sin(-mRotation);
+        float aDirY = Cos(-mRotation);
+        float aNormalX = (aDirY);
+        float aNormalY = (-aDirX);
+        float aHeightShiftX = (aHeight * aDirX);
+        float aHeightShiftY = (aHeight * aDirY);
+        float aWidthShiftX = (aWidth * aNormalX);
+        float aWidthShiftY = (aWidth * aNormalY);
+        aCornerStartX -= ((aWidthShiftX * mAnchorX + aHeightShiftX * mAnchorY));
+        aCornerStartY -= ((aWidthShiftY * mAnchorX + aHeightShiftY * mAnchorY));
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX + aHeightShiftX;
+        mCornerY[1] = aCornerStartY + aHeightShiftY;
+        mCornerX[2] = aCornerStartX + (aWidthShiftX + aHeightShiftX);
+        mCornerY[2] = aCornerStartY + (aWidthShiftY + aHeightShiftY);
+        mCornerX[3] = aCornerStartX + aWidthShiftX;
+        mCornerY[3] = aCornerStartY + aWidthShiftY;
+    } else {
+        aCornerStartX -= aAnchorWidth * aScaleX;
+        aCornerStartY -= aAnchorHeight * aScaleY;
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX;
+        mCornerY[1] = aCornerStartY + aHeight;
+        mCornerX[2] = aCornerStartX + aWidth;
+        mCornerY[2] = aCornerStartY + aHeight;
+        mCornerX[3] = aCornerStartX + aWidth;
+        mCornerY[3] = aCornerStartY;
+    }
+}
+*/
+
+
+
+/*
+void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
+    mAnchorX = pTransform->mAnchorX;
+    mAnchorY = pTransform->mAnchorY;
+    float aAnchorWidth = mAnchorX * pWidth;
+    float aAnchorHeight = mAnchorY * pHeight;
+    float aAnchorX = aAnchorWidth * pTransform->mScale * pTransform->mScaleX;
+    float aAnchorY = aAnchorHeight * pTransform->mScale * pTransform->mScaleY;
+    mRotation = pTransform->mRotation;
+    mScale = pTransform->mScale;
+    mScaleX = pTransform->mScaleX;
+    mScaleY = pTransform->mScaleY;
+    float aParentX = pParentTransform->mX;
+    float aParentY = pParentTransform->mY;
+    float aParentScaleX = pParentTransform->mScale * pParentTransform->mScaleX;
+    float aParentScaleY = pParentTransform->mScale * pParentTransform->mScaleY;
+    mScale *= pParentTransform->mScale;
+    mScaleX *= pParentTransform->mScaleX;
+    mScaleY *= pParentTransform->mScaleY;
+    if((pParentTransform->mAnchorX != 0.0f) || (pParentTransform->mAnchorY != 0.0f)) {
+
+        float aParentAnchorWidth = pParentTransform->mAnchorX * pParentWidth;
+        float aParentAnchorHeight = pParentTransform->mAnchorY * pParentHeight;
+        float aParentAnchorX = aParentAnchorWidth * aParentScaleX;
+        float aParentAnchorY = aParentAnchorHeight * aParentScaleY;
+
+        //Parent had this applied -- BEFORE it was rotated.
+
+
+        //adjust the anchor...
+        //aParentX += aParentAnchorWidth  - aParentAnchorX;
+        //aParentY += aParentAnchorHeight - aParentAnchorY;
+        //rotate...
+
+        //We need to unwind it, taking into account that the parent
+        //is ALREADY rotated...
+
+
+        float aParentShiftX = aParentAnchorX;// - (aParentAnchorWidth - aParentAnchorX) * aParentScaleX;
+        float aParentShiftY = aParentAnchorY;// - (aParentAnchorHeight - aParentAnchorY) * aParentScaleY;
+
+
+        if(pParentTransform->mRotation != 0.0f) {
+            float aDist = aParentShiftX * aParentShiftX + aParentShiftY * aParentShiftY;
+            float aSwivel = 180.0f - FaceTarget(-aParentShiftX, -aParentShiftY);
+            if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+            aSwivel -= pParentTransform->mRotation;
+            float aDirX = Sin(aSwivel);
+            float aDirY = Cos(aSwivel);
+            aParentShiftX = aDirX * aDist;
+            aParentShiftY = aDirY * aDist;
+        }
+
+        aParentX -= aParentShiftX;
+        aParentY -= aParentShiftY;
+    }
+
+    //***Works***
+    //mX = ((pX + pTransform->mX + aAnchorX) * (aParentScaleX));
+    //mY = ((pY + pTransform->mY + aAnchorY) * (aParentScaleY));
+
+
+
+    mX = ((pX + pTransform->mX) * (aParentScaleX));
+    mY = ((pY + pTransform->mY) * (aParentScaleY));
+
+
+    mX += (aAnchorX) * aParentScaleX;
+    mY += (aAnchorY) * aParentScaleY;
+
+    //We adjust the actual coordinate based on anchor point.
+    //For example, an x coordinate of 1.0 would scale from
+    //the right edge, centering (0.5) would scale about the actual center.
+
+    //mX += ((aAnchorWidth) - (aAnchorX))  * aParentScaleX;
+    //mY += ((aAnchorHeight) - (aAnchorY)) * aParentScaleY;
+
+
+    if(pParentTransform->mRotation != 0) {
+        float aPivotRotation = FaceTarget(mX, mY);
+        float aDist = mX * mX + mY * mY;
+        if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+        aPivotRotation += pParentTransform->mRotation;
+        float aDirX = Sin(-aPivotRotation);
+        float aDirY = Cos(-aPivotRotation);
+        mX = aDirX * (aDist) + aParentX;
+        mY = aDirY * (aDist) + aParentY;
+    } else {
+        mX += aParentX;
+        mY += aParentY;
+    }
+    mRotation += pParentTransform->mRotation;
+    float aScaleX = mScale * mScaleX;
+    float aScaleY = mScale * mScaleY;
+    float aWidth = pWidth * (aScaleX);
+    float aHeight = pHeight * (aScaleY);
+    float aCornerStartX = mX;
+    float aCornerStartY = mY;
+    if(mRotation != 0) {
+        float aDirX = Sin(-mRotation);
+        float aDirY = Cos(-mRotation);
+        float aNormalX = (aDirY);
+        float aNormalY = (-aDirX);
+        float aHeightShiftX = (aHeight * aDirX);
+        float aHeightShiftY = (aHeight * aDirY);
+        float aWidthShiftX = (aWidth * aNormalX);
+        float aWidthShiftY = (aWidth * aNormalY);
+        aCornerStartX -= ((aWidthShiftX * mAnchorX + aHeightShiftX * mAnchorY));
+        aCornerStartY -= ((aWidthShiftY * mAnchorX + aHeightShiftY * mAnchorY));
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX + aHeightShiftX;
+        mCornerY[1] = aCornerStartY + aHeightShiftY;
+        mCornerX[2] = aCornerStartX + (aWidthShiftX + aHeightShiftX);
+        mCornerY[2] = aCornerStartY + (aWidthShiftY + aHeightShiftY);
+        mCornerX[3] = aCornerStartX + aWidthShiftX;
+        mCornerY[3] = aCornerStartY + aWidthShiftY;
+    } else {
+        aCornerStartX -= aAnchorWidth * aScaleX;
+        aCornerStartY -= aAnchorHeight * aScaleY;
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX;
+        mCornerY[1] = aCornerStartY + aHeight;
+        mCornerX[2] = aCornerStartX + aWidth;
+        mCornerY[2] = aCornerStartY + aHeight;
+        mCornerX[3] = aCornerStartX + aWidth;
+        mCornerY[3] = aCornerStartY;
+    }
+}
+*/
+
+void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasAbsoluteTransform *pParentTransform, float pParentX, float pParentY, float pParentWidth, float pParentHeight, FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
+    mAnchorX = pTransform->mAnchorX;
+    mAnchorY = pTransform->mAnchorY;
+    float aAnchorWidth = mAnchorX * pWidth;
+    float aAnchorHeight = mAnchorY * pHeight;
+    float aAnchorX = aAnchorWidth * pTransform->mScale * pTransform->mScaleX;
+    float aAnchorY = aAnchorHeight * pTransform->mScale * pTransform->mScaleY;
+    mRotation = pTransform->mRotation;
+    mScale = pTransform->mScale;
+    mScaleX = pTransform->mScaleX;
+    mScaleY = pTransform->mScaleY;
+    float aParentX = pParentTransform->mX;
+    float aParentY = pParentTransform->mY;
+    float aParentScaleX = pParentTransform->mScale * pParentTransform->mScaleX;
+    float aParentScaleY = pParentTransform->mScale * pParentTransform->mScaleY;
+    mScale *= pParentTransform->mScale;
+    mScaleX *= pParentTransform->mScaleX;
+    mScaleY *= pParentTransform->mScaleY;
+    if((pParentTransform->mAnchorX != 0.0f) || (pParentTransform->mAnchorY != 0.0f)) {
+        float aParentShiftX = (pParentTransform->mAnchorX * pParentWidth) * aParentScaleX;
+        float aParentShiftY = (pParentTransform->mAnchorY * pParentHeight) * aParentScaleY;
+        if(pParentTransform->mRotation != 0.0f) {
+            float aDist = aParentShiftX * aParentShiftX + aParentShiftY * aParentShiftY;
+            float aSwivel = 180.0f - FaceTarget(-aParentShiftX, -aParentShiftY);
+            if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+            aSwivel -= pParentTransform->mRotation;
+            float aDirX = Sin(aSwivel);
+            float aDirY = Cos(aSwivel);
+            aParentShiftX = aDirX * aDist;
+            aParentShiftY = aDirY * aDist;
+        }
+        aParentX -= aParentShiftX;
+        aParentY -= aParentShiftY;
+    }
+
+    mX = ((pX + pTransform->mX + aAnchorX + ((aAnchorWidth) - (aAnchorX))) * (aParentScaleX));
+    mY = ((pY + pTransform->mY + aAnchorY + ((aAnchorHeight) - (aAnchorY))) * (aParentScaleY));
+
+    if(pParentTransform->mRotation != 0) {
+        float aPivotRotation = FaceTarget(mX, mY);
+        float aDist = mX * mX + mY * mY;
+        if(aDist > SQRT_EPSILON)aDist = sqrtf(aDist);
+        aPivotRotation += pParentTransform->mRotation;
+        float aDirX = Sin(-aPivotRotation);
+        float aDirY = Cos(-aPivotRotation);
+        mX = aDirX * (aDist) + aParentX;
+        mY = aDirY * (aDist) + aParentY;
+    } else {
+        mX += aParentX;
+        mY += aParentY;
+    }
+    mRotation += pParentTransform->mRotation;
+    float aScaleX = mScale * mScaleX;
+    float aScaleY = mScale * mScaleY;
+    float aWidth = pWidth * (aScaleX);
+    float aHeight = pHeight * (aScaleY);
+    float aCornerStartX = mX;
+    float aCornerStartY = mY;
+    if(mRotation != 0) {
+        float aDirX = Sin(-mRotation);
+        float aDirY = Cos(-mRotation);
+        float aNormalX = (aDirY);
+        float aNormalY = (-aDirX);
+        float aHeightShiftX = (aHeight * aDirX);
+        float aHeightShiftY = (aHeight * aDirY);
+        float aWidthShiftX = (aWidth * aNormalX);
+        float aWidthShiftY = (aWidth * aNormalY);
+        aCornerStartX -= ((aWidthShiftX * mAnchorX + aHeightShiftX * mAnchorY));
+        aCornerStartY -= ((aWidthShiftY * mAnchorX + aHeightShiftY * mAnchorY));
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX + aHeightShiftX;
+        mCornerY[1] = aCornerStartY + aHeightShiftY;
+        mCornerX[2] = aCornerStartX + (aWidthShiftX + aHeightShiftX);
+        mCornerY[2] = aCornerStartY + (aWidthShiftY + aHeightShiftY);
+        mCornerX[3] = aCornerStartX + aWidthShiftX;
+        mCornerY[3] = aCornerStartY + aWidthShiftY;
+    } else {
+        aCornerStartX -= aAnchorWidth * aScaleX;
+        aCornerStartY -= aAnchorHeight * aScaleY;
+        mCornerX[0] = aCornerStartX;
+        mCornerY[0] = aCornerStartY;
+        mCornerX[1] = aCornerStartX;
+        mCornerY[1] = aCornerStartY + aHeight;
+        mCornerX[2] = aCornerStartX + aWidth;
+        mCornerY[2] = aCornerStartY + aHeight;
+        mCornerX[3] = aCornerStartX + aWidth;
+        mCornerY[3] = aCornerStartY;
+    }
+}
 
 void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasTransform *pTransform, float pX, float pY, float pWidth, float pHeight) {
     mAnchorX = pTransform->mAnchorX;
@@ -1473,8 +1841,11 @@ void FCanvasAbsoluteTransform::ApplyAbsoluteTransformation(FCanvasTransform *pTr
     float aAnchorHeight = mAnchorY * pHeight;
     float aAnchorX = aAnchorWidth * pTransform->mScale * pTransform->mScaleX;
     float aAnchorY = aAnchorHeight * pTransform->mScale * pTransform->mScaleY;
-    mX = pX + pTransform->mX + aAnchorX;
-    mY = pY + pTransform->mY + aAnchorY;
+    //mX = pX + pTransform->mX + aAnchorX;
+    //mY = pY + pTransform->mY + aAnchorY;
+    mX = pX + pTransform->mX + aAnchorX + (aAnchorWidth - aAnchorX);
+    mY = pY + pTransform->mY + aAnchorY + (aAnchorHeight - aAnchorY);
+
     float aScaleX = mScale * mScaleX;
     float aScaleY = mScale * mScaleY;
     float aWidth = pWidth * (aScaleX);

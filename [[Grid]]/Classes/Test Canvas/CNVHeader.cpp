@@ -13,6 +13,8 @@ CNVHeader::CNVHeader() {
     mSpriteRotation = gRand.Get(360);
     mClipEnabled = true;
 
+    SetTransformAnchor(0.0f, 0.0f);
+
     mTouchMarkerColor1 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
     mTouchMarkerColor2 = FColor(gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat(), gRand.GetFloat());
 
@@ -44,12 +46,17 @@ void CNVHeader::Layout() {
             float aBorderSize = 12.0f;
 
             FRect aFit = FRect::FitAspectFit(aBounds, mWidth, mHeight, aBorderSize, aScale);
-            
-            SetTransformScaleX(aScale);
-            SetTransformScaleY(aScale);
 
-            SetTransformX(aBorderSize);
-            SetTransformY(aBorderSize);
+            SetX(-mWidth * aScale / 2.0f);
+            SetY(-mHeight * aScale / 2.0f);
+
+            
+            SetTransformScale(aScale);
+            //SetTransformScaleY(aScale);
+
+
+            SetTransformX(aParentWidth / 2.0f);
+            SetTransformY(mHeight * aScale / 2.0f);
 
         }
     }

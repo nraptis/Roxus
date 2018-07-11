@@ -55,20 +55,15 @@ void GLApp::Update() {
     if (mSpawnNewWorldTimer > 0) {
         mSpawnNewWorldTimer -= 1;
         if (mSpawnNewWorldTimer == 0) {
-            //mCanvasContainer = new CNVWorldContainerContainer();
-            //mWindowMain.AddChild(mCanvasContainer);
-            //mCanvasContainer->SetTransformAnchor(0.5f, 0.5f);
-
+            mCanvasContainer = new CNVWorldContainerContainer();
+            mWindowMain.AddChild(mCanvasContainer);
             mAnimation.mCanvas = 0;
         }
     }
-
     mAnimation.Update();
-
 }
 
 void GLApp::Draw() {
-
     FDrawQuad aQuad;
     aQuad.SetColorBottom(0.84f, 0.86f, 0.92f);
     aQuad.SetColorTop(0.92f, 0.93f, 0.96f);
@@ -80,19 +75,13 @@ void GLApp::Draw() {
     //aQuad.SetRect(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     aQuad.Draw();
 
-    
-    //Graphics::Clear(0.88f, 0.88f, 0.92f);
     Graphics::Clear(0.125f, 0.125f, 0.133f);
-
-
     Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.6);
-    
     for (float aX = 0.0f;aX < gAppWidth;aX += 10.0) {
         for (float aY = 0.0f;aY < gAppHeight;aY += 10.0) {
             Graphics::DrawPoint(aX, aY, 2.0);
         }
     }
-
 
     Graphics::SetColor(1.0, 1.0, 1.0);
     
@@ -106,7 +95,6 @@ void GLApp::Draw() {
     Graphics::SetColor(0.0, 1.0, 0.0);
     Graphics::DrawPoint(mLine2Point1.mX, mLine2Point1.mY, 6.0f);
     Graphics::DrawPoint(mLine2Point2.mX, mLine2Point2.mY, 6.0f);
-    
     
     FPoint aCollide;
     if (SegmentSegmentIntersection(mLine1Point1, mLine1Point2, mLine2Point1, mLine2Point2, &aCollide)) {
@@ -387,7 +375,8 @@ void GLApp::TouchDown(float pX, float pY, void *pData) {
         mSelectedPoint = &mLine2Point2;
         mSelectedPointStart = mLine2Point2;
     }
-    
+
+    /*
     mSelectedTouchStart = aPoint;
     if (mCanvasContainer) {
         mAnimation.SetUp(mCanvasContainer);
@@ -407,6 +396,7 @@ void GLApp::TouchDown(float pX, float pY, void *pData) {
         }
         mAnimation.Generate(ANIMATION_TYPE_OVERSHOOT, 200);
     }
+    */
 }
 
 void GLApp::TouchMove(float pX, float pY, void *pData) {
@@ -464,15 +454,15 @@ void GLApp::SetDeviceSize(float pWidth, float pHeight) {
 
 void GLApp::LoadComplete() {
 
-    //mCanvasContainer = new CNVWorldContainerContainer();
-    //mWindowMain.AddChild(mCanvasContainer);
+    mCanvasContainer = new CNVWorldContainerContainer();
+    mWindowMain.AddChild(mCanvasContainer);
     //mCanvasContainer->SetTransformAnchor(0.25f, 0.5f);
 
-    PGMainCanvas *aPlayground = new PGMainCanvas();
-    mWindowTools.AddChild(aPlayground);
+    //PGMainCanvas *aPlayground = new PGMainCanvas();
+    //mWindowTools.AddChild(aPlayground);
 
-    //Util_ScreenFrame *aScreenFrameUtil = new Util_ScreenFrame();
-    //mWindowTools.AddChild(aScreenFrameUtil);
+    Util_ScreenFrame *aScreenFrameUtil = new Util_ScreenFrame();
+    mWindowTools.AddChild(aScreenFrameUtil);
     
 }
 

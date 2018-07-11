@@ -17,8 +17,6 @@ WorldContainer::WorldContainer() {
     mTransformContainer = 0;
     mArena = 0;
 
-    SetTransformAnchor(0.5f, 0.5f);
-
     gWorldContainer = this;
     mName = "path_editor";
 

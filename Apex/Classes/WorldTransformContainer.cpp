@@ -13,6 +13,13 @@ WorldTransformContainer::WorldTransformContainer() {
     SetTransformAnchor(1.0f, 1.0f);
     mName = "path_editor";
 
+    mPinCanvas1 = new FCanvas();
+    AddChild(mPinCanvas1);
+    mPinCanvas1->mColor = FColor(0.5f, 0.5f, 1.0f, 0.75f);
+
+    mPinCanvas2 = new FCanvas();
+    AddChild(mPinCanvas2);
+    mPinCanvas2->mColor = FColor(1.0f, 1.0f, 1.0f, 0.75f);
 }
 
 WorldTransformContainer::~WorldTransformContainer() {
@@ -21,10 +28,23 @@ WorldTransformContainer::~WorldTransformContainer() {
 
 void WorldTransformContainer::Layout() {
 
-    float aImageWidth = gApp->m1024x1024.mWidth;
-    float aImageHeight = gApp->m1024x1024.mHeight;
+    //SetSize(aImageWidth + aImageWidth, aImageHeight);
+    SetSize(1024.0f, 512.0f);
 
-    SetSize(aImageWidth + aImageWidth, aImageHeight);
+    mPinCanvas1->SetX(50.0f);
+    mPinCanvas1->SetY(50.0f);
+    mPinCanvas1->SetWidth(512.0f);
+    mPinCanvas1->SetHeight(256.0f);
+    mPinCanvas1->SetTransformAnchor(1.0f, 1.0f);
+    mPinCanvas1->SetTransformRotation(-22.0f);
+
+    mPinCanvas2->SetX(1024.0f - (300 + 60.0f));
+    mPinCanvas2->SetY(512.0f - (100 + 60.0f));
+    mPinCanvas2->SetWidth(300.0f);
+    mPinCanvas2->SetHeight(100.0f);
+    mPinCanvas2->SetTransformAnchor(0.0f, 0.0f);
+    mPinCanvas2->SetTransformRotation(22.0f);
+
 }
 
 void WorldTransformContainer::Update() {
@@ -35,8 +55,13 @@ void WorldTransformContainer::Update() {
 void WorldTransformContainer::Draw() {
 
     Graphics::SetColor(0.75f, 0.75f, 0.75f, 0.75f);
-    gApp->m1024x1024.Draw(0.0f, 0.0f);
-    gApp->m1024x1024.Draw(gApp->m1024x1024.mWidth, 0.0f);
+    //gApp->m1024x1024.Draw(0.0f, 0.0f);
+
+    gApp->m1024x1024.DrawQuadRect(0.0f, 0.0f, 512.0f, 512.0f);
+    gApp->m1024x1024.DrawQuadRect(512.0f, 0.0f, 512.0f, 512.0f);
+
+
+    //gApp->m1024x1024.Draw(gApp->m1024x1024.mWidth, 0.0f);
 
     Graphics::SetColor(0.45f, 0.35f, 0.95f, 0.65f);
     Graphics::OutlineRectInside(0.0f, 0.0f, mWidth, mHeight, 12.0f);

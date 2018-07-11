@@ -10,7 +10,21 @@
 #include "GLApp.h"
 
 CNVBoard::CNVBoard() {
-    SetTransformAnchor(1.0f, 1.0f);
+
+    int aRand = gRand.Get(3);
+
+    SetTransformAnchor(0.0f, 0.0f);
+    
+    if (aRand == 0) {
+        //SetTransformAnchor(0.0f, 0.0f);
+        //printf("CNVBoard::SetTransformAnchor(0.0f, 0.0f);\n");
+    } else if (aRand == 1) {
+        //SetTransformAnchor(0.5f, 0.5f);
+        //printf("CNVBoard::SetTransformAnchor(0.5f, 0.5f);\n");
+    } else {
+        //SetTransformAnchor(1.0f, 1.0f);
+        //printf("CNVBoard::SetTransformAnchor(1.0f, 1.0f);\n");
+    }
 
     mSpriteRotation = gRand.Get(360);
     mClipEnabled = true;
@@ -35,7 +49,8 @@ CNVBoard::CNVBoard() {
     mRotView1 = new CNVMiniWindow();
     mRotView1->mName = "ROTATION-VIEW-1";
     AddChild(mRotView1);
-    
+    mRotView1->SetTransformAnchor(0.0f, 0.0f);
+
     //mRotView2UT = new CNVMiniWindow();
     //mRotView2UT->mName = "mRotView2UT";
     //AddChild(mRotView2UT);
@@ -43,6 +58,8 @@ CNVBoard::CNVBoard() {
     mRotView2 = new CNVMiniWindow();
     mRotView2->mName = "ROTATION-VIEW-2";
     AddChild(mRotView2);
+    mRotView2->SetTransformAnchor(0.0f, 0.0f);
+    
     
     mName = "CNVBoard";
 
@@ -63,7 +80,8 @@ CNVBoard::~CNVBoard() {
 }
 
 void CNVBoard::Layout() {
-    Log("---Layout(CNVBoard)\n");
+
+    Log("---Layout(CNVBoard) (%f %f %f %f)\n", mX, mY, mWidth, mHeight);
     float aTileWidth = gApp->mDarkTile.mWidth;
     float aTileHeight = gApp->mDarkTile.mHeight;
     if (aTileWidth > 20.0f && aTileHeight > 20.0f) {
@@ -88,9 +106,15 @@ void CNVBoard::Update() {
     if (mSpriteRotation >= 360.0f) mSpriteRotation -= 360.0f;
 
     float aSin = Sin(mTestAngle);
-    SetTransformRotation(aSin * 10.0f);
-    SetTransformAnchor(0.5f, 0.5f);
+    
+    SetTransformRotation(aSin * 5.0f);
+    if (gRand.GetBool()) {
 
+    } else {
+        //SetTransformRotation(0.0f);
+    }
+
+    
     mSphereRotation1 += 0.25f;
     if (mSphereRotation1 >= 360.0f) mSphereRotation1 -= 360.0f;
     
@@ -108,8 +132,9 @@ void CNVBoard::Draw() {
     FCanvas::Draw();
     //gApp->mCNVSprite.Draw(mWidth2, mHeight2, 2.0, mSpriteRotation, 1);
     gApp->mTestSprite.Draw(mWidth2, mHeight2, 2.0, mSpriteRotation);
-    gApp->mBackground.Center(mWidth2, mHeight2);
-    
+    gApp->mBackgroundLarge.Center(mWidth2, mHeight2);
+
+
     Graphics::SetColor(0.66f, 0.66f, 0.66f, 0.75f);
     
     Graphics::OutlineRect(3.0f, 3.0f, mWidth - 6.0f, mHeight - 6.0f, 3.0f);
@@ -132,15 +157,10 @@ void CNVBoard::Draw() {
     if (mTouchX > 0.0f || mTouchY >= 0.0f) {
         Graphics::SetColor(mTouchMarkerColor1);
         Graphics::DrawPoint(mTouchX, mTouchY, 14.0f);
-        
         Graphics::SetColor(mTouchMarkerColor2);
         Graphics::DrawPoint(mTouchX, mTouchY, 10.0f);
     }
     
-
-
-
-
     Graphics::ClipDisable();
     Graphics::ResetMatrixModelView();
     Graphics::ResetMatrixProjection();

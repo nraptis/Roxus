@@ -44,7 +44,8 @@ void PGMainCanvas::Update() {
 }
 
 void PGMainCanvas::Draw() {
-    mBackQuad.Draw();
+    //mBackQuad.Draw();
+
 }
 
 void PGMainCanvas::TouchDown(float pX, float pY, void *pData) {

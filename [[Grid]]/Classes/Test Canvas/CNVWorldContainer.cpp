@@ -11,8 +11,6 @@
 
 CNVWorldContainer::CNVWorldContainer() {
 
-    SetTransformAnchor(0.25f, 0.75f);
-    
     mSpriteRotation = gRand.Get(360);
     
     mClipEnabled = true;
@@ -27,13 +25,12 @@ CNVWorldContainer::CNVWorldContainer() {
     
     mWorld1 = new CNVWorld();
     AddChild(mWorld1);
+
+    SetTransformAnchor(0.0f, 0.0f);
     
-    
-    //mWorld2 = new CNVWorld();
-    
-    
+    mWorld2 = new CNVWorld();
+        
     mName = "CNVWorldContainer";
-    
 }
 
 CNVWorldContainer::~CNVWorldContainer() {

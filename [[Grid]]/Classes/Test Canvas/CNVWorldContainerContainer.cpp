@@ -12,6 +12,8 @@
 
 CNVWorldContainerContainer::CNVWorldContainerContainer() {
     mSpriteRotation = gRand.Get(360);
+
+    SetTransformAnchor(0.0f, 0.0f);
     
     mWorldContainer = 0;
     
@@ -54,9 +56,12 @@ void CNVWorldContainerContainer::Layout() {
             float aScale = 1.0f;
             FRect aFit = FRect::FitAspectFit(aBounds, aHeight, aWidth, 5.0f, aScale);
 
+            mWorldContainer->SetX( -aWidth * aScale / 2.0f);
+            mWorldContainer->SetY(-aHeight * aScale / 2.0f);
+
             mWorldContainer->SetTransformScale(aScale);
-            mWorldContainer->SetTransformX(aFit.mX);
-            mWorldContainer->SetTransformY(aFit.mY);
+            mWorldContainer->SetTransformX(mWidth / 2.0f);
+            mWorldContainer->SetTransformY(mHeight / 2.0f);
         }
     }
 }
@@ -109,8 +114,6 @@ void CNVWorldContainerContainer::Draw() {
     FMatrix aProj = FMatrixCreateOrtho(0.0f, gDeviceWidth, gDeviceHeight, 0.0f, -1024.0f, 1024.0f);
     Graphics::SetMatrix(aProj);
 
-
-
     for (int i=0;i<4;i++) {
 
         Graphics::SetColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -119,27 +122,27 @@ void CNVWorldContainerContainer::Draw() {
         Graphics::DrawPoint(mTransformAbsolute.mCornerX[i], mTransformAbsolute.mCornerY[i], 14.0f);
     }
 
-    Graphics::SetColor(1.0f, 0.85f, 0.75f, 0.75f);
+    Graphics::SetColor(1.0f, 0.85f, 0.25f, 1.0f);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[0],
                        mTransformAbsolute.mCornerY[0],
                        mTransformAbsolute.mCornerX[1],
-                       mTransformAbsolute.mCornerY[1], 6.0);
+                       mTransformAbsolute.mCornerY[1], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[1],
                        mTransformAbsolute.mCornerY[1],
                        mTransformAbsolute.mCornerX[2],
-                       mTransformAbsolute.mCornerY[2], 6.0);
+                       mTransformAbsolute.mCornerY[2], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[2],
                        mTransformAbsolute.mCornerY[2],
                        mTransformAbsolute.mCornerX[3],
-                       mTransformAbsolute.mCornerY[3], 6.0);
+                       mTransformAbsolute.mCornerY[3], 1.0);
 
     Graphics::DrawLine(mTransformAbsolute.mCornerX[3],
                        mTransformAbsolute.mCornerY[3],
                        mTransformAbsolute.mCornerX[0],
-                       mTransformAbsolute.mCornerY[0], 6.0);
+                       mTransformAbsolute.mCornerY[0], 1.0);
 
 }
 

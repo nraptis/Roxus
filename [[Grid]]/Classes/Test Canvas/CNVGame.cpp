@@ -15,6 +15,8 @@ CNVGame::CNVGame() {
 
     mBoard = 0;
 
+    SetTransformAnchor(0.5f, 0.5f);
+
 
     mBoard = new CNVBoard();
     AddChild(mBoard);
@@ -53,29 +55,44 @@ void CNVGame::Layout() {
                     float aBoardHeight = mBoard->mHeight;
                     float aBoardWidth = mBoard->mWidth;
 
+
                     if (aBoardWidth > aWidth) {
 
                         FRect aBounds = FRect(0.0f, 0.0f, aWidth, 100000.0f);
 
                         FRect aFit = FRect::FitAspectFit(aBounds, aBoardWidth, aBoardHeight, 8.0f, aBoardScale);
-                        mBoard->SetTransformScale(aBoardScale);
+                        //mBoard->SetTransformScaleX(aBoardScale);
+                        //mBoard->SetTransformScaleY(aBoardScale);
                         
+                        mBoard->SetTransformScale(aBoardScale);
+
                         aBoardHeight *= aBoardScale;
                         aBoardWidth *= aBoardScale;
+
+
                     } else {
                         mBoard->SetTransformScale(1.0f);
                     }
 
-                    aHeight = aHeaderHeight + aFooterHeight + aBoardHeight;
-                    mBoard->SetTransformX(aWidth / 2.0f - aBoardWidth / 2.0f);
+                    mBoard->SetX(-aBoardWidth / 2.0f);
+                    mBoard->SetY(-aBoardHeight / 2.0f);
 
-                    mBoard->SetTransformY(aHeaderHeight);
+
+                    aHeight = aHeaderHeight + aFooterHeight + aBoardHeight;
+
+                    //mBoard->SetX(aWidth / 2.0f - aBoardWidth / 2.0f);
+                    //mBoard->SetX(0.0f);
+                    //mBoard->SetY(aHeaderHeight);
+
+                    mBoard->SetTransformX(aWidth / 2.0f);
+                    mBoard->SetTransformY(aHeight / 2.0f - (aFooterHeight - aHeaderHeight) / 2.0f);
+
                 }
             }
 
-            SetFrame(0.0f, 0.0f, aWidth, aHeight);
-
-
+            //SetFrame(0.0f, 0.0f, aWidth, aHeight);
+            SetWidth(aWidth);
+            SetHeight(aHeight);
 
             FRect aBounds = FRect(0.0f, 0.0f, aParentWidth, aParentHeight);
 
@@ -83,13 +100,18 @@ void CNVGame::Layout() {
             FRect aFit = FRect::FitAspectFit(aBounds, aWidth, aHeight, 8.0f, aScale);
 
             SetTransformScale(aScale);
-            SetTransformX(aFit.mX);
-            SetTransformY(aFit.mY);
+
+            SetX(-aWidth / 2.0f);
+            SetY(-aHeight / 2.0f);
+
+            SetTransformX(aParentWidth / 2.0f);
+            SetTransformY(aParentHeight / 2.0f);
         }
 
         if (aParentWidth > 24.0f && aParentHeight > 24.0f && mWidth > 24.0f && mHeight > 24.0f) {
 
         }
+
     }
 
     if (mParent) {
@@ -121,9 +143,7 @@ void CNVGame::Draw() {
 
     FMatrix aProj = FMatrixCreateOrtho(0.0f, gDeviceWidth, gDeviceHeight, 0.0f, -1024.0f, 1024.0f);
     Graphics::SetMatrix(aProj);
-
-
-
+    
     for (int i=0;i<4;i++) {
 
         Graphics::SetColor(0.0f, 0.0f, 0.0f, 1.0f);
