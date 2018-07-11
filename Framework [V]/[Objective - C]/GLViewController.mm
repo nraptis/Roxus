@@ -606,4 +606,8 @@ enum
     
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 @end

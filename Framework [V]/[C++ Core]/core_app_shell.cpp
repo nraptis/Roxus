@@ -52,7 +52,9 @@ Graphics gG;
 
 
 int gEnvironment = ENV_IPHONE;
-int gSpriteScale = 1;
+int gImageFileScale = 1;
+float gSpriteFrameScale = 1.0f;
+
 
 bool gIsLargeScreen = false;
 bool gIsRetina = false;
@@ -274,9 +276,16 @@ void AppShellSetOSVersion(float pOSVersion)
 }
 
 //1X, 2X, 3X, 4X...
-void AppShellSetSpriteScale(int pScale) {
-    gSpriteScale = pScale;
+void AppShellSetImageFileScale(int pScale) {
+    gImageFileScale = pScale;
 }
+
+void AppShellSetSpriteFrameScale(float pScale) {
+    gSpriteFrameScale = pScale;
+}
+
+void AppShellSetSpriteScale(float pSpriteScale);
+
 
 void AppShellLoad()
 {

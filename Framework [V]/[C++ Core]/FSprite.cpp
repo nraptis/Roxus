@@ -155,16 +155,17 @@ void FSprite::LoadNode(FImageBundler *pImageBundler, FImageBundlerLoadNode *pNod
     aStartV = pNode->mSpriteVStart;
     aEndU = pNode->mSpriteUEnd;
     aEndV = pNode->mSpriteVEnd;
-    
-    aLeft = pNode->mSpriteLeft * pImageBundler->mBundleScale;
-    aRight = pNode->mSpriteRight * pImageBundler->mBundleScale;
-    
-    aTop = pNode->mSpriteTop * pImageBundler->mBundleScale;
-    aBottom = pNode->mSpriteBottom * pImageBundler->mBundleScale;
 
-    mWidth = pNode->mOriginalWidth * pImageBundler->mBundleScale;
-    mHeight = pNode->mOriginalHeight * pImageBundler->mBundleScale;
+    //
+    aLeft = pNode->mSpriteLeft * gSpriteFrameScale;//pImageBundler->mBundleScale;
+    aRight = pNode->mSpriteRight * gSpriteFrameScale;//pImageBundler->mBundleScale;
     
+    aTop = pNode->mSpriteTop * gSpriteFrameScale;//pImageBundler->mBundleScale;
+    aBottom = pNode->mSpriteBottom * gSpriteFrameScale;//pImageBundler->mBundleScale;
+
+    mWidth = pNode->mOriginalWidth * gSpriteFrameScale;//pImageBundler->mBundleScale;
+    mHeight = pNode->mOriginalHeight * gSpriteFrameScale;//pImageBundler->mBundleScale;
+
     mTextureRect.SetQuad(aLeft, aTop, aRight, aBottom);
     mTextureRect.SetUVQuad(aStartU, aStartV, aEndU, aEndV);
     
@@ -321,8 +322,8 @@ void FSprite::Load(FTexture *pTexture, int pX, int pY, int pWidth, int pHeight)
         {
             SetTexture(pTexture);
             
-            mWidth = pWidth;
-            mHeight = pHeight;
+            mWidth = pWidth * gSpriteFrameScale;
+            mHeight = pHeight * gSpriteFrameScale;
             
             float aStartU = (float)pX / (float)pTexture->mExpandedWidth;
             float aStartV = (float)pY / (float)pTexture->mExpandedHeight;
@@ -332,9 +333,9 @@ void FSprite::Load(FTexture *pTexture, int pX, int pY, int pWidth, int pHeight)
             
             mTextureRect.SetUVQuad(aStartU, aStartV, aEndU, aEndV);
             
-            float aHeight2 = ((float)mHeight)/2.0f;
-            float aWidth2 = ((float)mWidth)/2.0f;
-            
+            float aHeight2 = ((float)mHeight) * 0.5f;
+            float aWidth2 = ((float)mWidth) * 0.5f;
+
             mTextureRect.SetQuad(-aWidth2, -aHeight2, aWidth2, aHeight2);
         }
     }

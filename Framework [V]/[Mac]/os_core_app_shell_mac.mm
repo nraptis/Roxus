@@ -20,7 +20,7 @@ int gVirtualHeight = gWindowHeight;
 
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 1280.0f;
+int gWindowWidth = 568.0f;
 int gWindowHeight = 768.0f;
 
 int gVirtualX = 4.0f;
@@ -28,7 +28,7 @@ int gVirtualY = 4.0f;
 int gVirtualWidth = gWindowWidth - 8.0f;
 int gVirtualHeight = gWindowHeight - 8.0f;
 
-using namespace std;
+//using namespace std;
 
 bool gKeyDownCtrl = false;
 bool gKeyDownShift = false;
@@ -37,29 +37,18 @@ bool gKeyDownAlt = false;
 #import <Foundation/Foundation.h>
 
 void os_core_findDirectories() {
+    
     FString aPathBundle;
     if(gDirBundle.mLength > 0){ aPathBundle = gDirBundle.c(); }
 
     FString aPathDocuments;
     if(gDirDocuments.mLength > 0) { aPathDocuments = gDirDocuments.c(); }
 
-//    NSError *error;
-//    NSFileManager *manager = [NSFileManager defaultManager];
-//    NSURL *applicationSupport = [manager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:false error:&error];
-//    NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
-//    NSURL *folder = [applicationSupport URLByAppendingPathComponent:identifier];
-//    [manager createDirectoryAtURL:folder withIntermediateDirectories:true attributes:nil error:&error];
-//    NSURL *fileURL = [folder URLByAppendingPathComponent:@"TSPlogfile.txt"];
-//
-
-    printf("PATH: %s", [NSHomeDirectory() UTF8String]);
-
     AppShellSetDirectoryBundle(aPathBundle.c());
     AppShellSetDirectoryDocuments(aPathDocuments.c());
 
     //TODO: What scale?
-    AppShellSetSpriteScale(2);
-
+    AppShellSetSpriteScale(1);
 }
 
 void os_core_refreshModifierKeys() {

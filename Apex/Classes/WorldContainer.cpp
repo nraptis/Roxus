@@ -20,8 +20,6 @@ WorldContainer::WorldContainer() {
     gWorldContainer = this;
     mName = "path_editor";
 
-
-
     mGestureContainer = new WorldGestureContainer();
     AddChild(mGestureContainer);
 
@@ -36,6 +34,7 @@ WorldContainer::WorldContainer() {
 }
 
 WorldContainer::~WorldContainer() {
+    
     gWorldContainer = 0;
 
     if (mGestureContainer) {

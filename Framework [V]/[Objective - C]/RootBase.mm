@@ -1,6 +1,5 @@
 //
 //  RootBase.m
-//  OptimizeRX
 //
 //  Created by Nicholas Raptis on 10/10/15.
 //  Copyright © 2015 Darkswarm LLC. All rights reserved.
@@ -603,6 +602,9 @@ static float kOSVersion = 6.0f;
     }
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 - (void)didFinishAnimatingIn
 {

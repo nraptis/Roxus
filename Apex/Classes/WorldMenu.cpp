@@ -20,9 +20,7 @@ WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
     SetScrollMode(true);
 
     WorldGestureContainer *aGesture = mWorld->mGestureContainer;
-
-
-
+    
     mSliderZoom = new UISlider();
     mSliderZoom->SetText("Zoom:");
     mSliderZoom->SetValue(&aGesture->mWorldScale);

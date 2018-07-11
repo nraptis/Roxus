@@ -247,7 +247,7 @@ void FGestureView::BaseTouchMove(float pX, float pY, float pOriginalX, float pOr
         float aPinchSize = 24.0f;
         
         
-        if(mIsPanning == false)
+        if (mIsPanning == false)
         {
             
             
@@ -397,11 +397,8 @@ void FGestureView::BaseTouchUp(float pX, float pY, float pOriginalX, float pOrig
     
     
     int aTouchIndex = -1;
-    
-    for(int i=0;i<mTouchCount;i++)
-    {
-        if(mTouch[i]->mData == pData)
-        {
+    for (int i=0;i<mTouchCount;i++) {
+        if (mTouch[i]->mData == pData) {
             aTouchIndex = i;
             break;
         }
@@ -433,35 +430,29 @@ void FGestureView::BaseTouchUp(float pX, float pY, float pOriginalX, float pOrig
         
         if(mIsPanning)
         {
-            if(mTouchCount == 0)
-            {
+            //if(mTouchCount == 0)
+            //{
+
                 float aReleaseSpeedX = 0.0f;
                 float aReleaseSpeedY = 0.0f;
                 
                 int aReleaseTime = (aReleasedTouch->mTimer - 6);
                 int aReleaseConsiderCount = 0;
                 
-                for(int i=(aReleasedTouch->mHistoryMoveCount - 2);i >= 0;i--)
-                {
-                    if(aReleasedTouch->mHistoryMoveTime[i + 1] >= aReleaseTime)
-                    {
+                for (int i = (aReleasedTouch->mHistoryMoveCount - 2);i >= 0;i--) {
+                    if (aReleasedTouch->mHistoryMoveTime[i + 1] >= aReleaseTime) {
                         int aTimeDiff = (aReleasedTouch->mHistoryMoveTime[i + 1] - aReleasedTouch->mHistoryMoveTime[i]);
-                        
                         float aXDiff = (aReleasedTouch->mHistoryMoveX[i + 1] - aReleasedTouch->mHistoryMoveX[i]);
                         float aYDiff = (aReleasedTouch->mHistoryMoveY[i + 1] - aReleasedTouch->mHistoryMoveY[i]);
-                        
                         aReleaseSpeedX += ((float)aTimeDiff) * aXDiff;
                         aReleaseSpeedY += ((float)aTimeDiff) * aYDiff;
-                        
                         aReleaseConsiderCount++;
                     }
                 }
                 
                 
-                if(aReleaseConsiderCount > 0)
-                {
+                if (aReleaseConsiderCount > 0) {
                     aReleaseConsiderCount++;
-                    
                     aReleaseSpeedX /= ((float)aReleaseConsiderCount);
                     aReleaseSpeedY /= ((float)aReleaseConsiderCount);
                 }
@@ -470,15 +461,12 @@ void FGestureView::BaseTouchUp(float pX, float pY, float pOriginalX, float pOrig
                 
                 mIsPanning = false;
                 
-            }
-            else
-            {
-                mGesturePanStartCenterX = mGestureTouchCenterX;
-                mGesturePanStartCenterY = mGestureTouchCenterY;
-                
-                mGesturePanPreviousCenterX = mGestureTouchCenterX;
-                mGesturePanPreviousCenterY = mGestureTouchCenterY;
-            }
+            //} else {
+            //    mGesturePanStartCenterX = mGestureTouchCenterX;
+            //    mGesturePanStartCenterY = mGestureTouchCenterY;
+            //    mGesturePanPreviousCenterX = mGestureTouchCenterX;
+            //    mGesturePanPreviousCenterY = mGestureTouchCenterY;
+            //}
         }
         else
         {

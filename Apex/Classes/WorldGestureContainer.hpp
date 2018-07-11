@@ -48,7 +48,6 @@ public:
 
     WorldTransformContainer                         *mWorldTransform;
 
-
     float                                           mWorldOffsetX;
     float                                           mWorldOffsetY;
 
@@ -58,10 +57,24 @@ public:
     float                                           mWorldScale;
     float                                           mWorldPinchStartScale;
 
+    
+    float                                           mWorldPinchStartTouchCenterX;
+    float                                           mWorldPinchStartTouchCenterY;
+    float                                           mWorldPinchTouchCenterX;
+    float                                           mWorldPinchTouchCenterY;
+
+    float                                           mWorldPinchStartArenaX;
+    float                                           mWorldPinchStartArenaY;
 
 
     float                                           mWorldRotation;
 
+
+    //float                                           TransformX(float pX);
+    //float                                           TransformY(float pY);
+    //float                                           UntransformX(float pX);
+    //float                                           UntransformY(float pY);
+    
 
 };
 

@@ -68,7 +68,7 @@ FCanvas::~FCanvas() {
 }
 
 void FCanvas::Kill() {
-    mKill = 10;
+    mKill = 4;
     if (mWindow) {
         mWindow->RegisterKill(this);
     }
@@ -224,40 +224,6 @@ void FCanvas::SendChildBackward(FCanvas *pCanvas) {
     }
 }
 
-
-
-void FCanvas::PrintTransform() {
-    Log("%s", mName.c());
-
-    Log("\nTRA");
-
-    //Log(mName.c());
-
-    Log(" - XY[%.2f %.2f] Sc[%.2f %.2f %.2f] R[%.2f] - Fr[%.2f,%.2f,%.2f,%.2f]\n", mTransform.mX, mTransform.mY, mTransform.mScale, mTransform.mScaleX, mTransform.mScaleY, mTransform.mRotation, mX, mY, mWidth, mHeight);
-
-    Log("ABS - XY[%.2f %.2f] Sc[%.2f %.2f %.2f] R[%.3f]\n\n", mTransformAbsolute.mX, mTransformAbsolute.mY, mTransformAbsolute.mScale, mTransformAbsolute.mScaleX, mTransformAbsolute.mScaleY, mTransformAbsolute.mRotation);
-
-    Log("Corners - 1[%.2f %.2f] 2[%.2f %.2f] 3[%.2f %.2f] 4[%.2f %.2f]\n\n",
-
-        mTransformAbsolute.mCornerX[0],
-        mTransformAbsolute.mCornerY[0],
-        mTransformAbsolute.mCornerX[1],
-        mTransformAbsolute.mCornerY[1],
-        mTransformAbsolute.mCornerX[2],
-        mTransformAbsolute.mCornerY[2],
-        mTransformAbsolute.mCornerX[3],
-        mTransformAbsolute.mCornerY[3]);
-
-
-
-    Log("---\n");
-
-    EnumList(FCanvas, aCanvas, mChildren) {
-        aCanvas->PrintTransform();
-    }
-
-}
-
 void FCanvas::SetFrame(float pX, float pY, float pWidth, float pHeight) {
     SetX(pX);
     SetY(pY);
@@ -268,7 +234,7 @@ void FCanvas::SetFrame(float pX, float pY, float pWidth, float pHeight) {
 void FCanvas::SetX(float pX) {
     float aDifference = mX - pX;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.01f) {
         mX = pX;
         FrameDidUpdate();
     }
@@ -277,7 +243,7 @@ void FCanvas::SetX(float pX) {
 void FCanvas::SetY(float pY) {
     float aDifference = mY - pY;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.01f) {
         mY = pY;
         FrameDidUpdate();
     }
@@ -286,7 +252,7 @@ void FCanvas::SetY(float pY) {
 void FCanvas::SetWidth(float pWidth) {
     float aDifference = mWidth - pWidth;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.01f) {
         mWidth = pWidth;
         mWidth2 = mWidth * 0.5f;
         FrameDidUpdate();
@@ -296,7 +262,7 @@ void FCanvas::SetWidth(float pWidth) {
 void FCanvas::SetHeight(float pHeight) {
     float aDifference = mHeight - pHeight;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.01f) {
         mHeight = pHeight;
         mHeight2 = mHeight * 0.5f;
         FrameDidUpdate();
@@ -311,7 +277,7 @@ void FCanvas::SetTransformTranslate(float pX, float pY) {
 void FCanvas::SetTransformX(float pX) {
     float aDifference = mTransform.mX - pX;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.01f) {
         mTransform.mX = pX;
         TransformDidUpdate();
     }
@@ -320,7 +286,7 @@ void FCanvas::SetTransformX(float pX) {
 void FCanvas::SetTransformY(float pY) {
     float aDifference = mTransform.mY - pY;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.01f) {
         mTransform.mY = pY;
         TransformDidUpdate();
     }
@@ -361,7 +327,7 @@ void FCanvas::SetTransformScaleY(float pScaleY) {
 void FCanvas::SetTransformRotation(float pRotation) {
     float aDifference = mTransform.mRotation - pRotation;
     if (aDifference < 0.0) aDifference = -aDifference;
-    if (aDifference > 0.0001f) {
+    if (aDifference > 0.001f) {
         mTransform.mRotation = pRotation;
         TransformDidUpdate();
     }
@@ -388,14 +354,6 @@ void FCanvas::SetTransformAnchorY(float pAnchorY) {
         mTransform.mAnchorY = pAnchorY;
         TransformDidUpdate();
     }
-}
-
-void FCanvas::PrintFrame() {
-    
-}
-
-void FCanvas::PrintAllChildrenTransforms() {
-
 }
 
 void FCanvas::ConvertPoint(float &pX, float &pY, FCanvas *pFromCanvas, FCanvas *pToCanvas) {
@@ -1152,50 +1110,6 @@ void FCanvasBucket::SetTableSize(int pSize) {
     mTable = aTableNew;
     mTableSize = aNewSize;
 }
-
-void FCanvasBucket::Print() {
-    Log("____\n____Hash Table____\n_Count = %d  Size = %d QueueCount = %d QueueSize = %d\n\n", mTableCount, mTableSize, mQueue.mCount, mQueue.mSize);
-    FCanvasBucketNode *aNode = 0;
-    for (int i=0;i<mTableSize;i++) {
-        int aCount = 0;
-        aNode = mTable[i];
-        while (aNode) {
-            aCount++;
-            aNode = aNode->mTableNext;
-        }
-        Log("Row[%d] (%d)\t{", i, aCount);
-        aNode = mTable[i];
-        while(aNode) {
-            Log("{%s}", aNode->mCanvas->mName.c());
-            aNode = aNode->mTableNext;
-        }
-        Log("}\n");
-    }
-}
-
-void FCanvasBucket::PrintList() {
-    Log("____\n____Hash List____\n_Count = %d  Size = %d QueueCount = %d QueueSize = %d\n\n", mTableCount, mTableSize, mQueue.mCount, mQueue.mSize);
-
-    int aIndex = 0;
-    if (mListHead == 0) {
-        Log("*** EMPTY ***\n");
-    } else {
-        FCanvasBucketNode *aNode = mListHead;
-        while (aNode) {
-            Log("[%s], ", aNode->mCanvas->mName.c());
-            aNode = aNode->mListNext;
-
-            aIndex += 1;
-            if (aIndex >= 10) {
-                aIndex -= 10;
-                Log("\n");
-            }
-        }
-    }
-    Log("\n\n");
-}
-
-
 
 FCanvasAnimation::FCanvasAnimation() {
     BaseInitialize();

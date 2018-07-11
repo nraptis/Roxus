@@ -13,8 +13,9 @@
 
 @synthesize rootViewController;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+
     float aOSVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
     bool aIsTablet = false;
     

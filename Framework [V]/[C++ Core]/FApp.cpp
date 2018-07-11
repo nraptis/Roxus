@@ -133,12 +133,14 @@ void FApp::BaseLoad() {
 
         mImageLoadExtensionList += new FString("jpg");
         mImageLoadExtensionList += new FString("png");
+        
+        if (gImageFileScale == 1) mImageLoadMutableSuffixList += new FString("@1X");
+        if (gImageFileScale == 2) mImageLoadMutableSuffixList += new FString("@2X");
+        if (gImageFileScale == 3) mImageLoadMutableSuffixList += new FString("@3X");
+        if (gImageFileScale == 4) mImageLoadMutableSuffixList += new FString("@4X");
+        mImageLoadMutableSuffixList += new FString("");
 
 
-        if (gSpriteScale == 1) mImageLoadMutableSuffixList += new FString("@1X");
-        if (gSpriteScale == 2) mImageLoadMutableSuffixList += new FString("@2X");
-        if (gSpriteScale == 3) mImageLoadMutableSuffixList += new FString("@3X");
-        if (gSpriteScale == 4) mImageLoadMutableSuffixList += new FString("@4X");
         mImageLoadSuffixList += new FString("");
 
     }

@@ -31,7 +31,10 @@ void AppShellSetDirectoryExport(const char *pFilePath);
 void AppShellSetOSVersion(float pOSVersion);
 
 //1X, 2X, 3X, 4X...
-void AppShellSetSpriteScale(int pScale);
+void AppShellSetImageFileScale(int pScale);
+void AppShellSetSpriteFrameScale(float pScale);
+
+
 
 
 ////

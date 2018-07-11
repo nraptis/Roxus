@@ -1,6 +1,5 @@
 //
 //  RootBase.h
-//  OptimizeRX
 //
 //  Created by Nicholas Raptis on 10/10/15.
 //  Copyright © 2015 Darkswarm LLC. All rights reserved.

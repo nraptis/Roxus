@@ -101,7 +101,8 @@ extern bool gIsRetina;
 
 extern int gEnvironment;
 
-extern int gSpriteScale;
+extern int gImageFileScale;
+extern float gSpriteFrameScale;
 
 
 extern FString gDirDocuments;

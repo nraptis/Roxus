@@ -1,6 +1,5 @@
 //
 //  UtilityMethods.h
-//  NewNoiz
 //
 //  Created by Nick Raptis on 4/25/13.
 //  Copyright (c) 2013 Nick Raptis. All rights reserved.

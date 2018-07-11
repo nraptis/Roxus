@@ -267,6 +267,7 @@ void Game::ComputeTouches()
             mTouchStartDistance = aDiffX * aDiffX + aDiffY * aDiffY;
             
             if(mTouchStartDistance >= 1.0f)mTouchStartDistance = sqrtf(mTouchStartDistance);
+     
         }
         
         mDragCenterX = mTouchCenterX;
@@ -274,29 +275,25 @@ void Game::ComputeTouches()
         
         mTouchCenterAdjustmentDirX = (mCenterX - mTouchCenterX) / mZoomScale;
         mTouchCenterAdjustmentDirY = (mCenterY - mTouchCenterY) / mZoomScale;
+
     }
+
     */
     
 }
 
 
-void Game::TouchDown(int x, int y, void *pData)
-{
-    
+void Game::TouchDown(int x, int y, void *pData) {
     mTapMode = false;
-    
-    if(mTowerDetailMenu.mAnimating)
-    {
+
+    if (mTowerDetailMenu.mAnimating) {
         mTowerPickerMenu.Deselect();
         KillPanning();
         return;
     }
-    
-    if(mTowerDetailMenu.mHidden == false)
-    {
-        
-        if(mTowerDetailMenu.TouchHitsButton(x, y))
-        {
+
+    if (mTowerDetailMenu.mHidden == false) {
+        if (mTowerDetailMenu.TouchHitsButton(x, y)) {
             printf("We Did Hit The Button!!\n");
         }
         else
@@ -524,3 +521,4 @@ float Game::TransformY(float pY)
 {
     return gArenaHeight2 + (pY - mCenterY) / mZoomScale;
 }
+

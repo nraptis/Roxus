@@ -78,12 +78,11 @@ void FImage::Load(char *pFile) {
                         aPathExtension = (FString *)(gAppBase->mImageLoadExtensionList.Fetch(aExtensionIndex));
                         cImageLoadBuffer.WriteTerminate(aPathExtension->c(), aWriteIndex, aPathExtension->mLength);
                         LoadDirect(cImageLoadBuffer.c());
-                        
                         if ((mWidth > 0) && (mHeight > 0) && (mData != 0)) {
                             if (aMutableSuffixIndex > 0) {
                                 //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
                             } else {
-                                mScale = gSpriteScale;
+                                mScale = gImageFileScale;
                                 //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
                             }
                             aDidLoad = true;
@@ -96,7 +95,7 @@ void FImage::Load(char *pFile) {
                                         if (aMutableSuffixIndex > 0) {
                                             //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
                                         } else {
-                                            mScale = gSpriteScale;
+                                            mScale = gImageFileScale;
                                             //printf("Scale (%d) [%d x %d] => Img[%s]\n", mScale, mWidth, mHeight, cImageLoadBuffer.c());
                                         }
                                         aDidLoad = true;

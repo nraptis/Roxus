@@ -9,144 +9,91 @@
 #include "FObject.h"
 #include "core_includes.h"
 
-FObject::FObject()
-{
+FObject::FObject() {
     mKill = 0;
 }
 
-FObject::~FObject()
-{
-    
-}
+FObject::~FObject() { }
 
-void FObject::Kill()
-{
-    if(mKill == 0)
-    {
-        mKill = 5;
+void FObject::Kill() {
+    if (mKill == 0) {
+        mKill = 3;
     }
 }
 
-FObjectList::FObjectList()
-{
-    
-}
+FObjectList::FObjectList() { }
 
-FObjectList::~FObjectList()
-{
+FObjectList::~FObjectList() {
     Free();
 }
 
-void FObjectList::Add(void *pObject)
-{
-    if(pObject)
-    {
-        mObjectsAddedRecently.Add(pObject);
+void FObjectList::Add(void *pObject) {
+    if (pObject != 0) {
+        mObjectList.Add(pObject);
     }
 }
 
-void FObjectList::Free()
-{
-    FreeList(FObject, (*this));
-    FreeList(FObject, mObjectsKillThisUpdate);
-    FreeList(FObject, mObjectsKill);
-    FreeList(FObject, mObjectsDelete);
-    FreeList(FObject, mObjectsAddedRecently);
+void FObjectList::Free() {
+    FreeList(FObject, mObjectList);
+    FreeList(FObject, mObjectListKill);
 }
 
-void FObjectList::Update()
-{
-    if(mObjectsAddedRecently.mCount > 0)
-    {
-        EnumList(FObject, aObject, mObjectsAddedRecently)
-        {
-            FList::Add(aObject);
-            //mObjects.Add(aObject);
-        }
-        
-        mObjectsAddedRecently.RemoveAll();
-    }
-    
-    EnumList(FObject, aObject, (*this))
-    {
-        if(aObject->mKill == 0)
-        {
+void FObjectList::Update() {
+
+
+    EnumList (FObject, aObject, mObjectList) {
+        if (aObject->mKill == 0) {
             aObject->Update();
         }
-        
-        if(aObject->mKill)
-        {
-            mObjectsKillThisUpdate.Add(aObject);
+        if (aObject->mKill) {
+            mObjectListTemp.Add(aObject);
         }
     }
     
-    if(mObjectsKillThisUpdate.mCount > 0)
-    {
-        EnumList(FObject, aObject, mObjectsKillThisUpdate)
-        {
-            FList::Remove(aObject);
-            //mObjects.Remove(aObject);
-            mObjectsKill.Add(aObject);
+    if (mObjectListTemp.mCount > 0) {
+        EnumList (FObject, aObject, mObjectListTemp) {
+            mObjectList.Remove(aObject);
+            mObjectListKill.Add(aObject);
         }
-        
-        mObjectsKillThisUpdate.RemoveAll();
+        mObjectListTemp.RemoveAll();
     }
-    
-    EnumList(FObject, aObject, mObjectsKill)
-    {
+
+    EnumList (FObject, aObject, mObjectListKill) {
         aObject->mKill--;
-        if(aObject->mKill <= 0)
-        {
-            mObjectsDelete.Add(aObject);
+        if (aObject->mKill <= 0) {
+            mObjectListDelete.Add(aObject);
         }
     }
     
-    if(mObjectsDelete.mCount > 0)
-    {
-        EnumList(FObject, aObject, mObjectsDelete)
-        {
-            mObjectsKill.Remove(aObject);
+    if (mObjectListDelete.mCount > 0) {
+        EnumList (FObject, aObject, mObjectListDelete) {
+            mObjectListKill.Remove(aObject);
             delete aObject;
         }
-    
-        mObjectsDelete.RemoveAll();
+        mObjectListDelete.RemoveAll();
     }
 }
 
-void FObjectList::Draw()
-{
-    EnumList(FObject, aObject, (*this))
-    {
-        if(aObject->mKill == false)
-        {
+void FObjectList::Draw() {
+    EnumList (FObject, aObject, mObjectList) {
+        if (aObject->mKill == 0) {
             aObject->Draw();
         }
     }
 }
 
-void FObjectList::ClearRecentlyAdded()
-{
-	if(mObjectsAddedRecently.mCount > 0)
-	{
-		EnumList(FObject, aObject, mObjectsAddedRecently)
-		{
-			FList::Add(aObject);
-			//mObjects.Add(aObject);
-		}
-
-		mObjectsAddedRecently.RemoveAll();
-	}
+bool FObjectList::Empty() {
+    bool aResult = false;
+    EnumList(FObject, aObject, mObjectList) {
+        if (aObject->mKill == 0) { aResult = true; }
+    }
+    return false;
 }
 
-void FObjectList::KillAll()
-{
-    EnumList(FObject, aObject, (*this))
-    {
+void FObjectList::KillAll() {
+    EnumList(FObject, aObject, mObjectList) {
         aObject->Kill();
-        mObjectsKill.Add(aObject);
     }
-    RemoveAll();
-    //mObjects.RemoveAll();
 }
 
 

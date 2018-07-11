@@ -60,6 +60,8 @@ FGestureCanvas::FGestureCanvas() {
     mIsPinching = false;
     mIsRotating = false;
 
+    mGesturePanTerminatedFromFingerRelease = false;
+
     mGesturePanRequiredTouches = 1;
 
     mGesturePanStartX = 0.0f;
@@ -168,9 +170,12 @@ FCanvas *FGestureCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
 
                 mGesturePanDistX = 0.0f;
                 mGesturePanDistY = 0.0f;
+
+                //A new finger came down, we have reset all our distance
+                //info and this have started a new "pan"...
+                PanBegin(0.0f, 0.0f);
             }
         }
-
     }
     return aChild;
 }
@@ -204,19 +209,10 @@ void FGestureCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float p
         float aPinchSize = 24.0f;
 
 
-        if(mIsPanning == false)
-        {
-
-
-            if(mTouchCount >= mGesturePanRequiredTouches)
-            {
-                if(aMovedTouch->mMaxDistMoved > aTriggerPanDistance)
-                {
+        if (mIsPanning == false) {
+            if (mTouchCount >= mGesturePanRequiredTouches) {
+                if (aMovedTouch->mMaxDistMoved > aTriggerPanDistance && mGesturePanTerminatedFromFingerRelease == false) {
                     mIsPanning = true;
-
-
-                    //mGesturePanDistX = (aMovedTouch->mX - aMovedTouch->mStartX);
-                    //mGesturePanDistY = (aMovedTouch->mY - aMovedTouch->mStartY);
 
                     mGesturePanStartCenterX = mGestureTouchCenterX;
                     mGesturePanStartCenterY = mGestureTouchCenterY;
@@ -233,9 +229,7 @@ void FGestureCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float p
                     Pan(mGesturePanDistX, mGesturePanDistY);
                 }
             }
-        }
-        else
-        {
+        } else {
             mGesturePanDistX = (mGestureTouchCenterX - mGesturePanStartCenterX);
             mGesturePanDistY = (mGestureTouchCenterY - mGesturePanStartCenterY);
 
@@ -248,18 +242,20 @@ void FGestureCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float p
                 {
                     mGesturePinchStartDist = Distance(mTouch[0]->mStartX, mTouch[0]->mStartY, mTouch[1]->mStartX, mTouch[1]->mStartY);
                     mGesturePinchScale = 1.0f;
+                    if (mGesturePinchStartDist > aPinchSize) {
 
-                    if(mGesturePinchStartDist > aPinchSize)
-                    {
+
                         mIsPinching = true;
                         float aDist = Distance(mTouch[0]->mX, mTouch[0]->mY, mTouch[1]->mX, mTouch[1]->mY);
 
-                        mGesturePinchScale = (aDist / mGesturePinchStartDist);
+                        mGesturePinchStartDist = aDist;
+
+                        //mGesturePinchScale = (aDist / mGesturePinchStartDist);
+                        mGesturePinchScale = 1.0f;
 
                         PinchBegin(1.0f);
                         Pinch(mGesturePinchScale);
                     }
-
                 }
             }
         } else {
@@ -280,8 +276,7 @@ void FGestureCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float p
 
 
 
-        if(mIsRotating == false)
-        {
+        if (mIsRotating == false) {
             if (mTouchCount >= 2) {
                 if(aMovedTouch->mMaxDistMoved > aTriggerPinchDistance) {
                     float aDist = Distance(mTouch[0]->mStartX, mTouch[0]->mStartY, mTouch[1]->mStartX, mTouch[1]->mStartY);
@@ -338,8 +333,14 @@ void FGestureCanvas::BaseTouchUp(float pX, float pY, float pOriginalX, float pOr
             mIsRotating = false;
         }
 
+        if (mTouchCount > 0) {
+            mGesturePanTerminatedFromFingerRelease = true;
+        } else {
+            mGesturePanTerminatedFromFingerRelease = false;
+        }
+
         if (mIsPanning) {
-            if (mTouchCount == 0) {
+            //if (mTouchCount == 0) {
                 float aReleaseSpeedX = 0.0f;
                 float aReleaseSpeedY = 0.0f;
                 int aReleaseTime = (aReleasedTouch->mTimer - 6);
@@ -362,12 +363,18 @@ void FGestureCanvas::BaseTouchUp(float pX, float pY, float pOriginalX, float pOr
                 }
                 PanEnd(aReleasedTouch->mX, aReleasedTouch->mY, aReleaseSpeedX, aReleaseSpeedY);
                 mIsPanning = false;
-            } else {
-                mGesturePanStartCenterX = mGestureTouchCenterX;
-                mGesturePanStartCenterY = mGestureTouchCenterY;
-                mGesturePanPreviousCenterX = mGestureTouchCenterX;
-                mGesturePanPreviousCenterY = mGestureTouchCenterY;
-            }
+            //} else {
+            //    mGesturePanStartCenterX = mGestureTouchCenterX;
+            //    mGesturePanStartCenterY = mGestureTouchCenterY;
+            //    mGesturePanPreviousCenterX = mGestureTouchCenterX;
+            //    mGesturePanPreviousCenterY = mGestureTouchCenterY;
+            //    mGesturePanDistX = 0.0f;
+            //    mGesturePanDistY = 0.0f;
+
+                //One of several fingers has been released, we are
+                //starting a new pan gesture through continuous flow.
+            //    PanBegin(0.0f, 0.0f);
+            //}
         } else {
             if (mTouchCount == 0) {
                 if (aReleasedTouch->mTimer <= 12) {

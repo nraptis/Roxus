@@ -79,6 +79,8 @@ public:
     bool                                            mIsPanning;
     int                                             mGesturePanRequiredTouches;
 
+    bool                                            mGesturePanTerminatedFromFingerRelease;
+
     float                                           mGestureTouchCenterX;
     float                                           mGestureTouchCenterY;
 
