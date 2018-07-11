@@ -42,8 +42,6 @@
 #include "FVec2.h"
 #include "FVec3.h"
 #include "FPoint.h"
-#include "FGestureView.h"
-#include "FScrollView.h"
 #include "FView.h"
 #include "FViewController.h"
 #include "FCanvas.hpp"
