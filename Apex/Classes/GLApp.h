@@ -108,18 +108,25 @@ float CY(int pGridY);
 float CX(int pGridX, int pGridZ);
 float CY(int pGridY, int pGridZ);
 
-
-extern Game *gGame;
-extern TilePathFinder *gPathFinder;
+//extern Game *gGame;
+//extern TilePathFinder *gPathFinder;
 
 extern float gArenaWidth;
 extern float gArenaWidth2;
-
 extern float gArenaHeight;
 extern float gArenaHeight2;
 
+extern float gArenaActiveWidth;
+extern float gArenaActiveWidth2;
+extern float gArenaActiveHeight;
+extern float gArenaActiveHeight2;
+extern float gArenaActiveX;
+extern float gArenaActiveY;
 
+
+extern float gTileWidth;
+extern float gTileHeight;
 
 extern GLApp *gApp;
 
-#endif /* GLApp_hpp */
+#endif

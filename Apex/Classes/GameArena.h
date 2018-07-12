@@ -15,8 +15,8 @@
 #include "Tower.h"
 #include "TowerBullet.h"
 #include "Unit.h"
-#include "GameObjectCollection.h"
 #include "FXML.h"
+#include "FObject.h"
 
 #define GRID_DEPTH 3
 
@@ -34,10 +34,10 @@ public:
     GameArena();
     virtual ~GameArena();
     
-    GLApp                               *mApp;
-    
     virtual void                        Update();
     virtual void                        Draw();
+
+    TilePathFinder                      mPathFinder;
 
     GameTile                            ****mTile;
     
@@ -79,12 +79,10 @@ public:
     
     FList                                mPathList;
     //List                                mTowerList;
-    GameObjectCollection                mTowers;
-    
-    FList                               mUnitList;
-    FList                               mUnitListKill;
-    FList                               mUnitListKillThisUpdate;
-    FList                               mUnitListDelete;
+
+    FObjectList                         mTowerCollection;
+
+    //GameObjectCollection                mTowers;
 
     int                                 GetGridX(float pX);
     int                                 GetGridY(float pY);
@@ -92,15 +90,8 @@ public:
     void                                Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
 
-    int                                 mTempUnitSpawnTimer1;
-    int                                 mTempUnitSpawnTime1;
-    
-    int                                 mTempUnitSpawnTimer2;
-    int                                 mTempUnitSpawnTime2;
-
     void                                Save(const char *pPath=0);
     void                                Load(const char *pPath=0);
-    
 };
 
 extern GameArena *gArena;

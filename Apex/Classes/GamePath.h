@@ -37,6 +37,8 @@ public:
     
     GameArena                           *mArena;
     
+    TilePathFinder                      mPathFinder;
+    
     void                                ComputePath();
     void                                ComputeSmoothPath();
     

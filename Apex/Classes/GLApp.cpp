@@ -15,23 +15,24 @@
 #include "Game.h"
 #include "WorldContainer.hpp"
 
-Game *gGame;
-TilePathFinder *gPathFinder;
-
 float gArenaWidth = 512.0f;
 float gArenaWidth2 = 256.0f;
-
 float gArenaHeight = 512.0f;
 float gArenaHeight2 = 256.0f;
+float gTileWidth = 46.0f;
+float gTileHeight = 46.0f;
+
+float gArenaActiveWidth = 512.0f;
+float gArenaActiveWidth2 = 256.0f;
+float gArenaActiveHeight = 512.0f;
+float gArenaActiveHeight2 = 256.0f;
+float gArenaActiveX = 0.0f;
+float gArenaActiveY = 0.0f;
 
 GLApp *gApp = 0;
-
 GLApp::GLApp() {
     gApp = this;
-
     mWorld = 0;
-
-    gPathFinder = new TilePathFinder();
 }
 
 GLApp::~GLApp() {
@@ -44,9 +45,6 @@ void GLApp::Update() {
 }
 
 void GLApp::Draw() {
-
-
-
     FDrawQuad aQuad;
     aQuad.SetColorBottom(0.84f, 0.86f, 0.92f);
     aQuad.SetColorTop(0.92f, 0.93f, 0.96f);
@@ -58,11 +56,7 @@ void GLApp::Draw() {
     //aQuad.SetRect(0.0f, 0.0f, gDeviceWidth, gDeviceHeight);
     aQuad.Draw();
 
-    
-    //Graphics::Clear(0.88f, 0.88f, 0.92f);
     Graphics::Clear(0.125f, 0.125f, 0.133f);
-
-
     Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.6);
     
     for (float aX = 0.0f;aX < gAppWidth;aX += 10.0) {
@@ -110,6 +104,8 @@ void GLApp::SetDeviceSize(float pWidth, float pHeight) {
 }
 
 void GLApp::Load() {
+    //?!
+    AppShellSetSpriteFrameScale(0.5f);
     
     mTileTunnel.Load("tile_tunnel");
     mTileFloor.Load("tile_floor");
@@ -151,16 +147,17 @@ void GLApp::Load() {
     mTowerBasicOff.Load("tower_basic_off_", 0, 23);
     mTowerBasicOn.Load("tower_basic_on_", 0, 23);
 
-    mRobot.LoadSequential("robot_", 0, 24, 20);
+    //mRobot.LoadSequential("robot_", 0, 24, 20);
 
     mLevelBackTunnel.Load("level_layer_bridge");
     mLevelBackFloor.Load("level_layer_floor");
     mLevelBackBridge.Load("level_layer_tunnel");
 
+    printf("Bundle: %s\n", gDirBundle.c());
+    printf("Documents: %s\n", gDirDocuments.c());
 
     m1024x1024.Load("1024x1024");
     m2048x2048.Load("2048x2048");
-
 }
 
 void GLApp::LoadComplete() {
@@ -169,8 +166,7 @@ void GLApp::LoadComplete() {
 
     //mGame = new Game();
     //mWindowMain.AddChild(mGame);
-
-
+    
     mWorld = new WorldContainer();
     mWindowMain.AddChild(mWorld);
 
@@ -179,18 +175,15 @@ void GLApp::LoadComplete() {
     //mWindowTools.AddChild(aScreenFrameUtil);
 }
 
-float CX(int pGridX)
-{
+float CX(int pGridX) {
     return (float)pGridX * gTileWidth + (gTileWidth / 2.0f);
 }
 
-float CY(int pGridY)
-{
+float CY(int pGridY) {
     return (float)pGridY * gTileHeight + (gTileHeight / 2.0f);
 }
 
-float CX(int pGridX, int pGridZ)
-{
+float CX(int pGridX, int pGridZ) {
     float aReturn = CX(pGridX);
 
     //if(pGridZ == 0)aReturn -= 4.0f;

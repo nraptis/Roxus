@@ -24,13 +24,7 @@ public:
     WorldContainer                          *mWorld;
 
     UISlider                                *mSliderZoom;
-    UISlider                                *mSliderPanX;
-    UISlider                                *mSliderPanY;
     UISlider                                *mSliderPanRotation;
-
-
-
-
 };
 
 #endif

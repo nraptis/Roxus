@@ -26,19 +26,7 @@ WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
     mSliderZoom->SetValue(&aGesture->mWorldScale);
     mSliderZoom->SetRange(0.125f, 2.25f);
     AddSection(mSliderZoom);
-
-    mSliderPanX = new UISlider();
-    mSliderPanX->SetText("Pan X:");
-    mSliderPanX->SetValue(&aGesture->mWorldOffsetX);
-    mSliderPanX->SetRange(-680.0f, 1280.0f);
-    AddSection(mSliderPanX);
-
-    mSliderPanY = new UISlider();
-    mSliderPanY->SetText("Pan Y:");
-    mSliderPanY->SetValue(&aGesture->mWorldOffsetY);
-    mSliderPanY->SetRange(-568.0f, 768.0f);
-    AddSection(mSliderPanY);
-
+    
     mSliderPanRotation = new UISlider();
     mSliderPanRotation->SetText("Rotation:");
     mSliderPanRotation->SetValue(&aGesture->mWorldRotation);

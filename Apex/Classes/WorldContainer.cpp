@@ -31,16 +31,14 @@ WorldContainer::WorldContainer() {
     mTestMenu = new WorldMenu(this);
     AddChild(mTestMenu);
 
+    mArena = new GameArena();
 }
 
 WorldContainer::~WorldContainer() {
-    
     gWorldContainer = 0;
-
     if (mGestureContainer) {
         mGestureContainer = 0;
     }
-
 }
 
 void WorldContainer::Layout() {
@@ -50,7 +48,9 @@ void WorldContainer::Layout() {
 }
 
 void WorldContainer::Update() {
-
+    if (mArena != 0) {
+        mArena->Update();
+    }
 }
 
 void WorldContainer::Draw() {
@@ -61,6 +61,13 @@ void WorldContainer::Draw() {
     Graphics::OutlineRectInside(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f, 10.0f);
     
     Graphics::SetColor();
+
+
+    //mArena
+    if (mTransformContainer != 0 && mArena != 0) {
+        mTransformContainer->DrawTransform();
+        mArena->Draw();
+    }
 }
 
 void WorldContainer::TouchDown(float pX, float pY, void *pData) {

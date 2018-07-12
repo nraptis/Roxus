@@ -15,12 +15,11 @@
 class GameTile;
 
 //Theoretically, there should not be any more than
-//4 connections per tile, unless your map is configured
+//8 connections per tile, unless your map is configured
 //illegally, in which case there's a problem anyway...
-#define TILE_CONNECTION_COUNT 4
+#define TILE_CONNECTION_COUNT 8
 
-class GameTileConnection
-{
+class GameTileConnection {
 public:
     
     GameTileConnection();

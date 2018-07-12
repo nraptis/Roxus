@@ -8,11 +8,9 @@
 
 #include "Tower.h"
 #include "Game.h"
+#include "GLApp.h"
 
-Tower::Tower()
-{
-    mApp = GAPP;
-    
+Tower::Tower() {
     mFrame = 0;
     mRotation = gRand.GetFloat(0.0f, 360.0f);
     
@@ -54,14 +52,15 @@ void Tower::Draw()
     
     float aFrame = (mRotation / 360.0f) * ((float)TOWER_FRAMES);
     
-    if(mTestFireTimer)
-    {
-        mApp->mTowerBasicOn.Draw(mX, mY, aFrame, 0.6f, 0.0f);
+    if (mTestFireTimer) {
+        gApp->mTowerBasicOn.Draw(aFrame, mX, mY, 0.6f, 0.0f);
+    } else {
+        gApp->mTowerBasicOff.Draw(aFrame, mX, mY, 0.6f, 0.0f);
     }
-    else
-    {
-        mApp->mTowerBasicOff.Draw(mX, mY, aFrame, 0.6f, 0.0f);
-    }
+    
+    //Graphics::SetColor(1.0f, 1.0f, 0.5f, 0.6f);
+    //Graphics::DrawPoint(mX, mY, 40.0f);
+    
     
 }
 

@@ -36,16 +36,10 @@ public:
     virtual void                            Notify(void *pSender, const char *pNotification);
 
     WorldGestureContainer                   *mGestureContainer;
-
     WorldTransformContainer                 *mTransformContainer;
-
-    GameArena                               *mArena;
-
-
-    WorldMenu                               *mTestMenu;
-
     
-
+    GameArena                               *mArena;
+    WorldMenu                               *mTestMenu;
 };
 
 extern WorldContainer *gWorldContainer;

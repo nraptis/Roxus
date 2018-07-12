@@ -8,24 +8,20 @@
 
 #include "TilePathFinderHeap.h"
 
-
-TilePathFinderHeap::TilePathFinderHeap()
-{
+TilePathFinderHeap::TilePathFinderHeap() {
     mSize = 0;
     mCount = 0;
     mData = 0;
 }
 
-TilePathFinderHeap::~TilePathFinderHeap()
-{
+TilePathFinderHeap::~TilePathFinderHeap() {
     delete [] mData;
     mData = 0;
     mSize = 0;
     mCount = 0;
 }
 
-void TilePathFinderHeap::Reset()
-{
+void TilePathFinderHeap::Reset() {
     mCount = 0;
 }
 

@@ -20,7 +20,6 @@
 #include "TowerPickerMenu.h"
 #include "TowerPickerMenuButton.h"
 #include "TowerDetailMenu.h"
-#include "GameObjectCollection.h"
 
 
 extern float gTileWidth;

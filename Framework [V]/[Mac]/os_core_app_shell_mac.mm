@@ -48,7 +48,8 @@ void os_core_findDirectories() {
     AppShellSetDirectoryDocuments(aPathDocuments.c());
 
     //TODO: What scale?
-    AppShellSetSpriteScale(1);
+    AppShellSetImageFileScale(2);
+    
 }
 
 void os_core_refreshModifierKeys() {

@@ -10,12 +10,15 @@
 #define Mustache_GameObject_h
 
 #include "GLApp.h"
+#include "FObject.h"
 
-class GameObject {
+class GameObject : public FObject {
 public:
-
     GameObject();
     virtual ~GameObject();
+    
+    virtual void                        Update();
+    virtual void                        Draw();
     
     float                               mX;
     float                               mY;
@@ -27,11 +30,7 @@ public:
     int                                 mGridY;
     int                                 mGridZ;
     
-    int                                 mKill;
-    void                                Kill(){mKill=6;}
     
-    virtual void                        Update();
-    virtual void                        Draw();
     
     void                                SetUp(int pGridX, int pGridY);
     void                                SetUp(int pGridX, int pGridY, int pGridZ);

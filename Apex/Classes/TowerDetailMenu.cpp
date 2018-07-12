@@ -8,11 +8,11 @@
 
 #include "TowerDetailMenu.h"
 
-TowerDetailMenu::TowerDetailMenu()
-{
+TowerDetailMenu::TowerDetailMenu() {
+
     mApp = GAPP;
     mTower = 0;
-    
+
     mHidden = true;
     mAnimating = false;
     mAnimatingIn = false;
@@ -24,12 +24,10 @@ TowerDetailMenu::TowerDetailMenu()
     
     mWidth = gAppWidth2;
     mHeight = gAppHeight2;
-    
-    
+
     mButtonClickedIndex = -1;
-    
-    for(int i=0;i<3;i++)
-    {
+
+    for (int i=0;i<3;i++) {
         mButtonX[i] = 0.0f;
         mButtonY[i] = 0.0f;
     }

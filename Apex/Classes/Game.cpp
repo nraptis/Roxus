@@ -8,13 +8,10 @@
 
 #include "Game.h"
 
-float gTileWidth=46.0f;
-float gTileHeight=46.0f;
 
-Game::Game()
-{
+
+Game::Game() {
     mApp = GAPP;
-    gGame = this;
     
     gTileWidth = 72.0f;
     gTileHeight = 72.0f;
@@ -66,13 +63,11 @@ Game::Game()
     
     mZoomScaleMin = (float)gAppWidth / gArenaWidth;
     mZoomScaleMax = 2.25f;
-    
-    
+
     mTestMode = TEST_MODE_UNIT_SPAWN;
-    
+
     mTestUnitSpawnCount = 4;
     mTestUnitSpawnRandom = 8;
-    
 }
 
 Game::~Game()

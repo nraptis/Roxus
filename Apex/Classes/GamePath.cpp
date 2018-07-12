@@ -77,10 +77,8 @@ void GamePath::Update()
     //ComputePath();
 }
 
-void GamePath::Draw()
-{
-    for(int i=0;i<mLength;i++)
-    {
+void GamePath::Draw() {
+    for (int i=0;i<mLength;i++) {
         
         /*
         float aPercent = (float)i / ((float)(mLength - 1));
@@ -111,14 +109,13 @@ void GamePath::Draw()
     }
     
     
-    /*
-    Spline aSpline;
+    FSpline aSpline;
     
     for(int i=0;i<mLength;i++)
     {
         float aPercent = (float)i / ((float)(mLength - 1));
         
-        SetColor(aPercent, 0.0f, 0.25f);
+        Graphics::SetColor(aPercent, 0.0f, 0.25f);
         
         GameTile *aTile = mArena->GetTile(mPathX[i], mPathY[i], mPathZ[i]);
         
@@ -130,13 +127,13 @@ void GamePath::Draw()
         }
     }
     
-    SetColor();
+    Graphics::SetColor();
     for(float aPos=0.0f;aPos<=aSpline.Max();aPos+=0.025f)
     {
         float aX = aSpline.GetX(aPos);
         float aY = aSpline.GetY(aPos);
         
-        DrawRect(aX - 2, aY - 2, 5, 5);
+        Graphics::DrawRect(aX - 2, aY - 2, 5, 5);
     }
     
     
@@ -193,8 +190,8 @@ void GamePath::Draw()
             
             if(aDirX == aPrevDirX && aDirY == aPrevDirY)
             {
-                SetColor(1.0f, 0.0f, 0.0f);
-                DrawRect(aX - 11, aY - 11, 23.0f, 23.0f);
+                Graphics::SetColor(1.0f, 0.0f, 0.0f);
+                Graphics::DrawRect(aX - 11, aY - 11, 23.0f, 23.0f);
                 
                 aSpline.Add(aX, aY);
                 
@@ -212,8 +209,8 @@ void GamePath::Draw()
                     float aX1 = (aPrevX + aX) * 0.5f;
                     float aY1 = (aPrevY + aY) * 0.5f;
                     
-                    SetColor(0.0f, 1.0f, 0.0f, 0.5f);
-                    DrawRect(aX1 - 8, aY1 - 8, 17.0f, 17.0f);
+                    Graphics::SetColor(0.0f, 1.0f, 0.0f, 0.5f);
+                    Graphics::DrawRect(aX1 - 8, aY1 - 8, 17.0f, 17.0f);
                     
                     aSpline.Add(aX1, aY1);
                 }
@@ -229,8 +226,8 @@ void GamePath::Draw()
                 float aX2 = (aNextX + aX) * 0.5f;
                 float aY2 = (aNextY + aY) * 0.5f;
                 
-                SetColor(0.0f, 0.0f, 1.0f, 0.5f);
-                DrawRect(aX2 - 8, aY2 - 8, 17.0f, 17.0f);
+                Graphics::SetColor(0.0f, 0.0f, 1.0f, 0.5f);
+                Graphics::DrawRect(aX2 - 8, aY2 - 8, 17.0f, 17.0f);
                 
                 aSpline.Add(aX2, aY2);
                 
@@ -246,15 +243,15 @@ void GamePath::Draw()
         
     }
     
-    SetColor(0.0f, 0.0f, 0.0f);
+    Graphics::SetColor(0.0f, 0.0f, 0.0f);
     for(float aPos=0.0f;aPos<=aSpline.Max();aPos+=0.025f)
     {
         float aX = aSpline.GetX(aPos);
         float aY = aSpline.GetY(aPos);
         
-        DrawRect(aX - 1, aY - 1, 3, 3);
+        Graphics::DrawRect(aX - 1, aY - 1, 3, 3);
     }
-    */
+    
 
 }
 
@@ -263,56 +260,40 @@ void GamePath::ComputePath()
     GameTile *aStartTile = mArena->GetTile(mStartX, mStartY, mStartZ);
     GameTile *aEndTile = mArena->GetTile(mEndX, mEndY, mEndZ);
     
-    gPathFinder->FindPath(aStartTile, aEndTile);
-    GameTileConnection *aConnection = gPathFinder->mPathEnd;
-    
-    if(aConnection)
-    {
+    mPathFinder.FindPath(aStartTile, aEndTile);
+    GameTileConnection *aConnection = mPathFinder.mPathEnd;
+
+    if (aConnection) {
         mLength = 0;
-        
-        while(aConnection)
-        {
+        while (aConnection) {
             aConnection = aConnection->mParent;
             mLength++;
         }
-        
-        if(mLength >= mSize)
-        {
+        if (mLength >= mSize) {
             delete [] mPathX;
-            
             mSize = mLength + (mLength / 2) + 1;
-            
             mPathX = new int[mSize * 3];
             mPathY = mPathX + mSize;
             mPathZ = mPathY + mSize;
         }
-        
         int aIndex = mLength - 1;
-        aConnection = gPathFinder->mPathEnd;
-        while(aConnection)
-        {
+        aConnection = mPathFinder.mPathEnd;
+        while (aConnection) {
             mPathX[aIndex] = aConnection->mTile->mGridX;
             mPathY[aIndex] = aConnection->mTile->mGridY;
             mPathZ[aIndex] = aConnection->mTile->mGridZ;
-            
             aConnection = aConnection->mParent;
             aIndex--;
         }
-    }
-    else
-    {
+    } else {
         mLength = 0;
     }
-    
     ComputeSmoothPath();
 }
 
-void GamePath::ComputeSmoothPath()
-{
+void GamePath::ComputeSmoothPath() {
     mSmoothLength = 0;
-    
-    if(mLength > 2)
-    {
+    if (mLength > 2) {
         int aPathX, aPathY, aPathZ;
         int aPrevPathX, aPrevPathY, aPrevPathZ;
         int aNextPathX, aNextPathY, aNextPathZ;
@@ -348,12 +329,10 @@ void GamePath::ComputeSmoothPath()
         
         aPrevDirX = aPathX - aPrevPathX;
         aPrevDirY = aPathY - aPrevPathY;
-        
+
         AddSmooth(aPrevX, aPrevY, aPrevZ, aPrevPathX, aPrevPathY, aPrevPathZ);
-        
-        for(int i=1;i<aLength1;i++)
-        {
-            
+
+        for (int i=1;i<aLength1;i++) {
             aNextPathX = mPathX[i + 1];
             aNextPathY = mPathY[i + 1];
             aNextPathZ = mPathZ[i + 1];
@@ -365,20 +344,15 @@ void GamePath::ComputeSmoothPath()
             aDirX = aNextPathX - aPathX;
             aDirY = aNextPathY - aPathY;
             
-            if(aDirX == aPrevDirX && aDirY == aPrevDirY)
-            {
+            if (aDirX == aPrevDirX && aDirY == aPrevDirY) {
                 AddSmooth(aX, aY, aZ, aPathX, aPathY, aPathZ);
                 
                 aPrevWasKink = false;
-            }
-            else
-            {
-                if(aPrevWasKink == false)
-                {
+            } else {
+                if (aPrevWasKink == false) {
                     aInterpX = (aPrevX + aX) * 0.5f;
                     aInterpY = (aPrevY + aY) * 0.5f;
                     aInterpZ = (aPrevZ + aZ) * 0.5f;
-                    
                     AddSmooth(aInterpX, aInterpY, aInterpZ, aPrevPathX, aPrevPathY, aPrevPathZ);
                 }
                 
@@ -401,11 +375,8 @@ void GamePath::ComputeSmoothPath()
         
         AddSmooth(aNextX, aNextY, aNextZ, aNextPathX, aNextPathY, aNextPathZ);
         
-    }
-    else
-    {
-        for(int i=0;i<mLength;i++)
-        {
+    } else {
+        for (int i=0;i<mLength;i++) {
             AddSmooth(CX(mPathX[i], mPathZ[i]), CY(mPathY[i], mPathZ[i]), (float)mPathZ[i], mPathX[i], mPathY[i], mPathZ[i]);
         }
     }

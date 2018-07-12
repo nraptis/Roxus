@@ -8,6 +8,7 @@
 
 #include "WorldTransformContainer.hpp"
 #include "GLApp.h"
+#include "GameArena.h"
 
 WorldTransformContainer::WorldTransformContainer() {
 
@@ -17,12 +18,12 @@ WorldTransformContainer::WorldTransformContainer() {
 
     mPinCanvas1 = new FCanvas();
     AddChild(mPinCanvas1);
-    mPinCanvas1->mColor = FColor(0.5f, 0.5f, 1.0f, 0.75f);
+    mPinCanvas1->mColor = FColor(0.5f, 0.5f, 1.0f, 0.15f);
     mPinCanvas1->mConsumesTouches = false;
 
     mPinCanvas2 = new FCanvas();
     AddChild(mPinCanvas2);
-    mPinCanvas2->mColor = FColor(1.0f, 1.0f, 1.0f, 0.75f);
+    mPinCanvas2->mColor = FColor(1.0f, 1.0f, 1.0f, 0.15f);
     mPinCanvas2->mConsumesTouches = false;
 
     mPivotX = 0.0f;
@@ -35,8 +36,16 @@ WorldTransformContainer::~WorldTransformContainer() {
 
 void WorldTransformContainer::Layout() {
 
+
+    //gArenaActiveWidth = mGridWidthActive * gTileWidth;
+    //gArenaActiveWidth2 = gArenaActiveWidth * 0.5f;
+    //gArenaActiveHeight = mGridHeightActive * gTileHeight;
+    //gArenaActiveHeight2 = gArenaActiveHeight * 0.5f;
+    //gArenaActiveX = pGridBufferH * gTileWidth;
+    //gArenaActiveY = pGridBufferV * gTileHeight;
+    
     //SetSize(aImageWidth + aImageWidth, aImageHeight);
-    SetSize(1024.0f, 512.0f);
+    SetSize(gArenaWidth, gArenaHeight);
     SetPos(-mWidth2, -mHeight2);
 
     mPinCanvas1->SetX(50.0f);
@@ -63,9 +72,8 @@ void WorldTransformContainer::Draw() {
 
     
 
-    Graphics::SetColor(0.75f, 0.75f, 0.75f, 0.75f);
-    //gApp->m1024x1024.Draw(0.0f, 0.0f);
-
+    Graphics::SetColor(0.0f);
+    
     gApp->m1024x1024.DrawQuadRect(0.0f, 0.0f, 512.0f, 512.0f);
     gApp->m1024x1024.DrawQuadRect(512.0f, 0.0f, 512.0f, 512.0f);
 

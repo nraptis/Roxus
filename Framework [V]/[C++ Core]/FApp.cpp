@@ -130,7 +130,7 @@ void FApp::BaseLoad() {
         mImageLoadDirectoryList += new FString("");
         if(gDirBundle.mLength > 0)mImageLoadDirectoryList += new FString(gDirBundle.c());
         if(gDirDocuments.mLength > 0)mImageLoadDirectoryList += new FString(gDirDocuments.c());
-
+        
         mImageLoadExtensionList += new FString("jpg");
         mImageLoadExtensionList += new FString("png");
         
@@ -139,7 +139,6 @@ void FApp::BaseLoad() {
         if (gImageFileScale == 3) mImageLoadMutableSuffixList += new FString("@3X");
         if (gImageFileScale == 4) mImageLoadMutableSuffixList += new FString("@4X");
         mImageLoadMutableSuffixList += new FString("");
-
 
         mImageLoadSuffixList += new FString("");
 

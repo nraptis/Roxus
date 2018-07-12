@@ -10,60 +10,31 @@
 #include "GLApp.h"
 #include "Game.h"
 
-GameObject::GameObject()
-{
-    mKill = 0;
-    
+GameObject::GameObject() {
     mX = 0.0f;
     mY = 0.0f;
     mZ = 0.0f;
-    
     mDrawZ = -1;
-    
     mGridX = -1;
     mGridY = -1;
     mGridZ = -1;
 }
 
-GameObject::~GameObject()
-{
-    
-}
+GameObject::~GameObject() { }
 
+void GameObject::Update() { }
 
-void GameObject::Update()
-{
-    
-}
+void GameObject::Draw() { }
 
-void GameObject::Draw()
-{
-    
-}
-
-void GameObject::SetUp(int pGridX, int pGridY)
-{
-    
-    /*
-    mX = (float)pGridX * gTileWidth + (gTileWidth / 2.0f);
-    mY = (float)pGridY * gTileHeight + (gTileHeight / 2.0f);
-    
-    mGridX = pGridX;
-    mGridY = pGridY;
-    mGridZ = 1;
-    mDrawZ = 1;
-    */
-    
+void GameObject::SetUp(int pGridX, int pGridY) {
     SetUp(pGridX, pGridY, 1);
 }
 
-void GameObject::SetUp(int pGridX, int pGridY, int pGridZ)
-{
+void GameObject::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;
     mDrawZ = pGridZ;
-    
     mX = CX(mGridX, mGridZ);
     mY = CY(mGridY, mGridZ);
 }
