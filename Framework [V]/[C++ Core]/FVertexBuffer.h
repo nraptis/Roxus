@@ -6,7 +6,7 @@
 #define VERTEX_BUFFER_MODE_TRIANGLE_FANS 2
 #define VERTEX_BUFFER_MODE_LINES 3
 
-#include "FColor.h"
+#include "FColor.hpp"
 
 class FTexture;
 class FVertexBuffer

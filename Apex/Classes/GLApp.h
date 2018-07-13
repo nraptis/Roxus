@@ -49,6 +49,7 @@ public:
     virtual void                            TouchUp(float pX, float pY, void *pData);
     virtual void                            TouchFlush();
 
+    bool                                    mDarkMode;
 
     FSprite                                 mTileTunnel;
     FSprite                                 mTileFloor;
@@ -101,10 +102,8 @@ public:
     FSprite                                 m2048x2048;
 };
 
-
-float CX(int pGridX);
-float CY(int pGridY);
-
+//float CX(int pGridX);
+//float CY(int pGridY);
 float CX(int pGridX, int pGridZ);
 float CY(int pGridY, int pGridZ);
 
@@ -123,9 +122,10 @@ extern float gArenaActiveHeight2;
 extern float gArenaActiveX;
 extern float gArenaActiveY;
 
-
 extern float gTileWidth;
 extern float gTileHeight;
+extern float gTileWidth2;
+extern float gTileHeight2;
 
 extern GLApp *gApp;
 

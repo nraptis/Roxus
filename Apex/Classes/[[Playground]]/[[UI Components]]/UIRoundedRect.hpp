@@ -9,7 +9,7 @@
 #ifndef UI_ROUNDED_RECT_HPP
 #define UI_ROUNDED_RECT_HPP
 
-#include "FDrawQuad.h"
+#include "FDrawQuad.hpp"
 
 class UIRoundedRect : public FDrawQuad {
 public:

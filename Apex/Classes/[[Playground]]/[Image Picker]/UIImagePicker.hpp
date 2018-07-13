@@ -11,7 +11,7 @@
 
 #include "FGestureCanvas.hpp"
 #include "ToolMenu.hpp"
-#include "FDrawQuad.h"
+#include "FDrawQuad.hpp"
 #include "ToolMenuSection.hpp"
 #include "FSprite.h"
 #include "FSpriteSequence.h"

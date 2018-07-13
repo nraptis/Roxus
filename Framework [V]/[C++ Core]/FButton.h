@@ -11,7 +11,7 @@
 
 #include "FCanvas.hpp"
 #include "FSprite.h"
-#include "FColor.h"
+#include "FColor.hpp"
 
 class FButtonLayer;
 

@@ -7,7 +7,6 @@
 //
 
 #include "Unit.h"
-#include "Game.h"
 #include "GameArena.h"
 
 Unit::Unit()
@@ -89,7 +88,8 @@ void Unit::Update()
         if(aDist < (aBumpDist * aBumpDist))
         {
             //Advance Up The Path... !
-            
+
+            /*
             mPathIndex++;
             if(mPathIndex >= mPath.mSmoothLength)
             {
@@ -109,6 +109,7 @@ void Unit::Update()
 
                 mDrawZ = mPath.mSmoothPathDrawZ[mPathIndex];
             }
+            */
         }
         
         /*
@@ -188,7 +189,8 @@ void Unit::ComputePath()
     mPath.mEndY = mFinalGridY;
     mPath.mEndZ = mFinalGridZ;
     
-    mPath.ComputePath();
+    //mPath.ComputePath();
+
     
     mPathIndex = 0;
 }
@@ -207,7 +209,8 @@ void Unit::SetUp(GamePath *pPath)
     mY = CY(mGridY, mGridZ);
     
     ComputePath();
-    
+
+    /*
     if(mPath.mSmoothLength > 0)
     {
         mWalking = true;
@@ -251,5 +254,6 @@ void Unit::SetUp(GamePath *pPath)
     {
         mWalking = false;
     }
+    */
     
 }

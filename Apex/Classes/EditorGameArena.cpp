@@ -7,7 +7,6 @@
 //
 
 #include "EditorGameArena.h"
-#include "Game.h"
 
 EditorGameArena *gEditor = 0;
 
@@ -30,7 +29,7 @@ EditorGameArena::~EditorGameArena()
 
 void EditorGameArena::Update()
 {
-    EnumList(GamePath, aPath, mPathList)
+    EnumList(AnimatedGamePath, aPath, mPathList)
     {
         aPath->Update();
     }
@@ -41,7 +40,7 @@ void EditorGameArena::Draw()
     GameArena::Draw();
     
     
-    EnumList(GamePath, aPath, mPathList)
+    EnumList(AnimatedGamePath, aPath, mPathList)
     {
         aPath->Draw();
     }
@@ -65,32 +64,20 @@ void EditorGameArena::Draw()
         }
     }
     */
-    
-    
+
     /*
     SetColor(1.0f, 0.0f, 0.0f, 0.8f);
-    
-    for(int i=0;i<mPathSolver.mClosedListCount;i++)
-    {
+    for (int i=0;i<mPathSolver.mClosedListCount;i++) {
         PathSolverNeighbor *aNeighbor = mPathSolver.mClosedList[i];
-        
         float aRectSize = 20.0f;
         float aX = CX(aNeighbor->mNode->mGridX);
         float aY = CY(aNeighbor->mNode->mGridY);
         
         DrawRect(aX - aRectSize / 2.0f, aY - aRectSize / 2.0f, aRectSize, aRectSize);
     }
-    
-    
-    
-    
-    
-
-    
+     
     SetColor(0.0f, 1.0f, 0.0f, 0.7f);
-    
-    for(int i=0;i<mPathSolver.mOpenListCount;i++)
-    {
+    for (int i=0;i<mPathSolver.mOpenListCount;i++) {
         PathSolverNeighbor *aNeighbor = mPathSolver.mOpenList[i];
         
         float aRectSize = 15.0f;
@@ -121,7 +108,7 @@ void EditorGameArena::Draw()
 
 void EditorGameArena::AddPath()
 {
-    GamePath *aPath = new GamePath();
+    AnimatedGamePath *aPath = new AnimatedGamePath();
     
     aPath->mStartX = mGridBufferH;
     aPath->mStartY = mGridBufferV + gRand.Get(mGridHeightActive);
@@ -134,7 +121,7 @@ void EditorGameArena::AddPath()
     mPathList += aPath;
     mCurrentPath = aPath;
     
-    aPath->ComputePath();
+    aPath->ComputePath(this);
 }
 
 void EditorGameArena::RemovePath(GamePath *pPath)
@@ -148,23 +135,25 @@ void EditorGameArena::RemovePath(GamePath *pPath)
 void EditorGameArena::Click(float pX, float pY)
 {
     
-    int aGridX = GetGridX(pX);
-    int aGridY = GetGridY(pY);
+    int aGridX = -1;
+    int aGridY = -1;
+    int aGridZ = -1;
+
+    GetGridPos(pX, pY, aGridX, aGridY, aGridZ);
     
-    if(mEditorMode == EDITOR_MODE_PATH)
-    {
-        if(mCurrentPath)
-        {
-            if(mPathStartMode)
-            {
+    if (mEditorMode == EDITOR_MODE_PATH) {
+        if (aGridX != -1 && aGridY != -1 && aGridZ != -1) {
+        if (mCurrentPath) {
+            if (mPathStartMode) {
                 mCurrentPath->mStartX = aGridX;
                 mCurrentPath->mStartY = aGridY;
-            }
-            else
-            {
+                mCurrentPath->mStartZ = aGridZ;
+            } else {
                 mCurrentPath->mEndX = aGridX;
                 mCurrentPath->mEndY = aGridY;
+                mCurrentPath->mEndZ = aGridZ;
             }
+        }
         }
     }
     else if(mEditorMode == EDITOR_MODE_TILES)
@@ -208,12 +197,8 @@ void EditorGameArena::Click(float pX, float pY)
     }
     
     ComputePathConnections();
-    
-    EnumList(GamePath, aPath, mPathList)
-    {
-        
-        
-        aPath->ComputePath();
+    EnumList (AnimatedGamePath, aPath, mPathList) {
+        aPath->ComputePath(this);
     }
 }
 
@@ -226,8 +211,7 @@ void EditorGameArena::SaveImage()
     int aImageHeight = mGridHeightTotal * aTileHeight;
     
     printf("Saving Image!! (%d x %d)\n", aImageWidth, aImageHeight);
-    
-    
+
     FImage aImageTunnel;
     FImage aImageFloor;
     FImage aImageBridge;
@@ -243,9 +227,7 @@ void EditorGameArena::SaveImage()
     FImage aImageBridgeRampR;
     
     FImage aImageBlocker;
-    
-    
-    
+
     aImageTunnel.Load("tile_tunnel.png");
     aImageFloor.Load("tile_floor.png");
     aImageBridge.Load("tile_bridge.png");
@@ -261,30 +243,19 @@ void EditorGameArena::SaveImage()
     aImageBridgeRampR.Load("bridge_ramp_r.png");
     
     aImageBlocker.Load("blocker.png");
-    
-    
-    
+
     int aStampShiftX = (aImageFloor.mWidth - aTileWidth) / 2;
     int aStampShiftY = (aImageFloor.mHeight - aTileHeight) / 2;
-    
-    
+
     FImage aSaveImage;
     aSaveImage.MakeBlank(aImageWidth, aImageHeight);
-    
-    
-    
-    
-    for(int aDepth=0;aDepth<GRID_DEPTH;aDepth++)
-    {
-        
-        for(int aY=0;aY<mGridHeightTotal;aY++)
-        {
-            for(int aX=0;aX<mGridWidthTotal;aX++)
-            {
+
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aY=0;aY<mGridHeightTotal;aY++) {
+            for (int aX=0;aX<mGridWidthTotal;aX++) {
                 
                 GameTile *aTile = mTile[aDepth][aX][aY];
-                if(aTile)
-                {
+                if (aTile) {
                     FImage *aTileImage = 0;
                     FImage *aSpecialImage = 0;
 

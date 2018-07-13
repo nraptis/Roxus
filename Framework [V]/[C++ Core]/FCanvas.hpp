@@ -13,7 +13,7 @@
 
 #include "FList.h"
 #include "FRect.h"
-#include "FColor.h"
+#include "FColor.hpp"
 #include "FString.h"
 #include "FSprite.h"
 #include "FPoint.h"

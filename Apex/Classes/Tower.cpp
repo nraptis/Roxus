@@ -7,7 +7,6 @@
 //
 
 #include "Tower.h"
-#include "Game.h"
 #include "GLApp.h"
 
 Tower::Tower() {
@@ -22,7 +21,6 @@ Tower::Tower() {
     mCoolDownTimeMax = 40;
     
     mTestFireTimer = 0;
-    
 }
 
 Tower::~Tower()
@@ -49,6 +47,8 @@ void Tower::Update()
 void Tower::Draw()
 {
     Graphics::SetColor();
+    if (gApp->mDarkMode) { Graphics::SetColor(0.125f, 0.125f, 0.125f, 1.0f); }
+
     
     float aFrame = (mRotation / 360.0f) * ((float)TOWER_FRAMES);
     

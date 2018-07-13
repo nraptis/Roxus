@@ -30,11 +30,7 @@ public:
     virtual void                            KeyUp(int pKey);
 
     virtual void                            Notify(void *pSender, const char *pNotification);
-
-
-    FCanvas                                 *mPinCanvas1;
-    FCanvas                                 *mPinCanvas2;
-
+    
     float                                   mPivotX;
     float                                   mPivotY;
     

@@ -76,17 +76,17 @@ void TowerPickerMenu::Deselect()
 
 bool TowerPickerMenu::IsHoveringOverSelectedButton(int x, int y)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     if(mSelectedButton)
     {
         if(mSelectedButton->Contains(x, y))
         {
-            aReturn = true;
+            aResult = true;
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void TowerPickerMenu::TouchDown(int x, int y, void *pData)

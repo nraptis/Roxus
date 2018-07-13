@@ -8,7 +8,6 @@
 
 #include "GameObject.h"
 #include "GLApp.h"
-#include "Game.h"
 
 GameObject::GameObject() {
     mX = 0.0f;

@@ -25,7 +25,7 @@
 #include "FSprite.h"
 #include "FSpriteSequence.h"
 #include "FPointList.h"
-#include "FDrawQuad.h"
+#include "FDrawQuad.hpp"
 
 class FMotionObject : public FObject
 {

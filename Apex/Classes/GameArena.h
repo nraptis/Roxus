@@ -11,7 +11,7 @@
 
 #include "GLApp.h"
 #include "GameTile.h"
-#include "GamePath.h"
+#include "AnimatedGamePath.hpp"
 #include "Tower.h"
 #include "TowerBullet.h"
 #include "Unit.h"
@@ -45,11 +45,11 @@ public:
     void                                ComputeAllowedPlacements();
     
     void                                PlaceTower(Tower *pTower);
-    bool                                CanPlaceTower(int pGridX, int pGridY);
+    bool                                CanPlaceTower(int pGridX, int pGridY, int pGridZ);
     bool                                CanPlaceTower();
     
     void                                RemoveTower(Tower *pTower);
-    void                                RemoveTower(int pGridX, int pGridY);
+    void                                RemoveTower(int pGridX, int pGridY, int pGridZ);
 
     bool                                mTileVisible[GRID_DEPTH];
     float                               mTileOpacity[GRID_DEPTH];
@@ -65,6 +65,8 @@ public:
     
     int                                 mCursorGridX;
     int                                 mCursorGridY;
+    int                                 mCursorGridZ;
+
     void                                RefreshGridCursor(float pX, float pY);
     
     void                                DrawGridOverlay();
@@ -73,9 +75,15 @@ public:
     virtual void                        Click(float pX, float pY);
     
     GameTile                            *GetTile(int pGridX, int pGridY, int pGridZ);
-    Tower                               *GetTower(int pGridX, int pGridY);
+    Tower                               *GetTower(int pGridX, int pGridY, int pGridZ);
     
     void                                ComputePathConnections();
+
+
+    float                                   mPivotX;
+    float                                   mPivotY;
+
+
     
     FList                                mPathList;
     //List                                mTowerList;
@@ -84,8 +92,12 @@ public:
 
     //GameObjectCollection                mTowers;
 
-    int                                 GetGridX(float pX);
-    int                                 GetGridY(float pY);
+    //int                                 GetGridX(float pX, float pY);
+    //int                                 GetGridY(float pX, float pY);
+    void                                GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
+
+
+
 
     void                                Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);

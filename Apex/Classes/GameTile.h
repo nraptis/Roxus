@@ -47,8 +47,6 @@ public:
     GameTile();
     virtual ~GameTile();
     
-    GLApp                               *mApp;
-    
     void                                SetUp(int pGridX, int pGridY, int pGridZ);
     
     virtual void                        Update();
@@ -58,6 +56,7 @@ public:
     
     bool                                IsBlocked();
     bool                                IsNormal();
+    bool                                IsRamp();
     
     bool                                mBlocked;
     bool                                mOccupied;

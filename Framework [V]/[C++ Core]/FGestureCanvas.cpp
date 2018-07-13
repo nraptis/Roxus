@@ -159,7 +159,7 @@ FCanvas *FGestureCanvas::BaseTouchDown(float pX, float pY, float pOriginalX, flo
         }
 
         if (aTouch) {
-            aTouch->Reset(pX, pY, pData);
+            aTouch->Reset(mTouchX, mTouchY, pData);
             GestureComputeCenter();
             if (mIsPanning) {
                 mGesturePanStartCenterX = mGestureTouchCenterX;
@@ -196,7 +196,7 @@ void FGestureCanvas::BaseTouchMove(float pX, float pY, float pOriginalX, float p
     if(aTouchIndex >= 0)
     {
         FTrackedTouch *aMovedTouch = mTouch[aTouchIndex];
-        aMovedTouch->Move(pX, pY);
+        aMovedTouch->Move(mTouchX, mTouchY);
 
         GestureComputeCenter();
 

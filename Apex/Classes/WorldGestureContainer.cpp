@@ -304,8 +304,9 @@ void WorldGestureContainer::TapSingle(float pX, float pY) {
     mWorldTransform->ConvertPoint(aX, aY, this);
     
     gArena->Click(aX, aY);
-    
-    
+}
+
+void WorldGestureContainer::MouseMove(float pX, float pY) {
     
 }
 

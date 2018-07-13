@@ -27,6 +27,9 @@ public:
     virtual void                                    TouchUp(float pX, float pY, void *pData);
     virtual void                                    TouchFlush();
 
+    virtual void                                    MouseMove(float pX, float pY);
+    
+
     virtual void                                    KeyDown(int pKey);
     virtual void                                    KeyUp(int pKey);
 

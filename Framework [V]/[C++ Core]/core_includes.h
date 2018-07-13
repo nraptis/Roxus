@@ -33,7 +33,7 @@
 #include <math.h>
 
 #include "FTouchManager.h"
-#include "FRandomizer.h"
+#include "FRandomizer.hpp"
 #include "FImage.h"
 #include "FRect.h"
 #include "FSprite.h"
@@ -51,7 +51,7 @@
 #include "FButton.h"
 #include "FMatrix.h"
 #include "FMath.h"
-#include "FColor.h"
+#include "FColor.hpp"
 #include "FList.h"
 #include "FFile.h"
 #include "FObject.h"

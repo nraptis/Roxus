@@ -11,7 +11,7 @@
 
 #include "FObject.h"
 #include "FSprite.h"
-#include "FColor.h"
+#include "FColor.hpp"
 #include "FCanvas.hpp"
 
 class PGNode : public FObject {

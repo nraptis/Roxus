@@ -270,7 +270,7 @@ void FViewContainer::DrawManualSubviews()
 
 FViewContainer *FViewContainer::TouchDown(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pClippedByParent, bool &pConsumed)
 {
-    FViewContainer *aReturn = 0;
+    FViewContainer *aResult = 0;
     FViewContainer *aCollideContainer = 0;
     
     
@@ -332,9 +332,9 @@ FViewContainer *FViewContainer::TouchDown(float pX, float pY, float pOriginalX, 
                     {
                         pConsumed = true;
                         
-                        if(aReturn == 0)
+                        if(aResult == 0)
                         {
-                            aReturn = aCollideContainer;
+                            aResult = aCollideContainer;
                         }
                         
                         if((mView->mRecievesOutsideTouches == false) && (mView->mRecievesConsumedTouches == false))
@@ -365,9 +365,9 @@ FViewContainer *FViewContainer::TouchDown(float pX, float pY, float pOriginalX, 
                     
                     if(aContainsTouch == true)
                     {
-                        if(aReturn == 0)
+                        if(aResult == 0)
                         {
-                            aReturn = this;
+                            aResult = this;
                         }
                         
                         mTouchInside[mView->mTouchCount] = true;
@@ -422,7 +422,7 @@ FViewContainer *FViewContainer::TouchDown(float pX, float pY, float pOriginalX, 
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 void FViewContainer::TouchMove(float pX, float pY, float pOriginalX, float pOriginalY, void *pData, bool pClippedByParent)
@@ -770,8 +770,8 @@ bool FViewContainer::ContainsPoint(float pX, float pY)
 /*
  bool FViewContainer::IsModal()
  {
- bool aReturn = mModal;
- return aReturn;
+ bool aResult = mModal;
+ return aResult;
  }
  
  void FViewContainer::KillModalViews()
@@ -833,9 +833,9 @@ bool FViewContainer::ContainsPoint(float pX, float pY)
  
  int FViewContainer::AnimationGetID()
  {
- int aReturn = VIEW_ANIMATION_NULL;
- if(mViewAnimation != 0)aReturn = mViewAnimation->mID;
- return aReturn;
+ int aResult = VIEW_ANIMATION_NULL;
+ if(mViewAnimation != 0)aResult = mViewAnimation->mID;
+ return aResult;
  }
  
  void FViewContainer::AnimationSetKillAfter(bool pKillAfter)

@@ -55,7 +55,6 @@
 		0DC1E26D20F6CE14006349B6 /* SpriteSequenceNested.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23A20F6CE14006349B6 /* SpriteSequenceNested.cpp */; };
 		0DC1E26E20F6CE14006349B6 /* GLApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23B20F6CE14006349B6 /* GLApp.cpp */; };
 		0DC1E26F20F6CE14006349B6 /* TowerPickerMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23C20F6CE14006349B6 /* TowerPickerMenu.cpp */; };
-		0DC1E27020F6CE14006349B6 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23F20F6CE14006349B6 /* Game.cpp */; };
 		50183DB120F2C4B100C776FA /* core_app_shell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D0120F2C4B100C776FA /* core_app_shell.cpp */; };
 		50183DB220F2C4B100C776FA /* core_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D0320F2C4B100C776FA /* core_graphics.cpp */; };
 		50183DB320F2C4B100C776FA /* core_social.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D0620F2C4B100C776FA /* core_social.cpp */; };
@@ -136,6 +135,7 @@
 		50183E1420F2C53800C776FA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50183E0D20F2C53700C776FA /* AudioToolbox.framework */; };
 		50183E1520F2C53800C776FA /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50183E0E20F2C53800C776FA /* OpenAL.framework */; };
 		50183E1720F2C55200C776FA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50183E1620F2C55200C776FA /* Cocoa.framework */; };
+		5039F4A320F7B85E0048EC1B /* AnimatedGamePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5039F4A120F7B85E0048EC1B /* AnimatedGamePath.cpp */; };
 		50CBEA8F20F2C40800DD30B2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA8E20F2C40800DD30B2 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -219,7 +219,6 @@
 		0DC1E22A20F6CE14006349B6 /* PGPathEditor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PGPathEditor.hpp; sourceTree = "<group>"; };
 		0DC1E22B20F6CE14006349B6 /* PathEditorMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathEditorMenu.cpp; sourceTree = "<group>"; };
 		0DC1E22C20F6CE14006349B6 /* TowerPickerMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerPickerMenu.h; sourceTree = "<group>"; };
-		0DC1E22D20F6CE14006349B6 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		0DC1E22E20F6CE14006349B6 /* TowerBullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerBullet.cpp; sourceTree = "<group>"; };
 		0DC1E22F20F6CE14006349B6 /* WorldGestureContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldGestureContainer.hpp; sourceTree = "<group>"; };
 		0DC1E23020F6CE14006349B6 /* TilePathFinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilePathFinder.cpp; sourceTree = "<group>"; };
@@ -237,7 +236,6 @@
 		0DC1E23C20F6CE14006349B6 /* TowerPickerMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerPickerMenu.cpp; sourceTree = "<group>"; };
 		0DC1E23D20F6CE14006349B6 /* Util_ScreenFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_ScreenFrame.h; sourceTree = "<group>"; };
 		0DC1E23E20F6CE14006349B6 /* WorldContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldContainer.hpp; sourceTree = "<group>"; };
-		0DC1E23F20F6CE14006349B6 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		50183D0120F2C4B100C776FA /* core_app_shell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = core_app_shell.cpp; sourceTree = "<group>"; };
 		50183D0220F2C4B100C776FA /* core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core_app_shell.h; sourceTree = "<group>"; };
 		50183D0320F2C4B100C776FA /* core_graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = core_graphics.cpp; sourceTree = "<group>"; };
@@ -258,9 +256,9 @@
 		50183D1220F2C4B100C776FA /* FCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCanvas.cpp; sourceTree = "<group>"; };
 		50183D1320F2C4B100C776FA /* FCanvas.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FCanvas.hpp; sourceTree = "<group>"; };
 		50183D1420F2C4B100C776FA /* FColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FColor.cpp; sourceTree = "<group>"; };
-		50183D1520F2C4B100C776FA /* FColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FColor.h; sourceTree = "<group>"; };
+		50183D1520F2C4B100C776FA /* FColor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FColor.hpp; sourceTree = "<group>"; };
 		50183D1620F2C4B100C776FA /* FDrawQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FDrawQuad.cpp; sourceTree = "<group>"; };
-		50183D1720F2C4B100C776FA /* FDrawQuad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDrawQuad.h; sourceTree = "<group>"; };
+		50183D1720F2C4B100C776FA /* FDrawQuad.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FDrawQuad.hpp; sourceTree = "<group>"; };
 		50183D1820F2C4B100C776FA /* FFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFile.cpp; sourceTree = "<group>"; };
 		50183D1920F2C4B100C776FA /* FFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFile.h; sourceTree = "<group>"; };
 		50183D1A20F2C4B100C776FA /* FFloatList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFloatList.cpp; sourceTree = "<group>"; };
@@ -314,7 +312,7 @@
 		50183D4A20F2C4B100C776FA /* FQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FQuad.cpp; sourceTree = "<group>"; };
 		50183D4B20F2C4B100C776FA /* FQuad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQuad.h; sourceTree = "<group>"; };
 		50183D4C20F2C4B100C776FA /* FRandomizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FRandomizer.cpp; sourceTree = "<group>"; };
-		50183D4D20F2C4B100C776FA /* FRandomizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRandomizer.h; sourceTree = "<group>"; };
+		50183D4D20F2C4B100C776FA /* FRandomizer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FRandomizer.hpp; sourceTree = "<group>"; };
 		50183D4E20F2C4B100C776FA /* FRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FRect.cpp; sourceTree = "<group>"; };
 		50183D4F20F2C4B100C776FA /* FRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRect.h; sourceTree = "<group>"; };
 		50183D5020F2C4B100C776FA /* FResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FResource.cpp; sourceTree = "<group>"; };
@@ -391,6 +389,8 @@
 		50183E0D20F2C53700C776FA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		50183E0E20F2C53800C776FA /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		50183E1620F2C55200C776FA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5039F4A120F7B85E0048EC1B /* AnimatedGamePath.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedGamePath.cpp; sourceTree = "<group>"; };
+		5039F4A220F7B85E0048EC1B /* AnimatedGamePath.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AnimatedGamePath.hpp; sourceTree = "<group>"; };
 		50CBEA7A20F2C31000DD30B2 /* Apex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CBEA8520F2C31000DD30B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CBEA8820F2C31000DD30B2 /* Apex.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Apex.entitlements; sourceTree = "<group>"; };
@@ -422,14 +422,14 @@
 				0DC1E1F020F6CE14006349B6 /* [[Playground]] */,
 				0DC1E23720F6CE14006349B6 /* EditorGameArena.cpp */,
 				0DC1E1DA20F6CE14006349B6 /* EditorGameArena.h */,
-				0DC1E23F20F6CE14006349B6 /* Game.cpp */,
-				0DC1E22D20F6CE14006349B6 /* Game.h */,
 				0DC1E23920F6CE14006349B6 /* GameArena.cpp */,
 				0DC1E1DC20F6CE14006349B6 /* GameArena.h */,
 				0DC1E1E420F6CE14006349B6 /* GameObject.cpp */,
 				0DC1E1DE20F6CE14006349B6 /* GameObject.h */,
 				0DC1E1E220F6CE14006349B6 /* GamePath.cpp */,
 				0DC1E1EF20F6CE14006349B6 /* GamePath.h */,
+				5039F4A120F7B85E0048EC1B /* AnimatedGamePath.cpp */,
+				5039F4A220F7B85E0048EC1B /* AnimatedGamePath.hpp */,
 				0DC1E1E820F6CE14006349B6 /* GameTile.cpp */,
 				0DC1E1EC20F6CE14006349B6 /* GameTile.h */,
 				0DC1E23B20F6CE14006349B6 /* GLApp.cpp */,
@@ -587,9 +587,9 @@
 				50183D1220F2C4B100C776FA /* FCanvas.cpp */,
 				50183D1320F2C4B100C776FA /* FCanvas.hpp */,
 				50183D1420F2C4B100C776FA /* FColor.cpp */,
-				50183D1520F2C4B100C776FA /* FColor.h */,
+				50183D1520F2C4B100C776FA /* FColor.hpp */,
 				50183D1620F2C4B100C776FA /* FDrawQuad.cpp */,
-				50183D1720F2C4B100C776FA /* FDrawQuad.h */,
+				50183D1720F2C4B100C776FA /* FDrawQuad.hpp */,
 				50183D1820F2C4B100C776FA /* FFile.cpp */,
 				50183D1920F2C4B100C776FA /* FFile.h */,
 				50183D1A20F2C4B100C776FA /* FFloatList.cpp */,
@@ -643,7 +643,7 @@
 				50183D4A20F2C4B100C776FA /* FQuad.cpp */,
 				50183D4B20F2C4B100C776FA /* FQuad.h */,
 				50183D4C20F2C4B100C776FA /* FRandomizer.cpp */,
-				50183D4D20F2C4B100C776FA /* FRandomizer.h */,
+				50183D4D20F2C4B100C776FA /* FRandomizer.hpp */,
 				50183D4E20F2C4B100C776FA /* FRect.cpp */,
 				50183D4F20F2C4B100C776FA /* FRect.h */,
 				50183D5020F2C4B100C776FA /* FResource.cpp */,
@@ -862,6 +862,7 @@
 				50183DBF20F2C4B100C776FA /* FGestureCanvas.cpp in Sources */,
 				0DC1E25320F6CE14006349B6 /* ToolMenuModalUnderlay.cpp in Sources */,
 				50183DF320F2C4B100C776FA /* FViewAnimation.cpp in Sources */,
+				5039F4A320F7B85E0048EC1B /* AnimatedGamePath.cpp in Sources */,
 				50183DE120F2C4B100C776FA /* FStringBuffer.cpp in Sources */,
 				50183DBB20F2C4B100C776FA /* FDrawQuad.cpp in Sources */,
 				50183DF820F2C4B100C776FA /* os_core_includes.cpp in Sources */,
@@ -966,7 +967,6 @@
 				50183DC220F2C4B100C776FA /* FImage.cpp in Sources */,
 				50183DC820F2C4B100C776FA /* FList.cpp in Sources */,
 				0DC1E25A20F6CE14006349B6 /* UIAlignmentPicker.cpp in Sources */,
-				0DC1E27020F6CE14006349B6 /* Game.cpp in Sources */,
 				50183DCA20F2C4B100C776FA /* FMatrix.cpp in Sources */,
 				0DC1E24820F6CE14006349B6 /* TowerDetailMenu.cpp in Sources */,
 			);

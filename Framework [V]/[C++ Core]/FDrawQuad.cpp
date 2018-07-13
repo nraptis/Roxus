@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Nick Raptis. All rights reserved.
 //
 
-#include "FDrawQuad.h"
+#include "FDrawQuad.hpp"
 
 
 FDrawQuad::FDrawQuad() {
