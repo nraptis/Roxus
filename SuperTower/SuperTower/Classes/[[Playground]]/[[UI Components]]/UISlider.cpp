@@ -109,6 +109,18 @@ void UISlider::Layout() {
     SliderDidUpdate();
 }
 
+void UISlider::Update() {
+    if (mTargetValue) {
+        float aDiff = *mTargetValue - mValue;
+        if (aDiff < 0.0) { aDiff = -aDiff; }
+        if (aDiff > 0.001f) {
+            mBaseSlider.ForceValue(*mTargetValue);
+            mValue = mBaseSlider.GetValue();
+        }
+    }
+
+}
+
 void UISlider::Draw() {
     
     mRectBarOutline.Draw();

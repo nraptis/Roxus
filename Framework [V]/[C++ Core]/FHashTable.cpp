@@ -523,7 +523,7 @@ void FHashMap::SetTableSize(int pSize) {
 
 unsigned int FHashMap::Hash(void *pObject) {
     unsigned long aResult = ((unsigned long)pObject);
-    aResult = ((((aResult >> 32) * 33) + 5381) ^ (aResult));
+    aResult = ((((aResult >> 16) * 33) + 5381) ^ (aResult));
     return (unsigned int)aResult;
 }
 

@@ -110,6 +110,9 @@ float CY(int pGridY, int pGridZ);
 //extern Game *gGame;
 //extern TilePathFinder *gPathFinder;
 
+extern bool gEditorMode;
+
+
 extern float gArenaWidth;
 extern float gArenaWidth2;
 extern float gArenaHeight;

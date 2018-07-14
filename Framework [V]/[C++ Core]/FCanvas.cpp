@@ -356,6 +356,21 @@ void FCanvas::SetTransformAnchorY(float pAnchorY) {
     }
 }
 
+void FCanvas::Activate() {
+    if (mHidden == true || mEnabled == false) {
+        mHidden = false;
+        mEnabled = true;
+        FrameDidUpdate();
+    }
+}
+void FCanvas::Deactivate() {
+    if (mHidden == false || mEnabled == true) {
+        mHidden = true;
+        mEnabled = false;
+        FrameDidUpdate();
+    }
+}
+
 void FCanvas::ConvertPoint(float &pX, float &pY, FCanvas *pFromCanvas, FCanvas *pToCanvas) {
     if (pFromCanvas) {
         pFromCanvas->mTransformAbsolute.Untransform(pX, pY, pFromCanvas->mWidth, pFromCanvas->mHeight);

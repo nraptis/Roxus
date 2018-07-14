@@ -56,8 +56,7 @@ void GameTile::Update() {
 
 void GameTile::Draw() {
 
-    Graphics::SetColor();
-    if (gApp->mDarkMode) { Graphics::SetColor(0.125f, 0.125f, 0.125f, 1.0f); }
+    
 
     FSprite *aAccessory = 0;
     FSprite *aTile = 0;

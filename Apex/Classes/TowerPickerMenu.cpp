@@ -7,20 +7,19 @@
 //
 
 #include "TowerPickerMenu.h"
-#include "EditorGameArena.h"
+#include "EditorGameArena.hpp"
+#include "GLApp.h"
 
-TowerPickerMenu::TowerPickerMenu()
-{
+TowerPickerMenu::TowerPickerMenu() {
     mApp = GAPP;
-    
+
     mSelectedButton = 0;
     mCurrentTower = 0;
     
     float aButtonWidth = mApp->mTowerMenuButtonBack[0].mWidth;
     float aButtonHeight = mApp->mTowerMenuButtonBack[0].mHeight;
-    
-    for(int i=0;i<5;i++)
-    {
+
+    for (int i=0;i<5;i++) {
         TowerPickerMenuButton *aButton = new TowerPickerMenuButton();
         
         aButton->mWidth = aButtonWidth;
@@ -74,14 +73,10 @@ void TowerPickerMenu::Deselect()
     mSelectedButton = 0;
 }
 
-bool TowerPickerMenu::IsHoveringOverSelectedButton(int x, int y)
-{
+bool TowerPickerMenu::IsHoveringOverSelectedButton(int x, int y) {
     bool aResult = false;
-    
-    if(mSelectedButton)
-    {
-        if(mSelectedButton->Contains(x, y))
-        {
+    if (mSelectedButton) {
+        if (mSelectedButton->Contains(x, y)) {
             aResult = true;
         }
     }
@@ -89,25 +84,21 @@ bool TowerPickerMenu::IsHoveringOverSelectedButton(int x, int y)
     return aResult;
 }
 
-void TowerPickerMenu::TouchDown(int x, int y, void *pData)
-{
-    if(mSelectedButton || (gEditor != 0))
-    {
+void TowerPickerMenu::TouchDown(int x, int y, void *pData) {
+    if (mSelectedButton || (gEditor != 0)) {
         return;
     }
     
     mCurrentTower = 0;
     
-    EnumList(TowerPickerMenuButton, aButton, mButtons)
-    {
+    EnumList (TowerPickerMenuButton, aButton, mButtons) {
         if(aButton->Contains(x, y))
         {
             mSelectedButton = aButton;
         }
     }
-    
-    if(mSelectedButton)
-    {
+
+    if (mSelectedButton) {
         mSelectedButton->mSelected = true;
         
         mCurrentTower = new Tower();

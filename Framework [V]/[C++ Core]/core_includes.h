@@ -10,7 +10,7 @@
 
 
 #define LANDSCAPE_MODE 1
-#undef LANDSCAPE_MODE
+//#undef LANDSCAPE_MODE
 
 //#include "os_core_includes.h"
 //#include "app_global.h"

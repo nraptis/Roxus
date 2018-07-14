@@ -92,7 +92,7 @@ void TowerDetailMenu::Update()
 
 bool TowerDetailMenu::TouchHitsButton(float x, float y)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     float aWidth2 = mButtonWidth * 0.5f;
     float aHeight2 = mButtonHeight * 0.5f;
@@ -110,18 +110,18 @@ bool TowerDetailMenu::TouchHitsButton(float x, float y)
         if(aXDiff <= aWidth2 && aYDiff <= aHeight2)
         {
             mButtonClickedIndex = i;
-            aReturn = true;
+            aResult = true;
             
             
         }
     }
     
-    return aReturn;
+    return aResult;
 }
 
 int TowerDetailMenu::ReleaseAction(float x, float y)
 {
-    int aReturn = -1;
+    int aResult = -1;
     
     float aWidth2 = mButtonWidth * 0.5f;
     float aHeight2 = mButtonHeight * 0.5f;
@@ -144,14 +144,14 @@ int TowerDetailMenu::ReleaseAction(float x, float y)
     
     if(aButtonClickedIndex == mButtonClickedIndex)
     {
-        aReturn = aButtonClickedIndex;
+        aResult = aButtonClickedIndex;
     }
     else
     {
         mButtonClickedIndex = -1;
     }
     
-    return aReturn;
+    return aResult;
 }
 
 

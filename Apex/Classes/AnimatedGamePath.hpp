@@ -33,7 +33,10 @@ public:
 
     FDrawQuadSnake                      mSnake;
     //float
-    
+
+
+    bool                                mSelected;
+    bool                                mEditorMode;
     
 
 

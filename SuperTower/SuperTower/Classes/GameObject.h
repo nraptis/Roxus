@@ -17,6 +17,9 @@ public:
     GameObject();
     virtual ~GameObject();
     
+    virtual void                        Update();
+    virtual void                        Draw();
+    
     float                               mX;
     float                               mY;
     float                               mZ;
@@ -27,8 +30,7 @@ public:
     int                                 mGridY;
     int                                 mGridZ;
     
-    virtual void                        Update();
-    virtual void                        Draw();
+    
     
     void                                SetUp(int pGridX, int pGridY);
     void                                SetUp(int pGridX, int pGridY, int pGridZ);

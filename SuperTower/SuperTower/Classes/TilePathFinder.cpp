@@ -25,7 +25,7 @@ TilePathFinder::~TilePathFinder()
 
 bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd)
 {
-    bool aReturn = false;
+    bool aResult = false;
     
     mOpenList.Reset();
     mClosedList.Reset();
@@ -91,7 +91,7 @@ bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd)
             }
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 

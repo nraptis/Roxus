@@ -11,7 +11,7 @@
 
 #include "GLApp.h"
 #include "GameTile.h"
-#include "GamePath.h"
+#include "AnimatedGamePath.hpp"
 #include "Tower.h"
 #include "TowerBullet.h"
 #include "Unit.h"
@@ -34,66 +34,74 @@ public:
     GameArena();
     virtual ~GameArena();
     
-    GLApp                               *mApp;
-    
-    virtual void                        Update();
-    virtual void                        Draw();
+    virtual void                                Update();
+    virtual void                                Draw();
 
-    TilePathFinder                      mPathFinder;
+    TilePathFinder                              mPathFinder;
 
-    GameTile                            ****mTile;
+    GameTile                                    ****mTile;
     
-    bool                                **mTowerAllowed;
-    void                                ComputeAllowedPlacements();
+    bool                                        **mTowerAllowed;
+    void                                        ComputeAllowedPlacements();
     
-    void                                PlaceTower(Tower *pTower);
-    bool                                CanPlaceTower(int pGridX, int pGridY);
-    bool                                CanPlaceTower();
+    void                                        PlaceTower(Tower *pTower);
+    bool                                        CanPlaceTower(int pGridX, int pGridY, int pGridZ);
+    bool                                        CanPlaceTower();
     
-    void                                RemoveTower(Tower *pTower);
-    void                                RemoveTower(int pGridX, int pGridY);
+    void                                        RemoveTower(Tower *pTower);
+    void                                        RemoveTower(int pGridX, int pGridY, int pGridZ);
 
-    bool                                mTileVisible[GRID_DEPTH];
-    float                               mTileOpacity[GRID_DEPTH];
+    bool                                        mTileVisible[GRID_DEPTH];
+    float                                       mTileOpacity[GRID_DEPTH];
     
-    int                                 mGridWidthTotal;
-    int                                 mGridHeightTotal;
+    int                                         mGridWidthTotal;
+    int                                         mGridHeightTotal;
     
-    int                                 mGridWidthActive;
-    int                                 mGridHeightActive;
+    int                                         mGridWidthActive;
+    int                                         mGridHeightActive;
     
-    int                                 mGridBufferH;
-    int                                 mGridBufferV;
+    int                                         mGridBufferH;
+    int                                         mGridBufferV;
     
-    int                                 mCursorGridX;
-    int                                 mCursorGridY;
-    void                                RefreshGridCursor(float pX, float pY);
-    
-    void                                DrawGridOverlay();
-    void                                DrawGridSelection();
-    
-    virtual void                        Click(float pX, float pY);
-    
-    GameTile                            *GetTile(int pGridX, int pGridY, int pGridZ);
-    Tower                               *GetTower(int pGridX, int pGridY);
-    
-    void                                ComputePathConnections();
-    
-    FList                                mPathList;
-    //List                                mTowerList;
+    int                                         mCursorGridX;
+    int                                         mCursorGridY;
+    int                                         mCursorGridZ;
 
-    FObjectList                         mTowerCollection;
+    void                                        RefreshGridCursor(float pX, float pY);
+
+    void                                        DrawGridOverlay();
+    void                                        DrawGridSelection();
+    
+    virtual void                                Click(float pX, float pY);
+    
+    GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
+    Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
+
+    void                                        ComputePathConnections();
+
+    float                                       mPivotX;
+    float                                       mPivotY;
+
+    FList                                       mPathList;
+    //List                                      mTowerList;
+
+    FObjectList                                 mTowerCollection;
 
     //GameObjectCollection                mTowers;
 
-    int                                 GetGridX(float pX);
-    int                                 GetGridY(float pY);
 
-    void                                Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
-    void                                SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
+    //Takes into consideration the actual tiles of the arena to determine exactly
+    //which x, y, and z grid positions the user's finger has landed on...
+    void                                        GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
 
-    void                                Save(const char *pPath=0);
-    void                                Load(const char *pPath=0);
+
+
+    void                                        Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
+    void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
+
+    void                                        Save(const char *pPath=0);
+    void                                        Load(const char *pPath=0);
+
 };
 
 extern GameArena *gArena;

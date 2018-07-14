@@ -23,17 +23,15 @@ TilePathFinder::~TilePathFinder()
     mPathEnd = 0;
 }
 
-bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd)
-{
+bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd) {
     bool aResult = false;
-    
+
     mOpenList.Reset();
     mClosedList.Reset();
     
     mPathEnd = 0;
-    
-    if(pStart != 0 && pEnd != 0)
-    {
+
+    if (pStart != 0 && pEnd != 0) {
         int aEndX = pEnd->mGridX;
         int aEndY = pEnd->mGridY;
         int aEndZ = pEnd->mGridZ;

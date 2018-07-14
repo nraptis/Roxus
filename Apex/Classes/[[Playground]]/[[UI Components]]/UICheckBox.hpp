@@ -42,6 +42,9 @@ public:
     void                                    SetText(const char *pText) { mText = pText; }
     FString                                 mText;
 
+    void                                    SetChecked(bool pChecked);
+    
+
     float                                   mFontScale;
     float                                   mTextCenterX;
 

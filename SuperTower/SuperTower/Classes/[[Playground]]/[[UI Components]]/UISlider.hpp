@@ -22,6 +22,7 @@ public:
 
     virtual void                                Layout();
 
+    virtual void                                Update();
     virtual void                                Draw();
 
     virtual void                                Notify(void *pSender, const char *pNotification);

@@ -13,8 +13,10 @@
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
 #include "GameArena.h"
+#include "EditorGameArena.hpp"
 
 class WorldMenu;
+class EditorMainMenu;
 class WorldContainer : public FCanvas {
 public:
     WorldContainer();
@@ -39,7 +41,10 @@ public:
     WorldTransformContainer                 *mTransformContainer;
     
     GameArena                               *mArena;
+
     WorldMenu                               *mTestMenu;
+    EditorMainMenu                          *mEditorMenu;
+
 };
 
 extern WorldContainer *gWorldContainer;

@@ -47,32 +47,32 @@ void TilePathFinderHeap::Add(GameTileConnection *pConnection)
 }
 
 bool TilePathFinderHeap::Contains(GameTileConnection *pConnection) {
-    bool aReturn = false;
+    bool aResult = false;
     for (int i=0;i<mCount;i++) {
-        if(mData[i] == pConnection)aReturn = true;
+        if(mData[i] == pConnection)aResult = true;
     }
-    return aReturn;
+    return aResult;
 }
 
 GameTileConnection *TilePathFinderHeap::Pop() {
-    GameTileConnection *aReturn = 0;
+    GameTileConnection *aResult = 0;
     int aMinCost = 866686668;
     int aMinIndex = -1;
     for (int i=0;i<mCount;i++) {
         GameTileConnection *aCheck = mData[i];
         if (aCheck->mCostTotal < aMinCost) {
             aMinCost = aCheck->mCostTotal;
-            aReturn = aCheck;
+            aResult = aCheck;
             aMinIndex = i;
         }
     }
-    if (aReturn) {
+    if (aResult) {
         for (int i=(aMinIndex + 1);i<mCount;i++) {
             mData[i - 1] = mData[i];
         }
         mCount--;
     }
-    return aReturn;
+    return aResult;
 }
 
 

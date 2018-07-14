@@ -27,7 +27,7 @@ public:
     virtual void                                    TouchUp(float pX, float pY, void *pData);
     virtual void                                    TouchFlush();
 
-    virtual void                                    MouseMove(float pX, float pY);
+    virtual void                                    MouseWheel(int pDirection);
     
 
     virtual void                                    KeyDown(int pKey);
@@ -58,10 +58,6 @@ public:
     float                                           mWorldPanStartOffsetX;
     float                                           mWorldPanStartOffsetY;
 
-
-    
-
-
     float                                           mWorldScale;
     float                                           mWorldPinchStartScale;
 
@@ -74,15 +70,10 @@ public:
     float                                           mWorldPinchStartArenaX;
     float                                           mWorldPinchStartArenaY;
 
-
     float                                           mWorldRotation;
 
-
-    //float                                           TransformX(float pX);
-    //float                                           TransformY(float pY);
-    //float                                           UntransformX(float pX);
-    //float                                           UntransformY(float pY);
-    
+    //float                                           mMouseZoomCenterX;
+    //float                                           mMouseZoomCenterY;
 
 };
 

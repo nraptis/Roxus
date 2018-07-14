@@ -11,7 +11,7 @@
 
 #include "FCanvas.hpp"
 #include "DragableCanvas.hpp"
-#include "FDrawQuad.h"
+#include "FDrawQuad.hpp"
 #include "ToolMenu.hpp"
 #include "PGMainToolbar.hpp"
 

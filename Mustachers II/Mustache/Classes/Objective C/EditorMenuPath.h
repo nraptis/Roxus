@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditorMenuPath : UIViewController
-{
+@interface EditorMenuPath : UIViewController {
     UIButton                        *buttonAdd;
     UIButton                        *buttonRemove;
     

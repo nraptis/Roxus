@@ -20,8 +20,6 @@ public:
     Tower();
     virtual ~Tower();
     
-    GLApp                               *mApp;
-    
     virtual void                        Update();
     virtual void                        Draw();
     

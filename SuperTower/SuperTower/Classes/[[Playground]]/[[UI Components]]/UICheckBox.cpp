@@ -131,39 +131,33 @@ void UICheckBox::SetTarget(bool *pTarget) {
     }
 }
 
+void UICheckBox::SetChecked(bool pChecked) {
+    mIsChecked = pChecked;
+    CheckedStateDidUpdate();
+}
+
 void UICheckBox::CheckedStateDidUpdate() {
-
-
     mButtonBackground.SetColorTop(0.125f, 0.125f, 0.125f);
     mButtonBackground.SetColorBottom(0.165f, 0.165f, 0.165f);
-
     mButtonBackgroundDown.SetColorTop(0.165f, 0.165f, 0.165f);
     mButtonBackgroundDown.SetColorBottom(0.1825f, 0.1825f, 0.1825f);
-
-    
-
     if (mIsChecked) {
         mCheckBackground.SetColorTop(0.165f, 0.95f, 0.165f);
         mCheckBackground.SetColorBottom(0.168f, 0.98f, 0.168f);
-
         mButtonOutline.SetColorTop(0.82f, 0.82f, 0.82f);
         mButtonOutline.SetColorBottom(0.85f, 0.85f, 0.85f);
         mButtonOutlineDown.SetColorTop(0.925f, 0.925f, 0.142f);
         mButtonOutlineDown.SetColorBottom(0.935f, 0.935f, 0.145f);
-
     } else {
         mCheckBackground.SetColorTop(0.125f, 0.125f, 0.125f);
         mCheckBackground.SetColorBottom(0.10f, 0.10f, 0.10f);
-
         mButtonOutline.SetColorTop(0.265f, 0.265f, 0.265f);
         mButtonOutline.SetColorBottom(0.225f, 0.225f, 0.225f);
         mButtonOutlineDown.SetColorTop(0.855f, 0.825f, 0.125f);
         mButtonOutlineDown.SetColorBottom(0.865f, 0.865f, 0.125f);
     }
-
     mCheckOutline.SetColorTop(0.56f, 0.56f, 0.56f);
     mCheckOutline.SetColorBottom(0.52f, 0.52f, 0.52f);
-
     mButtonBackground.mRefresh = true;
     mButtonBackgroundDown.mRefresh = true;
     mButtonOutline.mRefresh = true;

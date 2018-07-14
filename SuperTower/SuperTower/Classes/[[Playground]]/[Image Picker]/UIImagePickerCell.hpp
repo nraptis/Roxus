@@ -12,7 +12,7 @@
 #include "FCanvas.hpp"
 #include "FSprite.h"
 #include "FSpriteSequence.h"
-#include "FDrawQuad.h"
+#include "FDrawQuad.hpp"
 
 class UIImagePickerCell : public FCanvas {
 public:

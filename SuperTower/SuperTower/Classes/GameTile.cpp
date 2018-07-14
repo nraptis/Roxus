@@ -8,26 +8,17 @@
 
 #include "GameTile.h"
 #include "GameArena.h"
-#include "Game.h"
 
-GameTileConnection::GameTileConnection()
-{
+GameTileConnection::GameTileConnection() {
     Reset();
 }
 
-GameTileConnection::~GameTileConnection()
-{
-    
-}
+GameTileConnection::~GameTileConnection() { }
 
-
-void GameTileConnection::Reset()
-{
+void GameTileConnection::Reset() {
     mTile = 0;
     mParent = 0;
-    
     mCost = 0;
-    
     mCostG = 0;
     mCostH = 0;
     mCostTotal = 0;
@@ -36,83 +27,62 @@ void GameTileConnection::Reset()
 
 
 
-GameTile::GameTile()
-{
-    mApp = GAPP;
-    
+GameTile::GameTile() {
     mGridX = -1;
     mGridY = -1;
     mGridZ = -1;
-    
     mCenterX = 0.0f;
     mCenterY = 0.0f;
-    
     mType = TILE_TYPE_NORMAL;
-    
     mPathConnectionCount = 0;
-    
     mBlocked = false;
     mOccupied = false;
-    
     PathReset();
 }
 
-GameTile::~GameTile()
-{
-    
-}
+GameTile::~GameTile() { }
 
-void GameTile::SetUp(int pGridX, int pGridY, int pGridZ)
-{
+void GameTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;
-    
     mCenterX = CX(pGridX, pGridZ);// (float)pGridX * gTileWidth + (gTileWidth / 2.0f);
     mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileHeight + (gTileHeight / 2.0f);
-    
+}
+
+void GameTile::Update() {
     
 }
 
-void GameTile::Update()
-{
-    
-}
+void GameTile::Draw() {
 
-void GameTile::Draw()
-{
+    Graphics::SetColor();
+    if (gApp->mDarkMode) { Graphics::SetColor(0.125f, 0.125f, 0.125f, 1.0f); }
+
     FSprite *aAccessory = 0;
     FSprite *aTile = 0;
-    
-    
-    
-    if(mType == TILE_TYPE_BLOCKED)aAccessory = &mApp->mBlocker;
-    
-    if (mGridZ == 0)
-    {
-        aTile = &mApp->mTileTunnel;
-    }
-    if (mGridZ == 1)
-    {
-        aTile = &mApp->mTileFloor;
-        
-        if(mType == TILE_TYPE_RAMP_U)aAccessory = &mApp->mFloorRampU;
-        if(mType == TILE_TYPE_RAMP_D)aAccessory = &mApp->mFloorRampD;
-        if(mType == TILE_TYPE_RAMP_L)aAccessory = &mApp->mFloorRampL;
-        if(mType == TILE_TYPE_RAMP_R)aAccessory = &mApp->mFloorRampR;
-    }
-    if (mGridZ == 2)
-    {
-        aTile = &mApp->mTileBridge;
 
-        if(mType == TILE_TYPE_RAMP_U)aAccessory = &mApp->mBridgeRampU;
-        if(mType == TILE_TYPE_RAMP_D)aAccessory = &mApp->mBridgeRampD;
-        if(mType == TILE_TYPE_RAMP_L)aAccessory = &mApp->mBridgeRampL;
-        if(mType == TILE_TYPE_RAMP_R)aAccessory = &mApp->mBridgeRampR;
+    if (mType == TILE_TYPE_BLOCKED) { aAccessory = &gApp->mBlocker; }
+    if (mGridZ == 0) {
+        aTile = &gApp->mTileTunnel;
     }
-    
-    float aDrawX = CX(mGridX);
-    float aDrawY = CY(mGridY);
+    if (mGridZ == 1) {
+        aTile = &gApp->mTileFloor;
+        if(mType == TILE_TYPE_RAMP_U) { aAccessory = &gApp->mFloorRampU; }
+        if(mType == TILE_TYPE_RAMP_D) { aAccessory = &gApp->mFloorRampD; }
+        if(mType == TILE_TYPE_RAMP_L) { aAccessory = &gApp->mFloorRampL; }
+        if(mType == TILE_TYPE_RAMP_R) { aAccessory = &gApp->mFloorRampR; }
+    }
+    if (mGridZ == 2) {
+        aTile = &gApp->mTileBridge;
+        if(mType == TILE_TYPE_RAMP_U) { aAccessory = &gApp->mBridgeRampU; }
+        if(mType == TILE_TYPE_RAMP_D) { aAccessory = &gApp->mBridgeRampD; }
+        if(mType == TILE_TYPE_RAMP_L) { aAccessory = &gApp->mBridgeRampL; }
+        if(mType == TILE_TYPE_RAMP_R) { aAccessory = &gApp->mBridgeRampR; }
+    }
+
+    float aDrawX = CX(mGridX, 1);
+    float aDrawY = CY(mGridY, 1);
     if (aAccessory) {
         aAccessory->Center(aDrawX, aDrawY);
     } else {
@@ -121,13 +91,13 @@ void GameTile::Draw()
         }
     }
 
+    /*
     float aBoxSize = 2.0f;
-    
-    //DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
-    //DrawRect(mCenterX + gTileWidth / 2.0f - aBoxSize, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
-    //DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, gTileWidth, aBoxSize);
-    //DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY + gTileHeight / 2.0f - aBoxSize, gTileWidth, aBoxSize);
-    
+    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
+    Graphics::DrawRect(mCenterX + gTileWidth / 2.0f - aBoxSize, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
+    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, gTileWidth, aBoxSize);
+    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY + gTileHeight / 2.0f - aBoxSize, gTileWidth, aBoxSize);
+    */
 }
 
 void GameTile::DrawConnections() {
@@ -139,18 +109,27 @@ void GameTile::DrawConnections() {
 }
 
 bool GameTile::IsBlocked() {
-    bool aReturn = false;
-    if(mBlocked)aReturn = true;
-    if(mOccupied)aReturn = true;
-    if(mType == TILE_TYPE_BLOCKED)aReturn = true;
-    return aReturn;
+    bool aResult = false;
+    if(mBlocked)aResult = true;
+    if(mOccupied)aResult = true;
+    if(mType == TILE_TYPE_BLOCKED)aResult = true;
+    return aResult;
 }
 
 bool GameTile::IsNormal() {
-    bool aReturn = true;
-    if(IsBlocked())aReturn = false;
-    if(mType != TILE_TYPE_NORMAL)aReturn = false;
-    return aReturn;
+    bool aResult = true;
+    if(IsBlocked())aResult = false;
+    if(mType != TILE_TYPE_NORMAL)aResult = false;
+    return aResult;
+}
+
+bool GameTile::IsRamp() {
+    bool aResult = false;
+    if (mType == TILE_TYPE_RAMP_U) aResult = true;
+    if (mType == TILE_TYPE_RAMP_R) aResult = true;
+    if (mType == TILE_TYPE_RAMP_D) aResult = true;
+    if (mType == TILE_TYPE_RAMP_L) aResult = true;
+    return aResult;
 }
 
 void GameTile::ConnectTo(GameTile *pTile, int pCost) {
@@ -173,13 +152,13 @@ void GameTile::PathReset() {
 }
 
 bool GameTile::PlacementAllowed() {
-    bool aReturn = false;
+    bool aResult = false;
     if (mType == TILE_TYPE_NORMAL) {
         if (mBlocked == false) {
-            aReturn = true;
+            aResult = true;
         }
     }
-    return aReturn;
+    return aResult;
 }
 
 FXMLTag *GameTile::Save() {

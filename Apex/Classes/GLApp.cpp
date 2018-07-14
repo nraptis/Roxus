@@ -22,13 +22,14 @@ float gTileHeight = 46.0f;
 float gTileWidth2 = 46.0f;
 float gTileHeight2 = 46.0f;
 
-
 float gArenaActiveWidth = 512.0f;
 float gArenaActiveWidth2 = 256.0f;
 float gArenaActiveHeight = 512.0f;
 float gArenaActiveHeight2 = 256.0f;
 float gArenaActiveX = 0.0f;
 float gArenaActiveY = 0.0f;
+
+bool gEditorMode = false;
 
 GLApp *gApp = 0;
 GLApp::GLApp() {
@@ -37,6 +38,11 @@ GLApp::GLApp() {
 
     //TODO: Twiddle
     mDarkMode = false;
+    //mDarkMode = true;
+
+    //gEnableEditor = false;
+    gEditorMode = true;
+    
 }
 
 GLApp::~GLApp() {
@@ -151,9 +157,13 @@ void GLApp::LoadComplete() {
 
     //mGame = new Game();
     //mWindowMain.AddChild(mGame);
+
     
     mWorld = new WorldContainer();
     mWindowMain.AddChild(mWorld);
+
+
+    //gEditor = new
 
     
     //Util_ScreenFrame *aScreenFrameUtil = new Util_ScreenFrame();

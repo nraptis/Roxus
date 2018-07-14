@@ -20,8 +20,8 @@ int gVirtualHeight = gWindowHeight;
 
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 568.0f;
-int gWindowHeight = 768.0f;
+int gWindowWidth = 1080.0f;
+int gWindowHeight = 808.0f;
 
 int gVirtualX = 4.0f;
 int gVirtualY = 4.0f;

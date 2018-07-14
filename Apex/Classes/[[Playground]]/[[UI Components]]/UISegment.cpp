@@ -47,6 +47,16 @@ void UISegment::Layout() {
     }
 }
 
+void UISegment::Update() {
+    if (mTarget) {
+        if (*mTarget != mSelectedIndex) {
+            if (*mTarget >= 0 && *mTarget < mSegmentCount) {
+                SetSelectedIndex(*mTarget);
+            }
+        }
+    }
+}
+
 void UISegment::SetSegmentCount(int pSegmentCount) {
     for (int i=0;i<mSegmentCount;i++) {
         mButton[i]->Kill();
@@ -99,28 +109,27 @@ void UISegment::SetTarget(int *pTarget) {
     mTarget = pTarget;
     if (mTarget) {
         int aIndex = (*pTarget);
-        if((aIndex >= 0) && (aIndex < mSegmentCount)) {
-            mSelectedIndex = aIndex;
-            for(int i=0;i<mSegmentCount;i++)mButton[i]->SetSelected(false);
-            mButton[mSelectedIndex]->SetSelected(true);
-        }
+        SetSelectedIndex(aIndex);
+    }
+}
+
+void UISegment::SetSelectedIndex(int pIndex) {
+    if((pIndex >= 0) && (pIndex < mSegmentCount)) {
+        mSelectedIndex = pIndex;
+        for(int i=0;i<mSegmentCount;i++)mButton[i]->SetSelected(false);
+        mButton[mSelectedIndex]->SetSelected(true);
     }
 }
 
 void UISegment::Notify(void *pSender, const char *pNotification) {
-    Log("UISegment::Notify(%s)\n", pNotification);
-    
     if (FString("button_click") == pNotification) {
         for (int aCheckIndex=0;aCheckIndex<mSegmentCount;aCheckIndex++) {
             if (pSender == mButton[aCheckIndex]) {
                 mSelectedIndex = aCheckIndex;
                 for(int i=0;i<mSegmentCount;i++)mButton[i]->SetSelected(false);
                 mButton[mSelectedIndex]->SetSelected(true);
-                if (mTarget) {
-                    *mTarget = mSelectedIndex;
-                }
+                if (mTarget) { *mTarget = mSelectedIndex; }
                 gNotify.Post(this, "segment");
-
             }
         }
     }

@@ -12,36 +12,29 @@
 #include "TilePathFinder.h"
 #include "GameTile.h"
 
-#define PATH_DIRECTION_NULL 0
-#define PATH_DIRECTION_UP 1
-#define PATH_DIRECTION_DOWN 2
-#define PATH_DIRECTION_LEFT 3
-#define PATH_DIRECTION_RIGHT 4
-#define PATH_DIRECTION_UPLEFT 5
-#define PATH_DIRECTION_UPRIGHT 6
-#define PATH_DIRECTION_DOWNLEFT 7
-#define PATH_DIRECTION_DOWNRIGHT 8
+//#define PATH_DIRECTION_NULL 0
+//#define PATH_DIRECTION_UP 1
+//#define PATH_DIRECTION_DOWN 2
+//#define PATH_DIRECTION_LEFT 3
+//#define PATH_DIRECTION_RIGHT 4
+//#define PATH_DIRECTION_UPLEFT 5
+//#define PATH_DIRECTION_UPRIGHT 6
+//#define PATH_DIRECTION_DOWNLEFT 7
+//#define PATH_DIRECTION_DOWNRIGHT 8
 
-
+//The most basic form of path, contains only grid data
+//and computes most efficient path using modified A*
 class GameArena;
-
-class GamePath
-{
+class GamePath {
 public:
     
     GamePath();
     ~GamePath();
+
+    TilePathFinder                      mPathFinder;
     
-    void                                Update();
-    void                                Draw();
-    
-    GameArena                           *mArena;
-    
-    void                                ComputePath();
-    void                                ComputeSmoothPath();
-    
-    void                                AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, int pGridZ);
-    
+    void                                ComputePath(GameArena *pArena);
+
     int                                 mStartX;
     int                                 mStartY;
     int                                 mStartZ;
@@ -52,24 +45,24 @@ public:
     
     int                                 mLength;
     int                                 mSize;
-    
+
     int                                 *mPathX;
     int                                 *mPathY;
     int                                 *mPathZ;
 
-    float                               *mSmoothPathX;
-    float                               *mSmoothPathY;
-    float                               *mSmoothPathZ;
+    //float                               *mSmoothPathX;
+    //float                               *mSmoothPathY;
+    //float                               *mSmoothPathZ;
     
-    int                                 *mSmoothPathGridX;
-    int                                 *mSmoothPathGridY;
-    int                                 *mSmoothPathGridZ;
+    //int                                 *mSmoothPathGridX;
+    //int                                 *mSmoothPathGridY;
+    //int                                 *mSmoothPathGridZ;
     
-    int                                 *mSmoothPathDrawZ;
+    //int                                 *mSmoothPathDrawZ;
     
-    int                                 mSmoothLength;
-    int                                 mSmoothSize;
-    
+    //int                                 mSmoothLength;
+    //int                                 mSmoothSize;
+
     FXMLTag                             *Save();
     void                                Load(FXMLTag *pTag);
 };

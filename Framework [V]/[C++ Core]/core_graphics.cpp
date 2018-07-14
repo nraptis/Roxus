@@ -1144,32 +1144,26 @@ void Graphics::DrawTrianglePrimitive(unsigned int pType, unsigned int *pIndexLis
     DrawTrianglePrimitive(pType, pIndexList, pCount);
 }
 
-void Graphics::DrawTrianglePrimitive(unsigned int pType, unsigned int *pIndexList, int pCount)
-{
+void Graphics::DrawTrianglePrimitive(unsigned int pType, unsigned int *pIndexList, int pCount) {
     glDrawElements(pType, pCount, GFX_MODEL_INDEX_GL_TYPE, pIndexList);
 }
 
-void Graphics::DrawTrianglePrimitive(unsigned int pType, unsigned short *pIndexList, int pCount)
-{
-    glDrawElements(pType, pCount, GL_UNSIGNED_SHORT, pIndexList);
+void Graphics::DrawTrianglePrimitive(unsigned int pType, unsigned short *pIndexList, int pCount) {
+    glDrawElements(pType, pCount, GFX_MODEL_INDEX_GL_TYPE, pIndexList);
 }
 
-void Graphics::DrawTrianglePrimitive(unsigned int pType, int pCount)
-{
+void Graphics::DrawTrianglePrimitive(unsigned int pType, int pCount) {
     glDrawArrays(pType, 0, pCount);
 }
 
-void Graphics::Rotate(float pDegreesX, float pDegreesY, float pDegreesZ)
-{
+void Graphics::Rotate(float pDegreesX, float pDegreesY, float pDegreesZ) {
     RotateX(pDegreesX);
     RotateY(pDegreesY);
     RotateZ(pDegreesZ);
 }
 
-void Graphics::Rotate(float pDegrees, float pAxisX, float pAxisY, float pAxisZ)
-{
-    if(pDegrees != 0)
-    {
+void Graphics::Rotate(float pDegrees, float pAxisX, float pAxisY, float pAxisZ) {
+    if (pDegrees != 0) {
         glRotatef(pDegrees, pAxisX, pAxisY, pAxisZ);
     }
 }
@@ -1275,80 +1269,60 @@ void Graphics::MatrixLoadIdentity() {
 void Graphics::Go2D() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
     SetShadeFlat();
-    
     glOrthof(0, gDeviceWidth, gDeviceHeight, 0, 1024.0f, -1024.0f);
-    
     DisableCullFaces();
     DisableDepth();
     DisableLighting();
-    
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    
 }
 
-void Graphics::CullFacesEnable()
-{
+void Graphics::CullFacesEnable() {
     glEnable(GL_CULL_FACE);
 }
 
-void Graphics::CullFacesDisable()
-{
+void Graphics::CullFacesDisable() {
     glDisable(GL_CULL_FACE);
 }
 
-void Graphics::CullFacesSetFront()
-{
+void Graphics::CullFacesSetFront() {
     glCullFace(GL_FRONT);
 }
 
-void Graphics::CullFacesSetBack()
-{
+void Graphics::CullFacesSetBack() {
     glCullFace(GL_BACK);
 }
 
-
-void Graphics::TestBlend(int pType1, int pType2)
-{
+void Graphics::TestBlend(int pType1, int pType2) {
     unsigned int aBlend1 = GL_SRC_ALPHA;
     unsigned int aBlend2 = GL_ONE_MINUS_SRC_ALPHA;
     
-    for(int i=0;i<2;i++)
-    {
+    for (int i=0;i<2;i++) {
         unsigned int aIndex;
         int aCheck;
-        
-        if(i==0)
-        {
-            aIndex=aBlend1;
-            aCheck=pType1;
+        if (i == 0) {
+            aIndex = aBlend1;
+            aCheck = pType1;
+        } else {
+            aIndex = aBlend2;
+            aCheck = pType2;
         }
-        else
-        {
-            aIndex=aBlend2;
-            aCheck=pType2;
-        }
-        
-        if(aCheck==0)aIndex=GL_ZERO;
-        if(aCheck==1)aIndex=GL_ONE;
-        if(aCheck==2)aIndex=GL_SRC_COLOR;
-        if(aCheck==3)aIndex=GL_ONE_MINUS_SRC_COLOR;
-        if(aCheck==4)aIndex=GL_DST_ALPHA;
-        if(aCheck==5)aIndex=GL_ONE_MINUS_DST_ALPHA;
-        if(aCheck==6)aIndex=GL_DST_COLOR;
-        if(aCheck==7)aIndex=GL_ONE_MINUS_DST_COLOR;
-        if(aCheck==8)aIndex=GL_SRC_ALPHA_SATURATE;
-        
-        if(i==0)aBlend1=aIndex;
-        else aBlend2=aIndex;
-        
-        
+
+        if (aCheck == 0 ) aIndex = GL_ZERO;
+        if (aCheck == 1 ) aIndex = GL_ONE;
+        if (aCheck == 2 ) aIndex = GL_SRC_COLOR;
+        if (aCheck == 3 ) aIndex = GL_ONE_MINUS_SRC_COLOR;
+        if (aCheck == 4 ) aIndex = GL_DST_ALPHA;
+        if (aCheck == 5 ) aIndex = GL_ONE_MINUS_DST_ALPHA;
+        if (aCheck == 6 ) aIndex = GL_DST_COLOR;
+        if (aCheck == 7 ) aIndex = GL_ONE_MINUS_DST_COLOR;
+        if (aCheck == 8 ) aIndex = GL_SRC_ALPHA_SATURATE;
+
+        if (i == 0) { aBlend1 = aIndex; }
+        else { aBlend2 = aIndex; }
     }
-    
     glBlendFunc(aBlend1, aBlend2);
 }
 

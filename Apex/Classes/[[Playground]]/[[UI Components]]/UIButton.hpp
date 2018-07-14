@@ -25,7 +25,7 @@ public:
     float                                   GetIdealSize();
 
     void                                    SetTransparentBackground();
-
+    
     UIRoundedRect                           mButtonBackground;
     UIRoundedRect                           mButtonOutline;
 

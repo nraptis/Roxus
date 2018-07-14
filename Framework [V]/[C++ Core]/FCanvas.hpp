@@ -141,8 +141,8 @@ public:
     bool                                        mClipEnabled;
     bool                                        mClipDisabled;;
 
-    void                                        Activate() { mHidden = false; mEnabled = true; }
-    void                                        Deactivate() { mHidden = true; mEnabled = false; }
+    void                                        Activate();
+    void                                        Deactivate();
 
     bool                                        mHidden;
     bool                                        mEnabled;

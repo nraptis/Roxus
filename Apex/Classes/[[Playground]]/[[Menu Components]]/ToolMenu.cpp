@@ -53,11 +53,13 @@ void ToolMenu::Layout() {
     float aContentHeight = 0.0f;
     EnumList(ToolMenuSection, aSection, mSectionList) {
         SetSectionDepths(aSection, 0);
-        SetMenu(aSection);
-        if (mManualSectionLayout == false) {
-            aSection->SetFrame(2.0f, aContentHeight, aContentWidth - 4.0f, aSection->mHeight);
+        if (aSection->mHidden == false) {
+            SetMenu(aSection);
+            if (mManualSectionLayout == false) {
+                aSection->SetFrame(2.0f, aContentHeight, aContentWidth - 4.0f, aSection->mHeight);
+            }
+            aContentHeight += aSection->mHeight;
         }
-        aContentHeight += aSection->mHeight;
     }
     mContent.SetFrame(2.0f, aHeaderHeight + 2.0f, aContentWidth, mHeight - (aHeaderHeight + 4.0f));
     mScrollContent.SetFrame(2.0f, aHeaderHeight + 2.0f, aContentWidth, mHeight - (aHeaderHeight + 4.0f));

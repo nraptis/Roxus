@@ -9,16 +9,18 @@
 #include "WorldContainer.hpp"
 #include "GLApp.h"
 #include "WorldMenu.hpp"
+#include "EditorMainMenu.hpp"
 
 WorldContainer *gWorldContainer = 0;
 WorldContainer::WorldContainer() {
+    gWorldContainer = this;
+
     mTestMenu = 0;
     mGestureContainer = 0;
     mTransformContainer = 0;
     mArena = 0;
-
-    gWorldContainer = this;
-    mName = "path_editor";
+    
+    mName = "world_container";
 
     mGestureContainer = new WorldGestureContainer();
     AddChild(mGestureContainer);
@@ -31,11 +33,20 @@ WorldContainer::WorldContainer() {
     //mTestMenu = new WorldMenu(this);
     //AddChild(mTestMenu);
 
-    mArena = new GameArena();
+    if (gEditorMode) {
+        gEditor = new EditorGameArena();
+        mArena = gEditor;
+        mEditorMenu = new EditorMainMenu();
+        AddChild(mEditorMenu);
+    } else {
+        mArena = new GameArena();
+    }
 }
 
 WorldContainer::~WorldContainer() {
-    gWorldContainer = 0;
+    if (gWorldContainer == this) {
+        gWorldContainer = 0;
+    }
     if (mGestureContainer) {
         mGestureContainer = 0;
     }
@@ -43,7 +54,16 @@ WorldContainer::~WorldContainer() {
 
 void WorldContainer::Layout() {
     if (mParent) {
-        SetFrame(2.0f, 2.0f, mParent->mWidth - 4.0f, mParent->mHeight - 4.0f);
+        SetFrame(0.0f, 0.0f, mParent->mWidth, mParent->mHeight);
+        if (mDidUpdate == false) {
+            float aWidth = mWidth - 64.0f;
+            if (aWidth > 420.0f) { aWidth = 420.0f; }
+            if (mEditorMenu->mExpanded) {
+                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, 540.0f);
+            } else {
+                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, mEditorMenu->GetHeight());
+            }
+        }
     }
 }
 
@@ -54,7 +74,6 @@ void WorldContainer::Update() {
 }
 
 void WorldContainer::Draw() {
-
     FDrawQuad aQuad;
     aQuad.SetColorBottom(0.04f, 0.06f, 0.03f);
     aQuad.SetColorTop(0.02f, 0.02f, 0.05f);
@@ -64,14 +83,10 @@ void WorldContainer::Draw() {
     aQuad.SetColorRight(0.02f, 0.06f, 0.05f, 0.25f);
     aQuad.Draw();
 
-
     Graphics::SetColor(0.08f, 0.08f, 0.08f, 0.08f);
     Graphics::OutlineRectInside(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f, 10.0f);
-    
     Graphics::SetColor();
 
-
-    //mArena
     if (mTransformContainer != 0 && mArena != 0) {
         mTransformContainer->DrawTransform();
         mArena->Draw();
@@ -105,5 +120,3 @@ void WorldContainer::KeyUp(int pKey) {
 void WorldContainer::Notify(void *pSender, const char *pNotification) {
 
 }
-
-

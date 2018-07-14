@@ -21,9 +21,13 @@ public:
     
     virtual void                                Layout();
 
+    virtual void                                Update();
+    
     virtual void                                Notify(void *pSender, const char *pNotification);
 
     void                                        SetSegmentCount(int pSegmentCount);
+    void                                        SetSelectedIndex(int pIndex);
+
 
     void                                        SetTitle(int pSegment, const char *pTitle);
     void                                        SetTitles(const char *pTitle1, const char *pTitle2=0, const char *pTitle3=0, const char *pTitle4=0, const char *pTitle5=0, const char *pTitle6=0);

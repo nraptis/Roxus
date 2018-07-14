@@ -21,7 +21,6 @@ void FNotificationCenter::Register(FCanvas *pObserver, FCanvas *pSender, const c
     mRegisterTable.Add(pObserver, mSendTable.Add(pNotification, pObserver, pSender));
 }
 
-
 void FNotificationCenter::Unregister(FCanvas *pObserver, FCanvas *pSender, const char *pNotification) {
     FNotificationReceiverMapNode *aRegistrationNode = mRegisterTable.GetNode(pObserver);
     if (aRegistrationNode != 0) {

@@ -8,6 +8,8 @@
 
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
+#include "WorldContainer.hpp"
+#include "GameArena.h"
 #include "GLApp.h"
 
 WorldGestureContainer::WorldGestureContainer() {
@@ -22,6 +24,8 @@ WorldGestureContainer::WorldGestureContainer() {
 
     mWorldScale = 0.75f;
     mWorldPinchStartScale = mWorldScale;
+
+    mWorldRotation = 0.0f;
 
     mWorldPinchStartTouchCenterX = 0.0f;
     mWorldPinchStartTouchCenterY = 0.0f;
@@ -41,18 +45,19 @@ void WorldGestureContainer::Layout() {
     if (mParent) {
         SetFrame(0.0f, 0.0f, mParent->mWidth, mParent->mHeight);
         FRect aBounds = FRect(0.0f, 0.0f, mWidth, mHeight);
+        mWorldRotation = 0.0f;
         mWorldPinchStartTouchCenterX = mWidth2;
         mWorldPinchStartTouchCenterY = mHeight2;
         mWorldPinchTouchCenterX = mWidth2;
         mWorldPinchTouchCenterY = mHeight2;
         if (mWorldTransform) {
-            float aWorldWidth = mWorldTransform->mWidth;
-            float aWorldHeight = mWorldTransform->mHeight;
+            float aWorldWidth = gArenaActiveWidth;
+            float aWorldHeight = gArenaActiveHeight;
             float aWorldScale = 1.0f;
             FRect aFit = FRect::FitAspectFit(aBounds, aWorldWidth, aWorldHeight, 10.0f, aWorldScale);
             mWorldScale = aWorldScale;
-            mWorldOffsetX = mWidth2;
-            mWorldOffsetY = mHeight2;
+            mWorldOffsetX = mWidth2 + gArenaActiveX * aWorldScale;
+            mWorldOffsetY = mHeight2 + gArenaActiveY * aWorldScale;
             mWorldPinchStartArenaX = mWorldTransform->mWidth2;
             mWorldPinchStartArenaY = mWorldTransform->mHeight2;
         }
@@ -61,84 +66,90 @@ void WorldGestureContainer::Layout() {
 
 void WorldGestureContainer::Update() {
 
-        mWorldTransform->SetTransformX(mWorldOffsetX);
-        mWorldTransform->SetTransformY(mWorldOffsetY);
-        mWorldTransform->SetTransformScale(mWorldScale);
-        mWorldTransform->SetTransformRotation(mWorldRotation);
-
-        //if (mIsPinching) {
-
-            //We force our transformation to compute once, then our "arena touch point"
-            //becomes correct and we can see how much our other transforms have displaced
-            //the total arena from the center of where our touches landed...
-            //TODO: Only need to do this if something changed...
-            ComputeAbsoluteTransformation();
-
-            //Now our offset discrepency will be computed correctly...
-            float aArenaStartX = mWorldPinchStartArenaX;
-            float aArenaStartY = mWorldPinchStartArenaY;
-            float aTouchCenterX = mWorldPinchTouchCenterX;
-            float aTouchCenterY = mWorldPinchTouchCenterY;
-            ConvertPoint(aArenaStartX, aArenaStartY, mWorldTransform, this);
+    mWorldTransform->SetTransformX(mWorldOffsetX);
+    mWorldTransform->SetTransformY(mWorldOffsetY);
+    mWorldTransform->SetTransformScale(mWorldScale);
+    mWorldTransform->SetTransformRotation(mWorldRotation);
 
 
-            float aShiftX = aTouchCenterX - aArenaStartX;
-            float aShiftY = aTouchCenterY - aArenaStartY;
+    //if ((gEnvironment != ENV_WIN32 && gEnvironment != ENV_MAC) || (mIsPanning == false)) {
+    //We force our transformation to compute once, then our "arena touch point"
+    //becomes correct and we can see how much our other transforms have displaced
+    //the total arena from the center of where our touches landed...
+    //TODO: Only need to do this if something changed...
+    ComputeAbsoluteTransformation();
 
-            //Where we are on THIS minus where we were on THIS...
-            mWorldOffsetX += aShiftX;
-            mWorldOffsetY += aShiftY;
-
-            mWorldTransform->SetTransformX(mWorldOffsetX);
-            mWorldTransform->SetTransformY(mWorldOffsetY);
-
-            //We force our transformation to compute once...
-            ComputeAbsoluteTransformation();
-
-
-            //aArenaStartX -= aShiftX;
-            //aArenaStartY -= aShiftY;
+    //Now our offset discrepency will be computed correctly...
+    float aArenaStartX = mWorldPinchStartArenaX;
+    float aArenaStartY = mWorldPinchStartArenaY;
+    float aTouchCenterX = mWorldPinchTouchCenterX;
+    float aTouchCenterY = mWorldPinchTouchCenterY;
+    ConvertPoint(aArenaStartX, aArenaStartY, mWorldTransform, this);
 
 
-            ConvertPoint(aArenaStartX, aArenaStartY, this, mWorldTransform);
+    float aShiftX = aTouchCenterX - aArenaStartX;
+    float aShiftY = aTouchCenterY - aArenaStartY;
 
-            //mWorldPinchStartArenaX = aArenaStartX;
-            //mWorldPinchStartArenaY = aArenaStartY;
+    //Where we are on THIS minus where we were on THIS...
+    mWorldOffsetX += aShiftX;
+    mWorldOffsetY += aShiftY;
 
-            //mWorldPinchStartTouchCenterX -= aShiftX;
-            //mWorldPinchStartTouchCenterY -= aShiftY;
+    mWorldTransform->SetTransformX(mWorldOffsetX);
+    mWorldTransform->SetTransformY(mWorldOffsetY);
 
-  //      }
+    ComputeAbsoluteTransformation();
+    ConvertPoint(aArenaStartX, aArenaStartY, this, mWorldTransform);
 
+    //}
 
 }
 
 void WorldGestureContainer::Draw() {
-    Graphics::SetColor(1.0f, 0.66f, 0.66f, 0.25f);
-    Graphics::DrawRect(0.0f, 0.0f, mWidth, mHeight);
-    Graphics::SetColor();
+    
+    /*
+     Graphics::SetColor(1.0f, 0.66f, 0.66f, 0.25f);
+     Graphics::DrawRect(0.0f, 0.0f, mWidth, mHeight);
+     Graphics::SetColor();
 
-    float aColorCycle1 = 0.0f;
-    float aColorCycle2 = 0.0f;
+     float aColorCycle1 = 0.0f;
+     float aColorCycle2 = 0.0f;
 
-    for (float aY = 0.0f;aY<=mHeight;aY += 4.0f) {
-        Graphics::SetColor(0.25f, aColorCycle1 * 0.25f, (1.0f - aColorCycle2) * 0.25f, 0.65f);
-        Graphics::DrawRect(0.0f, aY, mWidth, 2.0f);
+     for (float aY = 0.0f;aY<=mHeight;aY += 4.0f) {
+     Graphics::SetColor(0.25f, aColorCycle1 * 0.25f, (1.0f - aColorCycle2) * 0.25f, 0.65f);
+     Graphics::DrawRect(0.0f, aY, mWidth, 2.0f);
 
-        aColorCycle1 += 0.1f;
-        if (aColorCycle1 > 1.0f) {
-            aColorCycle1 -= 1.0f;
-        }
+     aColorCycle1 += 0.1f;
+     if (aColorCycle1 > 1.0f) {
+     aColorCycle1 -= 1.0f;
+     }
 
-        aColorCycle2 += 0.05f;
-        if (aColorCycle2 > 1.0f) {
-            aColorCycle2 -= 1.0f;
-        }
-    }
+     aColorCycle2 += 0.05f;
+     if (aColorCycle2 > 1.0f) {
+     aColorCycle2 -= 1.0f;
+     }
+     }
+     
+     */
 
 }
 
 void WorldGestureContainer::TouchDown(float pX, float pY, void *pData) {
+
+    if (gEnvironment == ENV_WIN32 || gEnvironment == ENV_MAC) {
+        if (mTouchCount > 0) {
+            //mMouseZoomCenterX = mTouch[0]->mX;
+            //mMouseZoomCenterY = mTouch[0]->mY;
+
+            mWorldPinchStartTouchCenterX = mTouch[0]->mX;
+            mWorldPinchStartTouchCenterY = mTouch[0]->mY;
+            mWorldPinchTouchCenterX = mWorldPinchStartTouchCenterX;
+            mWorldPinchTouchCenterY = mWorldPinchStartTouchCenterY;
+
+            mWorldPinchStartArenaX = mWorldPinchTouchCenterX;
+            mWorldPinchStartArenaY = mWorldPinchTouchCenterY;
+            mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
+        }
+    }
 
     if (mWorldTransform) {
         //float aX = pX;
@@ -152,7 +163,6 @@ void WorldGestureContainer::TouchDown(float pX, float pY, void *pData) {
         //PinchBegin(1.0f);
         
     }
-
 }
 
 void WorldGestureContainer::TouchMove(float pX, float pY, void *pData) {
@@ -167,6 +177,15 @@ void WorldGestureContainer::TouchFlush() {
 
 }
 
+void WorldGestureContainer::MouseWheel(int pDirection) {
+    printf("WorldGestureContainer::MouseWheel(%d)\n", pDirection);
+    if (pDirection > 0) {
+        mWorldScale = mWorldScale * 1.05f;
+    } else {
+        mWorldScale = mWorldScale * 0.95f;
+    }
+}
+
 void WorldGestureContainer::KeyDown(int pKey) {
 
 }
@@ -178,9 +197,6 @@ void WorldGestureContainer::KeyUp(int pKey) {
 void WorldGestureContainer::Notify(void *pSender, const char *pNotification) {
 
 }
-
-
-
 
 void WorldGestureContainer::PanBegin(float pX, float pY) {
 
@@ -199,15 +215,30 @@ void WorldGestureContainer::PanBegin(float pX, float pY) {
     //mWorldPinchStartScale = mWorldScale;
 
     if (mIsPinching == false) {
-        mWorldPinchStartTouchCenterX = 0.0f;
-        mWorldPinchStartTouchCenterY = 0.0f;
-        mWorldPinchTouchCenterX = 0.0f;
-        mWorldPinchTouchCenterY = 0.0f;
-        mWorldPinchStartArenaX = 0.0f;
-        mWorldPinchStartArenaY = 0.0f;
-        mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
-    }
 
+        /*
+        if (gEnvironment != ENV_WIN32 && gEnvironment != ENV_MAC) {
+            //TODO: This may or may not be necessary on mobile..
+            mWorldPinchStartTouchCenterX = 0.0f;
+            mWorldPinchStartTouchCenterY = 0.0f;
+            mWorldPinchTouchCenterX = 0.0f;
+            mWorldPinchTouchCenterY = 0.0f;
+            mWorldPinchStartArenaX = 0.0f;
+            mWorldPinchStartArenaY = 0.0f;
+            mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
+        } else
+        */
+
+        if (mTouchCount > 0) {
+            mWorldPinchStartTouchCenterX = mTouch[0]->mX;
+            mWorldPinchStartTouchCenterY = mTouch[0]->mY;
+            mWorldPinchTouchCenterX = mWorldPinchStartTouchCenterX;
+            mWorldPinchTouchCenterY = mWorldPinchStartTouchCenterY;
+            mWorldPinchStartArenaX = mWorldPinchTouchCenterX;
+            mWorldPinchStartArenaY = mWorldPinchTouchCenterY;
+            mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
+        }
+    }
 }
 
 void WorldGestureContainer::Pan(float pX, float pY) {
@@ -216,27 +247,17 @@ void WorldGestureContainer::Pan(float pX, float pY) {
 
     mWorldPinchTouchCenterX = mWorldPinchStartTouchCenterX + mGesturePanDistX;
     mWorldPinchTouchCenterY = mWorldPinchStartTouchCenterY + mGesturePanDistY;
-
-    printf("Pan(%f, %f)\n", mGesturePanDistX, mGesturePanDistY);
 }
 
 void WorldGestureContainer::PanEnd(float pX, float pY, float pSpeedX, float pSpeedY) {
-    printf("***PanEnd(%f, %f)\n", mGesturePanDistX, mGesturePanDistY);
 
-
-
-    
 }
 
 void WorldGestureContainer::PinchBegin(float pScale) {
     mWorldPinchStartScale = mWorldScale;
-    printf("***PinchBegin(%f)\n", mWorldPinchStartScale);
-
-    //Kludge, normally we wouldn't set these here...
-    //mTouch[0]->mX = mWorldPinchStartTouchCenterX;
-    //mTouch[0]->mY = mWorldPinchStartTouchCenterY;
-    //mTouch[1]->mX = mWorldPinchStartTouchCenterX;
-    //mTouch[1]->mY = mWorldPinchStartTouchCenterY;
+    if (gEnvironment == ENV_MAC || gEnvironment == ENV_WIN32) {
+        printf("***FATAL ERROR*** [Pinching on Computer]\n");
+    }
 
     mWorldPinchStartTouchCenterX = (mTouch[0]->mX + mTouch[1]->mX) * 0.5f;
     mWorldPinchStartTouchCenterY = (mTouch[0]->mY + mTouch[1]->mY) * 0.5f;
@@ -252,42 +273,17 @@ void WorldGestureContainer::PinchBegin(float pScale) {
 void WorldGestureContainer::Pinch(float pScale) {
     //mWorldPinchStartScale = mWorldScale;
     mWorldScale = mWorldPinchStartScale * pScale;
-
-    printf("Pinch(%f)\n", pScale);
 }
 
 void WorldGestureContainer::PinchEnd(float pScale) {
-    printf("***PinchEnd(%f)\n", pScale);
 
+}
 
-    /*
-    //We force our transformation to compute once, then our "arena touch point"
-    //becomes correct and we can see how much our other transforms have displaced
-    //the total arena from the center of where our touches landed...
-    //TODO: Only need to do this if something changed...
-    ComputeAbsoluteTransformation();
-
-    //Now our offset discrepency will be computed correctly...
-    float aArenaStartX = mWorldPinchStartArenaX;
-    float aArenaStartY = mWorldPinchStartArenaY;
-    float aTouchCenterX = mWorldPinchTouchCenterX;
-    float aTouchCenterY = mWorldPinchTouchCenterY;
-
-    //Where we were in the arena, converted with the current transformation...
-    ConvertPoint(aArenaStartX, aArenaStartY, mWorldTransform, this);
-
-    //Where we are on THIS minus where we were on THIS...
-    mWorldOffsetX += (aTouchCenterX - aArenaStartX);
-    mWorldOffsetY += (aTouchCenterY - aArenaStartY);
-
-    mWorldTransform->SetTransformX(mWorldOffsetX);
-    mWorldTransform->SetTransformY(mWorldOffsetY);
-
-    //We force our transformation to compute once...
-    ComputeAbsoluteTransformation();
-
-    */
-
+void WorldGestureContainer::TapSingle(float pX, float pY) {
+    float aX = pX;
+    float aY = pY;
+    mWorldTransform->ConvertPoint(aX, aY, this);
+    gArena->Click(aX, aY);
 }
 
 void WorldGestureContainer::TapDouble(float pX, float pY) {
@@ -305,37 +301,4 @@ void WorldGestureContainer::Rotate(float pRotation) {
 void WorldGestureContainer::RotateEnd(float pRotation) {
 
 }
-
-//float WorldGestureContainer::UntransformX(float pX) {
-//    float aResult = pX;
-//    if (mWorldTransform) {
-//        aResult = mWidth2 + (aResult - mWorldTransform->mWidth2) * mWorldScale;
-//    }
-//    return aResult;
-//    //return mCenterX + (pX - gArenaWidth2) * mZoomScale;
-//}
-//
-//float WorldGestureContainer::UntransformY(float pY) {
-//    float aResult = pY;
-//    if (mWorldTransform) {
-//        aResult = mHeight2 + (aResult - mWorldTransform->mHeight2) * mWorldScale;
-//    }
-//    return aResult;
-//}
-//
-//float WorldGestureContainer::TransformX(float pX) {
-//    float aResult = pX;
-//    if (mWorldTransform) {
-//        aResult = mWorldTransform->mWidth2 + (aResult - mWidth2) / mWorldScale;
-//    }
-//    return aResult;
-//}
-//
-//float WorldGestureContainer::TransformY(float pY) {
-//
-//
-//
-//    return gArenaHeight2 + (pY - mCenterY) / mZoomScale;
-//}
-
 

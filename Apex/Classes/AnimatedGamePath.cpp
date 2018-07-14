@@ -9,6 +9,8 @@
 #include "AnimatedGamePath.hpp"
 
 AnimatedGamePath::AnimatedGamePath() {
+    mSelected = false;
+    mEditorMode = false;
 
 }
 
@@ -22,6 +24,74 @@ void AnimatedGamePath::Update() {
 
 void AnimatedGamePath::Draw() {
     GenerateQuads();
+
+
+
+    if (mEditorMode) {
+
+
+        if (mLength >= 2) {
+
+            int aStartDirX = mPathX[1] - mPathX[0];
+            int aStartDirY = mPathY[1] - mPathY[0];
+            int aPrevGridX = mPathX[0] - aStartDirX;
+            int aPrevGridY = mPathY[0] - aStartDirY;
+            int aPrevGridZ = mPathZ[0];
+            int aGridX = 0;
+            int aGridY = 0;
+            int aGridZ = 0;
+            for (int i=0;i<mLength;i++) {
+
+                aGridX = mPathX[i];
+                aGridY = mPathY[i];
+                aGridZ = mPathZ[i];
+
+                float aPreviousCenterX = CX(aPrevGridX, aPrevGridZ);
+                float aPreviousCenterY = CY(aPrevGridY, aPrevGridZ);
+                float aCenterX = CX(aGridX, aGridZ);
+                float aCenterY = CY(aGridY, aGridZ);
+
+                if (mSelected) {
+                    Graphics::SetColor(0.25f, 0.25f, 0.25f, 1.0f);
+                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 6.0f);
+                    Graphics::SetColor(0.85f, 0.15f, 0.15f, 1.0f);
+                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 3.0f);
+                } else {
+                    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.75f);
+                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 6.0f);
+                    Graphics::SetColor(0.45f, 0.45f, 0.45f, 1.0f);
+                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 3.0f);
+                }
+
+                aPrevGridX = aGridX;
+                aPrevGridY = aGridY;
+                aPrevGridZ = aGridZ;
+            }
+        }
+
+
+
+
+        float aX1 = CX(mStartX, mStartZ);
+        float aY1 = CY(mStartY, mStartZ);
+        float aX2 = CX(mEndX, mEndZ);
+        float aY2 = CY(mEndY, mEndZ);
+
+        if (mLength < 2) {
+            Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.75f);
+            Graphics::DrawLine(aX1, aY1, aX2, aY2, 8.0f);
+        }
+
+        Graphics::SetColor();
+        gApp->mUnitCircleHard.Center(aX1, aY1);
+        gApp->mUnitCircleHard.Center(aX2, aY2);
+
+        if (mSelected) {
+            gApp->mUnitCircleSoft.Center(aX1, aY1);
+            gApp->mUnitCircleSoft.Center(aX2, aY2);
+        }
+    }
+
 }
 
 void AnimatedGamePath::ResetQuads() {
@@ -44,26 +114,10 @@ void AnimatedGamePath::GenerateQuads() {
     int aNextGridY = 0;
     int aNextGridZ = 0;
 
-    Graphics::SetColor(0.75f, 0.75f, 0.75f, 0.25f);
 
-    for (int i=0;i<mLength;i++) {
-        /*
-        aGridX = mPathX[i];
-        aGridY = mPathY[i];
-        aGridZ = mPathZ[i];
 
-        float aPreviousCenterX = CX(aPrevGridX, aPrevGridZ);
-        float aPreviousCenterY = CY(aPrevGridY, aPrevGridZ);
-        float aCenterX = CX(aGridX, aGridZ);
-        float aCenterY = CY(aGridY, aGridZ);
 
-        Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 6.0f);
 
-        aPrevGridX = aGridX;
-        aPrevGridY = aGridY;
-        aPrevGridZ = aGridZ;
-        */
-    }
 
 
     aPrevGridX = mPathX[0];
@@ -95,7 +149,8 @@ void AnimatedGamePath::GenerateQuads() {
             float aLeftX = aCenterX - gTileWidth2;
             float aRightX = aCenterX + gTileWidth2;
 
-            Graphics::DrawArrow(aLeftX, aCenterY, aRightX, aCenterY, 38.0f, 4.0f);
+            //Graphics::DrawArrow(aLeftX, aCenterY, aRightX, aCenterY, 38.0f, 4.0f);
+
 
 
         } else {
@@ -121,6 +176,9 @@ void AnimatedGamePath::GenerateQuads() {
         aGridZ = aNextGridZ;
 
     }
+
+
+
 
 }
 

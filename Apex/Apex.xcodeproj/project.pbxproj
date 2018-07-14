@@ -50,7 +50,6 @@
 		0DC1E26820F6CE14006349B6 /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23320F6CE14006349B6 /* Unit.cpp */; };
 		0DC1E26920F6CE14006349B6 /* WorldMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23520F6CE14006349B6 /* WorldMenu.cpp */; };
 		0DC1E26A20F6CE14006349B6 /* Util_ScreenFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23620F6CE14006349B6 /* Util_ScreenFrame.cpp */; };
-		0DC1E26B20F6CE14006349B6 /* EditorGameArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23720F6CE14006349B6 /* EditorGameArena.cpp */; };
 		0DC1E26C20F6CE14006349B6 /* GameArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23920F6CE14006349B6 /* GameArena.cpp */; };
 		0DC1E26D20F6CE14006349B6 /* SpriteSequenceNested.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23A20F6CE14006349B6 /* SpriteSequenceNested.cpp */; };
 		0DC1E26E20F6CE14006349B6 /* GLApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1E23B20F6CE14006349B6 /* GLApp.cpp */; };
@@ -137,10 +136,11 @@
 		50183E1720F2C55200C776FA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50183E1620F2C55200C776FA /* Cocoa.framework */; };
 		5039F4A320F7B85E0048EC1B /* AnimatedGamePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5039F4A120F7B85E0048EC1B /* AnimatedGamePath.cpp */; };
 		50CBEA8F20F2C40800DD30B2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CBEA8E20F2C40800DD30B2 /* main.cpp */; };
+		50CF4E7220F9840200C8A5E5 /* EditorMainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF4E7020F9840200C8A5E5 /* EditorMainMenu.cpp */; };
+		50E0CF9720F8E0D200616486 /* EditorGameArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E0CF9520F8E0D200616486 /* EditorGameArena.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0DC1E1DA20F6CE14006349B6 /* EditorGameArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorGameArena.h; sourceTree = "<group>"; };
 		0DC1E1DB20F6CE14006349B6 /* TowerDetailMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerDetailMenu.h; sourceTree = "<group>"; };
 		0DC1E1DC20F6CE14006349B6 /* GameArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameArena.h; sourceTree = "<group>"; };
 		0DC1E1DD20F6CE14006349B6 /* TowerBullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerBullet.h; sourceTree = "<group>"; };
@@ -228,7 +228,6 @@
 		0DC1E23420F6CE14006349B6 /* TilePathFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilePathFinder.h; sourceTree = "<group>"; };
 		0DC1E23520F6CE14006349B6 /* WorldMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldMenu.cpp; sourceTree = "<group>"; };
 		0DC1E23620F6CE14006349B6 /* Util_ScreenFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_ScreenFrame.cpp; sourceTree = "<group>"; };
-		0DC1E23720F6CE14006349B6 /* EditorGameArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorGameArena.cpp; sourceTree = "<group>"; };
 		0DC1E23820F6CE14006349B6 /* TowerPickerMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerPickerMenuButton.h; sourceTree = "<group>"; };
 		0DC1E23920F6CE14006349B6 /* GameArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameArena.cpp; sourceTree = "<group>"; };
 		0DC1E23A20F6CE14006349B6 /* SpriteSequenceNested.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteSequenceNested.cpp; sourceTree = "<group>"; };
@@ -395,6 +394,10 @@
 		50CBEA8520F2C31000DD30B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CBEA8820F2C31000DD30B2 /* Apex.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Apex.entitlements; sourceTree = "<group>"; };
 		50CBEA8E20F2C40800DD30B2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		50CF4E7020F9840200C8A5E5 /* EditorMainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorMainMenu.cpp; sourceTree = "<group>"; };
+		50CF4E7120F9840200C8A5E5 /* EditorMainMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditorMainMenu.hpp; sourceTree = "<group>"; };
+		50E0CF9520F8E0D200616486 /* EditorGameArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorGameArena.cpp; sourceTree = "<group>"; };
+		50E0CF9620F8E0D200616486 /* EditorGameArena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditorGameArena.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,17 +422,16 @@
 		0DC1E1D920F6CE14006349B6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				50E0CF9420F8E0D200616486 /* [[Editor]] */,
 				0DC1E1F020F6CE14006349B6 /* [[Playground]] */,
-				0DC1E23720F6CE14006349B6 /* EditorGameArena.cpp */,
-				0DC1E1DA20F6CE14006349B6 /* EditorGameArena.h */,
+				5039F4A120F7B85E0048EC1B /* AnimatedGamePath.cpp */,
+				5039F4A220F7B85E0048EC1B /* AnimatedGamePath.hpp */,
 				0DC1E23920F6CE14006349B6 /* GameArena.cpp */,
 				0DC1E1DC20F6CE14006349B6 /* GameArena.h */,
 				0DC1E1E420F6CE14006349B6 /* GameObject.cpp */,
 				0DC1E1DE20F6CE14006349B6 /* GameObject.h */,
 				0DC1E1E220F6CE14006349B6 /* GamePath.cpp */,
 				0DC1E1EF20F6CE14006349B6 /* GamePath.h */,
-				5039F4A120F7B85E0048EC1B /* AnimatedGamePath.cpp */,
-				5039F4A220F7B85E0048EC1B /* AnimatedGamePath.hpp */,
 				0DC1E1E820F6CE14006349B6 /* GameTile.cpp */,
 				0DC1E1EC20F6CE14006349B6 /* GameTile.h */,
 				0DC1E23B20F6CE14006349B6 /* GLApp.cpp */,
@@ -516,28 +518,28 @@
 		0DC1E20820F6CE14006349B6 /* [[UI Components]] */ = {
 			isa = PBXGroup;
 			children = (
-				0DC1E20920F6CE14006349B6 /* UIStepper.hpp */,
-				0DC1E20A20F6CE14006349B6 /* UILabel.cpp */,
-				0DC1E20B20F6CE14006349B6 /* UIElement.cpp */,
-				0DC1E20C20F6CE14006349B6 /* UISlider.hpp */,
-				0DC1E20D20F6CE14006349B6 /* UISegment.cpp */,
-				0DC1E20E20F6CE14006349B6 /* UIButton.cpp */,
-				0DC1E20F20F6CE14006349B6 /* UISegmentButton.cpp */,
-				0DC1E21020F6CE14006349B6 /* UICheckBox.cpp */,
 				0DC1E21120F6CE14006349B6 /* UIAlignmentPicker.cpp */,
-				0DC1E21220F6CE14006349B6 /* UIAlignmentPickerButton.cpp */,
-				0DC1E21320F6CE14006349B6 /* UIRoundedRect.hpp */,
-				0DC1E21420F6CE14006349B6 /* UICheckBox.hpp */,
 				0DC1E21520F6CE14006349B6 /* UIAlignmentPicker.hpp */,
+				0DC1E21220F6CE14006349B6 /* UIAlignmentPickerButton.cpp */,
 				0DC1E21620F6CE14006349B6 /* UIAlignmentPickerButton.hpp */,
-				0DC1E21720F6CE14006349B6 /* UIRoundedRect.cpp */,
-				0DC1E21820F6CE14006349B6 /* UIStepper.cpp */,
-				0DC1E21920F6CE14006349B6 /* UILabel.hpp */,
-				0DC1E21A20F6CE14006349B6 /* UIElement.hpp */,
-				0DC1E21B20F6CE14006349B6 /* UISegment.hpp */,
-				0DC1E21C20F6CE14006349B6 /* UISlider.cpp */,
+				0DC1E20E20F6CE14006349B6 /* UIButton.cpp */,
 				0DC1E21D20F6CE14006349B6 /* UIButton.hpp */,
+				0DC1E21020F6CE14006349B6 /* UICheckBox.cpp */,
+				0DC1E21420F6CE14006349B6 /* UICheckBox.hpp */,
+				0DC1E20B20F6CE14006349B6 /* UIElement.cpp */,
+				0DC1E21A20F6CE14006349B6 /* UIElement.hpp */,
+				0DC1E20A20F6CE14006349B6 /* UILabel.cpp */,
+				0DC1E21920F6CE14006349B6 /* UILabel.hpp */,
+				0DC1E21720F6CE14006349B6 /* UIRoundedRect.cpp */,
+				0DC1E21320F6CE14006349B6 /* UIRoundedRect.hpp */,
+				0DC1E20D20F6CE14006349B6 /* UISegment.cpp */,
+				0DC1E21B20F6CE14006349B6 /* UISegment.hpp */,
+				0DC1E20F20F6CE14006349B6 /* UISegmentButton.cpp */,
 				0DC1E21E20F6CE14006349B6 /* UISegmentButton.hpp */,
+				0DC1E21C20F6CE14006349B6 /* UISlider.cpp */,
+				0DC1E20C20F6CE14006349B6 /* UISlider.hpp */,
+				0DC1E21820F6CE14006349B6 /* UIStepper.cpp */,
+				0DC1E20920F6CE14006349B6 /* UIStepper.hpp */,
 			);
 			path = "[[UI Components]]";
 			sourceTree = "<group>";
@@ -774,6 +776,17 @@
 			path = Apex;
 			sourceTree = "<group>";
 		};
+		50E0CF9420F8E0D200616486 /* [[Editor]] */ = {
+			isa = PBXGroup;
+			children = (
+				50CF4E7020F9840200C8A5E5 /* EditorMainMenu.cpp */,
+				50CF4E7120F9840200C8A5E5 /* EditorMainMenu.hpp */,
+				50E0CF9520F8E0D200616486 /* EditorGameArena.cpp */,
+				50E0CF9620F8E0D200616486 /* EditorGameArena.hpp */,
+			);
+			path = "[[Editor]]";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -878,6 +891,7 @@
 				50183DC520F2C4B100C776FA /* FInterp.cpp in Sources */,
 				50183DD520F2C4B100C776FA /* FQuad.cpp in Sources */,
 				0DC1E24B20F6CE14006349B6 /* ToolMenuSectionRow.cpp in Sources */,
+				50CF4E7220F9840200C8A5E5 /* EditorMainMenu.cpp in Sources */,
 				0DC1E26E20F6CE14006349B6 /* GLApp.cpp in Sources */,
 				50183DCD20F2C4B100C776FA /* FMotionObject.cpp in Sources */,
 				0DC1E24C20F6CE14006349B6 /* DragableCanvas.cpp in Sources */,
@@ -899,6 +913,7 @@
 				0DC1E24A20F6CE14006349B6 /* ToolMenuHeader.cpp in Sources */,
 				50183DDF20F2C4B100C776FA /* FSpriteSequence.cpp in Sources */,
 				0DC1E26520F6CE14006349B6 /* TowerBullet.cpp in Sources */,
+				50E0CF9720F8E0D200616486 /* EditorGameArena.cpp in Sources */,
 				50183DCB20F2C4B100C776FA /* FModelData.cpp in Sources */,
 				50183DBC20F2C4B100C776FA /* FFile.cpp in Sources */,
 				50183DE820F2C4B100C776FA /* FWindow.cpp in Sources */,
@@ -945,7 +960,6 @@
 				0DC1E24F20F6CE14006349B6 /* ToolMenuPanelHeader.cpp in Sources */,
 				50183DE420F2C4B100C776FA /* FTouchManager.cpp in Sources */,
 				0DC1E25B20F6CE14006349B6 /* UIAlignmentPickerButton.cpp in Sources */,
-				0DC1E26B20F6CE14006349B6 /* EditorGameArena.cpp in Sources */,
 				0DC1E25820F6CE14006349B6 /* UISegmentButton.cpp in Sources */,
 				0DC1E25020F6CE14006349B6 /* ToolMenuPanel.cpp in Sources */,
 				0DC1E25F20F6CE14006349B6 /* PGMainToolbar.cpp in Sources */,
