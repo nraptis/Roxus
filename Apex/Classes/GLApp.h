@@ -106,6 +106,7 @@ public:
 //float CY(int pGridY);
 float CX(int pGridX, int pGridZ);
 float CY(int pGridY, int pGridZ);
+float SZ(int pGridZ);
 
 //extern Game *gGame;
 //extern TilePathFinder *gPathFinder;

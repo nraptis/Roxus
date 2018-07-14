@@ -12,7 +12,6 @@
 #include "FString.h"
 #include "FPrimitive.h"
 #include "FIndexList.h"
-#include "FInterp.h"
 #include "FFloatList.h"
 
 class FFile;
@@ -169,44 +168,6 @@ public:
     int                     GetPrintLineCount();
     FString                 GetPrintLine(int pLineNumber);
     FString                 GetPrintString(const char *pVariableName);
-};
-
-
-class FPointPath : public FPointList
-{
-public:
-    FPointPath();
-    virtual ~FPointPath();
-    
-    
-    void                    Clear();
-    void                    Reset();
-    
-    
-    void                    Add(FPointList *pList);
-    void                    Add(float pX, float pY);
-    void                    Set(int pIndex, float pX, float pY);
-    
-    
-    void                    GetWithPercent(float pPercent, float &pX, float &pY);
-    void                    GetWithDist(float pDistance, float &pX, float &pY);
-    void                    GetRandom(float &pX, float &pY);
-    
-    
-    
-    void                    Generate();
-    
-    //FFloatList              mLengthList;
-    FInterp                 mInterp;
-    
-    bool                    mRefresh;
-    
-    bool                    mClosed;
-    
-    float                   mLength;
-    
-    
-    
 };
 
 #endif /* defined(___015_Fleet_XP__FFloatList__) */

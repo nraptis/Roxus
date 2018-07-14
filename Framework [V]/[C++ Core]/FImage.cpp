@@ -1571,113 +1571,68 @@ void FImage::Stamp(FImage *pImage, int x, int y, int pImageX, int pImageY, int p
     return;
 }
 
-void FImage::StampBlend(FImage *pImage,int x, int y, int pImageX, int pImageY, int pImageWidth, int pImageHeight)
-{
-    if(!pImage)return;
-    
-    if(x<0)
-    {
-        pImageWidth+=x;
-        pImageX-=x;
-        x=0;
+void FImage::StampBlend(FImage *pImage,int x, int y, int pImageX, int pImageY, int pImageWidth, int pImageHeight) {
+    if (!pImage) { return; }
+    if (x < 0) {
+        pImageWidth += x;
+        pImageX -= x;
+        x = 0;
     }
-    
-    if(y<0)
-    {
+    if (y < 0) {
         pImageHeight+=y;
         pImageY-=y;
         y=0;
     }
-    
-    if(pImageX<0)
-    {
+    if (pImageX < 0) {
         pImageWidth+=pImageX;
         pImageX=0;
     }
-    
-    if(pImageY<0)
-    {
+    if (pImageY < 0) {
         pImageHeight+=pImageY;
         pImageY=0;
     }
-    
-    if(pImageX>pImage->mWidth)return;
-    if(pImageY>pImage->mHeight)return;
-    
-    if(pImageX+pImageWidth>pImage->mWidth)
-    {
-        pImageWidth -= (pImageX+pImageWidth) - pImage->mWidth;
+    if (pImageX > pImage->mWidth) { return; }
+    if (pImageY > pImage->mHeight) { return; }
+    if (pImageX + pImageWidth > pImage->mWidth) {
+        pImageWidth -= (pImageX + pImageWidth) - pImage->mWidth;
     }
-    if(pImageY+pImageHeight>pImage->mHeight)
-    {
-        pImageHeight -= (pImageY+pImageHeight) - pImage->mHeight;
+    if (pImageY + pImageHeight > pImage->mHeight) {
+        pImageHeight -= (pImageY + pImageHeight) - pImage->mHeight;
     }
-    
-    
-    
-    if(x+pImageWidth>mWidth)
-    {
-        pImageWidth-=(x+pImageWidth)-mWidth;
+    if (x + pImageWidth > mWidth) {
+        pImageWidth -= (x + pImageWidth) - mWidth;
     }
-    if(y+pImageHeight>mHeight)
-    {
-        pImageHeight-=(y+pImageHeight)-mHeight;
+    if (y + pImageHeight > mHeight) {
+        pImageHeight -= (y + pImageHeight) - mHeight;
     }
-    
-    
-    if(pImageWidth<1 || pImageHeight<1)return;
-    
-    //Why would we ever wanna stamp after we bind?..
-    x+=mOffsetX;
-    y+=mOffsetY;
-    
-    pImageX+=pImage->mOffsetX;
-    pImageY+=pImage->mOffsetY;
-    
-    
+    if (pImageWidth<1 || pImageHeight<1) { return; }
+    x += mOffsetX;
+    y += mOffsetY;
+
+    pImageX += pImage->mOffsetX;
+    pImageY += pImage->mOffsetY;
+
     //Now we stamp one line at a time...
     unsigned int *aCopy=&pImage->mData[pImageY*pImage->mExpandedWidth+pImageX];
     unsigned int aCopySkip=pImage->mExpandedWidth-pImageWidth;
-    
     unsigned int *aPaste=&mData[y*mExpandedWidth+x];
     unsigned int aPasteSkip=mExpandedWidth-pImageWidth;
-    
     unsigned int *aCap;
-    
     unsigned int aLines=pImageHeight;
-    while(aLines)
-    {
-        aCap=aCopy+pImageWidth;
-        while(aCopy<aCap)
-        {
-            while(aCopy<aCap)
-            {
-                
+    while (aLines) {
+        aCap = aCopy + pImageWidth;
+        while (aCopy < aCap) {
+            while (aCopy < aCap) {
                 unsigned int aAlphaOriginal = IMAGE_ALPHA(*aPaste); //204
                 unsigned int aAlphaOver = IMAGE_ALPHA(*aCopy); //51
                 unsigned int aAlphaOverInverse = 255 - aAlphaOver;
                 unsigned int aFinalAlpha = aAlphaOver + (aAlphaOverInverse * aAlphaOriginal) / 255;
-                //unsigned int aFinalAlpha = aAlphaOver + (aAlphaOverInverse * aAlphaOriginal) >> 8;
-                
-                //Log("%d = %d + (%d * %d) / 255\n", aFinalAlpha, aAlphaOver, aAlphaOverInverse, aAlphaOriginal);
-                
-                
                 unsigned int aFinalRed = ((IMAGE_RED(*aCopy) * aAlphaOver) + ((aAlphaOverInverse * aAlphaOriginal * IMAGE_RED(*aPaste))/255))/255;
                 unsigned int aFinalGreen = ((IMAGE_GREEN(*aCopy) * aAlphaOver) + ((aAlphaOverInverse * aAlphaOriginal * IMAGE_GREEN(*aPaste))/255))/255;
                 unsigned int aFinalBlue = ((IMAGE_BLUE(*aCopy) * aAlphaOver) + ((aAlphaOverInverse * aAlphaOriginal * IMAGE_BLUE(*aPaste))/255))/255;
-                
-                if(aFinalRed>160)aFinalRed=160;
-                if(aFinalGreen>160)aFinalGreen=160;
-                if(aFinalBlue>160)aFinalBlue=160;
-                
-                
                 *aPaste = ((aFinalAlpha << 24) | (aFinalRed << 0) | (aFinalBlue << 16) | (aFinalGreen << 8));
-                
-                //*aPaste = ((aFinalAlpha << 24));
-                
                 aPaste++;
                 aCopy++;
-                
             }
             aCopy+=aCopySkip;
             aPaste+=aPasteSkip;
@@ -1686,13 +1641,11 @@ void FImage::StampBlend(FImage *pImage,int x, int y, int pImageX, int pImageY, i
     }
 }
 
-FImage *FImage::Clone()
-{
+FImage *FImage::Clone() {
     return Crop(0, 0, mExpandedWidth, mExpandedHeight);
 }
 
-FImage *FImage::Crop(int x, int y, int pWidth, int pHeight)
-{
+FImage *FImage::Crop(int x, int y, int pWidth, int pHeight) {
     FImage *aResult=new FImage();
     aResult->mFileName = mFileName;
     
@@ -1827,289 +1780,26 @@ FImage *FImage::Crop(int x, int y, int pWidth, int pHeight)
     return aResult;
 }
 
-
-
-void FImage::StampSoft(FImage *pImage,int x, int y, unsigned int pColor, int pImageX, int pImageY, int pImageWidth, int pImageHeight)
-{
-    
-    
-    
-    
-    //return;
-    if(!pImage)return;
-    
-    if(x<0)
-    {
-        pImageWidth+=x;
-        pImageX-=x;
-        x=0;
-    }
-    if(y<0)
-    {
-        pImageHeight+=y;
-        pImageY-=y;
-        y=0;
-    }
-    
-    
-    if(pImageX<0)
-    {
-        pImageWidth+=pImageX;
-        pImageX=0;
-    }
-    if(pImageY<0)
-    {
-        pImageHeight+=pImageY;
-        pImageY=0;
-    }
-    
-    
-    if(pImageX>pImage->mWidth)return;
-    if(pImageY>pImage->mHeight)return;
-    
-    if(pImageX+pImageWidth>pImage->mWidth)
-    {
-        pImageWidth -= (pImageX+pImageWidth) - pImage->mWidth;
-    }
-    if(pImageY+pImageHeight>pImage->mHeight)
-    {
-        pImageHeight -= (pImageY+pImageHeight) - pImage->mHeight;
-    }
-    
-    //pColor=0x0F0F0F;
-    
-    if(x+pImageWidth>mWidth)
-    {
-        pImageWidth-=(x+pImageWidth)-mWidth;
-    }
-    if(y+pImageHeight>mHeight)
-    {
-        pImageHeight-=(y+pImageHeight)-mHeight;
-    }
-    
-    
-    if(pImageWidth<1 || pImageHeight<1)return;
-    
-    //Why would we ever wanna stamp after we bind?..
-    x+=mOffsetX;
-    y+=mOffsetY;
-    
-    pImageX+=pImage->mOffsetX;
-    pImageY+=pImage->mOffsetY;
-    
-    
-    //Now we stamp one line at a time...
-    unsigned int *aCopy=&pImage->mData[pImageY*pImage->mExpandedWidth+pImageX];
-    unsigned int aCopySkip=pImage->mExpandedWidth-pImageWidth;
-    
-    unsigned int *aPaste=&mData[y*mExpandedWidth+x];
-    unsigned int aPasteSkip=mExpandedWidth-pImageWidth;
-    
-    unsigned int *aCap;
-    
-    unsigned int aLines=pImageHeight;
-    
-    //int aCounttt = 0;
-    //if(gRand.Get(3)==0)aCounttt=-500000;
-    
-    while(aLines)
-    {
-        aCap=aCopy+pImageWidth;
-        while(aCopy<aCap)
-        {
-            while(aCopy<aCap)
-            {
-                int aAlpha;
-                int aAlpha1 = IMAGE_ALPHA(*aPaste);
-                int aAlpha2 = IMAGE_ALPHA(*aCopy);
-                
-                if(aAlpha2 != 0)
-                {
-                    //aCounttt++;
-                    //if(aCounttt > 350)return;
-                    
-                    aAlpha = aAlpha1 <= aAlpha2 ? aAlpha2 : aAlpha1;
-                    
-                    //aAlpha = (aAlpha1 + aAlpha2) / 2;
-                    
-                    //aAlpha+=10;
-                    
-                    if(aAlpha > 255)// || aAlpha <=0)
-                    {
-                        Log("Bizzarre?!?!?! %d\n", aAlpha);
-                        aAlpha = 255;
-                    }
-                    
-                    if(aAlpha<0)
-                    {
-                        Log("KillAlpha: %d\n", aAlpha);
-                        aAlpha=0;
-                    }
-                    
-                    //if(aAlLog("Alpha: %d\n", aAlpha);
-                    
-                    *aPaste = (pColor & 0x00FFFFFF) | (IMAGE_ALPHA_SHIFT(aAlpha));
-                    //*aCopy = (pColor) | (aAlpha << 24);
-                    
-                    //unsigned int aPostAlpha = *aPaste & 0xFF000000;
-                }
-                
-                aPaste++;
-                aCopy++;
-            }
-            aCopy+=aCopySkip;
-            aPaste+=aPasteSkip;
-        }
-        aLines--;
-    }
-}
-
-
-void FImage::StampErase(FImage *pImage,int x, int y, int pImageX, int pImageY, int pImageWidth, int pImageHeight)
-{
-    if(!pImage)return;
-    
-    if(x<0)
-    {
-        pImageWidth+=x;
-        pImageX-=x;
-        x=0;
-    }
-    if(y<0)
-    {
-        pImageHeight+=y;
-        pImageY-=y;
-        y=0;
-    }
-    
-    
-    if(pImageX<0)
-    {
-        pImageWidth+=pImageX;
-        pImageX=0;
-    }
-    if(pImageY<0)
-    {
-        pImageHeight+=pImageY;
-        pImageY=0;
-    }
-    
-    
-    if(pImageX>pImage->mWidth)return;
-    if(pImageY>pImage->mHeight)return;
-    
-    if(pImageX+pImageWidth>pImage->mWidth)
-    {
-        pImageWidth -= (pImageX+pImageWidth) - pImage->mWidth;
-    }
-    if(pImageY+pImageHeight>pImage->mHeight)
-    {
-        pImageHeight -= (pImageY+pImageHeight) - pImage->mHeight;
-    }
-    
-    
-    
-    if(x+pImageWidth>mWidth)
-    {
-        pImageWidth-=(x+pImageWidth)-mWidth;
-    }
-    if(y+pImageHeight>mHeight)
-    {
-        pImageHeight-=(y+pImageHeight)-mHeight;
-    }
-    
-    
-    if(pImageWidth<1 || pImageHeight<1)return;
-    
-    //Why would we ever wanna stamp after we bind?..
-    x+=mOffsetX;
-    y+=mOffsetY;
-    
-    pImageX+=pImage->mOffsetX;
-    pImageY+=pImage->mOffsetY;
-    
-    
-    //Now we stamp one line at a time...
-    unsigned int *aCopy=&pImage->mData[pImageY*pImage->mExpandedWidth+pImageX];
-    unsigned int aCopySkip=pImage->mExpandedWidth-pImageWidth;
-    
-    unsigned int *aPaste=&mData[y*mExpandedWidth+x];
-    unsigned int aPasteSkip=mExpandedWidth-pImageWidth;
-    
-    unsigned int *aCap;
-    
-    unsigned int aLines=pImageHeight;
-    while(aLines)
-    {
-        aCap=aCopy+pImageWidth;
-        while(aCopy<aCap)
-        {
-            while(aCopy<aCap)
-            {
-                unsigned int aAlphaOver = IMAGE_ALPHA(*aCopy);
-                
-                if(aAlphaOver > 0)
-                {
-                    unsigned int aAlphaOriginal = IMAGE_ALPHA(*aPaste);
-                    unsigned int aFinalAlpha = (aAlphaOriginal > aAlphaOver) ? (aAlphaOriginal-aAlphaOver) : 0;
-                    *aPaste = ((aFinalAlpha << 24) | ((*aPaste) & 0x00FFFFFF));
-                }
-                aPaste++;
-                aCopy++;
-            }
-            aCopy+=aCopySkip;
-            aPaste+=aPasteSkip;
-        }
-        aLines--;
-    }
-}
-
-void FImage::StampErase(FImage *pImage, int x, int y)
-{
-    if(pImage)
-    {
-        StampErase(pImage, x, y, 0, 0, pImage->mWidth,pImage->mHeight);
-    }
-}
-
-void FImage::StampSoft(FImage *pImage,unsigned int pColor, int x, int y)
-{
-    if(pImage)
-    {
-        StampSoft(pImage, x, y, pColor, 0, 0, pImage->mWidth,pImage->mHeight);
-    }
-}
-
-void FImage::StampBlend(FImage *pImage, int x, int y)
-{
-    if(pImage)
-    {
+void FImage::StampBlend(FImage *pImage, int x, int y) {
+    if (pImage) {
         StampBlend(pImage, x, y, 0, 0, pImage->mWidth,pImage->mHeight);
     }
 }
 
-void FImage::Stamp(FImage *pImage, int x, int y)
-{
-    if(pImage)
-    {
-        //Stamp(pImage, x, y, 0, 0, pImage->mWidth,pImage->mHeight);
+void FImage::Stamp(FImage *pImage, int x, int y) {
+    if (pImage) {
         Stamp(pImage, x, y, 0, 0, pImage->mExpandedWidth, pImage->mExpandedHeight);
-        
     }
 }
 
-void FImage::Replace(unsigned int pOldColor, unsigned int pNewColor)
-{
+void FImage::Replace(unsigned int pOldColor, unsigned int pNewColor) {
     unsigned int *aSearch=mData;
-    unsigned int *aCap=&mData[mExpandedWidth*mExpandedHeight];
-    while(aSearch<aCap)
-    {
-        if(*aSearch==pOldColor)
-        {
-            *aSearch=pNewColor;
+    unsigned int *aCap = &mData[mExpandedWidth*mExpandedHeight];
+    while (aSearch < aCap) {
+        if (*aSearch==pOldColor) {
+            *aSearch = pNewColor;
         }
         aSearch++;
-        
     }
 }
 
@@ -2128,8 +1818,7 @@ void FImage::ReplaceAlpha(unsigned int pOldAlpha, unsigned int pNewColor)
     }
 }
 
-void FImage::Invert()
-{
+void FImage::Invert() {
     unsigned int aRed,aGreen,aBlue,aAlpha;
     unsigned int *aSearch=mData;
     unsigned int *aCap=&mData[mExpandedWidth*mExpandedHeight];
@@ -2143,16 +1832,12 @@ void FImage::Invert()
     }
 }
 
-
-void FImage::SubtractRGBA()
-{
+void FImage::SubtractRGBA() {
     int aSubAmount=32;
     unsigned int aRed,aGreen,aBlue,aAlpha;
     unsigned int *aSearch=mData;
     unsigned int *aCap=&mData[mExpandedWidth*mExpandedHeight];
-    while(aSearch<aCap)
-    {
-        
+    while (aSearch<aCap) {
         aRed=IMAGE_RED(*aSearch);
         aGreen=IMAGE_GREEN(*aSearch);
         aBlue=IMAGE_BLUE(*aSearch);
@@ -2174,45 +1859,31 @@ void FImage::SubtractRGBA()
     }
 }
 
-void FImage::DivideRGBA()
-{
-    
+void FImage::DivideRGBA() {
     unsigned int aRed,aGreen,aBlue,aAlpha;
-    
     unsigned int *aSearch=mData;
     unsigned int *aCap=&mData[mExpandedWidth*mExpandedHeight];
-    while(aSearch<aCap)
-    {
+    while (aSearch<aCap) {
         aRed=IMAGE_RED(*aSearch)>>1;
         aGreen=IMAGE_GREEN(*aSearch)>>1;
         aBlue=IMAGE_BLUE(*aSearch)>>1;
         aAlpha=IMAGE_ALPHA(*aSearch)>>1;
-        
         *aSearch=(IMAGE_RED_SHIFT(aRed) | IMAGE_GREEN_SHIFT(aGreen) | IMAGE_BLUE_SHIFT(aBlue) | IMAGE_ALPHA_SHIFT(aAlpha));
         aSearch++;
     }
 }
 
 
-void FImage::SubtractAlpha(int pAmount)
-{
-    if(pAmount>0)pAmount=-pAmount;
-    
+void FImage::SubtractAlpha(int pAmount) {
     unsigned int *aSearch=mData;
     unsigned int *aCap=&mData[mExpandedWidth*mExpandedHeight];
-    
     int aAlpha;
-    
-    while(aSearch<aCap)
-    {
-        aAlpha=((int)IMAGE_ALPHA(*aSearch)) + pAmount;
+    while (aSearch<aCap) {
+        aAlpha=((int)IMAGE_ALPHA(*aSearch)) - pAmount;
         if(aAlpha<0)aAlpha=0;
-        
         *aSearch = (*aSearch & 0x00FFFFFF) | IMAGE_ALPHA_SHIFT(aAlpha);
-        
         aSearch++;
     }
-    
 }
 
 
@@ -2221,10 +1892,9 @@ void FImage::SetPixel(int x, int y, unsigned int pRed, unsigned int pGreen, unsi
     SetPixel(x, y,(pRed<<24)|(pGreen<<16)|(pBlue<<8)|(pAlpha));
 }
 
-void FImage::SetPixel(int x, int y, unsigned int pColor)
-{
-    if(x<0||x>=mExpandedWidth||y<0||y>=mExpandedHeight)return;
-    mData[y*mExpandedWidth+x]=pColor;
+void FImage::SetPixel(int x, int y, unsigned int pColor) {
+    if (x < 0 || x >= mExpandedWidth || y < 0 || y >= mExpandedHeight) { return; }
+    mData[y * mExpandedWidth + x] = pColor;
 }
 
 
@@ -3075,7 +2745,7 @@ void FImage::Resize(int theNewWidth, int theNewHeight, FImage *theImage)
         }
         
         
-        delete aNewPixels;
+        delete [] aNewPixels;
         delete aNewHorzPixels;
     }
     /**/

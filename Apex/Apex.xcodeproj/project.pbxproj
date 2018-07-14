@@ -74,7 +74,6 @@
 		50183DC220F2C4B100C776FA /* FImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D2420F2C4B100C776FA /* FImage.cpp */; };
 		50183DC320F2C4B100C776FA /* FImageBundler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D2620F2C4B100C776FA /* FImageBundler.cpp */; };
 		50183DC420F2C4B100C776FA /* FIndexList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D2820F2C4B100C776FA /* FIndexList.cpp */; };
-		50183DC520F2C4B100C776FA /* FInterp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D2A20F2C4B100C776FA /* FInterp.cpp */; };
 		50183DC620F2C4B100C776FA /* FJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D2C20F2C4B100C776FA /* FJoystick.cpp */; };
 		50183DC720F2C4B100C776FA /* FLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D2E20F2C4B100C776FA /* FLine.cpp */; };
 		50183DC820F2C4B100C776FA /* FList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3020F2C4B100C776FA /* FList.cpp */; };
@@ -82,7 +81,6 @@
 		50183DCA20F2C4B100C776FA /* FMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3420F2C4B100C776FA /* FMatrix.cpp */; };
 		50183DCB20F2C4B100C776FA /* FModelData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3620F2C4B100C776FA /* FModelData.cpp */; };
 		50183DCC20F2C4B100C776FA /* FModelDataSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3820F2C4B100C776FA /* FModelDataSequence.cpp */; };
-		50183DCD20F2C4B100C776FA /* FMotionObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3A20F2C4B100C776FA /* FMotionObject.cpp */; };
 		50183DCE20F2C4B100C776FA /* FNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3C20F2C4B100C776FA /* FNotificationCenter.cpp */; };
 		50183DCF20F2C4B100C776FA /* FObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D3E20F2C4B100C776FA /* FObject.cpp */; };
 		50183DD020F2C4B100C776FA /* FParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D4020F2C4B100C776FA /* FParticle.cpp */; };
@@ -276,8 +274,6 @@
 		50183D2720F2C4B100C776FA /* FImageBundler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FImageBundler.h; sourceTree = "<group>"; };
 		50183D2820F2C4B100C776FA /* FIndexList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FIndexList.cpp; sourceTree = "<group>"; };
 		50183D2920F2C4B100C776FA /* FIndexList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIndexList.h; sourceTree = "<group>"; };
-		50183D2A20F2C4B100C776FA /* FInterp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FInterp.cpp; sourceTree = "<group>"; };
-		50183D2B20F2C4B100C776FA /* FInterp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FInterp.h; sourceTree = "<group>"; };
 		50183D2C20F2C4B100C776FA /* FJoystick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FJoystick.cpp; sourceTree = "<group>"; };
 		50183D2D20F2C4B100C776FA /* FJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FJoystick.h; sourceTree = "<group>"; };
 		50183D2E20F2C4B100C776FA /* FLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FLine.cpp; sourceTree = "<group>"; };
@@ -292,8 +288,6 @@
 		50183D3720F2C4B100C776FA /* FModelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FModelData.h; sourceTree = "<group>"; };
 		50183D3820F2C4B100C776FA /* FModelDataSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FModelDataSequence.cpp; sourceTree = "<group>"; };
 		50183D3920F2C4B100C776FA /* FModelDataSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FModelDataSequence.h; sourceTree = "<group>"; };
-		50183D3A20F2C4B100C776FA /* FMotionObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FMotionObject.cpp; sourceTree = "<group>"; };
-		50183D3B20F2C4B100C776FA /* FMotionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMotionObject.h; sourceTree = "<group>"; };
 		50183D3C20F2C4B100C776FA /* FNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FNotificationCenter.cpp; sourceTree = "<group>"; };
 		50183D3D20F2C4B100C776FA /* FNotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FNotificationCenter.hpp; sourceTree = "<group>"; };
 		50183D3E20F2C4B100C776FA /* FObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FObject.cpp; sourceTree = "<group>"; };
@@ -610,8 +604,6 @@
 				50183D2720F2C4B100C776FA /* FImageBundler.h */,
 				50183D2820F2C4B100C776FA /* FIndexList.cpp */,
 				50183D2920F2C4B100C776FA /* FIndexList.h */,
-				50183D2A20F2C4B100C776FA /* FInterp.cpp */,
-				50183D2B20F2C4B100C776FA /* FInterp.h */,
 				50183D2C20F2C4B100C776FA /* FJoystick.cpp */,
 				50183D2D20F2C4B100C776FA /* FJoystick.h */,
 				50183D2E20F2C4B100C776FA /* FLine.cpp */,
@@ -626,8 +618,6 @@
 				50183D3720F2C4B100C776FA /* FModelData.h */,
 				50183D3820F2C4B100C776FA /* FModelDataSequence.cpp */,
 				50183D3920F2C4B100C776FA /* FModelDataSequence.h */,
-				50183D3A20F2C4B100C776FA /* FMotionObject.cpp */,
-				50183D3B20F2C4B100C776FA /* FMotionObject.h */,
 				50183D3C20F2C4B100C776FA /* FNotificationCenter.cpp */,
 				50183D3D20F2C4B100C776FA /* FNotificationCenter.hpp */,
 				50183D3E20F2C4B100C776FA /* FObject.cpp */,
@@ -888,12 +878,10 @@
 				50183DC020F2C4B100C776FA /* FGestureView.cpp in Sources */,
 				50183DD920F2C4B100C776FA /* FScrollCanvas.cpp in Sources */,
 				50183DC420F2C4B100C776FA /* FIndexList.cpp in Sources */,
-				50183DC520F2C4B100C776FA /* FInterp.cpp in Sources */,
 				50183DD520F2C4B100C776FA /* FQuad.cpp in Sources */,
 				0DC1E24B20F6CE14006349B6 /* ToolMenuSectionRow.cpp in Sources */,
 				50CF4E7220F9840200C8A5E5 /* EditorMainMenu.cpp in Sources */,
 				0DC1E26E20F6CE14006349B6 /* GLApp.cpp in Sources */,
-				50183DCD20F2C4B100C776FA /* FMotionObject.cpp in Sources */,
 				0DC1E24C20F6CE14006349B6 /* DragableCanvas.cpp in Sources */,
 				50183DFE20F2C4B100C776FA /* OSMusicPlayer.mm in Sources */,
 				50183DB320F2C4B100C776FA /* core_social.cpp in Sources */,

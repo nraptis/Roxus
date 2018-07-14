@@ -177,8 +177,16 @@ float CX(int pGridX, int pGridZ) {
 
 float CY(int pGridY, int pGridZ) {
     float aResult = (float)pGridY * gTileHeight + gTileHeight2;
+    aResult += SZ(pGridZ);
+    return aResult;
+}
+
+float SZ(int pGridZ) {
+    float aResult = 0.0f;
     if(pGridZ == 0)aResult += gTileHeight * 0.65f;
     if(pGridZ == 2)aResult -= gTileHeight * 0.65f;
     return aResult;
 }
+
+
 

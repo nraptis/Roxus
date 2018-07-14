@@ -41,7 +41,9 @@ GameArena::GameArena() {
     
     Generate(10, 14, 4, 4);
     
-    Load("test_level_1.xml");
+    //Load("test_level_1.xml");
+    Load("pathing_map_02.xml");
+
 }
 
 GameArena::~GameArena() {
@@ -222,7 +224,7 @@ void GameArena::Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     int aDepth = 1;
     for (int aX=0;aX<mGridWidthActive;aX++) {
         for (int aY=0;aY<mGridHeightActive;aY++) {
-            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV]=new GameTile();
+            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV] = new GameTile();
             mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV]->SetUp(aX + mGridBufferH, aY + mGridBufferV, aDepth);
         }
     }

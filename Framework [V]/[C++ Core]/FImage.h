@@ -155,17 +155,9 @@ public:
 	
 	void                            Stamp(FImage *pImage, int x=0, int y=0);
 	void                            StampBlend(FImage *pImage, int x=0, int y=0);
-	void                            StampSoft(FImage *pImage, unsigned int pColor, int x=0, int y=0);
-	void                            StampErase(FImage *pImage, int x=0, int y=0);
-	
-	void                            StampErase(FImage *pImage,int x, int y, int pImageX, int pImageY, int pImageWidth, int pImageHeight);
-	
 	void                            Stamp(unsigned int *pData, int x, int y, int pWidth, int pHeight);
-	
 	void                            Stamp(FImage *pImage,int x, int y,int pImageX, int pImageY=-1, int pImageWidth=-1, int pImageHeight=-1);
 	void                            StampBlend(FImage *pImage,int x, int y,int pImageX, int pImageY=-1, int pImageWidth=-1, int pImageHeight=-1);
-	void                            StampSoft(FImage *pImage,int x, int y,unsigned int pColor, int pImageX, int pImageY=-1, int pImageWidth=-1, int pImageHeight=-1);
-    
     
     void                            Resize(int theNewWidth, int theNewHeight, FImage *theImage);
     FImage                          *Resize50Percent();

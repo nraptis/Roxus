@@ -283,13 +283,11 @@ void EditorMainMenu::Notify(void *pSender, const char *pNotification) {
             gWorldContainer->mGestureContainer->BaseLayout();
         }
 
-        if (pSender == mButtonAddPath) {
-            gEditor->AddPath();
-        }
+        if (pSender == mButtonAddPath) { gEditor->AddPath(); }
 
-        if (pSender == mButtonDeletePath) {
-            gEditor->DeleteCurrentPath();
-        }
+        if (pSender == mButtonDeletePath) { gEditor->DeleteCurrentPath(); }
+        if (pSender == mButtonExport) { gEditor->ExportImage(); }
+        if (pSender == mButtonSave) { gEditor->ExportMap(); }
 
     }
 

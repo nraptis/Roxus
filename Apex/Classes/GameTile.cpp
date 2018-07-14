@@ -56,8 +56,6 @@ void GameTile::Update() {
 
 void GameTile::Draw() {
 
-    
-
     FSprite *aAccessory = 0;
     FSprite *aTile = 0;
 
@@ -80,15 +78,21 @@ void GameTile::Draw() {
         if(mType == TILE_TYPE_RAMP_R) { aAccessory = &gApp->mBridgeRampR; }
     }
 
-    float aDrawX = CX(mGridX, 1);
-    float aDrawY = CY(mGridY, 1);
-    if (aAccessory) {
-        aAccessory->Center(aDrawX, aDrawY);
+    float aDrawX = CX(mGridX, mGridZ);
+    if (IsRamp()) {
+        if (aAccessory) {
+            aAccessory->Center(aDrawX, CY(mGridY, 1));
+        }
     } else {
         if (aTile) {
-            aTile->Center(aDrawX, aDrawY);
+            aTile->Center(aDrawX, CY(mGridY, 1));
+        }
+        if (aAccessory) {
+            aAccessory->Center(aDrawX, CY(mGridY, mGridZ));
         }
     }
+
+
 
     /*
     float aBoxSize = 2.0f;
