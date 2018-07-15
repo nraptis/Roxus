@@ -126,10 +126,10 @@ extern float gArenaActiveHeight2;
 extern float gArenaActiveX;
 extern float gArenaActiveY;
 
-extern float gTileWidth;
-extern float gTileHeight;
-extern float gTileWidth2;
-extern float gTileHeight2;
+extern float gTileSize;
+extern float gTileSize2;
+extern float gPathBendInset45;
+extern float gPathBendInset90;
 
 extern GLApp *gApp;
 

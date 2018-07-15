@@ -11,6 +11,7 @@
 
 #include "GamePath.h"
 #include "FDrawQuad.hpp"
+#include "FPointList.h"
 
 class AnimatedGamePathSegment {
 public:
@@ -30,6 +31,13 @@ public:
 
     void                                ResetQuads();
     void                                GenerateQuads();
+
+    void                                Add45DegreeBend(float pStartX, float pStartY,
+                                                        float pCenterX, float pCenterY,
+                                                        float pEndX, float pEndY);
+
+    FPointList                          mGeneratePointList;
+
 
     FDrawQuadSnake                      mSnake;
     //float

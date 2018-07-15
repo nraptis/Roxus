@@ -6,7 +6,7 @@
 		<tile grid_x="0" grid_y="3" grid_z="0" type="0"/>
 		<tile grid_x="0" grid_y="4" grid_z="0" type="0"/>
 		<tile grid_x="0" grid_y="5" grid_z="0" type="0"/>
-		<tile grid_x="0" grid_y="6" grid_z="0" type="0"/>
+		<tile grid_x="0" grid_y="6" grid_z="0" type="5"/>
 		<tile grid_x="0" grid_y="7" grid_z="0" type="0"/>
 		<tile grid_x="0" grid_y="8" grid_z="0" type="5"/>
 		<tile grid_x="0" grid_y="9" grid_z="0" type="5"/>
@@ -26,12 +26,16 @@
 		<tile grid_x="1" grid_y="1" grid_z="0" type="0"/>
 		<tile grid_x="1" grid_y="2" grid_z="0" type="0"/>
 		<tile grid_x="1" grid_y="3" grid_z="0" type="0"/>
+		<tile grid_x="1" grid_y="4" grid_z="0" type="5"/>
 		<tile grid_x="1" grid_y="5" grid_z="0" type="0"/>
-		<tile grid_x="1" grid_y="6" grid_z="0" type="0"/>
+		<tile grid_x="1" grid_y="6" grid_z="0" type="5"/>
 		<tile grid_x="1" grid_y="7" grid_z="0" type="0"/>
+		<tile grid_x="1" grid_y="8" grid_z="0" type="0"/>
+		<tile grid_x="1" grid_y="9" grid_z="0" type="0"/>
 		<tile grid_x="1" grid_y="10" grid_z="0" type="0"/>
-		<tile grid_x="1" grid_y="11" grid_z="0" type="0"/>
-		<tile grid_x="1" grid_y="12" grid_z="0" type="0"/>
+		<tile grid_x="1" grid_y="11" grid_z="0" type="5"/>
+		<tile grid_x="1" grid_y="12" grid_z="0" type="5"/>
+		<tile grid_x="1" grid_y="13" grid_z="0" type="0"/>
 		<tile grid_x="1" grid_y="14" grid_z="0" type="0"/>
 		<tile grid_x="1" grid_y="15" grid_z="0" type="0"/>
 		<tile grid_x="1" grid_y="16" grid_z="0" type="5"/>
@@ -46,14 +50,15 @@
 		<tile grid_x="2" grid_y="3" grid_z="0" type="5"/>
 		<tile grid_x="2" grid_y="4" grid_z="0" type="5"/>
 		<tile grid_x="2" grid_y="5" grid_z="0" type="0"/>
-		<tile grid_x="2" grid_y="6" grid_z="0" type="0"/>
+		<tile grid_x="2" grid_y="6" grid_z="0" type="5"/>
 		<tile grid_x="2" grid_y="7" grid_z="0" type="0"/>
-		<tile grid_x="2" grid_y="8" grid_z="0" type="0"/>
+		<tile grid_x="2" grid_y="8" grid_z="0" type="5"/>
 		<tile grid_x="2" grid_y="9" grid_z="0" type="0"/>
 		<tile grid_x="2" grid_y="10" grid_z="0" type="0"/>
 		<tile grid_x="2" grid_y="11" grid_z="0" type="0"/>
-		<tile grid_x="2" grid_y="12" grid_z="0" type="0"/>
+		<tile grid_x="2" grid_y="12" grid_z="0" type="5"/>
 		<tile grid_x="2" grid_y="13" grid_z="0" type="0"/>
+		<tile grid_x="2" grid_y="14" grid_z="0" type="5"/>
 		<tile grid_x="2" grid_y="15" grid_z="0" type="0"/>
 		<tile grid_x="2" grid_y="16" grid_z="0" type="0"/>
 		<tile grid_x="2" grid_y="17" grid_z="0" type="0"/>
@@ -70,6 +75,7 @@
 		<tile grid_x="3" grid_y="6" grid_z="0" type="0"/>
 		<tile grid_x="3" grid_y="7" grid_z="0" type="0"/>
 		<tile grid_x="3" grid_y="8" grid_z="0" type="5"/>
+		<tile grid_x="3" grid_y="9" grid_z="0" type="5"/>
 		<tile grid_x="3" grid_y="10" grid_z="0" type="0"/>
 		<tile grid_x="3" grid_y="11" grid_z="0" type="0"/>
 		<tile grid_x="3" grid_y="12" grid_z="0" type="0"/>
@@ -98,7 +104,6 @@
 		<tile grid_x="7" grid_y="19" grid_z="0" type="0"/>
 		<tile grid_x="7" grid_y="20" grid_z="0" type="0"/>
 		<tile grid_x="7" grid_y="21" grid_z="0" type="0"/>
-		<tile grid_x="8" grid_y="9" grid_z="0" type="0"/>
 		<tile grid_x="8" grid_y="10" grid_z="0" type="0"/>
 		<tile grid_x="8" grid_y="11" grid_z="0" type="0"/>
 		<tile grid_x="8" grid_y="18" grid_z="0" type="0"/>
@@ -362,6 +367,6 @@
 		<tile grid_x="12" grid_y="12" grid_z="2" type="2"/>
 	</tile_list>
 	<path_list>
-		<path start_x="15" start_y="17" start_z="0" end_x="3" end_y="3" end_z="0"/>
+		<path start_x="3" start_y="3" start_z="0" end_x="15" end_y="17" end_z="0"/>
 	</path_list>
 </game_arena>

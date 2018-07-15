@@ -63,10 +63,96 @@ void FLine::Make(float x1,float y1,float x2,float y2)
     mCosAlpha=(-PHYSICS_DOT(mX1,mY1,mNormalX,mNormalY));
 }
 
-bool FLine::SegmentSegmentIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
-                                       float pL_2_x1, float pL_2_y1, float pL_2_x2, float pL_2_y2,
-                                       float &pCollideX, float &pCollideY, float &pCollideDistance)
-{
+bool FLine::LineLineIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
+                                                         float pL_2_x1, float pL_2_y1, float pL_2_x2, float pL_2_y2,
+                                 float &pCollideX, float &pCollideY) {
+    float x1 = pL_1_x1, x2 = pL_1_x2, x3 = pL_2_x1, x4 = pL_2_x2;
+    float y1 = pL_1_y1, y2 = pL_1_y2, y3 = pL_2_y1, y4 = pL_2_y2;
+    float d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+    float pre = (x1*y2 - y1*x2), post = (x3*y4 - y3*x4);
+    float x = ( pre * (x3 - x4) - (x1 - x2) * post ) / d;
+    float y = ( pre * (y3 - y4) - (y1 - y2) * post ) / d;
+    pCollideX = x;
+    pCollideY = y;
+    return true;
+}
+
+bool FLine::SegmentSegmentIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2, float pL_2_x1, float pL_2_y1, float pL_2_x2, float pL_2_y2,
+                                       float &pCollideX, float &pCollideY) {
+        float x1 = pL_1_x1, x2 = pL_1_x2, x3 = pL_2_x1, x4 = pL_2_x2;
+        float y1 = pL_1_y1, y2 = pL_1_y2, y3 = pL_2_y1, y4 = pL_2_y2;
+        float d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+        // If d is zero, there is no intersection
+        if (d == 0) return false;
+
+        // Get the x and y
+        float pre = (x1*y2 - y1*x2), post = (x3*y4 - y3*x4);
+        float x = ( pre * (x3 - x4) - (x1 - x2) * post ) / d;
+        float y = ( pre * (y3 - y4) - (y1 - y2) * post ) / d;
+
+        // Check if the x and y coordinates are within both lines
+        if ( x < min(x1, x2) || x > max(x1, x2) ||
+            x < min(x3, x4) || x > max(x3, x4) ) {
+            return false;
+        }
+        if ( y < min(y1, y2) || y > max(y1, y2) ||
+            y < min(y3, y4) || y > max(y3, y4) ) {
+            return false;
+        }
+
+        pCollideX = x;
+        pCollideY = y;
+
+        return true;
+
+        /*
+         float aLine1DiffX = l1p2.mX - l1p1.mX;
+         float aLine2DiffX = l2p2.mX - l2p1.mX;
+
+         float aLine1DiffY = l1p2.mY - l1p1.mY;
+         float aLine2DiffY = l2p2.mY - l2p1.mY;
+
+         if (fabsf(aLine1DiffX) > SQRT_EPSILON && fabsf(aLine2DiffX) > SQRT_EPSILON) {
+
+         //y = mx + b
+         //y - b = mx
+         //b = mx - y
+         //x = (b - y) / m
+         float aSlope1 = aLine1DiffY / aLine1DiffX;
+         float aSlope2 = aLine2DiffY / aLine2DiffX;
+
+         float aOffset1 = aSlope1 * l1p1.mX - l1p1.mY;
+         float aOffset2 = aSlope2 * l2p1.mX - l2p1.mY;
+
+         if (fabsf(aSlope1 - aSlope2) > SQRT_EPSILON) {
+
+
+         //m1 * x + b1 = m2 * x + b2
+         //m1 * x - m2 * x = (b2 - b1)
+         //x * (m1 - m2) = (b2 - b1)
+
+
+         float aHitX = (aOffset2 - aOffset1) / (aSlope1 - aSlope2);
+         float aHitY = aSlope1 * aHitX + aOffset1;
+         //float aHitX = (aOffset1 - aHitX) / aSlope1;
+
+         printf("Collide: %f %f  Slope1 = %f  Slope2 = %f   B1 = %f   B2 = %f\n", aHitX, aHitY, aSlope1, aSlope2, aOffset1, aOffset2);
+
+         intersection->mX = aHitX;
+         intersection->mY = aHitY;
+
+         return true;
+         }
+         }
+         */
+
+
+        return false;
+
+
+
+    /*
     float aPlaneX = pL_2_x1;
     float aPlaneY = pL_2_y1;
     
@@ -91,7 +177,7 @@ bool FLine::SegmentSegmentIntersection(float pL_1_x1, float pL_1_y1, float pL_1_
     }
     
     return aResult;
-    
+    */
 }
 
 bool FLine::SegmentPlaneIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,

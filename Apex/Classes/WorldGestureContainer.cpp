@@ -54,6 +54,10 @@ void WorldGestureContainer::Layout() {
             float aWorldHeight = gArenaActiveHeight;
             float aWorldScale = 1.0f;
             FRect aFit = FRect::FitAspectFit(aBounds, aWorldWidth, aWorldHeight, 10.0f, aWorldScale);
+
+            aWorldScale *= 2.0f;
+
+
             mWorldScale = aWorldScale;
             mWorldOffsetX = mWidth2 + gArenaActiveX * aWorldScale;
             mWorldOffsetY = mHeight2 + gArenaActiveY * aWorldScale;

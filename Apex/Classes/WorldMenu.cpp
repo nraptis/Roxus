@@ -24,7 +24,7 @@ WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
     mSliderZoom = new UISlider();
     mSliderZoom->SetText("Zoom:");
     mSliderZoom->SetValue(&aGesture->mWorldScale);
-    mSliderZoom->SetRange(0.125f, 2.25f);
+    mSliderZoom->SetRange(0.125f, 5.0f);
     AddSection(mSliderZoom);
     
     mSliderPanRotation = new UISlider();

@@ -12,13 +12,11 @@ GameArena *gArena = 0;
 GameArena::GameArena() {
     gArena = this;
     
-    gTileWidth = 72.0f;
-    gTileHeight = 72.0f;
-    
-    gTileWidth2 = gTileWidth * 0.5f;
-    gTileHeight2 = gTileHeight * 0.5f;
-    
-    
+    gTileSize = 72.0f;
+    gTileSize2 = gTileSize * 0.5f;
+    gPathBendInset45 = (float)((int)gTileSize2 * 0.80f);
+    gPathBendInset90 = (float)((int)gTileSize2 * 0.70f);
+
     mCursorGridX = -1;
     mCursorGridY = -1;
     mCursorGridZ = -1;
@@ -269,11 +267,11 @@ void GameArena::DrawGridOverlay() {
 
 void GameArena::DrawGridSelection() {
     if ((mCursorGridX != -1) && (mCursorGridY != -1) && mCursorGridZ != -1) {
-        float aLeft = mCursorGridX * gTileWidth;
-        float aTop = mCursorGridY * gTileHeight;
+        float aLeft = mCursorGridX * gTileSize;
+        float aTop = mCursorGridY * gTileSize;
         Graphics::SetColor(1.0f, 1.0f, 1.0f, 0.25f);
-        Graphics::DrawRect(0.0f, aTop, gArenaWidth, gTileHeight);
-        Graphics::DrawRect(aLeft, 0.0f, gTileWidth, gArenaHeight);
+        Graphics::DrawRect(0.0f, aTop, gArenaWidth, gTileSize);
+        Graphics::DrawRect(aLeft, 0.0f, gTileSize, gArenaHeight);
     }
 }
 
@@ -314,17 +312,17 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
         }
     }
     
-    gArenaWidth = mGridWidthTotal * gTileWidth;
+    gArenaWidth = mGridWidthTotal * gTileSize;
     gArenaWidth2 = gArenaWidth * 0.5f;
-    gArenaHeight = mGridHeightTotal * gTileHeight;
+    gArenaHeight = mGridHeightTotal * gTileSize;
     gArenaHeight2 = gArenaHeight * 0.5f;
 
-    gArenaActiveWidth = mGridWidthActive * gTileWidth;
+    gArenaActiveWidth = mGridWidthActive * gTileSize;
     gArenaActiveWidth2 = gArenaActiveWidth * 0.5f;
-    gArenaActiveHeight = mGridHeightActive * gTileHeight;
+    gArenaActiveHeight = mGridHeightActive * gTileSize;
     gArenaActiveHeight2 = gArenaActiveHeight * 0.5f;
-    gArenaActiveX = pGridBufferH * gTileWidth;
-    gArenaActiveY = pGridBufferV * gTileHeight;
+    gArenaActiveX = pGridBufferH * gTileSize;
+    gArenaActiveY = pGridBufferV * gTileSize;
     
     ComputeAllowedPlacements();
 }
@@ -420,7 +418,7 @@ void GameArena::GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pG
     pGridZ = -1;
     int aGridX = -1;
     if (pX > 0) {
-        aGridX = (int)(pX / gTileWidth);
+        aGridX = (int)(pX / gTileSize);
         if (aGridX >= mGridWidthTotal) {
             aGridX = -1;
         }
@@ -428,7 +426,7 @@ void GameArena::GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pG
     if (aGridX != -1) {
         int aGridY = -1;
         GameTile *aTile = 0;
-        int aLandGridY = (int)(pY / gTileHeight);
+        int aLandGridY = (int)(pY / gTileSize);
         float aCenterY = 0.0f;
         float aEpsilon = 0.01f;
         float aTop = 0.0f;
@@ -440,8 +438,8 @@ void GameArena::GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pG
                 if (aTile != 0) {
                     if (aTile->IsRamp() == false) {
                         aCenterY = CY(aGridY, aDepth);
-                        aTop = aCenterY - (gTileHeight2 + aEpsilon);
-                        aBottom = aCenterY + (gTileHeight2 + aEpsilon);
+                        aTop = aCenterY - (gTileSize2 + aEpsilon);
+                        aBottom = aCenterY + (gTileSize2 + aEpsilon);
                         if (pY >= aTop && pY <= aBottom) {
                             printf("Y = %f [T=%f  B=%f]\n", pY, aTop, aBottom);
                             pGridX = aGridX;

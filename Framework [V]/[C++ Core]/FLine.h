@@ -35,8 +35,14 @@ public:
     
     
     static bool                         SegmentSegmentIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
-                                                       float pL_2_x1, float pL_2_y1, float pL_2_x2, float pL_2_y2,
-                                                       float &pCollideX, float &pCollideY, float &pCollideDistance);
+                                                                   float pL_2_x1, float pL_2_y1, float pL_2_x2, float pL_2_y2,
+                                                                   float &pCollideX, float &pCollideY);
+
+    //No range checking, no divisor checking, only use when you know
+    //the lines collide..
+    static bool                         LineLineIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,
+                                                                   float pL_2_x1, float pL_2_y1, float pL_2_x2, float pL_2_y2,
+                                                                   float &pCollideX, float &pCollideY);
     
     
     static bool                         SegmentPlaneIntersection(float pL_1_x1, float pL_1_y1, float pL_1_x2, float pL_1_y2,

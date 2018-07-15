@@ -19,7 +19,7 @@ EditorGameArena::EditorGameArena() {
 
     mCurrentPath = 0;
 
-    mGridOpacity = 0.35f;
+    mGridOpacity = 0.0125f;
 
 
 }
@@ -41,7 +41,7 @@ void EditorGameArena::Update() {
     }
 
     EnumList(AnimatedGamePath, aPath, mPathList) {
-        aPath->mEditorMode = (mEditorMode == EDITOR_MODE_PATH);
+        aPath->mEditorMode = true;//(mEditorMode == EDITOR_MODE_PATH);
         aPath->mSelected = (aPath == mCurrentPath);
         aPath->Update();
     }
@@ -59,10 +59,10 @@ void EditorGameArena::Draw() {
                 if (GetTile(aGridX, aGridY, mTileDepth) == 0) {
                     float aCenterX = CX(aGridX, mTileDepth);
                     float aCenterY = CY(aGridY, mTileDepth);
-                    float aLeft = aCenterX - gTileWidth2;
-                    float aRight = aCenterX + gTileWidth2;
-                    float aTop = aCenterY - gTileHeight2;
-                    float aBottom = aCenterY + gTileHeight2;
+                    float aLeft = aCenterX - gTileSize2;
+                    float aRight = aCenterX + gTileSize2;
+                    float aTop = aCenterY - gTileSize2;
+                    float aBottom = aCenterY + gTileSize2;
                     float aWidth = aRight - aLeft;
                     float aHeight = aBottom - aTop;
                     Graphics::SetColor(1.0f, 1.0f, 0.0f, mGridOpacity);
@@ -291,14 +291,14 @@ void EditorGameArena::GetGridPosAtDepth(float pX, float pY, int pDepth, int &pGr
     if (pDepth >= 0 && pDepth < GRID_DEPTH) {
         int aGridX = -1;
         if (pX > 0) {
-            aGridX = (int)(pX / gTileWidth);
+            aGridX = (int)(pX / gTileSize);
             if (aGridX >= mGridWidthTotal) {
                 aGridX = -1;
             }
         }
         if (aGridX != -1) {
             int aGridY = -1;
-            int aLandGridY = (int)(pY / gTileHeight);
+            int aLandGridY = (int)(pY / gTileSize);
             float aCenterY = 0.0f;
             float aEpsilon = 0.01f;
             float aTop = 0.0f;
@@ -306,8 +306,8 @@ void EditorGameArena::GetGridPosAtDepth(float pX, float pY, int pDepth, int &pGr
             aGridY = aLandGridY - 1;
             for (int k=0;k<3;k++) {
                 aCenterY = CY(aGridY, pDepth);
-                aTop = aCenterY - (gTileHeight2 + aEpsilon);
-                aBottom = aCenterY + (gTileHeight2 + aEpsilon);
+                aTop = aCenterY - (gTileSize2 + aEpsilon);
+                aBottom = aCenterY + (gTileSize2 + aEpsilon);
                 if (pY >= aTop && pY <= aBottom) {
                     pGridX = aGridX;
                     pGridY = aGridY;
@@ -325,7 +325,7 @@ void EditorGameArena::GetEditorGridPos(float pX, float pY, int &pGridX, int &pGr
     pGridZ = -1;
     int aGridX = -1;
     if (pX > 0) {
-        aGridX = (int)(pX / gTileWidth);
+        aGridX = (int)(pX / gTileSize);
         if (aGridX >= mGridWidthTotal) {
             aGridX = -1;
         }
@@ -333,7 +333,7 @@ void EditorGameArena::GetEditorGridPos(float pX, float pY, int &pGridX, int &pGr
     if (aGridX != -1) {
         int aGridY = -1;
         GameTile *aTile = 0;
-        int aLandGridY = (int)(pY / gTileHeight);
+        int aLandGridY = (int)(pY / gTileSize);
         float aCenterY = 0.0f;
         float aEpsilon = 0.01f;
         float aTop = 0.0f;
@@ -344,8 +344,8 @@ void EditorGameArena::GetEditorGridPos(float pX, float pY, int &pGridX, int &pGr
                 aTile = GetTile(aGridX, aGridY, aDepth);
                 if (aTile != 0) {
                     aCenterY = CY(aGridY, aDepth);
-                    aTop = aCenterY - (gTileHeight2 + aEpsilon);
-                    aBottom = aCenterY + (gTileHeight2 + aEpsilon);
+                    aTop = aCenterY - (gTileSize2 + aEpsilon);
+                    aBottom = aCenterY + (gTileSize2 + aEpsilon);
                     if (pY >= aTop && pY <= aBottom) {
                         pGridX = aGridX;
                         pGridY = aGridY;

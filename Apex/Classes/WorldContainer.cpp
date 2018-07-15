@@ -59,7 +59,7 @@ void WorldContainer::Layout() {
             float aWidth = mWidth - 64.0f;
             if (aWidth > 420.0f) { aWidth = 420.0f; }
             if (mEditorMenu->mExpanded) {
-                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, 540.0f);
+                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, 640.0f);
             } else {
                 mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, mEditorMenu->GetHeight());
             }

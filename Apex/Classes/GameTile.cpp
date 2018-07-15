@@ -46,8 +46,8 @@ void GameTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;
-    mCenterX = CX(pGridX, pGridZ);// (float)pGridX * gTileWidth + (gTileWidth / 2.0f);
-    mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileHeight + (gTileHeight / 2.0f);
+    mCenterX = CX(pGridX, pGridZ);// (float)pGridX * gTileSize + (gTileSize / 2.0f);
+    mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileSize + (gTileSize / 2.0f);
 }
 
 void GameTile::Update() {
@@ -96,10 +96,10 @@ void GameTile::Draw() {
 
     /*
     float aBoxSize = 2.0f;
-    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
-    Graphics::DrawRect(mCenterX + gTileWidth / 2.0f - aBoxSize, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
-    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, gTileWidth, aBoxSize);
-    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY + gTileHeight / 2.0f - aBoxSize, gTileWidth, aBoxSize);
+    Graphics::DrawRect(mCenterX - gTileSize / 2.0f, mCenterY - gTileSize / 2.0f, aBoxSize, gTileSize);
+    Graphics::DrawRect(mCenterX + gTileSize / 2.0f - aBoxSize, mCenterY - gTileSize / 2.0f, aBoxSize, gTileSize);
+    Graphics::DrawRect(mCenterX - gTileSize / 2.0f, mCenterY - gTileSize / 2.0f, gTileSize, aBoxSize);
+    Graphics::DrawRect(mCenterX - gTileSize / 2.0f, mCenterY + gTileSize / 2.0f - aBoxSize, gTileSize, aBoxSize);
     */
 }
 

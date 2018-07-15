@@ -32,10 +32,6 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     AddSection(mMainSegment);
     gNotify.Register(this, mMainSegment, "segment");
 
-
-
-
-
     mPanelMainControls = new ToolMenuPanel();
     mPanelMainControls->SetTitle("Main Controls");
     AddSection(mPanelMainControls);
@@ -57,9 +53,6 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mButtonClear->SetText("Clear");
     mRowMainMenu->AddButton(mButtonClear);
     gNotify.Register(this, mButtonClear, "button_click");
-
-
-
 
     mRowGridSize = new ToolMenuSectionRow();
     mPanelMainControls->AddSection(mRowGridSize);
@@ -98,9 +91,6 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     gNotify.Register(this, mButtonBufferSubtract, "button_click");
 
 
-
-
-
     mPanelWorldTransform = new ToolMenuPanel();
     mPanelWorldTransform->SetTitle("World Transform");
     AddSection(mPanelWorldTransform);
@@ -116,7 +106,7 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mSliderZoom = new UISlider();
     mSliderZoom->SetText("Zoom:");
     mSliderZoom->SetValue(&aGesture->mWorldScale);
-    mSliderZoom->SetRange(0.125f, 2.25f);
+    mSliderZoom->SetRange(0.125f, 5.0f);
     mPanelWorldTransform->AddSection(mSliderZoom);
     
     mSliderPanRotation = new UISlider();
@@ -125,7 +115,9 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mSliderPanRotation->SetRange(-45.0f, 45.0f);
     mPanelWorldTransform->AddSection(mSliderPanRotation);
 
-    mPanelWorldTransform->Deactivate();
+    //TOO: Twiddle...
+    //mPanelWorldTransform->Deactivate();
+
 
 
 
@@ -133,11 +125,8 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mPanelPaths->SetTitle("Spawn Paths");
     AddSection(mPanelPaths);
 
-
-
     mRowPathMode = new ToolMenuSectionRow();
     mPanelPaths->AddSection(mRowPathMode);
-
 
     mCheckBoxPathStart = new UICheckBox();
     mCheckBoxPathStart->SetText("Path Start");
