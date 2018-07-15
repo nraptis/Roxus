@@ -41,7 +41,10 @@ GameArena::GameArena() {
     
     //Load("test_level_1.xml");
     Load("pathing_map_02.xml");
+    //Load("pathing_map_02_inverse.xml");
 
+    Load("45_degree_corners.xml");
+    
 }
 
 GameArena::~GameArena() {
@@ -50,6 +53,13 @@ GameArena::~GameArena() {
 }
 
 void GameArena::Update() {
+
+    if (mDeletedTileList.mCount > 0) {
+        EnumList(GameTile, aTile, mDeletedTileList) {
+            delete aTile;
+        }
+        mDeletedTileList.RemoveAll();
+    }
     
     /*
      for(int i=0;i<mGridWidth;i++)
@@ -217,31 +227,7 @@ void GameArena::Draw() {
     Graphics::SetColor();
 }
 
-void GameArena::Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV) {
-    SizeGrid(pWidth, pHeight, pGridBufferH, pGridBufferV);
-    int aDepth = 1;
-    for (int aX=0;aX<mGridWidthActive;aX++) {
-        for (int aY=0;aY<mGridHeightActive;aY++) {
-            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV] = new GameTile();
-            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV]->SetUp(aX + mGridBufferH, aY + mGridBufferV, aDepth);
-        }
-    }
-    for (int aX = 0;aX < mGridWidthActive;aX++) {
-        for (int aY=0;aY<mGridHeightActive;aY++) {
-            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV] = new GameTile();
-            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV]->SetUp(aX + mGridBufferH, aY + mGridBufferV, aDepth);
-        }
-    }
-    aDepth = 0;
-    for (int aX = 0;aX < mGridWidthTotal;aX++) {
-        for (int aY = 0;aY < mGridHeightTotal;aY++) {
-            if (aX < mGridBufferH || aY < mGridBufferV || aX >= (mGridBufferH + mGridWidthActive) || aY >= (mGridBufferV + mGridHeightActive)) {
-                mTile[aDepth][aX][aY] = new GameTile();
-                mTile[aDepth][aX][aY]->SetUp(aX, aY, aDepth);
-            }
-        }
-    }
-}
+
 
 void GameArena::DrawGridOverlay() {
     int aDrawIndex = 0;
@@ -327,6 +313,10 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     ComputeAllowedPlacements();
 }
 
+void GameArena::ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV) {
+
+}
+
 void GameArena::ComputeAllowedPlacements() {
     int aMaxX = mGridBufferH + mGridWidthActive;
     int aMaxY = mGridBufferV + mGridHeightActive;
@@ -361,6 +351,15 @@ void GameArena::RemoveTower(Tower *pTower) {
 void GameArena::RemoveTower(int pGridX, int pGridY, int pGridZ) {
     RemoveTower(GetTower(pGridX, pGridY, pGridZ));
 }
+
+void GameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
+    GameTile *aTile = GetTile(pGridX, pGridY, pGridZ);
+    if (aTile) {
+        mDeletedTileList += aTile;
+        mTile[pGridZ][pGridX][pGridY] = 0;
+    }
+}
+
 
 void GameArena::PlaceTower(Tower *pTower) {
     if (pTower) {
@@ -693,6 +692,93 @@ void GameArena::ComputePathConnections() {
     }
 }
 
+
+
+void GameArena::Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV) {
+    SizeGrid(pWidth, pHeight, pGridBufferH, pGridBufferV);
+    int aDepth = 1;
+    for (int aX=0;aX<mGridWidthActive;aX++) {
+        for (int aY=0;aY<mGridHeightActive;aY++) {
+            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV] = new GameTile();
+            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV]->SetUp(aX + mGridBufferH, aY + mGridBufferV, aDepth);
+        }
+    }
+    for (int aX = 0;aX < mGridWidthActive;aX++) {
+        for (int aY=0;aY<mGridHeightActive;aY++) {
+            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV] = new GameTile();
+            mTile[aDepth][aX + mGridBufferH][aY + mGridBufferV]->SetUp(aX + mGridBufferH, aY + mGridBufferV, aDepth);
+        }
+    }
+    aDepth = 0;
+    for (int aX = 0;aX < mGridWidthTotal;aX++) {
+        for (int aY = 0;aY < mGridHeightTotal;aY++) {
+            if (aX < mGridBufferH || aY < mGridBufferV || aX >= (mGridBufferH + mGridWidthActive) || aY >= (mGridBufferV + mGridHeightActive)) {
+                mTile[aDepth][aX][aY] = new GameTile();
+                mTile[aDepth][aX][aY]->SetUp(aX, aY, aDepth);
+            }
+        }
+    }
+}
+
+void GameArena::Clear(int pDepth) {
+    if (mTile) {
+        if (pDepth >= 0 && pDepth < GRID_DEPTH) {
+            for (int aGridX=0;aGridX<mGridWidthTotal;aGridX++) {
+                for (int aGridY=0;aGridY<mGridHeightTotal;aGridY++) {
+                    DeleteTile(aGridX, aGridY, pDepth);
+                }
+            }
+        }
+    }
+
+}
+
+void GameArena::Clear() {
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        Clear(aDepth);
+    }
+}
+
+void GameArena::Flood(int pDepth) {
+    if (pDepth >= 0 && pDepth < GRID_DEPTH) {
+        Clear(pDepth);
+        for (int aGridX=0;aGridX<mGridWidthTotal;aGridX++) {
+            for (int aGridY=0;aGridY<mGridHeightTotal;aGridY++) {
+                //mTile[pDepth][
+                GameTile *aTile = new GameTile();
+                mTile[pDepth][aGridX][aGridY] = aTile;
+                aTile->mType = TILE_TYPE_NORMAL;
+                aTile->SetUp(aGridX, aGridY, pDepth);
+            }
+        }
+    }
+}
+
+void GameArena::IncreaseBuffer() {
+
+}
+
+void GameArena::DecreaseBuffer() {
+
+}
+
+void GameArena::IncreaseWidth() {
+
+}
+
+void GameArena::DecreaseWidth() {
+
+}
+
+void GameArena::IncreaseHeight() {
+
+}
+
+void GameArena::DecreaseHeight() {
+
+}
+
+
 void GameArena::Save(const char *pPath) {
     FString aPath = FString(pPath);
     if(aPath.mLength <= 0)aPath = "test_level.xml";
@@ -777,6 +863,5 @@ void GameArena::Load(const char *pPath)
     
     ComputeAllowedPlacements();
     ComputePathConnections();
-    
 }
 

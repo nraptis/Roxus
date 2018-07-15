@@ -56,7 +56,13 @@ void WorldContainer::Layout() {
     if (mParent) {
         SetFrame(0.0f, 0.0f, mParent->mWidth, mParent->mHeight);
         if (mDidUpdate == false) {
-            mEditorMenu->SetFrame(32.0f, 32.0f, mWidth - 64.0f, mEditorMenu->GetHeight());
+            float aWidth = mWidth - 64.0f;
+            if (aWidth > 420.0f) { aWidth = 420.0f; }
+            if (mEditorMenu->mExpanded) {
+                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, 640.0f);
+            } else {
+                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, mEditorMenu->GetHeight());
+            }
         }
     }
 }
@@ -81,12 +87,10 @@ void WorldContainer::Draw() {
     Graphics::OutlineRectInside(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f, 10.0f);
     Graphics::SetColor();
 
-    //mArena
     if (mTransformContainer != 0 && mArena != 0) {
         mTransformContainer->DrawTransform();
         mArena->Draw();
     }
-    
 }
 
 void WorldContainer::TouchDown(float pX, float pY, void *pData) {
@@ -116,5 +120,3 @@ void WorldContainer::KeyUp(int pKey) {
 void WorldContainer::Notify(void *pSender, const char *pNotification) {
 
 }
-
-

@@ -543,7 +543,7 @@ void FDrawNodeList::Draw(FSprite *pSprite, bool pStrips)
     if(aUseTexture)
     {
         Graphics::EnableTextureCoordinateArray();
-        Graphics::ArrayCoords(aPtr + 3, sizeof(FDrawNode), 3);
+        Graphics::ArrayCoords(&(aPtr[3]), sizeof(FDrawNode), 3);
         
         Graphics::TextureEnable();
         Graphics::TextureBind(pSprite->mTexture);
@@ -558,7 +558,7 @@ void FDrawNodeList::Draw(FSprite *pSprite, bool pStrips)
     if(mEnabledColor)
     {
         Graphics::EnableColorArray();
-        Graphics::ArrayColor(aPtr + 6, sizeof(FDrawNode), 4);
+        Graphics::ArrayColor(&(aPtr[6]), sizeof(FDrawNode), 4);
     }
     else
     {

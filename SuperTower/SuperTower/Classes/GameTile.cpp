@@ -46,8 +46,8 @@ void GameTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;
-    mCenterX = CX(pGridX, pGridZ);// (float)pGridX * gTileWidth + (gTileWidth / 2.0f);
-    mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileHeight + (gTileHeight / 2.0f);
+    mCenterX = CX(pGridX, pGridZ);// (float)pGridX * gTileSize + (gTileSize / 2.0f);
+    mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileSize + (gTileSize / 2.0f);
 }
 
 void GameTile::Update() {
@@ -55,9 +55,6 @@ void GameTile::Update() {
 }
 
 void GameTile::Draw() {
-
-    Graphics::SetColor();
-    if (gApp->mDarkMode) { Graphics::SetColor(0.125f, 0.125f, 0.125f, 1.0f); }
 
     FSprite *aAccessory = 0;
     FSprite *aTile = 0;
@@ -81,22 +78,28 @@ void GameTile::Draw() {
         if(mType == TILE_TYPE_RAMP_R) { aAccessory = &gApp->mBridgeRampR; }
     }
 
-    float aDrawX = CX(mGridX, 1);
-    float aDrawY = CY(mGridY, 1);
-    if (aAccessory) {
-        aAccessory->Center(aDrawX, aDrawY);
+    float aDrawX = CX(mGridX, mGridZ);
+    if (IsRamp()) {
+        if (aAccessory) {
+            aAccessory->Center(aDrawX, CY(mGridY, 1));
+        }
     } else {
         if (aTile) {
-            aTile->Center(aDrawX, aDrawY);
+            aTile->Center(aDrawX, CY(mGridY, 1));
+        }
+        if (aAccessory) {
+            aAccessory->Center(aDrawX, CY(mGridY, mGridZ));
         }
     }
 
+
+
     /*
     float aBoxSize = 2.0f;
-    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
-    Graphics::DrawRect(mCenterX + gTileWidth / 2.0f - aBoxSize, mCenterY - gTileHeight / 2.0f, aBoxSize, gTileHeight);
-    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY - gTileHeight / 2.0f, gTileWidth, aBoxSize);
-    Graphics::DrawRect(mCenterX - gTileWidth / 2.0f, mCenterY + gTileHeight / 2.0f - aBoxSize, gTileWidth, aBoxSize);
+    Graphics::DrawRect(mCenterX - gTileSize / 2.0f, mCenterY - gTileSize / 2.0f, aBoxSize, gTileSize);
+    Graphics::DrawRect(mCenterX + gTileSize / 2.0f - aBoxSize, mCenterY - gTileSize / 2.0f, aBoxSize, gTileSize);
+    Graphics::DrawRect(mCenterX - gTileSize / 2.0f, mCenterY - gTileSize / 2.0f, gTileSize, aBoxSize);
+    Graphics::DrawRect(mCenterX - gTileSize / 2.0f, mCenterY + gTileSize / 2.0f - aBoxSize, gTileSize, aBoxSize);
     */
 }
 

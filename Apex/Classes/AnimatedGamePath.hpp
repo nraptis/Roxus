@@ -12,13 +12,40 @@
 #include "GamePath.h"
 #include "FDrawQuad.hpp"
 #include "FPointList.h"
+#include "FVertexBuffer.h"
 
-class AnimatedGamePathSegment {
+struct AnimatedGamePathNode {
 public:
-    AnimatedGamePathSegment();
-    ~AnimatedGamePathSegment();
+    float                               mCenterX;
+    float                               mCenterY;
+    float                               mDirX;
+    float                               mDirY;
+    float                               mNormX;
+    float                               mNormY;
 
-    
+    float                               mX1;
+    float                               mY1;
+    float                               mX2;
+    float                               mY2;
+
+
+    float                               mDistanceFromPrevious;
+};
+
+struct AnimatedGamePathChunk {
+public:
+    FList                               mPathNodeList;
+    FVertexBuffer                       mBuffer;
+
+    int                                 mDepth;
+
+    //Length of all nodes
+    float                               mLength;
+
+    //Distance along total path...
+    float                               mDistance;
+
+
 };
 
 class AnimatedGamePath : public GamePath {
@@ -28,24 +55,35 @@ public:
 
     void                                Update();
     void                                Draw();
+    
+    void                                Reset();
+    void                                Generate();
 
-    void                                ResetQuads();
-    void                                GenerateQuads();
+    float                               mPathWidth;
+    float                               mPathWidth2;
+    
 
-    void                                Add45DegreeBend(float pStartX, float pStartY,
-                                                        float pCenterX, float pCenterY,
-                                                        float pEndX, float pEndY);
+    void                                AddBend(int pDepth, float pStartX, float pStartY, float pCenterX, float pCenterY, float pEndX, float pEndY);
 
-    FPointList                          mGeneratePointList;
+    void                                AppendPointListToPath(int pDepth, float pUVWSpreadFactor=1.0f);
 
 
-    FDrawQuadSnake                      mSnake;
-    //float
+    void                                GenerateTextureQuads();
 
+    FPointList                          mPointList;
+
+
+    FList                               mPathChunkList;
+    FList                               mPathChunkQueue;
+
+    FList                               mPathNodeQueue;
 
     bool                                mSelected;
     bool                                mEditorMode;
-    
+
+    float                               mTextureAnimationOffset;
+
+    FSprite                             *mSprite;
 
 
 };

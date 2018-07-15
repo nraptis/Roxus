@@ -362,6 +362,6 @@
 		<tile grid_x="12" grid_y="12" grid_z="2" type="2"/>
 	</tile_list>
 	<path_list>
-		<path start_x="3" start_y="3" start_z="0" end_x="15" end_y="17" end_z="0"/>
+		<path start_x="15" start_y="17" start_z="0" end_x="3" end_y="3" end_z="0"/>
 	</path_list>
 </game_arena>

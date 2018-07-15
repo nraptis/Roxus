@@ -24,7 +24,36 @@ public:
     virtual void                            Layout();
     virtual void                            Notify(void *pSender, const char *pNotification);
 
+    void                                    RefreshActiveMenus();
+
+
     UISegment                               *mMainSegment;
+
+    ToolMenuPanel                           *mPanelMainControls;
+    ToolMenuSectionRow                      *mRowMainMenu;
+    UIButton                                *mButtonSave;
+    UIButton                                *mButtonExport;
+
+    ToolMenuSectionRow                      *mRowClear;
+    UIButton                                *mButtonClearTunnels;
+    UIButton                                *mButtonClearTiles;
+    UIButton                                *mButtonClearBridges;
+
+    ToolMenuSectionRow                      *mRowFlood;
+    UIButton                                *mButtonFloodTunnels;
+    UIButton                                *mButtonFloodTiles;
+    UIButton                                *mButtonFloodBridges;
+
+    ToolMenuSectionRow                      *mRowGridSize;
+    UIButton                                *mButtonWidthAdd;
+    UIButton                                *mButtonWidthSubtract;
+    UIButton                                *mButtonHeightAdd;
+    UIButton                                *mButtonHeightSubtract;
+
+    ToolMenuSectionRow                      *mRowGridBuffer;
+    UIButton                                *mButtonBufferAdd;
+    UIButton                                *mButtonBufferSubtract;
+    
 
     ToolMenuPanel                           *mPanelWorldTransform;
     ToolMenuSectionRow                      *mRowTransformButtons;
@@ -54,6 +83,17 @@ public:
     UICheckBox                              *mCheckBoxTileRampR;
     UICheckBox                              *mCheckBoxTileRampU;
     UICheckBox                              *mCheckBoxTileRampD;
+
+    UISlider                                *mSliderTunnelOpacity;
+    UISlider                                *mSliderTileOpacity;
+    UISlider                                *mSliderBridgeOpacity;
+
+
+    UISlider                                *mSliderTileGridOpacity;
+
+
+
+
 
 };
 

@@ -14,7 +14,6 @@ WorldTransformContainer::WorldTransformContainer() {
     mConsumesTouches = false;
     SetTransformAnchor(0.5f, 0.5f);
     mName = "path_editor";
-
     mPivotX = 0.0f;
     mPivotY = 0.0f;
 }

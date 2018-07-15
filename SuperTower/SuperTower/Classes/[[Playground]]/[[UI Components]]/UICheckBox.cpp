@@ -61,8 +61,8 @@ void UICheckBox::Layout() {
         aShift += (mWidth - aExpectedWidth)  / 2.0f;
     }
 
-    mTextCenterX = aTextWidth / 2.0f + 6.0f + aShift;
-
+    mTextCenterX = aTextWidth / 2.0f + 2.0f + aShift;
+    
     mCheckBackground.SetRect(aTextRight + 2.0f + aShift, aCheckTop + 2.0f, aCheckSize - 4.0f, aCheckSize - 4.0f);
     mCheckOutline.SetRect(aTextRight + aShift, aCheckTop, aCheckSize, aCheckSize);
 

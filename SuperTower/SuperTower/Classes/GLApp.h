@@ -100,12 +100,20 @@ public:
 
     FSprite                                 m1024x1024;
     FSprite                                 m2048x2048;
+
+
+    FSprite                                 mTile1;
+    FSprite                                 mTile2;
+    FSprite                                 mTile3;
+    FSprite                                 mTile4;
+    
 };
 
 //float CX(int pGridX);
 //float CY(int pGridY);
 float CX(int pGridX, int pGridZ);
 float CY(int pGridY, int pGridZ);
+float SZ(int pGridZ);
 
 //extern Game *gGame;
 //extern TilePathFinder *gPathFinder;
@@ -125,10 +133,10 @@ extern float gArenaActiveHeight2;
 extern float gArenaActiveX;
 extern float gArenaActiveY;
 
-extern float gTileWidth;
-extern float gTileHeight;
-extern float gTileWidth2;
-extern float gTileHeight2;
+extern float gTileSize;
+extern float gTileSize2;
+extern float gPathBendInset45;
+extern float gPathBendInset90;
 
 extern GLApp *gApp;
 

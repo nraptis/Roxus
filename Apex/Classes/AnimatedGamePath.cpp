@@ -13,6 +13,13 @@ AnimatedGamePath::AnimatedGamePath() {
     mSelected = false;
     mEditorMode = false;
 
+
+    mPathWidth = 48.0f;
+    mPathWidth2 = (mPathWidth / 2.0f);
+
+    mTextureAnimationOffset = 0.0f;
+
+    mSprite = &gApp->m1024x1024;
 }
 
 AnimatedGamePath::~AnimatedGamePath() {
@@ -21,10 +28,14 @@ AnimatedGamePath::~AnimatedGamePath() {
 
 void AnimatedGamePath::Update() {
 
+    mTextureAnimationOffset += 0.0010f;
+    if (mTextureAnimationOffset >= 1.0f) {
+        mTextureAnimationOffset -= 1.0f;
+    }
 }
 
 void AnimatedGamePath::Draw() {
-    GenerateQuads();
+    Generate();
 
 
 
@@ -53,15 +64,15 @@ void AnimatedGamePath::Draw() {
                 float aCenterY = CY(aGridY, aGridZ);
 
                 if (mSelected) {
-                    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.5f);
-                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 4.0f);
-                    Graphics::SetColor(0.85f, 0.15f, 0.15f, 0.5f);
+                    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.2f);
                     Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
+                    Graphics::SetColor(0.85f, 0.15f, 0.15f, 0.2f);
+                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 1.0f);
                 } else {
-                    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.45f);
-                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 4.0f);
-                    Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.4f);
+                    Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.15f);
                     Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
+                    Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.1f);
+                    Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 1.0f);
                 }
 
                 aPrevGridX = aGridX;
@@ -93,14 +104,46 @@ void AnimatedGamePath::Draw() {
         }
     }
 
+    int aModex = 0;
+
+    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+        Graphics::SetColorSwatch(aModex, 0.666f);
+
+        EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
+            float aX1 = aNode->mCenterX + aNode->mNormX * 20.0f;
+            float aY1 = aNode->mCenterY + aNode->mNormY * 20.0f;
+
+            float aX2 = aNode->mCenterX - aNode->mNormX * 20.0f;
+            float aY2 = aNode->mCenterY - aNode->mNormY * 20.0f;
+
+            Graphics::DrawLine(aX1, aY1, aX2, aY2, 0.5f);
+        }
+
+        aModex += 1;
+    }
+
+
+
+
 }
 
-void AnimatedGamePath::ResetQuads() {
+void AnimatedGamePath::Reset() {
+
+    //mPathNodeQueue
+    
+    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+        EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
+            mPathNodeQueue.Add(aNode);
+        }
+        aChunk->mPathNodeList.RemoveAll();
+        mPathChunkQueue.Add(aChunk);
+    }
+    mPathChunkList.RemoveAll();
 
 }
 
-void AnimatedGamePath::GenerateQuads() {
-    ResetQuads();
+void AnimatedGamePath::Generate() {
+    Reset();
     if (mLength < 2) { return; }
     
     int aStartDirX = mPathX[1] - mPathX[0];
@@ -132,6 +175,242 @@ void AnimatedGamePath::GenerateQuads() {
 
 
         // Up
+        // ---
+        // ++-
+        // -+-
+        if (aPrevGridX == aGridX &&
+            aPrevGridY > aGridY &&
+            aNextGridX < aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aCenterX, aBottomY, aCenterX, aCenterY, aLeftX, aCenterY);
+        }
+
+        // Up
+        // ---
+        // -++
+        // -+-
+        if (aPrevGridX == aGridX &&
+            aPrevGridY > aGridY &&
+            aNextGridX > aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            AddBend(aGridZ, aCenterX, aBottomY, aCenterX, aCenterY, aRightX, aCenterY);
+        }
+
+
+        // Left
+        // -+-
+        // ++-
+        // ---
+        if (aPrevGridX < aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX == aGridX &&
+            aNextGridY < aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aLeftX, aCenterY, aCenterX, aCenterY, aCenterX, aTopY);
+        }
+
+        // Left
+        // ---
+        // ++-
+        // -+-
+        if (aPrevGridX < aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX == aGridX &&
+            aNextGridY > aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aLeftX, aCenterY, aCenterX, aCenterY, aCenterX, aBottomY);
+        }
+
+        // Right
+        // -+-
+        // -++
+        // ---
+        if (aPrevGridX > aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX == aGridX &&
+            aNextGridY < aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            AddBend(aGridZ, aRightX, aCenterY, aCenterX, aCenterY, aCenterX, aTopY);
+        }
+
+        // Right
+        // ---
+        // -++
+        // -+-
+        if (aPrevGridX > aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX == aGridX &&
+            aNextGridY > aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            AddBend(aGridZ, aRightX, aCenterY, aCenterX, aCenterY, aCenterX, aBottomY);
+        }
+
+
+        // Down
+        // -+-
+        // ++-
+        // ---
+        if (aPrevGridX == aGridX &&
+            aPrevGridY < aGridY &&
+            aNextGridX < aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aCenterX, aTopY, aCenterX, aCenterY, aLeftX, aCenterY);
+        }
+
+        // Down
+        // -+-
+        // -++
+        // ---
+        if (aPrevGridX == aGridX &&
+            aPrevGridY < aGridY &&
+            aNextGridX > aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            AddBend(aGridZ, aCenterX, aTopY, aCenterX, aCenterY, aRightX, aCenterY);
+        }
+
+        // Left
+        // --+
+        // ++-
+        // ---
+        if (aPrevGridX > aGridX &&
+            aPrevGridY < aGridY &&
+            aNextGridX < aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aRightX, aTopY, aCenterX, aCenterY, aLeftX, aCenterY);
+        }
+
+        // Left
+        // ---
+        // ++-
+        // --+
+        if (aPrevGridX > aGridX &&
+            aPrevGridY > aGridY &&
+            aNextGridX < aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aRightX, aBottomY, aCenterX, aCenterY, aLeftX, aCenterY);
+        }
+
+        // Left
+        // +--
+        // -++
+        // ---
+        if (aPrevGridX > aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX < aGridX &&
+            aNextGridY < aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aRightX, aCenterY, aCenterX, aCenterY, aLeftX, aTopY);
+        }
+
+
+        // Left
+        // ---
+        // -++
+        // +--
+        if (aPrevGridX > aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX < aGridX &&
+            aNextGridY > aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aRightX, aCenterY, aCenterX, aCenterY, aLeftX, aBottomY);
+        }
+
+        // Right
+        // --+
+        // ++-
+        // ---
+        if (aPrevGridX < aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX > aGridX &&
+            aNextGridY < aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aLeftX, aCenterY, aCenterX, aCenterY, aRightX, aTopY);
+        }
+
+        // Right
+        // ---
+        // ++-
+        // --+
+        if (aPrevGridX < aGridX &&
+            aPrevGridY == aGridY &&
+            aNextGridX > aGridX &&
+            aNextGridY > aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aLeftX, aCenterY, aCenterX, aCenterY, aRightX, aBottomY);
+        }
+
+        // Right
+        // +--
+        // -++
+        // ---
+        if (aPrevGridX < aGridX &&
+            aPrevGridY < aGridY &&
+            aNextGridX > aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aTopY = aCenterY - gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aLeftX, aTopY, aCenterX, aCenterY, aRightX, aCenterY);
+        }
+
+
+        // Right
+        // ---
+        // -++
+        // +--
+        if (aPrevGridX < aGridX &&
+            aPrevGridY > aGridY &&
+            aNextGridX > aGridX &&
+            aNextGridY == aGridY
+            ) {
+            float aBottomY = aCenterY + gTileSize2;
+            float aRightX = aCenterX + gTileSize2;
+            float aLeftX = aCenterX - gTileSize2;
+            AddBend(aGridZ, aLeftX, aBottomY, aCenterX, aCenterY, aRightX, aCenterY);
+        }
+
+        // Up
         // -+-
         // -+-
         // --+
@@ -143,7 +422,7 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aRightX = aCenterX + gTileSize2;
-            Add45DegreeBend(aRightX, aBottomY, aCenterX, aCenterY, aCenterX, aTopY);
+            AddBend(aGridZ, aRightX, aBottomY, aCenterX, aCenterY, aCenterX, aTopY);
         }
 
         // Up
@@ -158,7 +437,7 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aLeftX = aCenterX - gTileSize2;
-            Add45DegreeBend(aLeftX, aBottomY, aCenterX, aCenterY, aCenterX, aTopY);
+            AddBend(aGridZ, aLeftX, aBottomY, aCenterX, aCenterY, aCenterX, aTopY);
         }
 
 
@@ -173,10 +452,8 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aLeftX = aCenterX - gTileSize2;
-            Add45DegreeBend(aCenterX, aBottomY, aCenterX, aCenterY, aLeftX, aTopY);
+            AddBend(aGridZ, aCenterX, aBottomY, aCenterX, aCenterY, aLeftX, aTopY);
         }
-
-
 
         // Up
         // --+
@@ -189,7 +466,7 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aRightX = aCenterX + gTileSize2;
-            Add45DegreeBend(aCenterX, aBottomY, aCenterX, aCenterY, aRightX, aTopY);
+            AddBend(aGridZ, aCenterX, aBottomY, aCenterX, aCenterY, aRightX, aTopY);
         }
 
         // Down
@@ -204,7 +481,7 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aRightX = aCenterX + gTileSize2;
-            Add45DegreeBend(aCenterX, aTopY, aCenterX, aCenterY, aRightX, aBottomY);
+            AddBend(aGridZ, aCenterX, aTopY, aCenterX, aCenterY, aRightX, aBottomY);
         }
 
         // Down
@@ -219,7 +496,7 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aLeftX = aCenterX - gTileSize2;
-            Add45DegreeBend(aCenterX, aTopY, aCenterX, aCenterY, aLeftX, aBottomY);
+            AddBend(aGridZ, aCenterX, aTopY, aCenterX, aCenterY, aLeftX, aBottomY);
         }
 
         // Down
@@ -234,7 +511,7 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aLeftX = aCenterX - gTileSize2;
-            Add45DegreeBend(aLeftX, aTopY, aCenterX, aCenterY, aCenterX, aBottomY);
+            AddBend(aGridZ, aLeftX, aTopY, aCenterX, aCenterY, aCenterX, aBottomY);
         }
 
         // Down
@@ -249,16 +526,11 @@ void AnimatedGamePath::GenerateQuads() {
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
             float aRightX = aCenterX + gTileSize2;
-            Add45DegreeBend(aRightX, aTopY, aCenterX, aCenterY, aCenterX, aBottomY);
+            AddBend(aGridZ, aRightX, aTopY, aCenterX, aCenterY, aCenterX, aBottomY);
         }
-
-        //float aCenterX = CX(aGridX, aGridZ);
-        //float aCenterY = CY(aGridY, aGridZ);
-
 
         //This is a vertical line...
         if (aNextGridX == aGridX && aPrevGridX == aGridX) {
-
 
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
@@ -302,15 +574,18 @@ void AnimatedGamePath::GenerateQuads() {
         aGridZ = aNextGridZ;
 
     }
+
+    GenerateTextureQuads();
+    
 }
 
 
-void AnimatedGamePath::Add45DegreeBend(float pStartX, float pStartY,
+void AnimatedGamePath::AddBend(int pDepth, float pStartX, float pStartY,
                                        float pCenterX, float pCenterY,
                                        float pEndX, float pEndY) {
 
 
-    mGeneratePointList.Reset();
+    mPointList.Reset();
 
 
     //Graphics::SetColor(1.0f, 0.25f, 0.25f, 1.0f);
@@ -379,16 +654,16 @@ void AnimatedGamePath::Add45DegreeBend(float pStartX, float pStartY,
     //Graphics::SetColor(0.125f, 1.0f, 0.45f, 0.87f);
     //Graphics::DrawLine(aLine2X1, aLine2Y1, aLine2X2, aLine2Y2);
 
-    float aCollideX = pCenterX;
-    float aCollideY = pCenterY;
+    float aCircleCenterX = pCenterX;
+    float aCircleCenterY = pCenterY;
 
-    if (FLine::LineLineIntersection(aLine1X1, aLine1Y1, aLine1X2, aLine1Y2, aLine2X1, aLine2Y1, aLine2X2, aLine2Y2, aCollideX, aCollideY)) {
-        float aSpokeDiffX = aCollideX - aKnot1X;
-        float aSpokeDiffY = aCollideY - aKnot1Y;
+    if (FLine::LineLineIntersection(aLine1X1, aLine1Y1, aLine1X2, aLine1Y2, aLine2X1, aLine2Y1, aLine2X2, aLine2Y2, aCircleCenterX, aCircleCenterY)) {
+        float aSpokeDiffX = aCircleCenterX - aKnot1X;
+        float aSpokeDiffY = aCircleCenterY - aKnot1Y;
         float aSpokeRadius = aSpokeDiffX * aSpokeDiffX + aSpokeDiffY * aSpokeDiffY;
         aSpokeRadius = sqrtf(aSpokeRadius);
-        float aStartAngle = FaceTarget(aCollideX, aCollideY, aKnot1X, aKnot1Y);
-        float aEndAngle = FaceTarget(aCollideX, aCollideY, aKnot2X, aKnot2Y);
+        float aStartAngle = FaceTarget(aCircleCenterX, aCircleCenterY, aKnot1X, aKnot1Y);
+        float aEndAngle = FaceTarget(aCircleCenterX, aCircleCenterY, aKnot2X, aKnot2Y);
 
         float aAngleDifference = aStartAngle - aEndAngle;
 
@@ -399,36 +674,253 @@ void AnimatedGamePath::Add45DegreeBend(float pStartX, float pStartY,
             aAngleDifference = -aAngleDifference;
         }
 
-        mGeneratePointList.Add(pStartX, pStartY);
-        mGeneratePointList.Add(aKnot1X, aKnot1Y);
+        mPointList.Add(pStartX, pStartY);
+        mPointList.Add(aKnot1X, aKnot1Y);
         int aPointCount = 8;
         for (int i=1;i<aPointCount;i++) {
             float aPercent = ((float)i) / ((float)aPointCount);
             float aAngle = aStartAngle + aAngleDifference * aPercent;
             float aDirX = Sin(aAngle);
             float aDirY = -Cos(aAngle);
-            float aX = aCollideX + aSpokeRadius * aDirX;
-            float aY = aCollideY + aSpokeRadius * aDirY;
-            mGeneratePointList.Add(aX, aY);
+            float aX = aCircleCenterX + aSpokeRadius * aDirX;
+            float aY = aCircleCenterY + aSpokeRadius * aDirY;
+            mPointList.Add(aX, aY);
         }
-        mGeneratePointList.Add(aKnot2X, aKnot2Y);
-        mGeneratePointList.Add(pEndX, pEndY);
+        mPointList.Add(aKnot2X, aKnot2Y);
+        mPointList.Add(pEndX, pEndY);
 
     } else {
         printf("FATAL ERROR, OUR SETUP IS FLAWED!!!\n\n");
-
     }
 
-    float aLastX = mGeneratePointList.mX[0];
-    float aLastY = mGeneratePointList.mY[0];
+    AppendPointListToPath(1.0f);
+
+    /*
+    float aLastX = mPointList.mX[0];
+    float aLastY = mPointList.mY[0];
 
     float aX = 0.0f;
     float aY = 0.0f;
-    for (int i=1;i<mGeneratePointList.mCount;i++) {
-        Graphics::SetColor(((float)i) / ((float)(mGeneratePointList.mCount - 1)), 1.0f, 1.0f, 0.5f);
-        aX = mGeneratePointList.mX[i];aY = mGeneratePointList.mY[i];
+    for (int i=1;i<mPointList.mCount;i++) {
+        Graphics::SetColor(((float)i) / ((float)(mPointList.mCount - 1)), 0.25f, 0.25f, 0.5f);
+        aX = mPointList.mX[i];aY = mPointList.mY[i];
         Graphics::DrawLine(aLastX, aLastY, aX, aY, 0.25f);
         Graphics::DrawPoint(aX, aY, 1.0f);
         aLastX = aX;aLastY = aY;
+
+        //gApp->mTile1.Center(aX, aY);
     }
+    */
+}
+
+void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor) {
+
+    if (mPointList.mCount < 2) {
+        printf("FATAL ERROR, NEED MORE PTS!\n");
+        return;
+    }
+
+    AnimatedGamePathChunk *aChunk = (AnimatedGamePathChunk *)mPathChunkQueue.PopLast();
+    if (aChunk == 0) { aChunk = new AnimatedGamePathChunk(); }
+    mPathChunkList.Add(aChunk);
+    aChunk->mDepth = pDepth;
+    aChunk->mDistance = 0.0f;
+
+
+
+    //Start Node...
+    AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
+    if (aStartNode == 0) { aStartNode = new AnimatedGamePathNode(); }
+
+    aChunk->mPathNodeList.Add(aStartNode);
+
+    float aDirX = mPointList.mX[1] - mPointList.mX[0];
+    float aDirY = mPointList.mY[1] - mPointList.mY[0];
+    float aDist = aDirX * aDirX + aDirY * aDirY;
+    if (aDist > SQRT_EPSILON) {
+        aDist = sqrtf(aDist);
+        aDirX /= aDist;
+        aDirY /= aDist;
+    }
+    aStartNode->mCenterX = mPointList.mX[0];
+    aStartNode->mCenterY = mPointList.mY[0];
+    aStartNode->mDirX = aDirX;
+    aStartNode->mDirY = aDirY;
+    aStartNode->mNormX = aDirY;
+    aStartNode->mNormY = -aDirX;
+    aStartNode->mDistanceFromPrevious = 0.0f;
+    
+    float aLength = 0.0f;
+    for (int i=1;i<mPointList.mCount;i++) {
+        AnimatedGamePathNode *aNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
+        if (aNode == 0) { aNode = new AnimatedGamePathNode(); }
+        aChunk->mPathNodeList.Add(aNode);
+
+        float aX = mPointList.mX[i];
+        float aY = mPointList.mY[i];
+        aDirX = aX - mPointList.mX[i-1];
+        aDirY = aY - mPointList.mY[i-1];
+        aDist = aDirX * aDirX + aDirY * aDirY;
+        if (aDist > SQRT_EPSILON) {
+            aDist = sqrtf(aDist);
+            aDirX /= aDist;
+            aDirY /= aDist;
+        }
+
+        aNode->mCenterX = aX;
+        aNode->mCenterY = aY;
+        aNode->mDirX = aDirX;
+        aNode->mDirY = aDirY;
+        aNode->mNormX = aDirY;
+        aNode->mNormY = -aDirX;
+        aNode->mDistanceFromPrevious = aDist;
+        
+        aLength += aDist;
+    }
+
+    aChunk->mLength = aLength;
+
+
+    EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
+        aNode->mX1 = aNode->mCenterX + aNode->mNormX * mPathWidth2;
+        aNode->mY1 = aNode->mCenterY + aNode->mNormY * mPathWidth2;
+        aNode->mX2 = aNode->mCenterX - aNode->mNormX * mPathWidth2;
+        aNode->mY2 = aNode->mCenterY - aNode->mNormY * mPathWidth2;
+    }
+
+
+    //mDistanceFromPrevious;
+    //mDistance;
+
+
+
+
+    //mPointList
+
+
+    //FList                               mPathNodeList;
+    //FList                               mPathNodeQueue;
+
+    //AnimatedGamePathNode
+
+    //mDrawNodeList
+
+
+}
+
+void AnimatedGamePath::GenerateTextureQuads() {
+
+    float aTextureOffset = mTextureAnimationOffset;
+
+    float aImageWidth = mPathWidth;
+
+    int aTotalIndex = 0;
+    float aLength = 0.0f;
+    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+        aChunk->mBuffer.Reset();
+        AnimatedGamePathNode *aPrevNode = (AnimatedGamePathNode *)aChunk->mPathNodeList.mData[0];
+        float aPrevX1 = aPrevNode->mX1, aPrevY1 = aPrevNode->mY1;
+        float aPrevX2 = aPrevNode->mX2, aPrevY2 = aPrevNode->mY2;
+        float aPrevDist = aLength + aPrevNode->mDistanceFromPrevious;
+        float aPrevU = (aPrevDist / aImageWidth) + aTextureOffset;
+        float aX1 = aPrevX1, aY1 = aPrevY1, aX2 = aPrevX2, aY2 = aPrevY2;
+        float aDist = aPrevDist;
+        float aU = aPrevU;
+
+        float aNodeDist = aLength;
+        for (int i=1;i<aChunk->mPathNodeList.mCount;i++) {
+
+            AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)aChunk->mPathNodeList.mData[i];
+
+            aNodeDist += aNode->mDistanceFromPrevious;
+
+            aX1 = aNode->mX1;
+            aY1 = aNode->mY1;
+            aX2 = aNode->mX2;
+            aY2 = aNode->mY2;
+            aDist = aLength + aNode->mDistanceFromPrevious;
+            aU = (aNodeDist / aImageWidth) + aTextureOffset;
+
+            aTotalIndex++;
+
+            //aImageWidth
+
+            //aChunk->mDrawNodeList.Add(aPrevX1, aPrevY1, aZ, aPrevU, 0.0f, aW, aR, aG, aB, aA);
+            //aChunk->mDrawNodeList.Add(aPrevX2, aPrevY2, aZ, aPrevU, 1.0f, aW, aR, aG, aB, aA);
+            //aChunk->mDrawNodeList.Add(aX1, aY1, aZ, aU, 0.0f, aW, aR, aG, aB, aA);
+            
+            aChunk->mBuffer.Add(aPrevX1, aPrevY1, aPrevU, 0.0f);
+            aChunk->mBuffer.Add(aPrevX2, aPrevY2, aPrevU, 1.0f);
+            aChunk->mBuffer.Add(aX1, aY1, aU, 0.0f);
+
+
+            aChunk->mBuffer.Add(aX1, aY1, aU, 0.0f);
+            aChunk->mBuffer.Add(aPrevX2, aPrevY2, aPrevU, 1.0f);
+            aChunk->mBuffer.Add(aX2, aY2, aU, 1.0f);
+
+
+
+
+            //FDrawNode aNode1;
+
+
+
+            
+            aPrevX1 = aX1;
+            aPrevY1 = aY1;
+            aPrevX2 = aX2;
+            aPrevY2 = aY2;
+            aPrevDist = aDist;
+            aPrevU = aU;
+
+            aPrevNode = aNode;
+        }
+
+        aLength += aChunk->mLength;
+    }
+    
+
+
+    //Graphics::TextureBind(mSprite->mTexture->mBindIndex);
+    //Graphics::TextureSetWrap();
+    Graphics::CullFacesEnable();
+    Graphics::CullFacesSetBack();
+    //Graphics::TextureSetFilterLinear();
+    //Graphics::TextureSetFilterNearest();
+
+
+
+
+    FTextureRect aRect;
+    aRect.SetRect(100.0f, 100.0f, 200.0f, 200.0f);
+    aRect.SetUVQuad(0.0f, 0.0f, 2.0f, 2.0f);
+
+    //pTextureRect->SetQuad(pDrawStartX, pDrawStartY, pDrawEndX, pDrawEndY);
+    //pTextureRect->SetUVQuad(aStartU, aStartV, aEndU, aEndV);
+
+    Graphics::SetColor();
+    Graphics::DrawSprite(aRect.mVertex, aRect.mTextureCoord, mSprite->mTexture);
+
+    mSprite->DrawQuadRect(300.0f, 100.0f, 200.0f, 200.0f);
+
+
+    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+
+        //aChunk->mDrawNodeList.Draw(mSprite);
+        aChunk->mBuffer.SetTexture(mSprite->mTexture);
+        aChunk->mBuffer.Draw();
+        //aChunk->mDrawNodeList
+
+
+    }
+
+    Graphics::CullFacesDisable();
+    Graphics::TextureSetClamp();
+
+    //mPathWidth = 48.0f;
+    //mPathWidth2 = (mPathWidth / 2.0f);
+
+
+
+    
 }

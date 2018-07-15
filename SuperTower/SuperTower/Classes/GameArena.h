@@ -22,12 +22,7 @@
 
 #define MAIN_FLOOR 1
 
-#define TILE_TYPE_NORMAL 0
-#define TILE_TYPE_RAMP_U 1
-#define TILE_TYPE_RAMP_D 2
-#define TILE_TYPE_RAMP_L 3
-#define TILE_TYPE_RAMP_R 4
-#define TILE_TYPE_BLOCKED 5
+
 
 class GameArena {
 public:
@@ -40,7 +35,7 @@ public:
     TilePathFinder                              mPathFinder;
 
     GameTile                                    ****mTile;
-    
+
     bool                                        **mTowerAllowed;
     void                                        ComputeAllowedPlacements();
     
@@ -50,6 +45,14 @@ public:
     
     void                                        RemoveTower(Tower *pTower);
     void                                        RemoveTower(int pGridX, int pGridY, int pGridZ);
+
+
+    void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
+    FList                                       mDeletedTileList;
+    
+
+
+
 
     bool                                        mTileVisible[GRID_DEPTH];
     float                                       mTileOpacity[GRID_DEPTH];
@@ -83,21 +86,30 @@ public:
     float                                       mPivotY;
 
     FList                                       mPathList;
-    //List                                      mTowerList;
 
     FObjectList                                 mTowerCollection;
-
-    //GameObjectCollection                mTowers;
-
-
+    
     //Takes into consideration the actual tiles of the arena to determine exactly
     //which x, y, and z grid positions the user's finger has landed on...
     void                                        GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
 
 
-
     void                                        Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
+    void                                        ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
+
+
+    void                                        Clear(int pDepth);
+    void                                        Clear();
+
+    void                                        Flood(int pDepth);
+    void                                        IncreaseBuffer();
+    void                                        DecreaseBuffer();
+    void                                        IncreaseWidth();
+    void                                        DecreaseWidth();
+    void                                        IncreaseHeight();
+    void                                        DecreaseHeight();
+
 
     void                                        Save(const char *pPath=0);
     void                                        Load(const char *pPath=0);

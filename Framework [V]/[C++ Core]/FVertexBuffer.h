@@ -54,8 +54,8 @@ public:
 	void                                    GenerateCube(float pSize=1);
 	void                                    GeneratePanoCube(float pSize=1);
 	
-    void                                    Reset(){mVertexCount=0;mCoordCount=0;mColorCount=0;}
-	void                                    Clear(){mVertexCount=0;}
+    void                                    Reset() { mVertexCount = 0; mCoordCount = 0; mColorCount=0; }
+	void                                    Clear() { mVertexCount = 0; }
     
     void                                    Kill();
     
@@ -68,8 +68,9 @@ public:
     int                                     mColorCount;
     int                                     mColorSize;
     
-    int                                     mExtraCount;
-    int                                     mExtraSize;
+    //int                                     mExtraCount;
+    //int                                     mExtraSize;
+
     
     int                                     mBindIndex;
 	
@@ -80,7 +81,8 @@ public:
     float                                   *mRGBA;
     //float                                   *mExtra;
     
-    int                                     mExtraDimensionality;
+    //int                                     mExtraDimensionality;
+
     
 };
 

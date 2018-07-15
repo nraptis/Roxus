@@ -9,19 +9,22 @@
 #ifndef Mustache_GameTile_h
 #define Mustache_GameTile_h
 
+#define TILE_TYPE_NORMAL 0
+#define TILE_TYPE_RAMP_U 1
+#define TILE_TYPE_RAMP_D 2
+#define TILE_TYPE_RAMP_L 3
+#define TILE_TYPE_RAMP_R 4
+#define TILE_TYPE_BLOCKED 5
+
 #include "GLApp.h"
 #include "FXML.h"
 
 class GameTile;
 
-//Theoretically, there should not be any more than
-//8 connections per tile, unless your map is configured
-//illegally, in which case there's a problem anyway...
 #define TILE_CONNECTION_COUNT 8
 
 class GameTileConnection {
 public:
-    
     GameTileConnection();
     ~GameTileConnection();
     

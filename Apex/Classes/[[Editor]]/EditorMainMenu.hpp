@@ -33,7 +33,16 @@ public:
     ToolMenuSectionRow                      *mRowMainMenu;
     UIButton                                *mButtonSave;
     UIButton                                *mButtonExport;
-    UIButton                                *mButtonClear;
+
+    ToolMenuSectionRow                      *mRowClear;
+    UIButton                                *mButtonClearTunnels;
+    UIButton                                *mButtonClearTiles;
+    UIButton                                *mButtonClearBridges;
+
+    ToolMenuSectionRow                      *mRowFlood;
+    UIButton                                *mButtonFloodTunnels;
+    UIButton                                *mButtonFloodTiles;
+    UIButton                                *mButtonFloodBridges;
 
     ToolMenuSectionRow                      *mRowGridSize;
     UIButton                                *mButtonWidthAdd;

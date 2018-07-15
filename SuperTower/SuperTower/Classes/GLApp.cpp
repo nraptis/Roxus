@@ -17,10 +17,12 @@ float gArenaWidth = 512.0f;
 float gArenaWidth2 = 256.0f;
 float gArenaHeight = 512.0f;
 float gArenaHeight2 = 256.0f;
-float gTileWidth = 46.0f;
-float gTileHeight = 46.0f;
-float gTileWidth2 = 46.0f;
-float gTileHeight2 = 46.0f;
+
+float gTileSize = 50.0f;
+float gTileSize2 = 25.0f;
+float gPathBendInset45 = 20.0f;
+float gPathBendInset90 = 20.0f;
+
 
 float gArenaActiveWidth = 512.0f;
 float gArenaActiveWidth2 = 256.0f;
@@ -95,6 +97,10 @@ void GLApp::SetDeviceSize(float pWidth, float pHeight) {
 }
 
 void GLApp::Load() {
+
+    //glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    //glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     //?!
     AppShellSetSpriteFrameScale(0.5f);
     
@@ -149,6 +155,12 @@ void GLApp::Load() {
 
     m1024x1024.Load("1024x1024");
     m2048x2048.Load("2048x2048");
+
+
+    mTile1.Load("tile_whole_1");
+    mTile2.Load("tile_whole_2");
+    mTile3.Load("tile_whole_3");
+    mTile4.Load("tile_whole_4");
 }
 
 void GLApp::LoadComplete() {
@@ -171,14 +183,22 @@ void GLApp::LoadComplete() {
 }
 
 float CX(int pGridX, int pGridZ) {
-    float aResult = (float)pGridX * gTileWidth + gTileWidth2;
+    float aResult = (float)pGridX * gTileSize + gTileSize2;
     return aResult;
 }
 
 float CY(int pGridY, int pGridZ) {
-    float aResult = (float)pGridY * gTileHeight + gTileHeight2;
-    if(pGridZ == 0)aResult += gTileHeight * 0.65f;
-    if(pGridZ == 2)aResult -= gTileHeight * 0.65f;
+    float aResult = (float)pGridY * gTileSize + gTileSize2;
+    aResult += SZ(pGridZ);
     return aResult;
 }
+
+float SZ(int pGridZ) {
+    float aResult = 0.0f;
+    if(pGridZ == 0)aResult += gTileSize * 0.65f;
+    if(pGridZ == 2)aResult -= gTileSize * 0.65f;
+    return aResult;
+}
+
+
 

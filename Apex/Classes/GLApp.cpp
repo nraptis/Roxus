@@ -97,6 +97,10 @@ void GLApp::SetDeviceSize(float pWidth, float pHeight) {
 }
 
 void GLApp::Load() {
+
+    //glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    //glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     //?!
     AppShellSetSpriteFrameScale(0.5f);
     
@@ -149,8 +153,17 @@ void GLApp::Load() {
     printf("Bundle: %s\n", gDirBundle.c());
     printf("Documents: %s\n", gDirDocuments.c());
 
+    //glEnable(GL_TEXTURE_GEN_S);
+    //glEnable(GL_TEXTURE_GEN_T);
+
     m1024x1024.Load("1024x1024");
     m2048x2048.Load("2048x2048");
+
+
+    mTile1.Load("tile_whole_1");
+    mTile2.Load("tile_whole_2");
+    mTile3.Load("tile_whole_3");
+    mTile4.Load("tile_whole_4");
 }
 
 void GLApp::LoadComplete() {

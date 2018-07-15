@@ -46,6 +46,14 @@ public:
     void                                        RemoveTower(Tower *pTower);
     void                                        RemoveTower(int pGridX, int pGridY, int pGridZ);
 
+
+    void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
+    FList                                       mDeletedTileList;
+    
+
+
+
+
     bool                                        mTileVisible[GRID_DEPTH];
     float                                       mTileOpacity[GRID_DEPTH];
     
@@ -88,8 +96,19 @@ public:
 
     void                                        Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
+    void                                        ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
 
 
+    void                                        Clear(int pDepth);
+    void                                        Clear();
+
+    void                                        Flood(int pDepth);
+    void                                        IncreaseBuffer();
+    void                                        DecreaseBuffer();
+    void                                        IncreaseWidth();
+    void                                        DecreaseWidth();
+    void                                        IncreaseHeight();
+    void                                        DecreaseHeight();
 
 
     void                                        Save(const char *pPath=0);

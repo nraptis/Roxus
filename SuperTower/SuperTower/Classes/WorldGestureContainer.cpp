@@ -41,7 +41,6 @@ WorldGestureContainer::~WorldGestureContainer() {
 }
 
 void WorldGestureContainer::Layout() {
-    printf("WorldGestureContainer::Layout()\n\n");
     if (mParent) {
         SetFrame(0.0f, 0.0f, mParent->mWidth, mParent->mHeight);
         FRect aBounds = FRect(0.0f, 0.0f, mWidth, mHeight);
@@ -55,6 +54,10 @@ void WorldGestureContainer::Layout() {
             float aWorldHeight = gArenaActiveHeight;
             float aWorldScale = 1.0f;
             FRect aFit = FRect::FitAspectFit(aBounds, aWorldWidth, aWorldHeight, 10.0f, aWorldScale);
+
+            aWorldScale *= 2.0f;
+
+
             mWorldScale = aWorldScale;
             mWorldOffsetX = mWidth2 + gArenaActiveX * aWorldScale;
             mWorldOffsetY = mHeight2 + gArenaActiveY * aWorldScale;
@@ -150,19 +153,6 @@ void WorldGestureContainer::TouchDown(float pX, float pY, void *pData) {
             mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
         }
     }
-
-    if (mWorldTransform) {
-        //float aX = pX;
-        //float aY = pY;
-        //mWorldPinchStartTouchCenterX = pX;
-        //mWorldPinchStartTouchCenterY = pY;
-        //mWorldTransform->ConvertPoint(aX, aY, this);
-        //mWorldTransform->mPivotX = aX;
-        //mWorldTransform->mPivotY = aY;
-
-        //PinchBegin(1.0f);
-        
-    }
 }
 
 void WorldGestureContainer::TouchMove(float pX, float pY, void *pData) {
@@ -203,33 +193,7 @@ void WorldGestureContainer::PanBegin(float pX, float pY) {
     mWorldPanStartOffsetX = mWorldOffsetX;
     mWorldPanStartOffsetY = mWorldOffsetY;
 
-    printf("***PanBegin(%f, %f)\n", pX, pY);
-
-    //mWorldOffsetX = 0.0f;
-    //mWorldOffsetY = 0.0f;
-
-    // = mWorldOffsetX;
-    //mWorldPanStartOffsetY = mWorldOffsetY;
-
-    //mWorldScale = 0.75f;
-    //mWorldPinchStartScale = mWorldScale;
-
-    if (mIsPinching == false) {
-
-        /*
-        if (gEnvironment != ENV_WIN32 && gEnvironment != ENV_MAC) {
-            //TODO: This may or may not be necessary on mobile..
-            mWorldPinchStartTouchCenterX = 0.0f;
-            mWorldPinchStartTouchCenterY = 0.0f;
-            mWorldPinchTouchCenterX = 0.0f;
-            mWorldPinchTouchCenterY = 0.0f;
-            mWorldPinchStartArenaX = 0.0f;
-            mWorldPinchStartArenaY = 0.0f;
-            mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
-        } else
-        */
-
-        if (mTouchCount > 0) {
+    if (mIsPinching == false && mTouchCount > 0) {
             mWorldPinchStartTouchCenterX = mTouch[0]->mX;
             mWorldPinchStartTouchCenterY = mTouch[0]->mY;
             mWorldPinchTouchCenterX = mWorldPinchStartTouchCenterX;
@@ -237,7 +201,6 @@ void WorldGestureContainer::PanBegin(float pX, float pY) {
             mWorldPinchStartArenaX = mWorldPinchTouchCenterX;
             mWorldPinchStartArenaY = mWorldPinchTouchCenterY;
             mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
-        }
     }
 }
 

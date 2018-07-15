@@ -100,6 +100,13 @@ public:
 
     FSprite                                 m1024x1024;
     FSprite                                 m2048x2048;
+
+
+    FSprite                                 mTile1;
+    FSprite                                 mTile2;
+    FSprite                                 mTile3;
+    FSprite                                 mTile4;
+    
 };
 
 //float CX(int pGridX);

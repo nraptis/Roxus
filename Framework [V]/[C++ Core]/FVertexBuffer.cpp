@@ -332,16 +332,19 @@ void FVertexBuffer::Draw(int pStart, int pCount)
 	
     if(mVertexCount <= 0)return;
     
-    if(mTexture)
-    {
+    if (mTexture) {
         Graphics::TextureEnable();
         Graphics::TextureBind(mTexture);
+        Graphics::TextureSetWrap();
     }
     
     Graphics::ArrayCoords(&mUVW[pStart*3],3);
     Graphics::ArrayVertices(&mXYZ[pStart*3],3);
-    
     Graphics::DrawTriangles(pCount);
+
+    if (mTexture) {
+        Graphics::TextureSetClamp();
+    }
 }
 
 void FVertexBuffer::DrawStrips()

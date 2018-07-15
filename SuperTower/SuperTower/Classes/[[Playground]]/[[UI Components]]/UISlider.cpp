@@ -116,9 +116,9 @@ void UISlider::Update() {
         if (aDiff > 0.001f) {
             mBaseSlider.ForceValue(*mTargetValue);
             mValue = mBaseSlider.GetValue();
+            SliderDidUpdate();
         }
     }
-
 }
 
 void UISlider::Draw() {
