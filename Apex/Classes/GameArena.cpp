@@ -39,12 +39,14 @@ GameArena::GameArena() {
     
     Generate(10, 14, 4, 4);
 
-    //Load("test_level_1.xml");
-    Load("ramps_test_01.xml");
+    Load("test_level_1.xml");
+
+    //Load("ramps_test_01.xml");
 
 
     //Load("pathing_map_02_inverse.xml");
     //Load("45_degree_corners.xml");
+    //Load("45_degree_corners_inverse.xml");
 
 }
 
