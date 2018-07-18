@@ -38,13 +38,14 @@ GameArena::GameArena() {
     }
     
     Generate(10, 14, 4, 4);
-    
-    //Load("test_level_1.xml");
-    Load("pathing_map_02.xml");
-    //Load("pathing_map_02_inverse.xml");
 
-    Load("45_degree_corners.xml");
-    
+    //Load("test_level_1.xml");
+    Load("ramps_test_01.xml");
+
+
+    //Load("pathing_map_02_inverse.xml");
+    //Load("45_degree_corners.xml");
+
 }
 
 GameArena::~GameArena() {
@@ -135,9 +136,16 @@ void GameArena::Update() {
 
 void GameArena::Draw() {
     Graphics::SetColor();
-    
+
+
+    EnumList (AnimatedGamePath, aPath, mPathList) {
+        aPath->DrawPrepare();
+    }
+
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-        
+
+
+
         
         //if(aDepth == 2)mApp->mLevelBackTunnel.Center(gArenaWidth2, gArenaHeight2);
         //if(aDepth == 1)mApp->mLevelBackFloor.Center(gArenaWidth2, gArenaHeight2);
@@ -160,6 +168,10 @@ void GameArena::Draw() {
                     }
                 }
             }
+        }
+
+        EnumList (AnimatedGamePath, aPath, mPathList) {
+            aPath->Draw(aDepth);
         }
         
         EnumList(Tower, aTower, mTowerCollection.mObjectList) {
@@ -190,12 +202,8 @@ void GameArena::Draw() {
     
     Graphics::SetColor();
     
-    EnumList (AnimatedGamePath, aPath, mPathList) {
-        aPath->Draw();
-    }
-    
-    
-    /*
+
+
      for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
      
      Graphics::SetColorSwatch(aDepth, 0.15f);
@@ -220,7 +228,8 @@ void GameArena::Draw() {
      }
      }
      }
-     */
+
+
     
     Graphics::SetColor(0.85f, 0.25f, 0.25f, 1.0f);
     Graphics::OutlineRect(mPivotX - 6.0f, mPivotY - 6.0f, 12.0f, 12.0f, 4.0f);
@@ -630,6 +639,8 @@ void GameArena::ComputePathConnections() {
                         GameTile *aLowerTileD = GetTile(aX, aY + 1, aDepth - 1);
                         GameTile *aLowerTileL = GetTile(aX - 1, aY, aDepth - 1);
                         GameTile *aLowerTileR = GetTile(aX + 1, aY, aDepth - 1);
+
+
                         if (aTile->mType == TILE_TYPE_RAMP_U) {
                             if (aLowerTileU) {
                                 if (aLowerTileU->IsBlocked() == false) {
@@ -637,6 +648,15 @@ void GameArena::ComputePathConnections() {
                                     aLowerTileU->ConnectTo(aTile, PATH_COST_RAMP);
                                 }
                             }
+
+                            //Special case, double ramp... (impractical, but necessary for completion...
+                            if (aTileU) {
+                                if (aTileU->IsBlocked() == false && aTileU->mType == TILE_TYPE_RAMP_D) {
+                                    aTile->ConnectTo(aTileU, PATH_COST_RAMP);
+                                    aTileU->ConnectTo(aTile, PATH_COST_RAMP);
+                                }
+                            }
+
                             if (aTileD) {
                                 if (aTileD->IsBlocked() == false) {
                                     aTile->ConnectTo(aTileD, PATH_COST_ADJ);
@@ -663,6 +683,15 @@ void GameArena::ComputePathConnections() {
                                     aLowerTileR->ConnectTo(aTile, PATH_COST_RAMP);
                                 }
                             }
+
+                            //Special case, double ramp... (impractical, but necessary for completion...
+                            if (aTileR) {
+                                if (aTileR->IsBlocked() == false && aTileR->mType == TILE_TYPE_RAMP_L) {
+                                    aTile->ConnectTo(aTileR, PATH_COST_RAMP);
+                                    aTileR->ConnectTo(aTile, PATH_COST_RAMP);
+                                }
+                            }
+
                             if (aTileL) {
                                 if (aTileL->IsBlocked() == false) {
                                     aTile->ConnectTo(aTileL, PATH_COST_ADJ);

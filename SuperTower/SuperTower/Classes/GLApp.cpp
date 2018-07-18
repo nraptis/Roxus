@@ -41,7 +41,7 @@ GLApp::GLApp() {
     //TODO: Twiddle
     mDarkMode = false;
     //mDarkMode = true;
-
+    
     //gEnableEditor = false;
     gEditorMode = true;
     
@@ -152,6 +152,9 @@ void GLApp::Load() {
 
     printf("Bundle: %s\n", gDirBundle.c());
     printf("Documents: %s\n", gDirDocuments.c());
+
+    //glEnable(GL_TEXTURE_GEN_S);
+    //glEnable(GL_TEXTURE_GEN_T);
 
     m1024x1024.Load("1024x1024");
     m2048x2048.Load("2048x2048");

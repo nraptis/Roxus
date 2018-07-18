@@ -41,7 +41,7 @@ GLApp::GLApp() {
     //TODO: Twiddle
     mDarkMode = false;
     //mDarkMode = true;
-
+    
     //gEnableEditor = false;
     gEditorMode = true;
     

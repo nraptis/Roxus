@@ -33,7 +33,8 @@ public:
 
     TilePathFinder                      mPathFinder;
     
-    void                                ComputePath(GameArena *pArena);
+    virtual void                        ComputePath(GameArena *pArena);
+
 
     int                                 mStartX;
     int                                 mStartY;

@@ -50,7 +50,7 @@ void EditorGameArena::Update() {
 void EditorGameArena::Draw() {
     GameArena::Draw();
     EnumList(AnimatedGamePath, aPath, mPathList) {
-        aPath->Draw();
+        aPath->DrawEditorMarkers();
     }
 
     if (mEditorMode == EDITOR_MODE_TILES) {
@@ -120,13 +120,7 @@ void EditorGameArena::Draw() {
 
      DrawRect(aX - aRectSize / 2.0f, aY - aRectSize / 2.0f, aRectSize, aRectSize);
      }
-
-
-
-
-
-
-
+     
      PathSolverNeighbor *aPath = mPathSolver.mPathEnd;
      while(aPath)
      {
@@ -138,7 +132,6 @@ void EditorGameArena::Draw() {
      aPath = aPath->mParent;
      }
      */
-
 }
 
 void EditorGameArena::AddPath() {
