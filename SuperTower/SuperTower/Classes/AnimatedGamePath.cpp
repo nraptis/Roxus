@@ -46,19 +46,6 @@ void AnimatedGamePath::Update() {
     if (mTextureAnimationOffset >= 1.0f) {
         mTextureAnimationOffset -= 1.0f;
     }
-
-    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
-
-        aChunk->mDemoIndexTimer++;
-        if (aChunk->mDemoIndexTimer >= 5) {
-            aChunk->mDemoIndexTimer = 0;
-
-            aChunk->mDemoIndex++;
-            if (aChunk->mDemoIndex > aChunk->mPathNodeList.mCount) {
-                aChunk->mDemoIndex = 0;
-            }
-        }
-    }
 }
 
 void AnimatedGamePath::DrawEditorMarkers() {
@@ -102,9 +89,6 @@ void AnimatedGamePath::DrawEditorMarkers() {
         }
     }
 
-
-
-
     float aX1 = CX(mStartX, mStartZ);
     float aY1 = CY(mStartY, mStartZ);
     float aX2 = CX(mEndX, mEndZ);
@@ -120,32 +104,10 @@ void AnimatedGamePath::DrawEditorMarkers() {
     gApp->mUnitCircleSoft.Center(aX1, aY1);
     gApp->mUnitCircleSoft.Center(aX2, aY2);
 
-
-
     if (mSelected) {
         gApp->mUnitCircleHard.Center(aX1, aY1);
         gApp->mUnitCircleHard.Center(aX2, aY2);
     }
-
-
-    /*
-     int aModex = 0;
-     EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
-     Graphics::SetColorSwatch(aModex, 0.666f);
-
-     EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
-     float aX1 = aNode->mCenterX + aNode->mNormX * 20.0f;
-     float aY1 = aNode->mCenterY + aNode->mNormY * 20.0f;
-
-     float aX2 = aNode->mCenterX - aNode->mNormX * 20.0f;
-     float aY2 = aNode->mCenterY - aNode->mNormY * 20.0f;
-
-     Graphics::DrawLine(aX1, aY1, aX2, aY2, 0.5f);
-     }
-     aModex += 1;
-     }
-     */
-
 }
 
 void AnimatedGamePath::DrawPrepare() {
@@ -156,27 +118,24 @@ void AnimatedGamePath::Draw(int pDepth) {
 
     //Graphics::CullFacesEnable();
     //Graphics::CullFacesSetBack();
-
+    
     EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
         if (aChunk->mDepth == pDepth) {
-
             if (gApp->mDarkMode) {
                 Graphics::SetColor(0.10f, 0.10f, 0.10f, 0.75f);
             } else {
                 Graphics::SetColor();
             }
-            
             aChunk->mBufferMainPath.SetTexture(mSprite->mTexture);
             aChunk->mBufferMainPath.Draw();
             aChunk->mBufferTrack1.Draw(0);
             aChunk->mBufferTrack2.Draw(0);
 
-            AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
-
-            Graphics::SetColor(1.0f, 0.25f, 0.05f, 0.85f);
-            if (aNode) {
-                Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 6.0f);
-            }
+            //AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
+            //Graphics::SetColor(1.0f, 0.25f, 0.05f, 0.85f);
+            //if (aNode) {
+            //    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 6.0f);
+            //}
         }
     }
 }
@@ -223,7 +182,7 @@ void AnimatedGamePath::Generate() {
     aGridY = mPathY[1];
     aGridZ = mPathZ[1];
 
-    for (int i=2;i<mLength-2;i++) {
+    for (int i=2;i<mLength;i++) {
         aNextGridX = mPathX[i];
         aNextGridY = mPathY[i];
         aNextGridZ = mPathZ[i];
@@ -593,8 +552,8 @@ void AnimatedGamePath::Generate() {
         // -+-
         // +--
         else if (aPrevGridX > aGridX &&
-                 aPrevGridY > aGridY &&
-                 aNextGridX > aGridX &&
+                 aPrevGridY < aGridY &&
+                 aNextGridX < aGridX &&
                  aNextGridY > aGridY) {
             float aLeftX = aCenterX - gTileSize2;
             float aRightX = aCenterX + gTileSize2;
@@ -619,128 +578,123 @@ void AnimatedGamePath::Generate() {
 
         //This is a vertical line...
         else if (aNextGridX == aGridX && aPrevGridX == aGridX) {
-
             float aTopY = aCenterY - gTileSize2;
             float aBottomY = aCenterY + gTileSize2;
-            float aScaleFactor = 1.0f;
-            //TODO: Handle ramps...
-
-            //Down
+            float aPrevCenterY = CY(aPrevGridY, aPrevGridZ);
+            float aNextCenterY = CY(aNextGridY, aNextGridZ);
+            //Going DOWN...
             if (aPrevGridY < aGridY) {
-
-
-
-                //We are going up a ramp on this iteration
-                if (aNextGridZ > aGridZ) {
-                    float aNextCenterX = CX(aNextGridX, aNextGridZ);
-                    float aNextCenterY = CY(aNextGridY, aNextGridZ);
-                    aTopY = aNextCenterY + gTileSize2;
-
-                    aScaleFactor = mUpRampScaleFactor;
-
+                //Going down, we were on level ground.
+                if (aPrevGridZ == aGridZ) {
+                    //Going down, we were on level ground, next tile is lower
+                    if (aNextGridZ < aGridZ) {
+                        //Since we are going down, this tile is a ramp...
+                        float aNextTop = aNextCenterY - gTileSize2;
+                        AddVerticalRamp(aGridZ, mDownRampScaleFactor, aCenterX, aTopY, aCenterX, aNextTop);
+                    } else {
+                        AddStraight(aGridZ, aCenterX, aTopY, aCenterX, aBottomY);
+                    }
                 }
-
-                //We are going down a ramp on this iteration
-                if (aNextGridZ > aGridZ) {
-                    float aNextCenterX = CX(aNextGridX, aNextGridZ);
-                    float aNextCenterY = CY(aNextGridY, aNextGridZ);
-                    aTopY = aNextCenterY + gTileSize2;
-
-                    aScaleFactor = mDownRampScaleFactor;
+                //Going down, we were on a different level...
+                else {
+                    if (aNextGridZ != aGridZ) {
+                        //We are on a flat crest between 2 ramps...
+                        if (aNextGridZ == aPrevGridZ) {
+                            AddStraight(aGridZ, aCenterX, aTopY, aCenterX, aBottomY);
+                        } else {
+                            if (aNextGridZ > aGridZ) {
+                                float aPrevBottom = aPrevCenterY + gTileSize2;
+                                AddVerticalRamp(aGridZ, mUpRampScaleFactor, aCenterX, aPrevBottom, aCenterX, aBottomY);
+                            } else {
+                                float aNextTop = aNextCenterY - gTileSize2;
+                                AddVerticalRamp(aGridZ, mDownRampScaleFactor, aCenterX, aTopY, aCenterX, aNextTop);
+                            }
+                        }
+                        //We are on a ramp TO a ramp...
+                    } else {
+                        if (aPrevGridZ > aGridZ) {
+                            //Here we just finished going down a ramp...
+                            AddStraight(aGridZ, aCenterX, aTopY, aCenterX, aBottomY);
+                        } else {
+                            float aPrevBottom = aPrevCenterY + gTileSize2;
+                            AddVerticalRamp(aGridZ, mUpRampScaleFactor, aCenterX, aPrevBottom, aCenterX, aBottomY);
+                        }
+                    }
                 }
-
-                AddStraight(aGridZ, aCenterX, aTopY, aCenterX, aBottomY);
             }
 
             //Up
             else {
-                //Same level...
-                if (aPrevGridZ == aGridZ && aNextGridZ == aGridZ) {
 
 
+                //Going up, we were on level ground.
+                if (aPrevGridZ == aGridZ) {
+                    //Going down, we were on level ground, next tile is lower
+                    if (aNextGridZ < aGridZ) {
+                        //Since we are going down, this tile is a ramp...
+                        float aNextBottom = aNextCenterY + gTileSize2;
+                        AddVerticalRamp(aGridZ, mUpRampScaleFactor, aCenterX, aBottomY, aCenterX, aNextBottom);
+                    } else {
+                        AddStraight(aGridZ, aCenterX, aBottomY, aCenterX, aTopY);
+                    }
                 }
-
-                //We went up a ramp in the last iteration...
-                if (aPrevGridZ > aGridZ) {
-                    
+                //Going up, we were on a different level...
+                else {
+                    if (aNextGridZ != aGridZ) {
+                        //We are on a flat crest between 2 ramps...
+                        if (aNextGridZ == aPrevGridZ) {
+                            AddStraight(aGridZ, aCenterX, aBottomY, aCenterX, aTopY);
+                        } else {
+                            if (aNextGridZ > aGridZ) {
+                                float aPrevTop = aPrevCenterY - gTileSize2;
+                                AddVerticalRamp(aGridZ, mDownRampScaleFactor, aCenterX, aPrevTop, aCenterX, aTopY);
+                            } else {
+                                float aNextBottom = aNextCenterY + gTileSize2;
+                                AddVerticalRamp(aGridZ, mUpRampScaleFactor, aCenterX, aBottomY, aCenterX, aNextBottom);
+                            }
+                        }
+                        //We are on a ramp TO a ramp...
+                    } else {
+                        if (aPrevGridZ > aGridZ) {
+                            //Here we just finished going down a ramp...
+                            AddStraight(aGridZ, aCenterX, aBottomY, aCenterX, aTopY);
+                        } else {
+                            float aPrevTop = aPrevCenterY - gTileSize2;
+                            AddVerticalRamp(aGridZ, mDownRampScaleFactor, aCenterX, aPrevTop, aCenterX, aTopY);
+                        }
+                    }
                 }
-
-                //We are going up a ramp on this iteration
-                if (aNextGridZ > aGridZ) {
-                    float aNextCenterX = CX(aNextGridX, aNextGridZ);
-                    float aNextCenterY = CY(aNextGridY, aNextGridZ);
-                    aTopY = aNextCenterY + gTileSize2;
-
-                    aScaleFactor = mUpRampScaleFactor;
-
-
-
-                }
-
-                //We are going down a ramp on this iteration
-                if (aNextGridZ > aGridZ) {
-                    float aNextCenterX = CX(aNextGridX, aNextGridZ);
-                    float aNextCenterY = CY(aNextGridY, aNextGridZ);
-                    aTopY = aNextCenterY + gTileSize2;
-
-                    aScaleFactor = mDownRampScaleFactor;
-                }
-
-
-                AddStraight(aGridZ, aCenterX, aBottomY, aCenterX, aTopY);
             }
         }
-
         //Horizontal line...
         else { //if (aNextGridY == aGridY && aPrevGridY == aGridY) {
-
             float aLeftX = aCenterX - gTileSize2;
             float aRightX = aCenterX + gTileSize2;
-
             float aPrevCenterY = CY(aPrevGridY, aPrevGridZ);
             float aNextCenterY = CY(aNextGridY, aNextGridZ);
-            
             //Going to the right...
             if (aPrevGridX < aGridX) {
-
-
                 //Going to the right, we were on level ground.
                 if (aPrevGridZ == aGridZ) {
                     //Going to the right, we were on level ground, next tile is lower
                     if (aNextGridZ < aGridZ) {
                         //Since we are going down, this tile is a ramp...
                         AddHorizontalRamp(aGridZ, aLeftX, aCenterY, aRightX, aNextCenterY);
-                        
                     } else {
-
-                        if (aNextGridZ < aGridZ) {
-                            AddHorizontalRamp(aGridZ, aLeftX, aCenterY, aRightX, aNextCenterY);
-
-                        } else {
-                            AddStraight(aGridZ, aLeftX, aCenterY, aRightX, aCenterY);
-
-                        }
-
-                        //Since THIS tile is not a ramp, this is a straight line...
-
+                        AddStraight(aGridZ, aLeftX, aCenterY, aRightX, aCenterY);
                     }
                 }
-
                 //Going to the right, we were on a different level...
                 else {
                     if (aNextGridZ != aGridZ) {
                         //We are on a flat crest between 2 ramps...
                         if (aNextGridZ == aPrevGridZ) {
                             AddStraight(aGridZ, aLeftX, aCenterY, aRightX, aCenterY);
-
                         } else {
                             if (aNextGridZ > aGridZ) {
                                 AddHorizontalRamp(aGridZ, aLeftX, aPrevCenterY, aRightX, aCenterY);
-
-                                
                             } else {
                                 AddHorizontalRamp(aGridZ, aLeftX, aCenterY, aRightX, aNextCenterY);
-
                             }
                         }
                         //We are on a ramp TO a ramp...
@@ -752,71 +706,12 @@ void AnimatedGamePath::Generate() {
                         } else {
                             //Here we are going up a ramp...
                             AddHorizontalRamp(aGridZ, aLeftX, aPrevCenterY, aRightX, aCenterY);
-
                         }
                     }
                 }
-
             }
             //Going to the left...
             else {
-
-
-                //Going to the right, we were on level ground.
-                if (aPrevGridZ == aGridZ) {
-                    //Going to the right, we were on level ground, next tile is lower
-                    if (aNextGridZ < aGridZ) {
-                        //Since we are going down, this tile is a ramp...
-                        AddHorizontalRamp(aGridZ, aRightX, aCenterY, aLeftX, aNextCenterY);
-                        printf("Case 0\n");
-                    } else {
-
-                        if (aNextGridZ < aGridZ) {
-                            AddHorizontalRamp(aGridZ, aRightX, aCenterY, aLeftX, aNextCenterY);
-                            printf("Case 1\n");
-                        } else {
-                            AddStraight(aGridZ, aRightX, aCenterY, aLeftX, aCenterY);
-                            printf("Case 2\n");
-                        }
-
-                        //Since THIS tile is not a ramp, this is a straight line...
-
-                    }
-                }
-
-                //Going to the right, we were on a different level...
-                else {
-                    if (aNextGridZ != aGridZ) {
-                        //We are on a flat crest between 2 ramps...
-                        if (aNextGridZ == aPrevGridZ) {
-                            AddStraight(aGridZ, aRightX, aCenterY, aLeftX, aCenterY);
-                            printf("Case 3\n");
-                        } else {
-                            if (aNextGridZ > aGridZ) {
-                                AddHorizontalRamp(aGridZ, aRightX, aPrevCenterY, aLeftX, aCenterY);
-                                printf("Case 4\n");
-
-                            } else {
-                                AddHorizontalRamp(aGridZ, aRightX, aCenterY, aLeftX, aNextCenterY);
-
-                                printf("Case 5\n");
-                            }
-                        }
-                        //We are on a ramp TO a ramp...
-                    } else {
-                        if (aPrevGridZ > aGridZ) {
-                            //Here we just finished going down a ramp...
-                            AddStraight(aGridZ, aRightX, aCenterY, aLeftX, aCenterY);
-                            printf("Case 6\n");
-                        } else {
-                            //Here we are going up a ramp...
-                            AddHorizontalRamp(aGridZ, aRightX, aPrevCenterY, aLeftX, aCenterY);
-                            printf("Case 7\n");
-                        }
-                    }
-                }
-
-                /*
                 //Going to the left, we were on level ground.
                 if (aPrevGridZ == aGridZ) {
                     //Going to the left, we were on level ground, next tile is lower
@@ -824,11 +719,9 @@ void AnimatedGamePath::Generate() {
                         //Since we are going down, this tile is a ramp...
                         AddHorizontalRamp(aGridZ, aRightX, aCenterY, aLeftX, aNextCenterY);
                     } else {
-                        //Since THIS tile is not a ramp, this is a straight line...
                         AddStraight(aGridZ, aRightX, aCenterY, aLeftX, aCenterY);
                     }
                 }
-
                 //Going to the left, we were on a different level...
                 else {
                     if (aNextGridZ != aGridZ) {
@@ -837,9 +730,9 @@ void AnimatedGamePath::Generate() {
                             AddStraight(aGridZ, aRightX, aCenterY, aLeftX, aCenterY);
                         } else {
                             if (aNextGridZ > aGridZ) {
-                                AddHorizontalRamp(aGridZ, aRightX, aCenterY, aLeftX, aNextCenterY);
-                            } else {
                                 AddHorizontalRamp(aGridZ, aRightX, aPrevCenterY, aLeftX, aCenterY);
+                            } else {
+                                AddHorizontalRamp(aGridZ, aRightX, aCenterY, aLeftX, aNextCenterY);
                             }
                         }
                         //We are on a ramp TO a ramp...
@@ -853,29 +746,19 @@ void AnimatedGamePath::Generate() {
                         }
                     }
                 }
-                */
             }
         }
 
-
-        //Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.35f);
-        //Graphics::DrawPoint(aCenterX, aCenterY, 14.0f);
-
-        //Graphics::SetColor(0.25f, 0.065f, 0.065f, 1.0f);
-        //Graphics::DrawPoint(aCenterX, aCenterY, 8.0f);
-
+        //Increment path...
         aPrevGridX = aGridX;
         aPrevGridY = aGridY;
         aPrevGridZ = aGridZ;
-
         aGridX = aNextGridX;
         aGridY = aNextGridY;
         aGridZ = aNextGridZ;
     }
-
     GenerateTracks();
     GenerateTextureQuads();
-
 }
 
 
@@ -1001,6 +884,27 @@ void AnimatedGamePath::AddHorizontalRamp(int pDepth, float pStartX, float pStart
 
 void AnimatedGamePath::AddVerticalRamp(int pDepth, float pUVWSpreadFactor, float pStartX, float pStartY, float pEndX, float pEndY) {
 
+    mPointList.Reset();
+    float aDirX = 0.0f;
+    float aDirY = pEndY - pStartY;
+    float aHorizontalChange = pEndX - pStartX;
+    float aDistance = aDirY;
+    aDirY = 1.0f;
+    if (aDistance < 0.0f) {
+        aDistance = -aDistance;
+        aDirY = -1.0f;
+    }
+    mPointList.Add(pStartX, pStartY);
+    int aPointCount = 8;
+    for (int i=1;i<aPointCount;i++) {
+        float aPercent = ((float)i) / ((float)aPointCount);
+        float aScalar = aDistance * aPercent;
+        float aX = pStartX + aHorizontalChange * aPercent;
+        float aY = pStartY + aScalar * aDirY;
+        mPointList.Add(aX, aY);
+    }
+    mPointList.Add(pEndX, pEndY);
+    AppendPointListToPath(pDepth, pUVWSpreadFactor, aDirX, aDirY);
 }
 
 void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor) {
@@ -1013,8 +917,6 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor)
     mPathChunkList.Add(aChunk);
     aChunk->mDepth = pDepth;
     aChunk->mDistance = 0.0f;
-    aChunk->mDemoIndexTimer = 0;
-    aChunk->mDemoIndex = 0;
 
     //Start Node...
     AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
@@ -1095,8 +997,7 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor,
     mPathChunkList.Add(aChunk);
     aChunk->mDepth = pDepth;
     aChunk->mDistance = 0.0f;
-    aChunk->mDemoIndexTimer = 0;
-    aChunk->mDemoIndex = 0;
+    
     //Start Node...
     AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
     if (aStartNode == 0) { aStartNode = new AnimatedGamePathNode(); }

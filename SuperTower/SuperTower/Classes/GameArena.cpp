@@ -36,15 +36,21 @@ GameArena::GameArena() {
         mTileVisible[aDepth] = true;
         mTileOpacity[aDepth] = 1.0f;
     }
-    
+
+    mSubtile = 0;
+    mSubgridWidth = 0;
+    mSubgridHeight = 0;
+
     Generate(10, 14, 4, 4);
 
-    //Load("test_level_1.xml");
-    Load("ramps_test_01.xml");
+    Load("test_level_1.xml");
+
+    //Load("ramps_test_01.xml");
 
 
     //Load("pathing_map_02_inverse.xml");
     //Load("45_degree_corners.xml");
+    //Load("45_degree_corners_inverse.xml");
 
 }
 
@@ -277,10 +283,31 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     }
     if (mTile) {
         for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int i=0;i<mGridWidthTotal;i++) {
+                for (int n=0;n<mGridHeightTotal;n++) {
+                    DeleteTile(i, n, aDepth);
+                }
+            }
+        }
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
             for (int i=0;i<mGridWidthTotal;i++) { delete [] mTile[aDepth][i]; }
             delete [] mTile[aDepth];
         }
         delete [] mTile;
+    }
+    if (mSubtile) {
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int i=0;i<mSubgridWidth;i++) {
+                for (int n=0;n<mSubgridHeight;n++) {
+                    DeleteSubtile(i, n, aDepth);
+                }
+            }
+        }
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int i=0;i<mSubgridWidth;i++) { delete [] mSubtile[aDepth][i]; }
+            delete [] mSubtile[aDepth];
+        }
+        delete [] mSubtile;
     }
     mGridBufferH = pGridBufferH;
     mGridBufferV = pGridBufferV;
@@ -298,6 +325,21 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
             }
         }
     }
+
+    mSubgridWidth = mGridWidthTotal * SUBTILES_PER_TILE;
+    mSubgridHeight = mGridHeightTotal * SUBTILES_PER_TILE;
+    mSubtile = new GameTile***[GRID_DEPTH];
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        mSubtile[aDepth] = new GameTile**[mSubgridWidth];
+        for (int aX=0;aX<mSubgridWidth;aX++) {
+            mSubtile[aDepth][aX] = new GameTile*[mSubgridHeight];
+            for (int aY=0;aY<mSubgridHeight;aY++) {
+                mSubtile[aDepth][aX][aY] = 0;
+            }
+        }
+    }
+
+
     
     mTowerAllowed = new bool*[mGridWidthTotal];
     for (int aX=0;aX<mGridWidthTotal;aX++) {
@@ -369,6 +411,13 @@ void GameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
     }
 }
 
+void GameArena::DeleteSubtile(int pGridX, int pGridY, int pGridZ) {
+    GameTile *aTile = GetSubtile(pGridX, pGridY, pGridZ);
+    if (aTile) {
+        mDeletedTileList += aTile;
+        mSubtile[pGridZ][pGridX][pGridY] = 0;
+    }
+}
 
 void GameArena::PlaceTower(Tower *pTower) {
     if (pTower) {
@@ -416,7 +465,15 @@ GameTile *GameArena::GetTile(int pGridX, int pGridY, int pGridZ) {
     if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mGridWidthTotal) && (pGridY < mGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
         aResult = mTile[pGridZ][pGridX][pGridY];
     }
-    
+
+    return aResult;
+}
+
+GameTile *GameArena::GetSubtile(int pGridX, int pGridY, int pGridZ) {
+    GameTile *aResult = 0;
+    if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mSubgridWidth) && (pGridY < mSubgridHeight) && (pGridZ < GRID_DEPTH)) {
+        aResult = mSubtile[pGridZ][pGridX][pGridY];
+    }
     return aResult;
 }
 
@@ -639,8 +696,6 @@ void GameArena::ComputePathConnections() {
                         GameTile *aLowerTileD = GetTile(aX, aY + 1, aDepth - 1);
                         GameTile *aLowerTileL = GetTile(aX - 1, aY, aDepth - 1);
                         GameTile *aLowerTileR = GetTile(aX + 1, aY, aDepth - 1);
-
-
                         if (aTile->mType == TILE_TYPE_RAMP_U) {
                             if (aLowerTileU) {
                                 if (aLowerTileU->IsBlocked() == false) {
@@ -656,7 +711,6 @@ void GameArena::ComputePathConnections() {
                                     aTileU->ConnectTo(aTile, PATH_COST_RAMP);
                                 }
                             }
-
                             if (aTileD) {
                                 if (aTileD->IsBlocked() == false) {
                                     aTile->ConnectTo(aTileD, PATH_COST_ADJ);
@@ -691,7 +745,6 @@ void GameArena::ComputePathConnections() {
                                     aTileR->ConnectTo(aTile, PATH_COST_RAMP);
                                 }
                             }
-
                             if (aTileL) {
                                 if (aTileL->IsBlocked() == false) {
                                     aTile->ConnectTo(aTileL, PATH_COST_ADJ);
@@ -749,6 +802,37 @@ void GameArena::Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     }
 }
 
+void GameArena::GenerateSubtiles() {
+
+    //The subtiles we need to be at the exact right XY location, these will be used to
+    //move the units along their paths...........
+
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aGridX=0;aGridX<mGridWidthTotal;aGridX++) {
+            int aSubgridStartX = aGridX * SUBTILES_PER_TILE;
+            for (int aGridY=0;aGridY<mGridHeightTotal;aGridY++) {
+
+
+                int aSubgridStartY = aGridY * SUBTILES_PER_TILE;
+
+                for (int aOffsetX=0;aOffsetX<SUBTILES_PER_TILE;aOffsetX++) {
+                    int aX = aSubgridStartX + aOffsetX;
+                    for (int aOffsetY=0;aOffsetY<SUBTILES_PER_TILE;aOffsetY++) {
+                        int aY = aSubgridStartY + aOffsetY;
+                        
+                        //mTile[aX][aY] = new GameTile();
+
+
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
 void GameArena::Clear(int pDepth) {
     if (mTile) {
         if (pDepth >= 0 && pDepth < GRID_DEPTH) {
@@ -759,7 +843,6 @@ void GameArena::Clear(int pDepth) {
             }
         }
     }
-
 }
 
 void GameArena::Clear() {
@@ -889,7 +972,9 @@ void GameArena::Load(const char *pPath)
     }
     
     printf("Grid Size [%d x %d] Active [%d x %d]\n", mGridWidthTotal, mGridHeightTotal, mGridWidthActive, mGridHeightTotal);
-    
+
+    GenerateSubtiles();
+
     ComputeAllowedPlacements();
     ComputePathConnections();
 }

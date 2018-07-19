@@ -25,13 +25,10 @@ public:
     FSpriteSequence                 *mSequence;
     int                             mSequenceCount;
     int                             mSequenceLength;
-    
-    
+
     void                            Draw(float pX, float pY, float pRotation, float pFrame);
     void                            Draw(float pX, float pY, float pRotation, float pFrame, float pScale, float pSpriteRotation=0.0f);
     void                            Center(float pX, float pY, float pRotation, float pFrame);
-    
-    
     
 };
 
