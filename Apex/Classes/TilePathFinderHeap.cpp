@@ -27,14 +27,14 @@ void TilePathFinderHeap::Reset() {
 
 
 
-void TilePathFinderHeap::Add(GameTileConnection *pConnection)
+void TilePathFinderHeap::Add(PathNodeConnection *pConnection)
 {
     
     if(mCount == mSize)
     {
         mSize = mSize + mSize / 2 + 1;
         
-        GameTileConnection **aData = new GameTileConnection*[mSize];
+        PathNodeConnection **aData = new PathNodeConnection*[mSize];
         
         for(int i=0;i<mCount;i++)aData[i] = mData[i];
         
@@ -46,7 +46,7 @@ void TilePathFinderHeap::Add(GameTileConnection *pConnection)
     mCount++;
 }
 
-bool TilePathFinderHeap::Contains(GameTileConnection *pConnection) {
+bool TilePathFinderHeap::Contains(PathNodeConnection *pConnection) {
     bool aResult = false;
     for (int i=0;i<mCount;i++) {
         if(mData[i] == pConnection)aResult = true;
@@ -54,12 +54,12 @@ bool TilePathFinderHeap::Contains(GameTileConnection *pConnection) {
     return aResult;
 }
 
-GameTileConnection *TilePathFinderHeap::Pop() {
-    GameTileConnection *aResult = 0;
+PathNodeConnection *TilePathFinderHeap::Pop() {
+    PathNodeConnection *aResult = 0;
     int aMinCost = 866686668;
     int aMinIndex = -1;
     for (int i=0;i<mCount;i++) {
-        GameTileConnection *aCheck = mData[i];
+        PathNodeConnection *aCheck = mData[i];
         if (aCheck->mCostTotal < aMinCost) {
             aMinCost = aCheck->mCostTotal;
             aResult = aCheck;

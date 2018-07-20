@@ -20,8 +20,11 @@ int gVirtualHeight = gWindowHeight;
 
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 320.0f * 1.5f;
-int gWindowHeight = 568.0f * 1.5f;
+//int gWindowWidth = 320.0f * 1.5f;
+//int gWindowHeight = 568.0f * 1.5f;
+
+int gWindowWidth = 1080.0f;
+int gWindowHeight = 800.0f;
 
 int gVirtualX = 4.0f;
 int gVirtualY = 4.0f;
@@ -47,7 +50,7 @@ void os_core_findDirectories() {
     AppShellSetDirectoryDocuments(aPathDocuments.c());
 
     //TODO: What scale?
-    AppShellSetImageFileScale(2);
+    AppShellSetImageFileScale(4);
 
 }
 

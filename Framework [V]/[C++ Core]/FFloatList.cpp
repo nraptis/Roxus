@@ -155,7 +155,7 @@ void FFloatList::Save(FFile *pFile)
         
         for(int i = 0; i<mCount; i++)
         {
-            pFile->WriteShort(mData[i]);
+            pFile->WriteFloat(mData[i]);
         }
     }
 }
@@ -167,11 +167,10 @@ void FFloatList::Load(FFile *pFile)
     if(pFile)
     {
         int aCount = pFile->ReadInt();
-        
         Size(aCount);
         for(int i = 0; i<aCount; i++)
         {
-            mData[i] = pFile->ReadShort();
+            mData[i] = pFile->ReadFloat();
         }
         mCount = aCount;
     }

@@ -97,11 +97,7 @@ void WorldContainer::Draw() {
     aQuad.SetColorLeft(0.04f, 0.03f, 0.02f, 0.25f);
     aQuad.SetColorRight(0.02f, 0.06f, 0.05f, 0.25f);
     aQuad.Draw();
-
-    Graphics::SetColor(0.08f, 0.08f, 0.08f, 0.08f);
-    Graphics::OutlineRectInside(2.0f, 2.0f, mWidth - 4.0f, mHeight - 4.0f, 10.0f);
-    Graphics::SetColor();
-
+    
     if (mTransformContainer != 0 && mArena != 0) {
         mTransformContainer->DrawTransform();
         mArena->Draw();

@@ -55,8 +55,8 @@ void WorldGestureContainer::Layout() {
             float aWorldScale = 1.0f;
             FRect aFit = FRect::FitAspectFit(aBounds, aWorldWidth, aWorldHeight, 10.0f, aWorldScale);
 
-            aWorldScale *= 0.75f;
-
+            //TODO: Twiddle for zooming...
+            //aWorldScale *= 0.75f;
 
             mWorldScale = aWorldScale;
             mWorldOffsetX = mWidth2 + gArenaActiveX * aWorldScale;

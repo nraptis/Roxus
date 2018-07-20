@@ -149,9 +149,6 @@ void GLApp::Load() {
     mLevelBackFloor.Load("level_layer_floor");
     mLevelBackBridge.Load("level_layer_tunnel");
 
-    printf("Bundle: %s\n", gDirBundle.c());
-    printf("Documents: %s\n", gDirDocuments.c());
-
     //glEnable(GL_TEXTURE_GEN_S);
     //glEnable(GL_TEXTURE_GEN_T);
 
@@ -164,12 +161,11 @@ void GLApp::Load() {
     mTile3.Load("tile_whole_3");
     mTile4.Load("tile_whole_4");
 
-    AppShellSetSpriteFrameScale(2.0f);
-
+    //AppShellSetSpriteFrameScale(1.0f);
     //We can't change this on the fly...
     //AppShellSetImageFileScale(3);
 
-    gImageBundler.mAutoBundle = true;
+
     gImageBundler.StartBundle("ninja_run_1");
     mNinja.LoadSection("ninja_rot_", 0, 1, 2, "_", 300, 340);
     gImageBundler.StartBundle("ninja_run_2");

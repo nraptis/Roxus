@@ -11,10 +11,13 @@
 
 GameTile::GameTile() {
     mTileType = TILE_TYPE_NORMAL;
-    mPathConnectionCount = 0;
-    mOccupied = false;
     mDisabled = false;
     ResetGrid();
+
+    mTop = 0.0f;
+    mRight = 0.0f;
+    mBottom = 0.0f;
+    mLeft = 0.0f;
 }
 
 GameTile::~GameTile() { }
@@ -90,26 +93,24 @@ void GameTile::Draw() {
 }
 
 bool GameTile::IsBlocked() {
-    bool aResult = false;
-    if(mBlocked)aResult = true;
-    if(mOccupied)aResult = true;
-    if(mTileType == TILE_TYPE_BLOCKED)aResult = true;
+    bool aResult = PathNode::IsBlocked();
+    if (mTileType == TILE_TYPE_BLOCKED) { aResult = true; }
     return aResult;
 }
 
 bool GameTile::IsNormal() {
     bool aResult = true;
-    if(IsBlocked())aResult = false;
-    if(mTileType != TILE_TYPE_NORMAL)aResult = false;
+    if (IsBlocked()) { aResult = false; }
+    if (mTileType != TILE_TYPE_NORMAL) { aResult = false; }
     return aResult;
 }
 
 bool GameTile::IsRamp() {
     bool aResult = false;
-    if (mTileType == TILE_TYPE_RAMP_U) aResult = true;
-    if (mTileType == TILE_TYPE_RAMP_R) aResult = true;
-    if (mTileType == TILE_TYPE_RAMP_D) aResult = true;
-    if (mTileType == TILE_TYPE_RAMP_L) aResult = true;
+    if (mTileType == TILE_TYPE_RAMP_U) { aResult = true; }
+    if (mTileType == TILE_TYPE_RAMP_R) { aResult = true; }
+    if (mTileType == TILE_TYPE_RAMP_D) { aResult = true; }
+    if (mTileType == TILE_TYPE_RAMP_L) { aResult = true; }
     return aResult;
 }
 

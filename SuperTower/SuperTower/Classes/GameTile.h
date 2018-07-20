@@ -36,18 +36,16 @@ public:
     virtual void                        Update();
     virtual void                        Draw();
     
-    bool                                IsBlocked();
+    virtual bool                        IsBlocked();
+
+
     bool                                IsNormal();
     bool                                IsRamp();
 
     bool                                mDisabled;
-    bool                                mOccupied;
 
     int                                 mTileType;
-
-    PathNodeConnection                  mPathConnection[NODE_CONNECTION_COUNT];
-    int                                 mPathConnectionCount;
-
+    
     bool                                PlacementAllowed();
     
     FXMLTag                             *Save();
@@ -65,6 +63,11 @@ public:
     PathNode                            *mGrid[SUBDIVISIONS_PER_TILE + 1][SUBDIVISIONS_PER_TILE + 1];
 
 
+    float                               mTop;
+    float                               mRight;
+    float                               mBottom;
+    float                               mLeft;
+    
 
 };
 

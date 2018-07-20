@@ -32,9 +32,7 @@ void WorldTransformContainer::Update() {
 }
 
 void WorldTransformContainer::Draw() {
-    Graphics::SetColor(0.25f, 0.25f, 0.25f, 1.0f);
-    Graphics::OutlineRect(mPivotX - 6.0f, mPivotY - 6.0f, 12.0f, 12.0f, 4.0f);
-    Graphics::SetColor();
+    
 }
 
 void WorldTransformContainer::TouchDown(float pX, float pY, void *pData) {

@@ -38,8 +38,7 @@ public:
 
     //Our main "grid" of tiles...
     GameTile                                    ****mTile;
-
-
+    
     //Our higher fidelity grid with SUBDIVISIONS per tile.
     //AKA the "UNIT grid" ... The world in which our units live...
     PathNode                                    ****mGrid;
@@ -84,12 +83,24 @@ public:
     void                                        DrawGridSelection();
     
     virtual void                                Click(float pX, float pY);
-
+    
     GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
     PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
     Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
+    //Assumption: Grid nodes already exist.
+    //If, for example, we change a tile or place a tower, we should REFRESH the nodes.
+    //This will assign nodes to tiles, compute node positions, and figure out which
+    //nodes are "blocked" by default...
+    void                                        RefreshUnitGridNodes();
+
+
+
     void                                        ComputePathConnections();
+
+    //Always called after ComputePathConnections
+    void                                        ComputeGridConnections();
+
 
     FList                                       mPathList;
 

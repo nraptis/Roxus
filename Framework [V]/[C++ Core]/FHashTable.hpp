@@ -53,8 +53,6 @@ public:
 
     static unsigned int                         Hash(const char *pString);
     static int                                  IncreaseTableSize(int pTableCount);
-
-
     
     void                                        SetTableSize(int pSize);
     

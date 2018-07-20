@@ -205,6 +205,7 @@ void EditorGameArena::Click(float pX, float pY) {
                 aTile->mTileType = mTileType;
                 mTile[mTileDepth][aGridX][aGridY] = aTile;
             }
+            RefreshUnitGridNodes();
         }
     }
     ComputePathConnections();
