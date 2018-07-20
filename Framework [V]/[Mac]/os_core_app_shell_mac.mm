@@ -20,8 +20,8 @@ int gVirtualHeight = gWindowHeight;
 
 int gWindowX = 110.0f;
 int gWindowY = 4.0f;
-int gWindowWidth = 1080.0f;
-int gWindowHeight = 808.0f;
+int gWindowWidth = 320.0f * 1.5f;
+int gWindowHeight = 568.0f * 1.5f;
 
 int gVirtualX = 4.0f;
 int gVirtualY = 4.0f;
@@ -37,7 +37,6 @@ bool gKeyDownAlt = false;
 #import <Foundation/Foundation.h>
 
 void os_core_findDirectories() {
-    
     FString aPathBundle;
     if(gDirBundle.mLength > 0){ aPathBundle = gDirBundle.c(); }
 
@@ -49,7 +48,7 @@ void os_core_findDirectories() {
 
     //TODO: What scale?
     AppShellSetImageFileScale(2);
-    
+
 }
 
 void os_core_refreshModifierKeys() {

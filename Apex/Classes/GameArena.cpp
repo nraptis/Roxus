@@ -36,17 +36,24 @@ GameArena::GameArena() {
         mTileVisible[aDepth] = true;
         mTileOpacity[aDepth] = 1.0f;
     }
-    
+
+    mSubtile = 0;
+    mSubgridWidth = 0;
+    mSubgridHeight = 0;
+
     Generate(10, 14, 4, 4);
 
     Load("test_level_1.xml");
 
     //Load("ramps_test_01.xml");
 
-
     //Load("pathing_map_02_inverse.xml");
     //Load("45_degree_corners.xml");
     //Load("45_degree_corners_inverse.xml");
+
+    mTestNinjaRotation = 0.0f;
+    mTestNinjaFrame = 0.0f;
+
 
 }
 
@@ -56,6 +63,12 @@ GameArena::~GameArena() {
 }
 
 void GameArena::Update() {
+
+    float aMaxFrame = (float)gApp->mNinja.mSequenceFrameCount;
+
+    mTestNinjaFrame += 0.25f;
+    if(mTestNinjaFrame >= aMaxFrame) { mTestNinjaFrame -= aMaxFrame; }
+
 
     if (mDeletedTileList.mCount > 0) {
         EnumList(GameTile, aTile, mDeletedTileList) {
@@ -206,36 +219,34 @@ void GameArena::Draw() {
     
 
 
-     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-     
-     Graphics::SetColorSwatch(aDepth, 0.15f);
-     for (int aGridX=0;aGridX<mGridWidthTotal;aGridX++) {
-     for (int aGridY=0;aGridY<mGridHeightTotal;aGridY++) {
-     
-     GameTile *aTile1 = mTile[aDepth][aGridX][aGridY];
-     
-     if (aTile1) {
-     for (int i=0;i<aTile1->mPathConnectionCount;i++) {
-     GameTile *aTile2 = aTile1->mPathConnection[i].mTile;
-     //aTile2->mCenterX
-     
-     
-     Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aTile2->mCenterX, aTile2->mCenterY);
-     
-     
-     }
-     
-     }
-     
-     }
-     }
-     }
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
 
+        if (gApp->mDarkMode) {
+            Graphics::SetColorSwatch(aDepth, 0.075f);
+        } else {
+            Graphics::SetColorSwatch(aDepth, 0.5f);
+        }
 
-    
-    Graphics::SetColor(0.85f, 0.25f, 0.25f, 1.0f);
-    Graphics::OutlineRect(mPivotX - 6.0f, mPivotY - 6.0f, 12.0f, 12.0f, 4.0f);
+        for (int aGridX=0;aGridX<mGridWidthTotal;aGridX++) {
+            for (int aGridY=0;aGridY<mGridHeightTotal;aGridY++) {
+
+                GameTile *aTile1 = mTile[aDepth][aGridX][aGridY];
+
+                if (aTile1) {
+                    for (int i=0;i<aTile1->mPathConnectionCount;i++) {
+                        GameTile *aTile2 = aTile1->mPathConnection[i].mTile;
+                        //aTile2->mCenterX
+                        
+                        Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aTile2->mCenterX, aTile2->mCenterY);
+                    }
+                }
+            }
+        }
+    }
+
     Graphics::SetColor();
+    gApp->mNinja.Center(mTestNinjaRotation, mTestNinjaFrame, 100.0f, 100.0f);
+
 }
 
 
@@ -279,10 +290,31 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     }
     if (mTile) {
         for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int i=0;i<mGridWidthTotal;i++) {
+                for (int n=0;n<mGridHeightTotal;n++) {
+                    DeleteTile(i, n, aDepth);
+                }
+            }
+        }
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
             for (int i=0;i<mGridWidthTotal;i++) { delete [] mTile[aDepth][i]; }
             delete [] mTile[aDepth];
         }
         delete [] mTile;
+    }
+    if (mSubtile) {
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int i=0;i<mSubgridWidth;i++) {
+                for (int n=0;n<mSubgridHeight;n++) {
+                    DeleteSubtile(i, n, aDepth);
+                }
+            }
+        }
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int i=0;i<mSubgridWidth;i++) { delete [] mSubtile[aDepth][i]; }
+            delete [] mSubtile[aDepth];
+        }
+        delete [] mSubtile;
     }
     mGridBufferH = pGridBufferH;
     mGridBufferV = pGridBufferV;
@@ -300,6 +332,21 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
             }
         }
     }
+
+    mSubgridWidth = mGridWidthTotal * SUBTILES_PER_TILE;
+    mSubgridHeight = mGridHeightTotal * SUBTILES_PER_TILE;
+    mSubtile = new GameTile***[GRID_DEPTH];
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        mSubtile[aDepth] = new GameTile**[mSubgridWidth];
+        for (int aX=0;aX<mSubgridWidth;aX++) {
+            mSubtile[aDepth][aX] = new GameTile*[mSubgridHeight];
+            for (int aY=0;aY<mSubgridHeight;aY++) {
+                mSubtile[aDepth][aX][aY] = 0;
+            }
+        }
+    }
+
+
     
     mTowerAllowed = new bool*[mGridWidthTotal];
     for (int aX=0;aX<mGridWidthTotal;aX++) {
@@ -371,6 +418,13 @@ void GameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
     }
 }
 
+void GameArena::DeleteSubtile(int pGridX, int pGridY, int pGridZ) {
+    GameTile *aTile = GetSubtile(pGridX, pGridY, pGridZ);
+    if (aTile) {
+        mDeletedTileList += aTile;
+        mSubtile[pGridZ][pGridX][pGridY] = 0;
+    }
+}
 
 void GameArena::PlaceTower(Tower *pTower) {
     if (pTower) {
@@ -418,7 +472,15 @@ GameTile *GameArena::GetTile(int pGridX, int pGridY, int pGridZ) {
     if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mGridWidthTotal) && (pGridY < mGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
         aResult = mTile[pGridZ][pGridX][pGridY];
     }
-    
+
+    return aResult;
+}
+
+GameTile *GameArena::GetSubtile(int pGridX, int pGridY, int pGridZ) {
+    GameTile *aResult = 0;
+    if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mSubgridWidth) && (pGridY < mSubgridHeight) && (pGridZ < GRID_DEPTH)) {
+        aResult = mSubtile[pGridZ][pGridX][pGridY];
+    }
     return aResult;
 }
 
@@ -470,10 +532,6 @@ void GameArena::Click(float pX, float pY) {
     int aGridY = -1;
     int aGridZ = -1;
 
-    mPivotX = pX;
-    mPivotY = pY;
-    
-    
     GetGridPos(pX, pY, aGridX, aGridY, aGridZ);
     printf("Grid[%d %d %d]\n", aGridX, aGridY, aGridZ);
     
@@ -747,6 +805,37 @@ void GameArena::Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     }
 }
 
+void GameArena::GenerateSubtiles() {
+
+    //The subtiles we need to be at the exact right XY location, these will be used to
+    //move the units along their paths...........
+
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aGridX=0;aGridX<mGridWidthTotal;aGridX++) {
+            int aSubgridStartX = aGridX * SUBTILES_PER_TILE;
+            for (int aGridY=0;aGridY<mGridHeightTotal;aGridY++) {
+
+
+                int aSubgridStartY = aGridY * SUBTILES_PER_TILE;
+
+                for (int aOffsetX=0;aOffsetX<SUBTILES_PER_TILE;aOffsetX++) {
+                    int aX = aSubgridStartX + aOffsetX;
+                    for (int aOffsetY=0;aOffsetY<SUBTILES_PER_TILE;aOffsetY++) {
+                        int aY = aSubgridStartY + aOffsetY;
+                        
+                        //mTile[aX][aY] = new GameTile();
+
+
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
 void GameArena::Clear(int pDepth) {
     if (mTile) {
         if (pDepth >= 0 && pDepth < GRID_DEPTH) {
@@ -757,7 +846,6 @@ void GameArena::Clear(int pDepth) {
             }
         }
     }
-
 }
 
 void GameArena::Clear() {
@@ -849,16 +937,14 @@ void GameArena::Load(const char *pPath)
     FString aPath = FString(pPath);
     if(aPath.mLength <= 0)aPath = "test_level.xml";
     //aPath = (gDocuments + aPath);
-    
+
+
     FXML aXML;
     aXML.Load(aPath);
-    
-    
+
     FreeList(AnimatedGamePath, mPathList);
-    
-    
+
     FXMLTag *aArenaTag = aXML.GetRoot();
-    
     if (aArenaTag) {
         mGridWidthActive = FString(aArenaTag->GetParamValue("grid_width_active")).ToInt();
         mGridHeightActive = FString(aArenaTag->GetParamValue("grid_height_active")).ToInt();
@@ -887,7 +973,9 @@ void GameArena::Load(const char *pPath)
     }
     
     printf("Grid Size [%d x %d] Active [%d x %d]\n", mGridWidthTotal, mGridHeightTotal, mGridWidthActive, mGridHeightTotal);
-    
+
+    GenerateSubtiles();
+
     ComputeAllowedPlacements();
     ComputePathConnections();
 }

@@ -51,11 +51,12 @@ public:
     virtual ~FSpriteSequence();
 
     void                                LoadBundle(const char *pBundleName);
-    
+
     void                                Load(const char *pFilePrefix);
-    inline void                         Load(char *pFilePrefix){Load((const char*)pFilePrefix);}
-    inline void                         Load(FString pFilePrefix){Load((const char*)(pFilePrefix.c()));}
+    inline void                         Load(char *pFilePrefix) { Load((const char*)pFilePrefix); }
+    inline void                         Load(FString pFilePrefix) { Load((const char*)(pFilePrefix.c())); }
     void                                Load(const char *pFilePrefix, int pStartIndex, int pEndIndex);
+    inline void                         Load(FString pFilePrefix, int pStartIndex, int pEndIndex) { Load((const char*)(pFilePrefix.c()), pStartIndex, pEndIndex); }
 
     void                                ComputeBounds();
 
@@ -72,7 +73,6 @@ public:
     float                               LoopFrame(float pFrame, float pFrameSpeed);
     
     FList                               mList;
-    //int                                 mCount;
     
     FString                             mFilePrefix;
     

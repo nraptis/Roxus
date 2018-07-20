@@ -19,7 +19,8 @@
 #include "FObject.h"
 
 #define GRID_DEPTH 3
-#define SUBTILES_PER_TILE 5
+//#define SUBTILES_PER_TILE 5
+
 
 #define MAIN_FLOOR 1
 
@@ -39,11 +40,11 @@ public:
     GameTile                                    ****mTile;
 
 
-
-    //Whole world gets subtiles..
-    //SUBTILES_PER_TILE
-    GameTile                                    ****mSubtile;
-
+    //Our higher fidelity grid with SUBDIVISIONS per tile.
+    //AKA the "UNIT grid" ... The world in which our units live...
+    PathNode                                    ****mGrid;
+    int                                         mGridWidth;
+    int                                         mGridHeight;
 
     bool                                        **mTowerAllowed;
     void                                        ComputeAllowedPlacements();
@@ -56,24 +57,23 @@ public:
     void                                        RemoveTower(int pGridX, int pGridY, int pGridZ);
 
     void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
-    void                                        DeleteSubtile(int pGridX, int pGridY, int pGridZ);
     FList                                       mDeletedTileList;
+
+    void                                        DeleteGridNode(int pGridX, int pGridY, int pGridZ);
+    FList                                       mDeletedNodeList;
 
     bool                                        mTileVisible[GRID_DEPTH];
     float                                       mTileOpacity[GRID_DEPTH];
     
-    int                                         mGridWidthTotal;
-    int                                         mGridHeightTotal;
+    int                                         mTileGridWidthTotal;
+    int                                         mTileGridHeightTotal;
     
-    int                                         mGridWidthActive;
-    int                                         mGridHeightActive;
+    int                                         mTileGridWidthActive;
+    int                                         mTileGridHeightActive;
     
-    int                                         mGridBufferH;
-    int                                         mGridBufferV;
+    int                                         mTileGridBufferH;
+    int                                         mTileGridBufferV;
 
-    int                                         mSubgridWidth;
-    int                                         mSubgridHeight;
-    
     int                                         mCursorGridX;
     int                                         mCursorGridY;
     int                                         mCursorGridZ;
@@ -84,9 +84,9 @@ public:
     void                                        DrawGridSelection();
     
     virtual void                                Click(float pX, float pY);
-    
+
     GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
-    GameTile                                    *GetSubtile(int pGridX, int pGridY, int pGridZ);
+    PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
     Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
     void                                        ComputePathConnections();
@@ -99,13 +99,12 @@ public:
     //which x, y, and z grid positions the user's finger has landed on...
     void                                        GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
 
-
     void                                        Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
 
     //Assumptions: Grid is already sized and loaded
-    void                                        GenerateSubtiles();
+    void                                        GenerateUnitGrid();
 
     void                                        Clear(int pDepth);
     void                                        Clear();
@@ -120,6 +119,10 @@ public:
 
     void                                        Save(const char *pPath=0);
     void                                        Load(const char *pPath=0);
+
+    float                                       mTestNinjaRotation;
+    float                                       mTestNinjaFrame;
+    
 };
 
 extern GameArena *gArena;

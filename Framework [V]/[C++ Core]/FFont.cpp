@@ -1025,232 +1025,26 @@ void FFont::BitmapDataExportData(FFontImportData *pImport, const char *pName) {
     os_write_file(aPath.c(), aFile.mData, aFile.mLength);
 }
 
-void FFont::BitmapDataExportReadable(FFontImportData *pImport, const char *pFileName)
-{
-    
-    if(pImport == 0)return;
-    FFile aFile;
-    
-    int aKern = 0;
-    unsigned char aKernChar = 0;
-    
-    FFontImportGlyph *aGlyph = 0;
-    FFontImportGlyph *aGlyphCompare = 0;
-    
-    FString aIncludedCharsString = "{\n";
-    
-    int aIncludedCharsStringCount = 0;
-    
-    for(int i=0;i<256;i++)
-    {
-        aGlyph = pImport->GetGlyph(i);
-        if(aGlyph != 0)
-        {
-            if(aGlyph->Valid())
-            {
-                aIncludedCharsString += FFont::CharToReadable(aGlyph->mChar);
-                aIncludedCharsStringCount++;
-                if(aIncludedCharsStringCount < pImport->mCharactersLoadedCount)
-                {
-                    aIncludedCharsString += ",";
-                    if((aIncludedCharsStringCount % 8) == 0)aIncludedCharsString += "\n";
-                    else aIncludedCharsString += " ";
-                }
-                else aIncludedCharsString += "}\r\n\n";
-            }
-        }
-    }
-    
-    /*
-     
-     
-     FFile aFile;
-     FFile aReadableFile;
-     
-     FFontImportGlyph *aGlyph = 0;
-     FFontImportGlyph *aGlyphCompare = 0;
-     
-     
-     aImportData->mKernCount = 0;
-     
-     //int aTotalKernCount = 0;
-     //int aMaxKernPairs = -1;
-     
-     FString aIncludedCharsString = "{\n";
-     
-     int aIncludedCharsStringCount = 0;
-     
-     for(int i=0;i<256;i++)
-     {
-     aGlyph = aImportData->GetGlyph(i);
-     
-     //aGlyph = aImportData->GetGlyph(aKernChar1);
-     //aGlyphCompare = aImportData->GetGlyph(aKernChar2);
-     
-     //FFontImportGlyph *aInfo = aData[i];
-     
-     if(aGlyph != 0)
-     {
-     if(aGlyph->IsValid())
-     {
-     //aImportData->mKernCount
-     
-     aIncludedCharsString += FFont::CharToReadable(aGlyph->mChar);
-     aIncludedCharsStringCount++;
-     
-     if(aIncludedCharsStringCount < aImportData->mCharactersLoadedCount)
-     {
-     aIncludedCharsString += ",";
-     if((aIncludedCharsStringCount % 8) == 0)aIncludedCharsString += "\n";
-     else aIncludedCharsString += " ";
-     }
-     else
-     {
-     aIncludedCharsString += "}\r\n\n";
-     }
-     
-     
-     
-     aGlyph->mKernCount = 0;
-     for(int aCheck=0;aCheck<256;aCheck++)
-     {
-     if(aGlyph->mKern[aCheck] != 0)aGlyph->mKernCount++;
-     }
-     
-     if(aGlyph->mKernCount > 0)
-     {
-     aImportData->mKerningEnabled = true;
-     aImportData->mKernCount += aGlyph->mKernCount;
-     }
-     
-     
-     
-     //KerningPairCount()
-     
-     //Log("Kern[%c has %d k-pairs] => [%s] (Total = %d)\n", aGlyph->mChar, aCharKernCount, aKernPairs.c(), aTotalKernCount);
-     }
-     
-     
-     
-     }
-     }
-     
-     aWriteFile.WriteShort((short)(pImport->mPointSize));
-     aWriteFile.WriteShort((short)(pImport->mCharactersLoadedCount));
-     
-     FString aWriteString = FString(FString("Font - \"") + pImport->mName + FString("\"\n")).c();
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     aWriteString = FString(FString("Height = ") + FString(pImport->mPointSize) + FString("\nCharacter Count = ") + FString(pImport->mCharactersLoadedCount));
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     aWriteString = FString(FString("\nTotal Kerning Pairs = ") + FString(pImport->mKernCount) + FString("\n\n")).c();
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     
-     aWriteString = FString(FString("Characters = ") + aIncludedCharsString).c();
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     aWriteString = FString("\n\n** CHARACTER DATA **\n\n").c();
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     
-     for(int aIndex=0;aIndex<256;aIndex++)
-     {
-     FFontImportGlyph *aInfo = ((FFontImportGlyph *)(aResult->Fetch(aIndex)));
-     
-     if(aInfo)
-     {
-     int aKernCount = aGlyph->KerningPairCount();
-     //int aOffsetX = (aGlyph->mImageOffsetX);// - aGlyph->mPaddingL);// - aPaddingLeft) * mScale;
-     //int aOffsetY = 0;
-     
-     
-     //int aKernCount = aGlyph->KerningPairCount();
-     //int aOffsetX = (aGlyph->mImageOffsetX);// - aGlyph->mPaddingL);// - aPaddingLeft) * mScale;
-     //////int aOffsetY = (-aGlyph->mPaddingU);// aDrawY - aPaddingUp);
-     //int aOffsetY = (-aGlyph->mPaddingU);// aDrawY - aPaddingUp);
-     
-     
-     //mPaddingU
-     
-     aWriteFile.WriteChar(aGlyph->mChar);
-     aWriteFile.WriteShort(aKernCount);aWriteFile.WriteShort(aGlyph->mStrideX);
-     aWriteFile.WriteShort((short)(aGlyph->mImageOffsetX));aWriteFile.WriteShort((short)(aGlyph->mImageOffsetY));
-     //Log("mSysFontBold.SetStride(%d, %d, %d);\n", aGlyph->mIndex, aOffsetX, aGlyph->mStrideX);
-     
-     aWriteString = FString(FString("\r\n") + FString(FFont::CharToReadable(aGlyph->mChar)) + FString(" (") + FString(aGlyph->mIndex) + FString(")\t\t\t\t") + FString("Stride = ") + FString(aGlyph->mStrideX) + FString(", Offset = (") + FString(aOffsetX) + FString(", ") + FString(aOffsetY) + FString("), ")+ FString(", Kerning Pair Count = ") + FString(aKernCount) + FString("")).c();
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     }
-     }
-     
-     if(aTotalKernCount > 0)
-     {
-     aWriteString = FString("\n\n** KERNING DATA **\n\n").c();
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     }
-     
-     aWriteFile.WriteShort(aTotalKernCount);
-     aWriteFile.WriteShort(aMaxKernPairs);
-     
-     for(int aIndex=0;aIndex<(aResult->mCount);aIndex++)
-     {
-     FFontImportGlyph *aInfo = ((FFontImportGlyph *)(aResult->Fetch(aIndex)));
-     
-     if(aInfo)
-     {
-     for(int k=0;k<256;k++)
-     {
-     int aKernAmount = aGlyph->mKern[k];
-     if(aKernAmount != 0)
-     {
-     unsigned char aKernChar = k;
-     aWriteString = FString("   (") + FFont::CharToReadable(aGlyph->mChar) + FString(" => ") + FFont::CharToReadable(aKernChar) + FString(") = ") + FString(aKernAmount) + FString("\n");
-     
-     aReadableFile.Write(aWriteString.c(), aWriteString.mLength);
-     
-     aWriteFile.WriteChar(aKernChar);
-     aWriteFile.WriteShort((char)(aKernAmount));
-     }
-     }
-     
-     }
-     }
-     
-     
-     
-     FString aPrefix;os_getTestDirectory(&aPrefix);
-     FString aNameString = pImport->mName.ToLower();
-     FString aPathFile = aPrefix + aNameString + FString("_info.txt");
-     os_write_file(aPathFile.c(), aFile.mData, aFile.mLength);
-     
-     */
-}
-
-void FFont::BitmapDataRemoveCharacters(FFontImportData *pImport, const char *pCharacters)
-{
+void FFont::BitmapDataRemoveCharacters(FFontImportData *pImport, const char *pCharacters) {
     unsigned char *aPtr = ((unsigned char *)pCharacters);
     int aLen = FString::Length(pCharacters);
     FFontImportGlyph *aGlyph = 0;
-    
-    if((aLen > 0) && (pImport != 0) && (aPtr != 0))
-    {
+    if ((aLen > 0) && (pImport != 0) && (aPtr != 0)) {
         int aCharIndex = -1;
         unsigned char aChar = 0;
-        
-        while(((*aPtr) != 0) && (aLen > 0))
-        {
+        while (((*aPtr) != 0) && (aLen > 0)) {
             aChar = *aPtr;
             aCharIndex = aChar;
-            
             aGlyph = pImport->GetGlyph(aCharIndex);
-            
-            if(aGlyph)
-            {
-                if(aGlyph->mAllowed == true)
-                {
+            if (aGlyph) {
+                if (aGlyph->mAllowed == true) {
                     pImport->mCharactersRemovedCount++;
                 }
                 aGlyph->Reset();
                 aGlyph->mAllowed = false;
             }
-            
-            aLen--;aPtr++;
+            aLen--;
+            aPtr++;
         }
     }
 }

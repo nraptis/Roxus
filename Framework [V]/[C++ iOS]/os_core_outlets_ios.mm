@@ -243,12 +243,10 @@ unsigned int *os_load_image(char *pFile,int &pWidth, int &pHeight)
     
     unsigned int *aData=0;
     
-    if(aImage)
-    {
-        if(aImage.size.width>0&&aImage.size.height>0)
-        {
-            pWidth=aImage.size.width;
-            pHeight=aImage.size.height;
+    if (aImage) {
+        if (aImage.size.width>0&&aImage.size.height>0) {
+            pWidth= (int)(aImage.size.width * aImage.scale + 0.5f);
+            pHeight= (int)(aImage.size.height * aImage.scale + 0.5f);
             
             CGImageRef aCGImage=aImage.CGImage;
             aData = new unsigned int[(unsigned int)(pWidth*pHeight)];

@@ -16,6 +16,7 @@ WorldContainer::WorldContainer() {
     gWorldContainer = this;
 
     mTestMenu = 0;
+    mEditorMenu = 0;
     mGestureContainer = 0;
     mTransformContainer = 0;
     mArena = 0;
@@ -30,8 +31,7 @@ WorldContainer::WorldContainer() {
     mGestureContainer->AddChild(mTransformContainer);
     mGestureContainer->mWorldTransform = mTransformContainer;
 
-    //mTestMenu = new WorldMenu(this);
-    //AddChild(mTestMenu);
+
 
     if (gEditorMode) {
         gEditor = new EditorGameArena();
@@ -40,6 +40,10 @@ WorldContainer::WorldContainer() {
         AddChild(mEditorMenu);
     } else {
         mArena = new GameArena();
+
+        mTestMenu = new WorldMenu(this);
+        AddChild(mTestMenu);
+
     }
 }
 
@@ -60,10 +64,19 @@ void WorldContainer::Layout() {
             float aHeight = mHeight - 64.0f;
             if (aWidth > 420.0f) { aWidth = 420.0f; }
             if (640.0f > 640.0f) { aHeight = 640.0f; }
-            if (mEditorMenu->mExpanded) {
-                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
-            } else {
-                mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, mEditorMenu->GetHeight());
+            if (mEditorMenu) {
+                if (mEditorMenu->mExpanded) {
+                    mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
+                } else {
+                    mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, mEditorMenu->GetHeight());
+                }
+            }
+            if (mTestMenu) {
+                if (mTestMenu->mExpanded) {
+                    mTestMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
+                } else {
+                    mTestMenu->SetFrame(32.0f, 32.0f, aWidth, mTestMenu->GetHeight());
+                }
             }
         }
     }

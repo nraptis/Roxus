@@ -82,33 +82,6 @@ Root *gRoot;
     [super pushReverse:pViewController animated:pAnimated];
 }
 
-- (void)networkActivityTextDefault
-{
-    [self networkActivityText:@"Working..." withSubtitle:@""];
-    
-}
-
-- (void)networkActivityText:(NSString *)pTitle withSubtitle:(NSString *)pSubtitle
-{
-    //mainNetworkActivity.labelTitle.text = pTitle;
-    //mainNetworkActivity.labelSubtitle.text = pSubtitle;
-    
-}
-
-- (void)networkActivity
-{
-    //[self networkActivityShow:[[NetworkActivityIndicator alloc] initWithNibName:nil bundle:nil]];
-    
-}
-
-- (void)networkActivityShow
-{
-    //[mainNetworkActivity nuke];
-    
-    //self.mainNetworkActivity = [[NetworkActivityIndicator alloc] initWithNibName:nil bundle:nil];
-    //[self.view addSubview:mainNetworkActivity.view];
-}
-
 - (void)appPause
 {
     [gGLViewController stopAnimation];

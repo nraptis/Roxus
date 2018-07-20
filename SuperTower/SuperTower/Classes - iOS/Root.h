@@ -21,12 +21,6 @@
 - (void)pushTo:(UIViewController *)pViewController animated:(BOOL)pAnimated;
 - (void)pushReverse:(UIViewController *)pViewController animated:(BOOL)pAnimated;
 
-- (void)networkActivity;
-- (void)networkActivityShow;
-- (void)networkActivityHide;
-- (void)networkActivityTextDefault;
-- (void)networkActivityText:(NSString *)pTitle withSubtitle:(NSString *)pSubtitle;
-
 - (void)appPause;
 - (void)appResume;
 

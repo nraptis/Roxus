@@ -82,7 +82,6 @@ void FImageBundler::AddImage(const char*pImagePath) {
     if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.JPG"));
     if (aImage. mWidth == 0) aImage.Load(aPath + FString("@1x.JPEG"));
 
-    /*
     if (aImage. mWidth == 0) aImage.Load(aPath + FString(".png"));
     if (aImage. mWidth == 0) aImage.Load(aPath + FString(".jpg"));
     if (aImage. mWidth == 0) aImage.Load(aPath + FString(".jpeg"));
@@ -95,7 +94,6 @@ void FImageBundler::AddImage(const char*pImagePath) {
     if (aImage. mWidth == 0) aImage.Load(aPath + FString(".PNG"));
     if (aImage. mWidth == 0) aImage.Load(aPath + FString(".JPG"));
     if (aImage. mWidth == 0) aImage.Load(aPath + FString(".JPEG"));
-    */
 
     if (aImage.mWidth == 0) {
         printf("** Image Bundler FAILED [%s] **\n\n", pImagePath);
@@ -548,12 +546,33 @@ void FImageBundler::LoadBundle(const char *pFileXML) {
                 mBundleHeight = FString(aParam->mValue).ToInt();
             }
         }
-        if (mBundleScale == 3) {
-            mBundleWidth *= 3;
-            mBundleWidth /= 4;
-            mBundleHeight *= 3;
-            mBundleHeight /= 4;
+
+        if (mBundleScale <= 1) {
+            //Nothing
+        } else if (mBundleScale == 2) {
+            mBundleWidth *= 2;
+            mBundleHeight *= 2;
+        } else if (mBundleScale == 3) {
+            mBundleWidth *= 4;
+            mBundleHeight *= 4;
+        } else if (mBundleScale == 4) {
+            mBundleWidth *= 4;
+            mBundleHeight *= 4;
         }
+
+
+
+        //1x = 512x512
+        //2x = 1024x1024
+        //3x = 2048x2048
+        //4x = 2048x2048
+
+        //if (mBundleScale == 3) {
+        //    mBundleWidth *= 3;
+        //    mBundleWidth /= 4;
+        //    mBundleHeight *= 3;
+        //    mBundleHeight /= 4;
+        //}
         EnumTags(aRoot, aNodeListTag) {
             EnumTags(aNodeListTag, aNodeTag) {
                 FImageBundlerLoadNode *aNode = new FImageBundlerLoadNode();
@@ -569,6 +588,17 @@ void FImageBundler::LoadBundle(const char *pFileXML) {
                     if (FString(aNodeSubtag->mName) == "rect_width") aNode->mWidth = FString(aNodeSubtag->mValue).ToInt();
                     if (FString(aNodeSubtag->mName) == "rect_height") aNode->mHeight = FString(aNodeSubtag->mValue).ToInt();
                 }
+
+                aNode->mX *= mBundleScale;
+                aNode->mY *= mBundleScale;
+                aNode->mWidth *= mBundleScale;
+                aNode->mHeight *= mBundleScale;
+                aNode->mOffsetX *= mBundleScale;
+                aNode->mOffsetY *= mBundleScale;
+                aNode->mOriginalWidth *= mBundleScale;
+                aNode->mOriginalHeight *= mBundleScale;
+
+
                 aNode->mSpriteUStart = (float)(aNode->mX) / (float)mBundleWidth;
                 aNode->mSpriteVStart = (float)(aNode->mY) / (float)mBundleHeight;
                 aNode->mSpriteUEnd = (float)(aNode->mX + aNode->mWidth) / (float)mBundleWidth;

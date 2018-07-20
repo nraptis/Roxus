@@ -54,7 +54,7 @@ Unit::~Unit()
 }
 
 void Unit::Update() {
-    float aMaxFrame = (float)mApp->mRobot.mSequenceLength;
+    float aMaxFrame = (float)mApp->mNinja.mSequenceFrameCount;
 
     mFrame += 0.48f;
     if(mFrame >= aMaxFrame)mFrame -= aMaxFrame;

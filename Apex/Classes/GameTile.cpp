@@ -24,9 +24,6 @@ void GameTileConnection::Reset() {
     mCostTotal = 0;
 }
 
-
-
-
 GameTile::GameTile() {
     mGridX = -1;
     mGridY = -1;
@@ -37,6 +34,7 @@ GameTile::GameTile() {
     mPathConnectionCount = 0;
     mBlocked = false;
     mOccupied = false;
+    mDisabled = false;
     PathReset();
 }
 

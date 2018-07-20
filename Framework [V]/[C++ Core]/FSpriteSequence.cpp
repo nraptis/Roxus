@@ -171,7 +171,6 @@ void FSpriteSequence::Load(const char *pFilePrefix, int pStartIndex, int pEndInd
     aSprite->mAddToSpriteList = false;
     
     int aLoops = 0;
-    
     for (int aStartIndex=pStartIndex;aStartIndex <= pEndIndex;aStartIndex++) {
         aLoops++;
         for (int aLeadingZeroes=1;(aLeadingZeroes < 7)&&(aSuccess == false);aLeadingZeroes++) {
@@ -224,23 +223,21 @@ void FSpriteSequence::Load(const char *pFilePrefix, int pStartIndex, int pEndInd
     ComputeBounds();
 }
 
-void FSpriteSequence::ComputeBounds()
-{
-    if(mList.mCount > 0)
-    {
+void FSpriteSequence::ComputeBounds() {
+    if(mList.mCount > 0) {
         FSprite *aFirstSprite = (FSprite *)(mList.Fetch(0));
-        
-        if(aFirstSprite)
-        {
+        if (aFirstSprite) {
             mWidth = aFirstSprite->mWidth;
             mHeight = aFirstSprite->mHeight;
         }
-        
-        EnumList(FSprite, aSprite, mList)
-        {
-            if(aSprite->mWidth > mWidth)mWidth = aSprite->mWidth;
-            if(aSprite->mHeight > mHeight)mHeight = aSprite->mHeight;
-            
+
+        EnumList(FSprite, aSprite, mList) {
+            if (aSprite->mWidth > mWidth) {
+                mWidth = aSprite->mWidth;
+            }
+            if (aSprite->mHeight > mHeight) {
+                mHeight = aSprite->mHeight;
+            }
         }
     }
 }

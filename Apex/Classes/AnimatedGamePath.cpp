@@ -46,19 +46,6 @@ void AnimatedGamePath::Update() {
     if (mTextureAnimationOffset >= 1.0f) {
         mTextureAnimationOffset -= 1.0f;
     }
-
-    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
-
-        aChunk->mDemoIndexTimer++;
-        if (aChunk->mDemoIndexTimer >= 5) {
-            aChunk->mDemoIndexTimer = 0;
-
-            aChunk->mDemoIndex++;
-            if (aChunk->mDemoIndex > aChunk->mPathNodeList.mCount) {
-                aChunk->mDemoIndex = 0;
-            }
-        }
-    }
 }
 
 void AnimatedGamePath::DrawEditorMarkers() {
@@ -102,9 +89,6 @@ void AnimatedGamePath::DrawEditorMarkers() {
         }
     }
 
-
-
-
     float aX1 = CX(mStartX, mStartZ);
     float aY1 = CY(mStartY, mStartZ);
     float aX2 = CX(mEndX, mEndZ);
@@ -115,37 +99,19 @@ void AnimatedGamePath::DrawEditorMarkers() {
         Graphics::DrawLine(aX1, aY1, aX2, aY2, 8.0f);
     }
 
-    Graphics::SetColor();
+    if (gApp->mDarkMode) {
+        Graphics::SetColor(0.125f, 0.125f, 0.125f, 0.25f);
+    } else {
+        Graphics::SetColor();
+    }
 
     gApp->mUnitCircleSoft.Center(aX1, aY1);
     gApp->mUnitCircleSoft.Center(aX2, aY2);
-
-
 
     if (mSelected) {
         gApp->mUnitCircleHard.Center(aX1, aY1);
         gApp->mUnitCircleHard.Center(aX2, aY2);
     }
-
-
-    /*
-     int aModex = 0;
-     EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
-     Graphics::SetColorSwatch(aModex, 0.666f);
-
-     EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
-     float aX1 = aNode->mCenterX + aNode->mNormX * 20.0f;
-     float aY1 = aNode->mCenterY + aNode->mNormY * 20.0f;
-
-     float aX2 = aNode->mCenterX - aNode->mNormX * 20.0f;
-     float aY2 = aNode->mCenterY - aNode->mNormY * 20.0f;
-
-     Graphics::DrawLine(aX1, aY1, aX2, aY2, 0.5f);
-     }
-     aModex += 1;
-     }
-     */
-
 }
 
 void AnimatedGamePath::DrawPrepare() {
@@ -156,27 +122,27 @@ void AnimatedGamePath::Draw(int pDepth) {
 
     //Graphics::CullFacesEnable();
     //Graphics::CullFacesSetBack();
-
+    
     EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
         if (aChunk->mDepth == pDepth) {
-
             if (gApp->mDarkMode) {
                 Graphics::SetColor(0.10f, 0.10f, 0.10f, 0.75f);
             } else {
                 Graphics::SetColor();
             }
-            
             aChunk->mBufferMainPath.SetTexture(mSprite->mTexture);
             aChunk->mBufferMainPath.Draw();
-            aChunk->mBufferTrack1.Draw(0);
-            aChunk->mBufferTrack2.Draw(0);
-
-            AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
-
-            Graphics::SetColor(1.0f, 0.25f, 0.05f, 0.85f);
-            if (aNode) {
-                Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 6.0f);
+            
+            if (gApp->mDarkMode == false) {
+                aChunk->mBufferTrack1.Draw(0);
+                aChunk->mBufferTrack2.Draw(0);
             }
+
+            //AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
+            //Graphics::SetColor(1.0f, 0.25f, 0.05f, 0.85f);
+            //if (aNode) {
+            //    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 6.0f);
+            //}
         }
     }
 }
@@ -958,8 +924,6 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor)
     mPathChunkList.Add(aChunk);
     aChunk->mDepth = pDepth;
     aChunk->mDistance = 0.0f;
-    aChunk->mDemoIndexTimer = 0;
-    aChunk->mDemoIndex = 0;
 
     //Start Node...
     AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
@@ -1040,8 +1004,7 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor,
     mPathChunkList.Add(aChunk);
     aChunk->mDepth = pDepth;
     aChunk->mDistance = 0.0f;
-    aChunk->mDemoIndexTimer = 0;
-    aChunk->mDemoIndex = 0;
+    
     //Start Node...
     AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
     if (aStartNode == 0) { aStartNode = new AnimatedGamePathNode(); }

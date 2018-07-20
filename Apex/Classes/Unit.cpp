@@ -9,23 +9,22 @@
 #include "Unit.h"
 #include "GameArena.h"
 
-Unit::Unit()
-{
+Unit::Unit() {
     mApp = GAPP;
     mArena = gArena;
-    
+
     mX = 0.0f;
     mY = 0.0f;
     mZ = 0.0f;
-    
+
     mTargetX = 0.0f;
     mTargetY = 0.0f;
     mTargetZ = 0.0f;
-    
+
     mPathIndex = 0;
-    
+
     mKill = 0;
-    
+
     mFinalGridX = 0;
     mFinalGridY = 0;
     mFinalGridZ = 0;
@@ -45,28 +44,23 @@ Unit::Unit()
     
     mRotation = 0.0f;
     mRotationSpeed = 2.0f;
-    
+
     mFrame = 0.0f;
 }
 
 Unit::~Unit()
 {
-    
     //printf("Delete Unit [%x]\n", this);
-    
 }
 
-void Unit::Update()
-{
-    float aMaxFrame = (float)mApp->mRobot.mSequenceLength;
-    
+void Unit::Update() {
+    float aMaxFrame = (float)mApp->mNinja.mSequenceFrameCount;
+
     mFrame += 0.48f;
     if(mFrame >= aMaxFrame)mFrame -= aMaxFrame;
     
-    if(mWalking)
-    {
-        
-        
+    if (mWalking) {
+
         float aTargetRotation = FaceTarget(mTargetX, mTargetY, mX, mY);
         
         mRotation += DistanceBetweenAngles(mRotation, aTargetRotation) / 13.0f;

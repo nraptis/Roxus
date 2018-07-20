@@ -25,6 +25,9 @@ public:
 
     UISlider                                *mSliderZoom;
     UISlider                                *mSliderPanRotation;
+
+    UISlider                                *mSliderTestRotation;
+
 };
 
 #endif

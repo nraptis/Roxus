@@ -9,7 +9,7 @@
 #ifndef Mustache_TilePathFinder_h
 #define Mustache_TilePathFinder_h
 
-#include "GameTile.h"
+#include "PathNode.hpp"
 #include "TilePathFinderHeap.h"
 
 class TilePathFinder
@@ -21,10 +21,10 @@ public:
 
     //Performs a layered A* path finding algorithm, assuming the nodes are
     //set up already.
-    bool                                FindPath(GameTile *pStart, GameTile *pEnd);
+    bool                                FindPath(PathNode *pStart, PathNode *pEnd);
     
-    GameTileConnection                  *mPathEnd;
-    GameTileConnection                  *mPathStart;
+    PathNodeConnection                  *mPathEnd;
+    PathNodeConnection                  *mPathStart;
     
     TilePathFinderHeap                  mOpenList;
     TilePathFinderHeap                  mClosedList;

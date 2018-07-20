@@ -119,7 +119,6 @@ public:
     
     static void                     BitmapDataExportGlyphs(FFontImportData *pImport, const char *pName);
     static void                     BitmapDataExportData(FFontImportData *pImport, const char *pName);
-    static void                     BitmapDataExportReadable(FFontImportData *pImport, const char *pName);
     static void                     BitmapDataExportTestStrips(FFontImportData *pImport, const char *pName, int pCount=6);
 
     void                            LoadNew(const char *pDataFile, const char *pImagePrefix);

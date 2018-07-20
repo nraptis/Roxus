@@ -54,8 +54,8 @@ void EditorGameArena::Draw() {
     }
 
     if (mEditorMode == EDITOR_MODE_TILES) {
-        for (int aGridX = 0;aGridX < mGridWidthTotal;aGridX++) {
-            for (int aGridY = 0;aGridY < mGridHeightTotal;aGridY++) {
+        for (int aGridX = 0;aGridX < mTileGridWidthTotal;aGridX++) {
+            for (int aGridY = 0;aGridY < mTileGridHeightTotal;aGridY++) {
                 if (GetTile(aGridX, aGridY, mTileDepth) == 0) {
                     float aCenterX = CX(aGridX, mTileDepth);
                     float aCenterY = CY(aGridY, mTileDepth);
@@ -136,11 +136,11 @@ void EditorGameArena::Draw() {
 
 void EditorGameArena::AddPath() {
     AnimatedGamePath *aPath = new AnimatedGamePath();
-    aPath->mStartX = mGridBufferH;
-    aPath->mStartY = mGridBufferV + gRand.Get(mGridHeightActive);
+    aPath->mStartX = mTileGridBufferH;
+    aPath->mStartY = mTileGridBufferV + gRand.Get(mTileGridHeightActive);
     aPath->mStartZ = 1;
-    aPath->mEndX = mGridBufferH + mGridHeightActive - 1;
-    aPath->mStartY = mGridBufferV + gRand.Get(mGridHeightActive);
+    aPath->mEndX = mTileGridBufferH + mTileGridHeightActive - 1;
+    aPath->mStartY = mTileGridBufferV + gRand.Get(mTileGridHeightActive);
     aPath->mStartZ = 1;
     mPathList += aPath;
     mCurrentPath = aPath;
@@ -191,18 +191,18 @@ void EditorGameArena::Click(float pX, float pY) {
     } else if(mEditorMode == EDITOR_MODE_TILES) {
         GetGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
         printf("Click [%d,%d] Depth[%d]\n", aGridX, aGridY, mTileDepth);
-        if ((aGridX >= 0) && (aGridY >= 0) && (aGridX < mGridWidthTotal) && (aGridY < mGridHeightTotal)) {
+        if ((aGridX >= 0) && (aGridY >= 0) && (aGridX < mTileGridWidthTotal) && (aGridY < mTileGridHeightTotal)) {
             GameTile *aTile = GetTile(aGridX, aGridY, mTileDepth);
             if (aTile) {
-                if (aTile->mType == mTileType) {
+                if (aTile->mTileType == mTileType) {
                     DeleteTile(aGridX, aGridY, mTileDepth);
                 } else {
-                    aTile->mType = mTileType;
+                    aTile->mTileType = mTileType;
                 }
             } else {
                 aTile = new GameTile();
                 aTile->SetUp(aGridX, aGridY, mTileDepth);
-                aTile->mType = mTileType;
+                aTile->mTileType = mTileType;
                 mTile[mTileDepth][aGridX][aGridY] = aTile;
             }
         }
@@ -218,16 +218,43 @@ void EditorGameArena::AttemptPathSelect(float pX, float pY) {
     int aGridY = -1;
     int aGridZ = -1;
     GetEditorGridPos(pX, pY, aGridX, aGridY, aGridZ);
-
     mCurrentPath = 0;
     if (aGridX != -1 && aGridY != -1 && aGridZ != -1) {
+        EnumList(AnimatedGamePath, aPath, mPathList) {
+            if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aGridZ) {
+                mCurrentPath = aPath;
+            }
+            if (aPath->mEndX == aGridX && aPath->mEndY == aGridY && aPath->mEndZ == aGridZ) {
+                mCurrentPath = aPath;
+            }
+        }
+        if (mCurrentPath == 0) {
+            EnumList(AnimatedGamePath, aPath, mPathList) {
+                for (int i=0;i<aPath->mLength;i++) {
+                    int aPathGridX = aPath->mPathX[i];
+                    int aPathGridY = aPath->mPathY[i];
+                    int aPathGridZ = aPath->mPathZ[i];
+                    if (aPathGridX == aGridX && aPathGridY == aGridY && aPathGridZ == aGridZ) {
+                        mCurrentPath = aPath;
+                    }
+                }
+            }
+        }
+    }
 
+
+    if (mCurrentPath == 0) {
+
+
+        mCurrentPath = 0;
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            GetGridPosAtDepth(pX, pY, aDepth, aGridX, aGridY);
 
             EnumList(AnimatedGamePath, aPath, mPathList) {
-                if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aGridZ) {
+                if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aDepth) {
                     mCurrentPath = aPath;
                 }
-                if (aPath->mEndX == aGridX && aPath->mEndY == aGridY && aPath->mEndZ == aGridZ) {
+                if (aPath->mEndX == aGridX && aPath->mEndY == aGridY && aPath->mEndZ == aDepth) {
                     mCurrentPath = aPath;
                 }
             }
@@ -237,44 +264,14 @@ void EditorGameArena::AttemptPathSelect(float pX, float pY) {
                         int aPathGridX = aPath->mPathX[i];
                         int aPathGridY = aPath->mPathY[i];
                         int aPathGridZ = aPath->mPathZ[i];
-                        if (aPathGridX == aGridX && aPathGridY == aGridY && aPathGridZ == aGridZ) {
+                        if (aPathGridX == aGridX && aPathGridY == aGridY && aPathGridZ == aDepth) {
                             mCurrentPath = aPath;
                         }
                     }
                 }
             }
         }
-
-
-    if (mCurrentPath == 0) {
-
-
-            mCurrentPath = 0;
-            for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-                GetGridPosAtDepth(pX, pY, aDepth, aGridX, aGridY);
-
-                EnumList(AnimatedGamePath, aPath, mPathList) {
-                    if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aDepth) {
-                        mCurrentPath = aPath;
-                    }
-                    if (aPath->mEndX == aGridX && aPath->mEndY == aGridY && aPath->mEndZ == aDepth) {
-                        mCurrentPath = aPath;
-                    }
-                }
-                if (mCurrentPath == 0) {
-                    EnumList(AnimatedGamePath, aPath, mPathList) {
-                        for (int i=0;i<aPath->mLength;i++) {
-                            int aPathGridX = aPath->mPathX[i];
-                            int aPathGridY = aPath->mPathY[i];
-                            int aPathGridZ = aPath->mPathZ[i];
-                            if (aPathGridX == aGridX && aPathGridY == aGridY && aPathGridZ == aDepth) {
-                                mCurrentPath = aPath;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    }
 
 }
 
@@ -285,7 +282,7 @@ void EditorGameArena::GetGridPosAtDepth(float pX, float pY, int pDepth, int &pGr
         int aGridX = -1;
         if (pX > 0) {
             aGridX = (int)(pX / gTileSize);
-            if (aGridX >= mGridWidthTotal) {
+            if (aGridX >= mTileGridWidthTotal) {
                 aGridX = -1;
             }
         }
@@ -319,7 +316,7 @@ void EditorGameArena::GetEditorGridPos(float pX, float pY, int &pGridX, int &pGr
     int aGridX = -1;
     if (pX > 0) {
         aGridX = (int)(pX / gTileSize);
-        if (aGridX >= mGridWidthTotal) {
+        if (aGridX >= mTileGridWidthTotal) {
             aGridX = -1;
         }
     }
@@ -353,14 +350,7 @@ void EditorGameArena::GetEditorGridPos(float pX, float pY, int &pGridX, int &pGr
 }
 
 void EditorGameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
-
-    printf("DeleteTile(%d, %d, %d)\n", pGridX, pGridY, pGridZ);
-
-    if (pGridZ == 1) {
-        printf("???\n");
-    }
-
-    if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mGridWidthTotal) && (pGridY < mGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
+    if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mTileGridWidthTotal) && (pGridY < mTileGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
         delete mTile[pGridZ][pGridX][pGridY];
         mTile[pGridZ][pGridX][pGridY] = 0;
     }
@@ -377,8 +367,8 @@ void EditorGameArena::ExportMap() {
 void EditorGameArena::ExportImage() {
     int aTileWidth = 144;
     int aTileHeight = 144;
-    int aImageWidth = mGridWidthTotal * aTileWidth;
-    int aImageHeight = mGridHeightTotal * aTileHeight;
+    int aImageWidth = mTileGridWidthTotal * aTileWidth;
+    int aImageHeight = mTileGridHeightTotal * aTileHeight;
     printf("Saving Image!! (%d x %d)\n", aImageWidth, aImageHeight);
     FImage aImageTunnel;
     FImage aImageFloor;
@@ -429,8 +419,8 @@ void EditorGameArena::ExportImage() {
         FImage aSaveImage;
         aSaveImage.Make(aImageWidth, aImageHeight, 0xFFFFFFFF);
         for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-            for (int aY=0;aY<mGridHeightTotal;aY++) {
-                for (int aX=0;aX<mGridWidthTotal;aX++) {
+            for (int aY=0;aY<mTileGridHeightTotal;aY++) {
+                for (int aX=0;aX<mTileGridWidthTotal;aX++) {
                     GameTile *aTile = mTile[aDepth][aX][aY];
                     if (aTile) {
                         FImage *aTileImage = 0;
@@ -438,26 +428,26 @@ void EditorGameArena::ExportImage() {
                         if (aTile->mGridZ == 0) {
                             aTileImage = &aImageTunnel;
                         }
-                        if (aTile->mType == TILE_TYPE_BLOCKED) {
+                        if (aTile->mTileType == TILE_TYPE_BLOCKED) {
                             aSpecialImage = &aImageBlocker;
                         }
                         if (aTile->mGridZ == 1) {
                             aTileImage = &aImageFloor;
-                            if(aTile->mType == TILE_TYPE_RAMP_U)aSpecialImage = &aImageFloorRampU;
-                            if(aTile->mType == TILE_TYPE_RAMP_D)aSpecialImage = &aImageFloorRampD;
-                            if(aTile->mType == TILE_TYPE_RAMP_L)aSpecialImage = &aImageFloorRampL;
-                            if(aTile->mType == TILE_TYPE_RAMP_R)aSpecialImage = &aImageFloorRampR;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_U)aSpecialImage = &aImageFloorRampU;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_D)aSpecialImage = &aImageFloorRampD;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_L)aSpecialImage = &aImageFloorRampL;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_R)aSpecialImage = &aImageFloorRampR;
                         }
                         if (aTile->mGridZ == 2) {
                             aTileImage = &aImageBridge;
-                            if(aTile->mType == TILE_TYPE_RAMP_U)aSpecialImage = &aImageBridgeRampU;
-                            if(aTile->mType == TILE_TYPE_RAMP_D)aSpecialImage = &aImageBridgeRampD;
-                            if(aTile->mType == TILE_TYPE_RAMP_L)aSpecialImage = &aImageBridgeRampL;
-                            if(aTile->mType == TILE_TYPE_RAMP_R)aSpecialImage = &aImageBridgeRampR;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_U)aSpecialImage = &aImageBridgeRampU;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_D)aSpecialImage = &aImageBridgeRampD;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_L)aSpecialImage = &aImageBridgeRampL;
+                            if(aTile->mTileType == TILE_TYPE_RAMP_R)aSpecialImage = &aImageBridgeRampR;
                         }
                         int aStampX = aTile->mGridX * aTileWidth - aStampShiftX;
                         int aStampY = aTile->mGridY * aTileHeight - aStampShiftY;
-                        if (aTile->mType == TILE_TYPE_BLOCKED) {
+                        if (aTile->mTileType == TILE_TYPE_BLOCKED) {
                             if (aTile->mGridZ == 0) aStampY += aStampShiftCenterDown;
                             if (aTile->mGridZ == 2) aStampY += aStampShiftCenterUp;
                         }

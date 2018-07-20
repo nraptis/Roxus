@@ -490,13 +490,6 @@ float FAnimation::EaseInOutQuad(float pPercent)
     }
 }
 
-/**
- * Easing equation function for a quadratic (pPercent^2) easing out/in: deceleration until halfway, then acceleration.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
-
 float EaseInQuad(float pPercent)
 {
     return pPercent*pPercent;
@@ -598,24 +591,12 @@ float FAnimation::EaseInQuint(float pPercent)
     return pPercent*pPercent*pPercent*pPercent*pPercent;
 }
 
-/**
- * Easing equation function for a quintic (pPercent^5) easing out: decelerating from zero velocity.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseOutQuint(float pPercent)
 {
     pPercent-=1.0;
     return pPercent*pPercent*pPercent*pPercent*pPercent + 1;
 }
 
-/**
- * Easing equation function for a quintic (pPercent^5) easing in/out: acceleration until halfway, then deceleration.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseInOutQuint(float pPercent)
 {
     pPercent*=2.0;
@@ -630,57 +611,27 @@ float FAnimation::EaseInOutQuint(float pPercent)
     }
 }
 
-/**
- * Easing equation function for a quintic (pPercent^5) easing out/in: deceleration until halfway, then acceleration.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseOutInQuint(float pPercent)
 {
     if(pPercent < 0.5)return EaseOutQuint (2*pPercent)/2;
     return EaseInQuint(2*pPercent - 1)/2 + 0.5;
 }
 
-/**
- * Easing equation function for a sinusoidal (sin(pPercent) easing in: accelerating from zero velocity.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseInSine(float pPercent)
 {
     return (pPercent == 1.0) ? 1.0 : -cos(pPercent * PI_2) + 1.0;
 }
 
-/**
- * Easing equation function for a sinusoidal (sin(pPercent) easing out: decelerating from zero velocity.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseOutSine(float pPercent)
 {
     return sin(pPercent* PI_2);
 }
 
-/**
- * Easing equation function for a sinusoidal (sin(pPercent) easing in/out: acceleration until halfway, then deceleration.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseInOutSine(float pPercent)
 {
     return -0.5 * (cos(PI*pPercent) - 1);
 }
 
-/**
- * Easing equation function for a sinusoidal (sin(pPercent) easing out/in: deceleration until halfway, then acceleration.
- *
- * @param t Current time (in frames or seconds).
- * @return The correct value.
- */
 float FAnimation::EaseOutInSine(float pPercent)
 {
     if(pPercent < 0.5) return EaseOutSine (2*pPercent)/2;

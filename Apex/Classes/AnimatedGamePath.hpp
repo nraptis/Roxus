@@ -45,6 +45,7 @@ public:
 struct AnimatedGamePathChunk {
 public:
     FList                               mPathNodeList;
+
     FVertexBuffer                       mBufferMainPath;
 
     FDrawNodeList                       mBufferTrack1;
@@ -57,28 +58,19 @@ public:
 
     //Distance along total path...
     float                               mDistance;
-
-    int                                 mDemoIndex;
-    int                                 mDemoIndexTimer;
-
-
 };
 
 class AnimatedGamePath : public GamePath {
 public:
     AnimatedGamePath();
     virtual ~AnimatedGamePath();
-    
 
     void                                Update();
 
-
     void                                DrawEditorMarkers();
-    
 
     void                                DrawPrepare();
     void                                Draw(int pDepth);
-
 
     virtual void                        ComputePath(GameArena *pArena);
 
@@ -88,14 +80,11 @@ public:
     float                               mPathWidth;
     float                               mPathWidth2;
 
-    
     float                               mTrackWidth;
     float                               mTrackOffset;
 
-
     float                               mUpRampScaleFactor;
     float                               mDownRampScaleFactor;
-
 
     void                                AddBend(int pDepth, float pStartX, float pStartY, float pCenterX, float pCenterY, float pEndX, float pEndY);
     
@@ -104,17 +93,8 @@ public:
     void                                AddHorizontalRamp(int pDepth, float pStartX, float pStartY, float pEndX, float pEndY);
     void                                AddVerticalRamp(int pDepth, float pUVWSpreadFactor, float pStartX, float pStartY, float pEndX, float pEndY);
 
-
-
-
-    //void                                AddVerticalLine(int pDepth, float pStartX, float pStartY, float pCenterX, float pCenterY, float pEndX, float pEndY);
-
-
-
     void                                AppendPointListToPath(int pDepth, float pUVWSpreadFactor);
-
     void                                AppendPointListToPath(int pDepth, float pUVWSpreadFactor, float pDirX, float pDirY);
-
 
     //Happens when path changes...
     void                                GenerateTracks();

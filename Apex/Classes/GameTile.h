@@ -60,7 +60,8 @@ public:
     bool                                IsBlocked();
     bool                                IsNormal();
     bool                                IsRamp();
-    
+
+    bool                                mDisabled;
     bool                                mBlocked;
     bool                                mOccupied;
     

@@ -29,9 +29,9 @@ public:
     
     virtual void                        Update();
     virtual void                        Draw();
-    
+
     void                                ComputePath();
-    
+
     void                                SetUp(GamePath *pPath);
     
     //This is this unit's final grid destination... Huzzah!
@@ -41,9 +41,7 @@ public:
     
     int                                 mHPMax;
     int                                 mHP;
-    
-    
-    
+
     float                               mTargetX;
     float                               mTargetY;
     float                               mTargetZ;
@@ -51,6 +49,7 @@ public:
     int                                 mPathIndex;
     
     float                               mWalkSpeed;
+    
     bool                                mWalking;
     
     float                               mRotation;

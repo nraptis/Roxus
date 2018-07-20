@@ -76,6 +76,15 @@ public:
 
     SpriteSequenceNested                    mRobot;
 
+
+    SpriteSequenceNested                    mNinja;
+    //ninja_rot_00_0300@1x.png
+    //ninja_rot_00_0340@1x.png
+    //ninja_rot_15_0300@1x.png
+    //ninja_rot_15_0340@1x.png
+
+
+
     FSprite                                 mTowerMenuButtonBack[2];
     FSprite                                 mTowerMenuButtonPrice8;
     FSprite                                 mTowerMenuButtonPrice20;

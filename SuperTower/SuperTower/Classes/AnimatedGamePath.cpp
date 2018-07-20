@@ -99,7 +99,11 @@ void AnimatedGamePath::DrawEditorMarkers() {
         Graphics::DrawLine(aX1, aY1, aX2, aY2, 8.0f);
     }
 
-    Graphics::SetColor();
+    if (gApp->mDarkMode) {
+        Graphics::SetColor(0.125f, 0.125f, 0.125f, 0.25f);
+    } else {
+        Graphics::SetColor();
+    }
 
     gApp->mUnitCircleSoft.Center(aX1, aY1);
     gApp->mUnitCircleSoft.Center(aX2, aY2);
@@ -128,8 +132,11 @@ void AnimatedGamePath::Draw(int pDepth) {
             }
             aChunk->mBufferMainPath.SetTexture(mSprite->mTexture);
             aChunk->mBufferMainPath.Draw();
-            aChunk->mBufferTrack1.Draw(0);
-            aChunk->mBufferTrack2.Draw(0);
+            
+            if (gApp->mDarkMode == false) {
+                aChunk->mBufferTrack1.Draw(0);
+                aChunk->mBufferTrack2.Draw(0);
+            }
 
             //AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
             //Graphics::SetColor(1.0f, 0.25f, 0.05f, 0.85f);

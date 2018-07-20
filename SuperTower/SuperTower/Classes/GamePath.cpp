@@ -37,7 +37,7 @@ void GamePath::ComputePath(GameArena *pArena) {
     GameTile *aStartTile = pArena->GetTile(mStartX, mStartY, mStartZ);
     GameTile *aEndTile = pArena->GetTile(mEndX, mEndY, mEndZ);
     mPathFinder.FindPath(aStartTile, aEndTile);
-    GameTileConnection *aConnection = mPathFinder.mPathEnd;
+    PathNodeConnection *aConnection = mPathFinder.mPathEnd;
     if (aConnection) {
         mLength = 0;
         while (aConnection) {
@@ -54,9 +54,9 @@ void GamePath::ComputePath(GameArena *pArena) {
         int aIndex = mLength - 1;
         aConnection = mPathFinder.mPathEnd;
         while (aConnection) {
-            mPathX[aIndex] = aConnection->mTile->mGridX;
-            mPathY[aIndex] = aConnection->mTile->mGridY;
-            mPathZ[aIndex] = aConnection->mTile->mGridZ;
+            mPathX[aIndex] = aConnection->mNode->mGridX;
+            mPathY[aIndex] = aConnection->mNode->mGridY;
+            mPathZ[aIndex] = aConnection->mNode->mGridZ;
             aConnection = aConnection->mParent;
             aIndex--;
         }

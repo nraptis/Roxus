@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef Mustache_GameTile_h
-#define Mustache_GameTile_h
+#ifndef GAME_TILE_HPP
+#define GAME_TILE_HPP
+
+#define SUBDIVISIONS_PER_TILE 4
 
 #define TILE_TYPE_NORMAL 0
 #define TILE_TYPE_RAMP_U 1
@@ -18,73 +20,52 @@
 
 #include "GLApp.h"
 #include "FXML.h"
+#include "PathNode.hpp"
 
-class GameTile;
-
-#define TILE_CONNECTION_COUNT 8
-
-class GameTileConnection {
-public:
-    GameTileConnection();
-    ~GameTileConnection();
-    
-    void                        Reset();
-    
-    GameTile                    *mTile;
-    
-    GameTileConnection          *mParent;
-    
-    //This is the cost to hop to this node from its parent..
-    int                         mCost;
-    
-    //A* Costs, these are updated / replaced on each search..
-    int                         mCostG;
-    int                         mCostH;
-    int                         mCostTotal;
-};
-
-class GameTile
-{
+class GameTile : public PathNode {
 public:
     
     GameTile();
     virtual ~GameTile();
-    
+
     void                                SetUp(int pGridX, int pGridY, int pGridZ);
+
+    void                                ResetGrid();
     
+
     virtual void                        Update();
     virtual void                        Draw();
-    
-    virtual void                        DrawConnections();
     
     bool                                IsBlocked();
     bool                                IsNormal();
     bool                                IsRamp();
 
     bool                                mDisabled;
-    bool                                mBlocked;
     bool                                mOccupied;
-    
-    int                                 mGridX;
-    int                                 mGridY;
-    int                                 mGridZ;
-    
-    float                               mCenterX;
-    float                               mCenterY;
-    
-    int                                 mType;
-    
-    GameTileConnection                  mPathConnection[TILE_CONNECTION_COUNT];
+
+    int                                 mTileType;
+
+    PathNodeConnection                  mPathConnection[NODE_CONNECTION_COUNT];
     int                                 mPathConnectionCount;
-    
-    void                                PathReset();
-    void                                ConnectTo(GameTile *pTile, int pCost);
-    
+
     bool                                PlacementAllowed();
     
     FXMLTag                             *Save();
     void                                Load(FXMLTag *pTag);
-    
+
+    // -------------
+    // | 1 | 2 | 3 |
+    // | 1 | 2 | 3 |
+    // | 1 | 2 | 3 |
+    // -------------
+
+    //Basically, with 3 subdivisions, since the tile "contains" both
+    //"edges" for top and bottom,
+
+    PathNode                            *mGrid[SUBDIVISIONS_PER_TILE + 1][SUBDIVISIONS_PER_TILE + 1];
+
+
+
 };
 
 #endif

@@ -74,6 +74,8 @@ void AppShellInitialize(int pEnvironment) {
     core_sound_initialize();
     social_Init();
 
+    AppShellSetImageFileScale(2);
+
     if(gAppBase)(gAppBase)->BaseInitialize();
     //gTouch.Initialize(pEnvironment);
     

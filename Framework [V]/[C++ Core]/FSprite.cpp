@@ -246,27 +246,16 @@ void FSprite::Load(char *pFile) {
  */
 
 
-void FSprite::LoadN(const char *pFileStart, int pIndex)
-{
-    //int aWriteIndex = 0;
-    
+void FSprite::LoadN(const char *pFileStart, int pIndex) {
     Load(FString(pFileStart) + FString(pIndex));
-    
-    //cSpriteLoadBuffer.W
-    //cSpriteLoadBuffer.Write(<#const char *pString#>, <#int pIndex#>, <#int pCount#>)
 }
 
-void FSprite::LoadN(const char *pFileStart, int pIndex, const char *pFileEnd)
-{
+void FSprite::LoadN(const char *pFileStart, int pIndex, const char *pFileEnd) {
     Load(FString(pFileStart) + FString(pIndex) + FString(pFileEnd));
-    
-    
 }
 
-void FSprite::LoadN(const char *pFileStart, int pIndex1, const char *pFileEnd, int pIndex2)
-{
+void FSprite::LoadN(const char *pFileStart, int pIndex1, const char *pFileEnd, int pIndex2) {
     Load(FString(pFileStart) + FString(pIndex1) + FString(pFileEnd) + FString(pIndex2));
-    
 }
 
 void FSprite::LoadN(const char *pFileStart, int pIndex1, const char *pFileMiddle, int pIndex2, const char *pFileEnd)
@@ -306,20 +295,14 @@ void FSprite::Load(FTexture *pTexture)
     }
 }
 
-void FSprite::Load(FTexture *pTexture, int pX, int pY, int pWidth, int pHeight)
-{
-    if(mDidLoad)
-    {
+void FSprite::Load(FTexture *pTexture, int pX, int pY, int pWidth, int pHeight) {
+    if (mDidLoad) {
         Log("Preventing Double Load [_TEXTURE_RECT]\n");
         return;
     }
-    
     Kill();
-    
-    if(pTexture)
-    {
-        if((pTexture->mExpandedWidth > 0) && (pTexture->mExpandedHeight > 0))
-        {
+    if (pTexture) {
+        if ((pTexture->mExpandedWidth > 0) && (pTexture->mExpandedHeight > 0)) {
             SetTexture(pTexture);
             
             mWidth = pWidth * gSpriteFrameScale;
@@ -329,8 +312,7 @@ void FSprite::Load(FTexture *pTexture, int pX, int pY, int pWidth, int pHeight)
             float aStartV = (float)pY / (float)pTexture->mExpandedHeight;
             float aEndU = (float)(pX + pWidth) / (float)pTexture->mExpandedWidth;
             float aEndV = (float)(pY + pHeight) / (float)pTexture->mExpandedHeight;
-            
-            
+
             mTextureRect.SetUVQuad(aStartU, aStartV, aEndU, aEndV);
             
             float aHeight2 = ((float)mHeight) * 0.5f;

@@ -12,7 +12,7 @@
 
 TilePathFinder::TilePathFinder()
 {
-    mPathStart = new GameTileConnection();
+    mPathStart = new PathNodeConnection();
     mPathEnd = 0;
 }
 
@@ -23,7 +23,7 @@ TilePathFinder::~TilePathFinder()
     mPathEnd = 0;
 }
 
-bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd) {
+bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     bool aResult = false;
 
     mOpenList.Reset();
@@ -36,12 +36,11 @@ bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd) {
         int aEndY = pEnd->mGridY;
         int aEndZ = pEnd->mGridZ;
         
-        GameTile *aTile = 0;
-        GameTileConnection *aConnection = 0;
+        PathNode *aNode = 0;
+        PathNodeConnection *aConnection = 0;
+        PathNodeConnection *aCurrent = mPathStart;
         
-        GameTileConnection *aCurrent = mPathStart;
-        
-        aCurrent->mTile = pStart;
+        aCurrent->mNode = pStart;
         aCurrent->mParent = 0;
         
         int aDiffX = pStart->mGridX - aEndX;
@@ -61,13 +60,13 @@ bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd) {
         while (mOpenList.mCount > 0) {
             aCurrent = mOpenList.Pop();
             mClosedList.Add(aCurrent);
-            aTile = aCurrent->mTile;
-            if(aTile->mGridX == aEndX && aTile->mGridY == aEndY && aTile->mGridZ == aEndZ) {
+            aNode = aCurrent->mNode;
+            if(aNode->mGridX == aEndX && aNode->mGridY == aEndY && aNode->mGridZ == aEndZ) {
                 mPathEnd = aCurrent;
                 break;
             } else {
-                for (int k=0;k<aTile->mPathConnectionCount;k++) {
-                    aConnection = &(aTile->mPathConnection[k]);
+                for (int k=0;k<aNode->mPathConnectionCount;k++) {
+                    aConnection = &(aNode->mPathConnection[k]);
                     int aCostG = aCurrent->mCostG + aConnection->mCost;
                     //TODO: Speed-up this lookup.
                     if (mClosedList.Contains(aConnection) && aCostG >= aConnection->mCostG) { continue; }
@@ -75,9 +74,9 @@ bool TilePathFinder::FindPath(GameTile *pStart, GameTile *pEnd) {
                     if ((aOpenListContains == false) || (aCostG < aConnection->mCostG)) {
                         aConnection->mParent = aCurrent;
                         aConnection->mCostG = aCostG;
-                        aDiffX = aConnection->mTile->mGridX - aEndX;
+                        aDiffX = aConnection->mNode->mGridX - aEndX;
                         if (aDiffX < 0) { aDiffX = -aDiffX; }
-                        aDiffY = aConnection->mTile->mGridY - aEndY;
+                        aDiffY = aConnection->mNode->mGridY - aEndY;
                         if (aDiffY < 0) { aDiffY = -aDiffY; }
                         aConnection->mCostH = (aDiffX + aDiffY) * 100;
                         aConnection->mCostTotal = aConnection->mCostH + aConnection->mCostG;

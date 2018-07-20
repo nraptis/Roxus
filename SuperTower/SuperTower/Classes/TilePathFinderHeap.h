@@ -19,15 +19,15 @@ public:
     ~TilePathFinderHeap();
     
     void                            Reset();
-    void                            Add(GameTileConnection *pConnection);
-    bool                            Contains(GameTileConnection *pConnection);
+    void                            Add(PathNodeConnection *pConnection);
+    bool                            Contains(PathNodeConnection *pConnection);
     
-    GameTileConnection              *Pop();
+    PathNodeConnection              *Pop();
     
     int                             mSize;
     int                             mCount;
     
-    GameTileConnection              **mData;
+    PathNodeConnection              **mData;
     
 };
 

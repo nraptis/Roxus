@@ -19,6 +19,7 @@
 #include "FObject.h"
 
 #define GRID_DEPTH 3
+#define SUBTILES_PER_TILE 5
 
 #define MAIN_FLOOR 1
 
@@ -34,7 +35,15 @@ public:
 
     TilePathFinder                              mPathFinder;
 
+    //Our main "grid" of tiles...
     GameTile                                    ****mTile;
+
+
+
+    //Whole world gets subtiles..
+    //SUBTILES_PER_TILE
+    GameTile                                    ****mSubtile;
+
 
     bool                                        **mTowerAllowed;
     void                                        ComputeAllowedPlacements();
@@ -46,13 +55,9 @@ public:
     void                                        RemoveTower(Tower *pTower);
     void                                        RemoveTower(int pGridX, int pGridY, int pGridZ);
 
-
     void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
+    void                                        DeleteSubtile(int pGridX, int pGridY, int pGridZ);
     FList                                       mDeletedTileList;
-    
-
-
-
 
     bool                                        mTileVisible[GRID_DEPTH];
     float                                       mTileOpacity[GRID_DEPTH];
@@ -65,6 +70,9 @@ public:
     
     int                                         mGridBufferH;
     int                                         mGridBufferV;
+
+    int                                         mSubgridWidth;
+    int                                         mSubgridHeight;
     
     int                                         mCursorGridX;
     int                                         mCursorGridY;
@@ -78,12 +86,10 @@ public:
     virtual void                                Click(float pX, float pY);
     
     GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
+    GameTile                                    *GetSubtile(int pGridX, int pGridY, int pGridZ);
     Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
     void                                        ComputePathConnections();
-
-    float                                       mPivotX;
-    float                                       mPivotY;
 
     FList                                       mPathList;
 
@@ -98,6 +104,8 @@ public:
     void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
 
+    //Assumptions: Grid is already sized and loaded
+    void                                        GenerateSubtiles();
 
     void                                        Clear(int pDepth);
     void                                        Clear();
@@ -110,10 +118,12 @@ public:
     void                                        IncreaseHeight();
     void                                        DecreaseHeight();
 
-
     void                                        Save(const char *pPath=0);
     void                                        Load(const char *pPath=0);
 
+    float                                       mTestNinjaRotation;
+    float                                       mTestNinjaFrame;
+    
 };
 
 extern GameArena *gArena;

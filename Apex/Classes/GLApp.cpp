@@ -23,7 +23,6 @@ float gTileSize2 = 25.0f;
 float gPathBendInset45 = 20.0f;
 float gPathBendInset90 = 20.0f;
 
-
 float gArenaActiveWidth = 512.0f;
 float gArenaActiveWidth2 = 256.0f;
 float gArenaActiveHeight = 512.0f;
@@ -39,12 +38,8 @@ GLApp::GLApp() {
     mWorld = 0;
 
     //TODO: Twiddle
-    mDarkMode = false;
-    //mDarkMode = true;
-    
-    //gEnableEditor = false;
-    gEditorMode = true;
-    
+    //mDarkMode = false;
+    mDarkMode = true;
 }
 
 GLApp::~GLApp() {
@@ -141,8 +136,12 @@ void GLApp::Load() {
     mGridOverlay[0].Load("grid_overlay_1");
     mGridOverlay[1].Load("grid_overlay_2");
 
+    gImageBundler.StartBundle("tower_basic_off");
     mTowerBasicOff.Load("tower_basic_off_", 0, 23);
+
+    gImageBundler.StartBundle("tower_basic_on");
     mTowerBasicOn.Load("tower_basic_on_", 0, 23);
+    gImageBundler.EndBundle();
 
     //mRobot.LoadSequential("robot_", 0, 24, 20);
 
@@ -164,6 +163,31 @@ void GLApp::Load() {
     mTile2.Load("tile_whole_2");
     mTile3.Load("tile_whole_3");
     mTile4.Load("tile_whole_4");
+
+    AppShellSetSpriteFrameScale(2.0f);
+
+    //We can't change this on the fly...
+    //AppShellSetImageFileScale(3);
+
+    gImageBundler.mAutoBundle = true;
+    gImageBundler.StartBundle("ninja_run_1");
+    mNinja.LoadSection("ninja_rot_", 0, 1, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_2");
+    mNinja.LoadSection("ninja_rot_", 2, 3, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_3");
+    mNinja.LoadSection("ninja_rot_", 4, 5, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_4");
+    mNinja.LoadSection("ninja_rot_", 6, 7, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_5");
+    mNinja.LoadSection("ninja_rot_", 8, 9, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_6");
+    mNinja.LoadSection("ninja_rot_", 10, 11, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_7");
+    mNinja.LoadSection("ninja_rot_", 12, 13, 2, "_", 300, 340);
+    gImageBundler.StartBundle("ninja_run_8");
+    mNinja.LoadSection("ninja_rot_", 14, 15, 2, "_", 300, 340);
+    gImageBundler.EndBundle();
+
 }
 
 void GLApp::LoadComplete() {
