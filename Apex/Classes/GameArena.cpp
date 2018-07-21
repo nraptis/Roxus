@@ -48,8 +48,10 @@ GameArena::GameArena() {
     //Load("ramps_test_01.xml");
 
     //Load("pathing_map_02_inverse.xml");
-    Load("45_degree_corners.xml");
+    //Load("45_degree_corners.xml");
     //Load("45_degree_corners_inverse.xml");
+
+    Load("crazy_ramps");
 
     mTestNinjaRotation = 0.0f;
     mTestNinjaFrame = 0.0f;
@@ -947,16 +949,12 @@ void GameArena::RefreshUnitGridNodes() {
         for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
             int aStartGridX = aTileGridX * SUBDIVISIONS_PER_TILE;
             for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
-
                 GameTile *aTile = GetTile(aTileGridX, aTileGridY, aDepth);
-
                 if (aTile) {
-
                     GameTile *aTileU = GetTile(aTileGridX    , aTileGridY - 1, aDepth);
                     GameTile *aTileR = GetTile(aTileGridX + 1, aTileGridY    , aDepth);
                     GameTile *aTileD = GetTile(aTileGridX    , aTileGridY + 1, aDepth);
                     GameTile *aTileL = GetTile(aTileGridX - 1, aTileGridY    , aDepth);
-
 
                     GameTile *aTileAboveU = GetTile(aTileGridX    , aTileGridY - 1, aDepth + 1);
                     GameTile *aTileAboveR = GetTile(aTileGridX + 1, aTileGridY    , aDepth + 1);
@@ -967,15 +965,11 @@ void GameArena::RefreshUnitGridNodes() {
                     GameTile *aTileBelowD = GetTile(aTileGridX    , aTileGridY + 1, aDepth - 1);
                     GameTile *aTileBelowL = GetTile(aTileGridX - 1, aTileGridY    , aDepth - 1);
 
-
-                    //We might need to block one of the connecting rows...
                     bool aBlockAll = false;
-
                     bool aBlockU = true;
                     bool aBlockR = true;
                     bool aBlockD = true;
                     bool aBlockL = true;
-
                     bool aBlockUL = false;
                     bool aBlockUR = false;
                     bool aBlockDL = false;
@@ -986,8 +980,6 @@ void GameArena::RefreshUnitGridNodes() {
                     }
 
                     if (aTile->mTileType == TILE_TYPE_NORMAL) {
-
-
                         GameTile *aTileUL = GetTile(aTileGridX - 1, aTileGridY - 1, aDepth);
                         GameTile *aTileUR = GetTile(aTileGridX + 1, aTileGridY - 1, aDepth);
                         GameTile *aTileDL = GetTile(aTileGridX - 1, aTileGridY + 1, aDepth);
