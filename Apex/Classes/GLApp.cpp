@@ -30,7 +30,7 @@ float gArenaActiveHeight2 = 256.0f;
 float gArenaActiveX = 0.0f;
 float gArenaActiveY = 0.0f;
 
-bool gEditorMode = false;
+bool gEditorMode = true;
 
 GLApp *gApp = 0;
 GLApp::GLApp() {
@@ -39,7 +39,7 @@ GLApp::GLApp() {
 
     //TODO: Twiddle
     //mDarkMode = false;
-    mDarkMode = true;
+    mDarkMode = false;
 }
 
 GLApp::~GLApp() {

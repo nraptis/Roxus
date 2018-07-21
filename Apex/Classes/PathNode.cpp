@@ -32,6 +32,7 @@ PathNode::PathNode() {
     mCenterY = 0.0f;
     mPathConnectionCount = 0;
     mBlocked = false;
+    mOccupied = false;
     PathReset();
 }
 
@@ -42,6 +43,18 @@ PathNode::~PathNode() { }
 //    mCenterX = CX(pGridX, pGridZ);mCenterY = CY(pGridY, pGridZ);
 //}
 
+void PathNode::Reset() {
+    mBlocked = false;
+    mOccupied = false;
+}
+
+bool PathNode::IsBlocked() {
+    bool aResult = false;
+    if (mBlocked) { aResult = true; }
+    if (mOccupied) { aResult = true; }
+    return aResult;
+}
+
 void PathNode::DrawConnections() {
     for (int i=0;i<mPathConnectionCount;i++) {
         if (mPathConnection[i].mNode) {
@@ -51,12 +64,16 @@ void PathNode::DrawConnections() {
 }
 
 void PathNode::ConnectTo(PathNode *pNode, int pCost) {
-    if (mBlocked == false && pNode != 0) {
-        if (pNode->mBlocked == false && mPathConnectionCount < NODE_CONNECTION_COUNT) {
+    if (pNode != 0) {
+
+        //TODO: If we are crashing here, there is an outside logical error.
+        //if (mPathConnectionCount < NODE_CONNECTION_COUNT) {
+
             mPathConnection[mPathConnectionCount].mNode = pNode;
             mPathConnection[mPathConnectionCount].mCost = pCost;
             mPathConnectionCount++;
-        }
+
+        //}
     }
 }
 

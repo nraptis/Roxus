@@ -40,12 +40,18 @@ public:
     virtual ~PathNode();
 
     //virtual void                        SetUp(int pGridX, int pGridY, int pGridZ);
-    
+
+    void                                Reset();
+
     void                                DrawConnections();
-    
-    //For generic nodes, we have no special "will be blocked" the controller
-    //is responsible for either blocking or unblocking a node...
+
+    virtual bool                        IsBlocked();
+
+    //"Blocked pertains to the map itself, to be "blocked" this would be an illegal tile.
     bool                                mBlocked;
+
+    //"Occupied" is something that changes based on towers and units.
+    bool                                mOccupied;
 
     int                                 mGridX;
     int                                 mGridY;
@@ -53,6 +59,8 @@ public:
 
     float                               mCenterX;
     float                               mCenterY;
+
+
 
     PathNodeConnection                  mPathConnection[NODE_CONNECTION_COUNT];
     int                                 mPathConnectionCount;
