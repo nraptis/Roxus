@@ -51,7 +51,11 @@ GameArena::GameArena() {
     //Load("45_degree_corners.xml");
     //Load("45_degree_corners_inverse.xml");
 
-    Load("crazy_ramps");
+    //Load("crazy_ramps");
+
+    //Load("complex_ramping");
+
+    Load("many_wide_ramps");
 
     mTestNinjaRotation = 0.0f;
     mTestNinjaFrame = 0.0f;
@@ -150,11 +154,10 @@ void GameArena::Update() {
      */
     
     mTowerCollection.Update();
-    
+
     EnumList (AnimatedGamePath, aPath, mPathList) {
         aPath->Update();
     }
-    
 }
 
 void GameArena::Draw() {
@@ -166,29 +169,18 @@ void GameArena::Draw() {
     }
 
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-
-
-
-        
-        //if(aDepth == 2)mApp->mLevelBackTunnel.Center(gArenaWidth2, gArenaHeight2);
-        //if(aDepth == 1)mApp->mLevelBackFloor.Center(gArenaWidth2, gArenaHeight2);
-        //if(aDepth == 0)mApp->mLevelBackBridge.Center(gArenaWidth2, gArenaHeight2);
-        
         if (mTileVisible[aDepth]) {
-
             Graphics::SetColor();
             if (gApp->mDarkMode) {
                 Graphics::SetColor(0.125f, 0.125f, 0.125f, mTileOpacity[aDepth]);
             } else {
                 Graphics::SetColor(mTileOpacity[aDepth]);
             }
-            
+
             for (int aX=0;aX<mTileGridWidthTotal;aX++) {
                 for (int aY=0;aY<mTileGridHeightTotal;aY++) {
                     GameTile *aTile = mTile[aDepth][aX][aY];
-                    if (aTile) {
-                        aTile->Draw();
-                    }
+                    if (aTile) { aTile->Draw(); }
                 }
             }
         }
@@ -282,10 +274,23 @@ void GameArena::Draw() {
                 PathNode *aNode = mGrid[aDepth][aGridX][aGridY];
 
                 if (aNode->mBlocked == false) {
-                    Graphics::SetColor(0.0f, 0.125f, 0.0f, 1.0f);
-                    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 2.5f);
+                    Graphics::SetColor(0.95f, 0.95f, 0.95f, 1.0f);
+                    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 3.0f);
 
-                    Graphics::SetColorSwatch(aDepth);
+                    Graphics::SetColor(0.0f, 0.125f, 0.125f, 1.0f);
+                    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 2.25f);
+
+
+                    if (aDepth == 0) {
+                        Graphics::SetColor(1.0f, 0.75f, 0.25f);
+                    }
+                    if (aDepth == 1) {
+                        Graphics::SetColor(0.125f, 0.75f, 0.75f);
+                    }
+                    if (aDepth == 2) {
+                        Graphics::SetColor(0.855f, 0.125f, 0.85f);
+                    }
+
                     Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 1.5f);
 
 
@@ -946,9 +951,12 @@ void GameArena::RefreshUnitGridNodes() {
     //      oooo oooo
 
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-        for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
+        //for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
+        for (int aTileGridX=(mTileGridWidthTotal-1);aTileGridX>=0;aTileGridX--) {
             int aStartGridX = aTileGridX * SUBDIVISIONS_PER_TILE;
-            for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
+            //for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
+            for (int aTileGridY=(mTileGridHeightTotal-1);aTileGridY>=0;aTileGridY--) {
+
                 GameTile *aTile = GetTile(aTileGridX, aTileGridY, aDepth);
                 if (aTile) {
                     GameTile *aTileU = GetTile(aTileGridX    , aTileGridY - 1, aDepth);
@@ -985,6 +993,16 @@ void GameArena::RefreshUnitGridNodes() {
                         GameTile *aTileDL = GetTile(aTileGridX - 1, aTileGridY + 1, aDepth);
                         GameTile *aTileDR = GetTile(aTileGridX + 1, aTileGridY + 1, aDepth);
 
+                        GameTile *aTileAboveUL = GetTile(aTileGridX - 1, aTileGridY - 1, aDepth + 1);
+                        GameTile *aTileAboveUR = GetTile(aTileGridX + 1, aTileGridY - 1, aDepth + 1);
+                        GameTile *aTileAboveDL = GetTile(aTileGridX - 1, aTileGridY + 1, aDepth + 1);
+                        GameTile *aTileAboveDR = GetTile(aTileGridX + 1, aTileGridY + 1, aDepth + 1);
+
+                        //GameTile *aTileBelowUL = GetTile(aTileGridX - 1, aTileGridY - 1, aDepth - 1);
+                        //GameTile *aTileBelowUR = GetTile(aTileGridX + 1, aTileGridY - 1, aDepth - 1);
+                        //GameTile *aTileBelowDL = GetTile(aTileGridX - 1, aTileGridY + 1, aDepth - 1);
+                        //GameTile *aTileBelowDR = GetTile(aTileGridX + 1, aTileGridY + 1, aDepth - 1);
+
                         aBlockUL = true;
                         if (aTileL && aTileU && aTileUL) {
                             if (aTileUL->mTileType == TILE_TYPE_NORMAL &&
@@ -996,6 +1014,29 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockUL = false;
                             }
                         }
+                        if (aTileL && aTileUL) {
+                            if (aTileL->mTileType == TILE_TYPE_RAMP_R && aTileUL->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockUL = false;
+                            }
+                            if (aTileL->mTileType == TILE_TYPE_RAMP_L && aTileUL->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockUL = false;
+                            }
+                        }
+                        if (aTileU && aTileUL) {
+                            if (aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUL->mTileType == TILE_TYPE_RAMP_U) {
+                                aBlockUL = false;
+                            }
+                            if (aTileU->mTileType == TILE_TYPE_RAMP_D && aTileUL->mTileType == TILE_TYPE_RAMP_D) {
+                                aBlockUL = false;
+                            }
+                        }
+                        if (aTileAboveL && aTileAboveUL) {
+                            if (aTileAboveL->mTileType == TILE_TYPE_RAMP_L && aTileAboveUL->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockUL = false;
+                            }
+                        }
+
+
 
                         aBlockUR = true;
                         if (aTileR && aTileU && aTileUR) {
@@ -1008,6 +1049,28 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockUR = false;
                             }
                         }
+                        if (aTileR && aTileUR) {
+                            if (aTileR->mTileType == TILE_TYPE_RAMP_L && aTileUR->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockUR = false;
+                            }
+                            if (aTileR->mTileType == TILE_TYPE_RAMP_R && aTileUR->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockUR = false;
+                            }
+                        }
+                        if (aTileU && aTileUR) {
+                            if (aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUR->mTileType == TILE_TYPE_RAMP_U) {
+                                aBlockUR = false;
+                            }
+                            if (aTileU->mTileType == TILE_TYPE_RAMP_D && aTileUR->mTileType == TILE_TYPE_RAMP_D) {
+                                aBlockUR = false;
+                            }
+                        }
+                        if (aTileAboveR && aTileAboveUR) {
+                            if (aTileAboveR->mTileType == TILE_TYPE_RAMP_R && aTileAboveUR->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockUR = false;
+                            }
+                        }
+
 
                         aBlockDL = true;
                         if (aTileL && aTileD && aTileDL) {
@@ -1020,6 +1083,28 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockDL = false;
                             }
                         }
+                        if (aTileL && aTileDL) {
+                            if (aTileL->mTileType == TILE_TYPE_RAMP_R && aTileDL->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockDL = false;
+                            }
+                            if (aTileL->mTileType == TILE_TYPE_RAMP_L && aTileDL->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockDL = false;
+                            }
+                        }
+                        if (aTileD && aTileDL) {
+                            if (aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDL->mTileType == TILE_TYPE_RAMP_U) {
+                                aBlockDL = false;
+                            }
+                            if (aTileD->mTileType == TILE_TYPE_RAMP_D && aTileDL->mTileType == TILE_TYPE_RAMP_D) {
+                                aBlockDL = false;
+                            }
+                        }
+                        if (aTileAboveL && aTileAboveDL) {
+                            if (aTileAboveL->mTileType == TILE_TYPE_RAMP_L && aTileAboveDL->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockDL = false;
+                            }
+                        }
+
 
                         aBlockDR = true;
                         if (aTileR && aTileD && aTileDR) {
@@ -1032,7 +1117,28 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockDR = false;
                             }
                         }
-                        
+
+                        if (aTileR && aTileDR) {
+                            if (aTileR->mTileType == TILE_TYPE_RAMP_L && aTileDR->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockDR = false;
+                            }
+                            if (aTileR->mTileType == TILE_TYPE_RAMP_R && aTileDR->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockDR = false;
+                            }
+                        }
+                        if (aTileD && aTileDR) {
+                            if (aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDR->mTileType == TILE_TYPE_RAMP_U) {
+                                aBlockDR = false;
+                            }
+                            if (aTileD->mTileType == TILE_TYPE_RAMP_D && aTileDR->mTileType == TILE_TYPE_RAMP_D) {
+                                aBlockDR = false;
+                            }
+                        }
+                        if (aTileAboveR && aTileAboveDR) {
+                            if (aTileAboveR->mTileType == TILE_TYPE_RAMP_R && aTileAboveDR->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockDR = false;
+                            }
+                        }
                         if (aTileR) {
                             if (aTileR->mBlocked == false &&
                                 (aTileR->mTileType == TILE_TYPE_NORMAL || aTileR->mTileType == TILE_TYPE_RAMP_R)) {
@@ -1101,6 +1207,12 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockD = false;
                             }
                         }
+                        if (aTileR != 0 && aTileR->mTileType == TILE_TYPE_RAMP_U) {
+                            aBlockR = false;
+                        }
+                        if (aTileL != 0 && aTileL->mTileType == TILE_TYPE_RAMP_U) {
+                            aBlockL = false;
+                        }
                     } else if (aTile->mTileType == TILE_TYPE_RAMP_R) {
                         if (aTileBelowR) {
                             if (aTileBelowR->mBlocked == false && (aTileBelowR->mTileType == TILE_TYPE_NORMAL || aTileBelowR->mTileType == TILE_TYPE_RAMP_R)) {
@@ -1121,6 +1233,12 @@ void GameArena::RefreshUnitGridNodes() {
                             if (aTileAboveL->mBlocked == false && (aTileAboveL->mTileType == TILE_TYPE_RAMP_R)) {
                                 aBlockL = false;
                             }
+                        }
+                        if (aTileU != 0 && aTileU->mTileType == TILE_TYPE_RAMP_R) {
+                            aBlockU = false;
+                        }
+                        if (aTileD != 0 && aTileD->mTileType == TILE_TYPE_RAMP_R) {
+                            aBlockD = false;
                         }
                     } else if (aTile->mTileType == TILE_TYPE_RAMP_D) {
                         if (aTileBelowD) {
@@ -1143,8 +1261,13 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockU = false;
                             }
                         }
+                        if (aTileR != 0 && aTileR->mTileType == TILE_TYPE_RAMP_D) {
+                            aBlockR = false;
+                        }
+                        if (aTileL != 0 && aTileL->mTileType == TILE_TYPE_RAMP_D) {
+                            aBlockL = false;
+                        }
                     } else if (aTile->mTileType == TILE_TYPE_RAMP_L) {
-
                         if (aTileBelowL) {
                             if (aTileBelowL->mBlocked == false && (aTileBelowL->mTileType == TILE_TYPE_NORMAL || aTileBelowL->mTileType == TILE_TYPE_RAMP_L)) {
                                 aBlockL = false;
@@ -1165,8 +1288,12 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockR = false;
                             }
                         }
-                    } else {
-
+                        if (aTileU != 0 && aTileU->mTileType == TILE_TYPE_RAMP_L) {
+                            aBlockU = false;
+                        }
+                        if (aTileD != 0 && aTileD->mTileType == TILE_TYPE_RAMP_L) {
+                            aBlockD = false;
+                        }
                     }
 
                     int aStartGridY = aTileGridY * SUBDIVISIONS_PER_TILE;

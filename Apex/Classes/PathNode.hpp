@@ -11,7 +11,9 @@
 
 #include <stdio.h>
 
-#define NODE_CONNECTION_COUNT 8
+//TODO: The real number here should be 8, however,
+//illegal configurations allow us to have more connections..
+#define NODE_CONNECTION_COUNT 24
 
 class PathNode;
 class PathNodeConnection {

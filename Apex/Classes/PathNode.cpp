@@ -65,15 +65,13 @@ void PathNode::DrawConnections() {
 
 void PathNode::ConnectTo(PathNode *pNode, int pCost) {
     if (pNode != 0) {
-
         //TODO: If we are crashing here, there is an outside logical error.
-        //if (mPathConnectionCount < NODE_CONNECTION_COUNT) {
-
+        //Note: It's possible to arrive at an illegal configuration in editor mode...
+        if (mPathConnectionCount < NODE_CONNECTION_COUNT) {
             mPathConnection[mPathConnectionCount].mNode = pNode;
             mPathConnection[mPathConnectionCount].mCost = pCost;
             mPathConnectionCount++;
-
-        //}
+        }
     }
 }
 
