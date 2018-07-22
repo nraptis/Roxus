@@ -274,21 +274,23 @@ void GameArena::Draw() {
                 PathNode *aNode = mGrid[aDepth][aGridX][aGridY];
 
                 if (aNode->mBlocked == false) {
-                    Graphics::SetColor(0.95f, 0.95f, 0.95f, 1.0f);
+                    Graphics::SetColor(0.95f, 0.95f, 0.95f, mTileOpacity[aDepth]);
                     Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 3.0f);
 
-                    Graphics::SetColor(0.0f, 0.125f, 0.125f, 1.0f);
+                    Graphics::SetColor(0.0f, 0.125f, 0.125f, mTileOpacity[aDepth]);
                     Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 2.25f);
 
 
+
+
                     if (aDepth == 0) {
-                        Graphics::SetColor(1.0f, 0.75f, 0.25f);
+                        Graphics::SetColor(1.0f, 0.75f, 0.25f, mTileOpacity[aDepth]);
                     }
                     if (aDepth == 1) {
-                        Graphics::SetColor(0.125f, 0.75f, 0.75f);
+                        Graphics::SetColor(0.125f, 0.75f, 0.75f, mTileOpacity[aDepth]);
                     }
                     if (aDepth == 2) {
-                        Graphics::SetColor(0.855f, 0.125f, 0.85f);
+                        Graphics::SetColor(0.855f, 0.125f, 0.85f, mTileOpacity[aDepth]);
                     }
 
                     Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 1.5f);
@@ -1013,29 +1015,33 @@ void GameArena::RefreshUnitGridNodes() {
                                 aTileL->mBlocked == false) {
                                 aBlockUL = false;
                             }
-                        }
-                        if (aTileL && aTileUL) {
-                            if (aTileL->mTileType == TILE_TYPE_RAMP_R && aTileUL->mTileType == TILE_TYPE_RAMP_R) {
+
+                            if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileL->mTileType == TILE_TYPE_RAMP_R && aTileUL->mTileType == TILE_TYPE_RAMP_R) {
                                 aBlockUL = false;
                             }
-                            if (aTileL->mTileType == TILE_TYPE_RAMP_L && aTileUL->mTileType == TILE_TYPE_RAMP_L) {
+                            if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileL->mTileType == TILE_TYPE_RAMP_L && aTileUL->mTileType == TILE_TYPE_RAMP_L) {
                                 aBlockUL = false;
                             }
-                        }
-                        if (aTileU && aTileUL) {
-                            if (aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUL->mTileType == TILE_TYPE_RAMP_U) {
+
+                            if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUL->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockUL = false;
                             }
-                            if (aTileU->mTileType == TILE_TYPE_RAMP_D && aTileUL->mTileType == TILE_TYPE_RAMP_D) {
-                                aBlockUL = false;
-                            }
-                        }
-                        if (aTileAboveL && aTileAboveUL) {
-                            if (aTileAboveL->mTileType == TILE_TYPE_RAMP_L && aTileAboveUL->mTileType == TILE_TYPE_RAMP_L) {
+                            if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileU->mTileType == TILE_TYPE_RAMP_D && aTileUL->mTileType == TILE_TYPE_RAMP_D) {
                                 aBlockUL = false;
                             }
                         }
 
+                        if (aTileU && aTileAboveL && aTileAboveUL) {
+                            if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileAboveL->mTileType == TILE_TYPE_RAMP_R && aTileAboveUL->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockUL = false;
+                            }
+                        }
+
+                        if (aTileL && aTileAboveUL && aTileAboveU) {
+                            if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileAboveU->mTileType == TILE_TYPE_RAMP_D && aTileAboveUL->mTileType == TILE_TYPE_RAMP_D) {
+                                aBlockUL = false;
+                            }
+                        }
 
 
                         aBlockUR = true;
@@ -1048,25 +1054,29 @@ void GameArena::RefreshUnitGridNodes() {
                                 aTileR->mBlocked == false) {
                                 aBlockUR = false;
                             }
-                        }
-                        if (aTileR && aTileUR) {
-                            if (aTileR->mTileType == TILE_TYPE_RAMP_L && aTileUR->mTileType == TILE_TYPE_RAMP_L) {
+
+                            if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileR->mTileType == TILE_TYPE_RAMP_L && aTileUR->mTileType == TILE_TYPE_RAMP_L) {
                                 aBlockUR = false;
                             }
-                            if (aTileR->mTileType == TILE_TYPE_RAMP_R && aTileUR->mTileType == TILE_TYPE_RAMP_R) {
+                            if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileR->mTileType == TILE_TYPE_RAMP_R && aTileUR->mTileType == TILE_TYPE_RAMP_R) {
                                 aBlockUR = false;
                             }
-                        }
-                        if (aTileU && aTileUR) {
-                            if (aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUR->mTileType == TILE_TYPE_RAMP_U) {
+
+                            if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUR->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockUR = false;
                             }
-                            if (aTileU->mTileType == TILE_TYPE_RAMP_D && aTileUR->mTileType == TILE_TYPE_RAMP_D) {
+                            if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileU->mTileType == TILE_TYPE_RAMP_D && aTileUR->mTileType == TILE_TYPE_RAMP_D) {
                                 aBlockUR = false;
                             }
                         }
-                        if (aTileAboveR && aTileAboveUR) {
-                            if (aTileAboveR->mTileType == TILE_TYPE_RAMP_R && aTileAboveUR->mTileType == TILE_TYPE_RAMP_R) {
+
+                        if (aTileAboveR && aTileAboveUR && aTileU) {
+                            if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileAboveR->mTileType == TILE_TYPE_RAMP_L && aTileAboveUR->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockUR = false;
+                            }
+                        }
+                        if (aTileR && aTileAboveUR && aTileAboveU) {
+                            if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileAboveU->mTileType == TILE_TYPE_RAMP_D && aTileAboveUR->mTileType == TILE_TYPE_RAMP_D) {
                                 aBlockUR = false;
                             }
                         }
@@ -1082,25 +1092,29 @@ void GameArena::RefreshUnitGridNodes() {
                                 aTileL->mBlocked == false) {
                                 aBlockDL = false;
                             }
-                        }
-                        if (aTileL && aTileDL) {
-                            if (aTileL->mTileType == TILE_TYPE_RAMP_R && aTileDL->mTileType == TILE_TYPE_RAMP_R) {
+
+                            if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileL->mTileType == TILE_TYPE_RAMP_R && aTileDL->mTileType == TILE_TYPE_RAMP_R) {
                                 aBlockDL = false;
                             }
-                            if (aTileL->mTileType == TILE_TYPE_RAMP_L && aTileDL->mTileType == TILE_TYPE_RAMP_L) {
+                            if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileL->mTileType == TILE_TYPE_RAMP_L && aTileDL->mTileType == TILE_TYPE_RAMP_L) {
                                 aBlockDL = false;
                             }
-                        }
-                        if (aTileD && aTileDL) {
-                            if (aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDL->mTileType == TILE_TYPE_RAMP_U) {
+
+                            if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDL->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockDL = false;
                             }
-                            if (aTileD->mTileType == TILE_TYPE_RAMP_D && aTileDL->mTileType == TILE_TYPE_RAMP_D) {
+                            if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileD->mTileType == TILE_TYPE_RAMP_D && aTileDL->mTileType == TILE_TYPE_RAMP_D) {
                                 aBlockDL = false;
                             }
                         }
-                        if (aTileAboveL && aTileAboveDL) {
-                            if (aTileAboveL->mTileType == TILE_TYPE_RAMP_L && aTileAboveDL->mTileType == TILE_TYPE_RAMP_L) {
+
+                        if (aTileAboveL && aTileAboveDL && aTileD) {
+                            if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileAboveL->mTileType == TILE_TYPE_RAMP_R && aTileAboveDL->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockDL = false;
+                            }
+                        }
+                        if (aTileL && aTileAboveDL && aTileAboveD) {
+                            if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileAboveD->mTileType == TILE_TYPE_RAMP_U && aTileAboveDL->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockDL = false;
                             }
                         }
@@ -1116,29 +1130,33 @@ void GameArena::RefreshUnitGridNodes() {
                                 aTileR->mBlocked == false) {
                                 aBlockDR = false;
                             }
+
+                            if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileR->mTileType == TILE_TYPE_RAMP_L && aTileDR->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockDR = false;
+                            }
+                            if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileR->mTileType == TILE_TYPE_RAMP_R && aTileDR->mTileType == TILE_TYPE_RAMP_R) {
+                                aBlockDR = false;
+                            }
+
+                            if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDR->mTileType == TILE_TYPE_RAMP_U) {
+                                aBlockDR = false;
+                            }
+                            if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileD->mTileType == TILE_TYPE_RAMP_D && aTileDR->mTileType == TILE_TYPE_RAMP_D) {
+                                aBlockDR = false;
+                            }
+                        }
+                        if (aTileAboveR && aTileAboveDR && aTileD) {
+                            if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileAboveR->mTileType == TILE_TYPE_RAMP_L && aTileAboveDR->mTileType == TILE_TYPE_RAMP_L) {
+                                aBlockDR = false;
+                            }
+                        }
+                        if (aTileR && aTileAboveDR && aTileAboveD) {
+                            if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileAboveD->mTileType == TILE_TYPE_RAMP_U && aTileAboveDR->mTileType == TILE_TYPE_RAMP_U) {
+                                aBlockDR = false;
+                            }
                         }
 
-                        if (aTileR && aTileDR) {
-                            if (aTileR->mTileType == TILE_TYPE_RAMP_L && aTileDR->mTileType == TILE_TYPE_RAMP_L) {
-                                aBlockDR = false;
-                            }
-                            if (aTileR->mTileType == TILE_TYPE_RAMP_R && aTileDR->mTileType == TILE_TYPE_RAMP_R) {
-                                aBlockDR = false;
-                            }
-                        }
-                        if (aTileD && aTileDR) {
-                            if (aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDR->mTileType == TILE_TYPE_RAMP_U) {
-                                aBlockDR = false;
-                            }
-                            if (aTileD->mTileType == TILE_TYPE_RAMP_D && aTileDR->mTileType == TILE_TYPE_RAMP_D) {
-                                aBlockDR = false;
-                            }
-                        }
-                        if (aTileAboveR && aTileAboveDR) {
-                            if (aTileAboveR->mTileType == TILE_TYPE_RAMP_R && aTileAboveDR->mTileType == TILE_TYPE_RAMP_R) {
-                                aBlockDR = false;
-                            }
-                        }
+
                         if (aTileR) {
                             if (aTileR->mBlocked == false &&
                                 (aTileR->mTileType == TILE_TYPE_NORMAL || aTileR->mTileType == TILE_TYPE_RAMP_R)) {
