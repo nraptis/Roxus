@@ -1,15 +1,15 @@
 //
-//  AnimatedGamePath.cpp
+//  AnimatedLevelPath.cpp
 //  Apex
 //
 //  Created by Raptis, Nicholas on 7/12/18.
 //  Copyright © 2018 Raptis, Nicholas. All rights reserved.
 //
 
-#include "AnimatedGamePath.hpp"
+#include "AnimatedLevelPath.hpp"
 #include "FLine.h"
 
-AnimatedGamePath::AnimatedGamePath() {
+AnimatedLevelPath::AnimatedLevelPath() {
     mSelected = false;
     mEditorMode = false;
 
@@ -37,18 +37,18 @@ AnimatedGamePath::AnimatedGamePath() {
     mSprite = &gApp->m1024x1024;
 }
 
-AnimatedGamePath::~AnimatedGamePath() {
+AnimatedLevelPath::~AnimatedLevelPath() {
 
 }
 
-void AnimatedGamePath::Update() {
+void AnimatedLevelPath::Update() {
     mTextureAnimationOffset += 0.0050f;
     if (mTextureAnimationOffset >= 1.0f) {
         mTextureAnimationOffset -= 1.0f;
     }
 }
 
-void AnimatedGamePath::DrawEditorMarkers() {
+void AnimatedLevelPath::DrawEditorMarkers() {
 
 
     if (mLength >= 2) {
@@ -112,18 +112,19 @@ void AnimatedGamePath::DrawEditorMarkers() {
         gApp->mUnitCircleHard.Center(aX1, aY1);
         gApp->mUnitCircleHard.Center(aX2, aY2);
     }
+    
 }
 
-void AnimatedGamePath::DrawPrepare() {
+void AnimatedLevelPath::DrawPrepare() {
     GenerateTextureQuads();
 }
 
-void AnimatedGamePath::Draw(int pDepth) {
+void AnimatedLevelPath::Draw(int pDepth) {
 
     //Graphics::CullFacesEnable();
     //Graphics::CullFacesSetBack();
     
-    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+    EnumList(AnimatedLevelPathChunk, aChunk, mPathChunkList) {
         if (aChunk->mDepth == pDepth) {
             if (gApp->mDarkMode) {
                 Graphics::SetColor(0.10f, 0.10f, 0.10f, 0.75f);
@@ -138,7 +139,7 @@ void AnimatedGamePath::Draw(int pDepth) {
                 aChunk->mBufferTrack2.Draw(0);
             }
 
-            //AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
+            //AnimatedLevelPathNode *aNode = (AnimatedLevelPathNode *)(aChunk->mPathNodeList.Fetch(aChunk->mDemoIndex));
             //Graphics::SetColor(1.0f, 0.25f, 0.05f, 0.85f);
             //if (aNode) {
             //    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 6.0f);
@@ -147,14 +148,14 @@ void AnimatedGamePath::Draw(int pDepth) {
     }
 }
 
-void AnimatedGamePath::ComputePath(GameArena *pArena) {
-    GamePath::ComputePath(pArena);
+void AnimatedLevelPath::ComputePath(GameArena *pArena) {
+    LevelPath::ComputePath(pArena);
     Generate();
 }
 
-void AnimatedGamePath::Reset() {
-    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
-        EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
+void AnimatedLevelPath::Reset() {
+    EnumList(AnimatedLevelPathChunk, aChunk, mPathChunkList) {
+        EnumList(AnimatedLevelPathNode, aNode, aChunk->mPathNodeList) {
             mPathNodeQueue.Add(aNode);
         }
         aChunk->mPathNodeList.RemoveAll();
@@ -164,7 +165,7 @@ void AnimatedGamePath::Reset() {
 
 }
 
-void AnimatedGamePath::Generate() {
+void AnimatedLevelPath::Generate() {
     Reset();
 
     if (mLength < 2) { return; }
@@ -769,7 +770,7 @@ void AnimatedGamePath::Generate() {
 }
 
 
-void AnimatedGamePath::AddBend(int pDepth, float pStartX, float pStartY,
+void AnimatedLevelPath::AddBend(int pDepth, float pStartX, float pStartY,
                                float pCenterX, float pCenterY,
                                float pEndX, float pEndY) {
     mPointList.Reset();
@@ -837,7 +838,7 @@ void AnimatedGamePath::AddBend(int pDepth, float pStartX, float pStartY,
     AppendPointListToPath(pDepth, 1.0f);
 }
 
-void AnimatedGamePath::AddStraight(int pDepth, float pStartX, float pStartY, float pEndX, float pEndY) {
+void AnimatedLevelPath::AddStraight(int pDepth, float pStartX, float pStartY, float pEndX, float pEndY) {
     mPointList.Reset();
     float aDirX = pEndX - pStartX;
     float aDirY = pEndY - pStartY;
@@ -858,7 +859,7 @@ void AnimatedGamePath::AddStraight(int pDepth, float pStartX, float pStartY, flo
     AppendPointListToPath(pDepth, 1.0f);
 }
 
-void AnimatedGamePath::AddHorizontalRamp(int pDepth, float pStartX, float pStartY, float pEndX, float pEndY) {
+void AnimatedLevelPath::AddHorizontalRamp(int pDepth, float pStartX, float pStartY, float pEndX, float pEndY) {
 
     mPointList.Reset();
     float aDirX = pEndX - pStartX;
@@ -889,7 +890,7 @@ void AnimatedGamePath::AddHorizontalRamp(int pDepth, float pStartX, float pStart
     AppendPointListToPath(pDepth, 1.0f, aDirX, aDirY);
 }
 
-void AnimatedGamePath::AddVerticalRamp(int pDepth, float pUVWSpreadFactor, float pStartX, float pStartY, float pEndX, float pEndY) {
+void AnimatedLevelPath::AddVerticalRamp(int pDepth, float pUVWSpreadFactor, float pStartX, float pStartY, float pEndX, float pEndY) {
 
     mPointList.Reset();
     float aDirX = 0.0f;
@@ -914,20 +915,20 @@ void AnimatedGamePath::AddVerticalRamp(int pDepth, float pUVWSpreadFactor, float
     AppendPointListToPath(pDepth, pUVWSpreadFactor, aDirX, aDirY);
 }
 
-void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor) {
+void AnimatedLevelPath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor) {
     if (mPointList.mCount < 2) {
         return;
     }
 
-    AnimatedGamePathChunk *aChunk = (AnimatedGamePathChunk *)mPathChunkQueue.PopLast();
-    if (aChunk == 0) { aChunk = new AnimatedGamePathChunk(); }
+    AnimatedLevelPathChunk *aChunk = (AnimatedLevelPathChunk *)mPathChunkQueue.PopLast();
+    if (aChunk == 0) { aChunk = new AnimatedLevelPathChunk(); }
     mPathChunkList.Add(aChunk);
     aChunk->mDepth = pDepth;
     aChunk->mDistance = 0.0f;
 
     //Start Node...
-    AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
-    if (aStartNode == 0) { aStartNode = new AnimatedGamePathNode(); }
+    AnimatedLevelPathNode *aStartNode = ((AnimatedLevelPathNode *)mPathNodeQueue.PopLast());
+    if (aStartNode == 0) { aStartNode = new AnimatedLevelPathNode(); }
 
     aChunk->mPathNodeList.Add(aStartNode);
 
@@ -949,8 +950,8 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor)
 
     float aLength = 0.0f;
     for (int i=1;i<mPointList.mCount;i++) {
-        AnimatedGamePathNode *aNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
-        if (aNode == 0) { aNode = new AnimatedGamePathNode(); }
+        AnimatedLevelPathNode *aNode = ((AnimatedLevelPathNode *)mPathNodeQueue.PopLast());
+        if (aNode == 0) { aNode = new AnimatedLevelPathNode(); }
         aChunk->mPathNodeList.Add(aNode);
 
         float aX = mPointList.mX[i];
@@ -978,7 +979,7 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor)
     }
 
     aChunk->mLength = aLength;
-    EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
+    EnumList(AnimatedLevelPathNode, aNode, aChunk->mPathNodeList) {
         aNode->mX1 = aNode->mCenterX + aNode->mNormX * mPathWidth2;
         aNode->mY1 = aNode->mCenterY + aNode->mNormY * mPathWidth2;
         aNode->mX2 = aNode->mCenterX - aNode->mNormX * mPathWidth2;
@@ -994,20 +995,20 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor)
     }
 }
 
-void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor, float pDirX, float pDirY) {
+void AnimatedLevelPath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor, float pDirX, float pDirY) {
     if (mPointList.mCount < 2) {
         return;
     }
 
-    AnimatedGamePathChunk *aChunk = (AnimatedGamePathChunk *)mPathChunkQueue.PopLast();
-    if (aChunk == 0) { aChunk = new AnimatedGamePathChunk(); }
+    AnimatedLevelPathChunk *aChunk = (AnimatedLevelPathChunk *)mPathChunkQueue.PopLast();
+    if (aChunk == 0) { aChunk = new AnimatedLevelPathChunk(); }
     mPathChunkList.Add(aChunk);
     aChunk->mDepth = pDepth;
     aChunk->mDistance = 0.0f;
     
     //Start Node...
-    AnimatedGamePathNode *aStartNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
-    if (aStartNode == 0) { aStartNode = new AnimatedGamePathNode(); }
+    AnimatedLevelPathNode *aStartNode = ((AnimatedLevelPathNode *)mPathNodeQueue.PopLast());
+    if (aStartNode == 0) { aStartNode = new AnimatedLevelPathNode(); }
     aChunk->mPathNodeList.Add(aStartNode);
     aStartNode->mCenterX = mPointList.mX[0];
     aStartNode->mCenterY = mPointList.mY[0];
@@ -1021,8 +1022,8 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor,
     float aDirX = 0.0f;
     float aDirY = 0.0f;
     for (int i=1;i<mPointList.mCount;i++) {
-        AnimatedGamePathNode *aNode = ((AnimatedGamePathNode *)mPathNodeQueue.PopLast());
-        if (aNode == 0) { aNode = new AnimatedGamePathNode(); }
+        AnimatedLevelPathNode *aNode = ((AnimatedLevelPathNode *)mPathNodeQueue.PopLast());
+        if (aNode == 0) { aNode = new AnimatedLevelPathNode(); }
         aChunk->mPathNodeList.Add(aNode);
         float aX = mPointList.mX[i];
         float aY = mPointList.mY[i];
@@ -1044,7 +1045,7 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor,
     }
 
     aChunk->mLength = aLength;
-    EnumList(AnimatedGamePathNode, aNode, aChunk->mPathNodeList) {
+    EnumList(AnimatedLevelPathNode, aNode, aChunk->mPathNodeList) {
         aNode->mX1 = aNode->mCenterX + aNode->mNormX * mPathWidth2;
         aNode->mY1 = aNode->mCenterY + aNode->mNormY * mPathWidth2;
         aNode->mX2 = aNode->mCenterX - aNode->mNormX * mPathWidth2;
@@ -1060,11 +1061,11 @@ void AnimatedGamePath::AppendPointListToPath(int pDepth, float pUVWSpreadFactor,
     }
 }
 
-void AnimatedGamePath::GenerateTracks() {
-    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+void AnimatedLevelPath::GenerateTracks() {
+    EnumList(AnimatedLevelPathChunk, aChunk, mPathChunkList) {
         aChunk->mBufferTrack1.Reset();
         aChunk->mBufferTrack2.Reset();
-        AnimatedGamePathNode *aPrevNode = (AnimatedGamePathNode *)aChunk->mPathNodeList.mData[0];
+        AnimatedLevelPathNode *aPrevNode = (AnimatedLevelPathNode *)aChunk->mPathNodeList.mData[0];
         float aPrevTrack1X1 = aPrevNode->mTrack1X1, aPrevTrack1Y1 = aPrevNode->mTrack1Y1;
         float aPrevTrack1X2 = aPrevNode->mTrack1X2, aPrevTrack1Y2 = aPrevNode->mTrack1Y2;
         float aPrevTrack2X1 = aPrevNode->mTrack2X1, aPrevTrack2Y1 = aPrevNode->mTrack2Y1;
@@ -1072,7 +1073,7 @@ void AnimatedGamePath::GenerateTracks() {
         float aTrack1X1 = aPrevTrack1X1, aTrack1Y1 = aPrevTrack1Y1, aTrack1X2 = aPrevTrack1X2, aTrack1Y2 = aPrevTrack1Y2;
         float aTrack2X1 = aPrevTrack2X1, aTrack2Y1 = aPrevTrack2Y1, aTrack2X2 = aPrevTrack2X2, aTrack2Y2 = aPrevTrack2Y2;
         for (int i=1;i<aChunk->mPathNodeList.mCount;i++) {
-            AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)aChunk->mPathNodeList.mData[i];
+            AnimatedLevelPathNode *aNode = (AnimatedLevelPathNode *)aChunk->mPathNodeList.mData[i];
             aTrack1X1 = aNode->mTrack1X1; aTrack1Y1 = aNode->mTrack1Y1; aTrack1X2 = aNode->mTrack1X2; aTrack1Y2 = aNode->mTrack1Y2;
             aTrack2X1 = aNode->mTrack2X1; aTrack2Y1 = aNode->mTrack2Y1; aTrack2X2 = aNode->mTrack2X2; aTrack2Y2 = aNode->mTrack2Y2;
             aChunk->mBufferTrack1.Add(aPrevTrack1X2, aPrevTrack1Y2, 0.0f, 0.0f, 0.0f, 0.0f, mTrackColorOuter.mRed, mTrackColorOuter.mGreen, mTrackColorOuter.mBlue, mTrackColorOuter.mAlpha);
@@ -1093,13 +1094,13 @@ void AnimatedGamePath::GenerateTracks() {
     }
 }
 
-void AnimatedGamePath::GenerateTextureQuads() {
+void AnimatedLevelPath::GenerateTextureQuads() {
     float aTextureOffset = mTextureAnimationOffset;
     float aImageWidth = mPathWidth;
     float aLength = 0.0f;
-    EnumList(AnimatedGamePathChunk, aChunk, mPathChunkList) {
+    EnumList(AnimatedLevelPathChunk, aChunk, mPathChunkList) {
         aChunk->mBufferMainPath.Reset();
-        AnimatedGamePathNode *aPrevNode = (AnimatedGamePathNode *)aChunk->mPathNodeList.mData[0];
+        AnimatedLevelPathNode *aPrevNode = (AnimatedLevelPathNode *)aChunk->mPathNodeList.mData[0];
         float aPrevX1 = aPrevNode->mX1, aPrevY1 = aPrevNode->mY1;
         float aPrevX2 = aPrevNode->mX2, aPrevY2 = aPrevNode->mY2;
         float aPrevDist = aLength;// + aPrevNode->mDistanceFromPrevious;
@@ -1109,7 +1110,7 @@ void AnimatedGamePath::GenerateTextureQuads() {
         float aU = aPrevU;
         float aNodeDist = aLength;
         for (int i=1;i<aChunk->mPathNodeList.mCount;i++) {
-            AnimatedGamePathNode *aNode = (AnimatedGamePathNode *)aChunk->mPathNodeList.mData[i];
+            AnimatedLevelPathNode *aNode = (AnimatedLevelPathNode *)aChunk->mPathNodeList.mData[i];
             aNodeDist += aNode->mDistanceFromPrevious;
             aX1 = aNode->mX1; aY1 = aNode->mY1; aX2 = aNode->mX2; aY2 = aNode->mY2;
             //aDist = aLength + aNode->mDistanceFromPrevious;

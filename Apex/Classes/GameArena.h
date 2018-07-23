@@ -11,7 +11,8 @@
 
 #include "GLApp.h"
 #include "GameTile.h"
-#include "AnimatedGamePath.hpp"
+#include "AnimatedLevelPath.hpp"
+#include "UnitPath.hpp"
 #include "Tower.h"
 #include "TowerBullet.h"
 #include "Unit.h"
@@ -77,6 +78,10 @@ public:
     int                                         mCursorGridY;
     int                                         mCursorGridZ;
 
+    float                                       GetUnitGridX(int pGridX, int pGridY, int pGridZ);
+    float                                       GetUnitGridY(int pGridX, int pGridY, int pGridZ);
+    
+
     void                                        RefreshGridCursor(float pX, float pY);
 
     void                                        DrawGridOverlay();
@@ -98,7 +103,7 @@ public:
 
     void                                        ComputePathConnections();
 
-    //Always called after ComputePathConnections
+    //Assumed that ComputePathConnections() was called...
     void                                        ComputeGridConnections();
 
 
@@ -133,6 +138,13 @@ public:
 
     float                                       mTestNinjaRotation;
     float                                       mTestNinjaFrame;
+    
+    UnitPath                                    mTestUnitPath;
+
+    
+
+    void                                        ComputeTestPath();
+
     
 };
 

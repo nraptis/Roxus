@@ -10,7 +10,7 @@
 #define Mustache_Unit_h
 
 #include "GLApp.h"
-#include "GamePath.h"
+#include "LevelPath.hpp"
 #include "GameObject.h"
 
 class GameArena;
@@ -25,14 +25,14 @@ public:
     GLApp                               *mApp;
     GameArena                           *mArena;
     
-    GamePath                            mPath;
+    LevelPath                            mPath;
     
     virtual void                        Update();
     virtual void                        Draw();
 
     void                                ComputePath();
 
-    void                                SetUp(GamePath *pPath);
+    void                                SetUp(LevelPath *pPath);
     
     //This is this unit's final grid destination... Huzzah!
     int                                 mFinalGridX;

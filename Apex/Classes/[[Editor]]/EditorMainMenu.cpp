@@ -147,7 +147,7 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mSliderZoom = new UISlider();
     mSliderZoom->SetText("Zoom:");
     mSliderZoom->SetValue(&aGesture->mWorldScale);
-    mSliderZoom->SetRange(0.125f, 5.0f);
+    mSliderZoom->SetRange(0.125f, 16.0f);
     mPanelWorldTransform->AddSection(mSliderZoom);
     
     mSliderPanRotation = new UISlider();

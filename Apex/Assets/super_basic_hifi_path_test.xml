@@ -1,4 +1,4 @@
-<game_arena grid_width_active="12" grid_height_active="16" grid_buffer_h="3" grid_buffer_v="3">
+<game_arena grid_width_active="6" grid_height_active="8" grid_buffer_h="1" grid_buffer_v="1">
 	<tile_list>
 		<tile grid_x="0" grid_y="0" grid_z="1" type="0"/>
 		<tile grid_x="0" grid_y="1" grid_z="1" type="0"/>

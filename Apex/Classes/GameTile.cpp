@@ -30,7 +30,6 @@ void GameTile::ResetGrid() {
     }
 }
 
-
 void GameTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;

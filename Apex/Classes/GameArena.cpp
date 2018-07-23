@@ -45,6 +45,8 @@ GameArena::GameArena() {
 
     //Load("test_level_1.xml");
 
+    Load("super_basic_hifi_path_test");
+
     //Load("ramps_test_01.xml");
 
     //Load("pathing_map_02_inverse.xml");
@@ -53,9 +55,9 @@ GameArena::GameArena() {
 
     //Load("crazy_ramps");
 
-    //Load("complex_ramping");
+    //Load("crazy_ramps");
 
-    Load("many_wide_ramps");
+    //Load("many_wide_ramps");
 
     mTestNinjaRotation = 0.0f;
     mTestNinjaFrame = 0.0f;
@@ -155,7 +157,7 @@ void GameArena::Update() {
     
     mTowerCollection.Update();
 
-    EnumList (AnimatedGamePath, aPath, mPathList) {
+    EnumList (AnimatedLevelPath, aPath, mPathList) {
         aPath->Update();
     }
 }
@@ -164,7 +166,7 @@ void GameArena::Draw() {
     Graphics::SetColor();
 
 
-    EnumList (AnimatedGamePath, aPath, mPathList) {
+    EnumList (AnimatedLevelPath, aPath, mPathList) {
         aPath->DrawPrepare();
     }
 
@@ -185,7 +187,7 @@ void GameArena::Draw() {
             }
         }
 
-        EnumList (AnimatedGamePath, aPath, mPathList) {
+        EnumList (AnimatedLevelPath, aPath, mPathList) {
             aPath->Draw(aDepth);
         }
 
@@ -240,8 +242,36 @@ void GameArena::Draw() {
                 }
             }
         }
-    }
 
+
+        for (int aGridX=0;aGridX<mGridWidth;aGridX++) {
+            for (int aGridY=0;aGridY<mGridHeight;aGridY++) {
+                PathNode *aNode = mGrid[aDepth][aGridX][aGridY];
+
+                for (int i=0;i<aNode->mPathConnectionCount;i++) {
+                    PathNode *aConnectedNode = aNode->mPathConnection[i].mNode;
+
+                    float aX1 = aNode->mCenterX;
+                    float aY1 = aNode->mCenterY;
+
+
+                    float aX2 = aConnectedNode->mCenterX;
+                    float aY2 = aConnectedNode->mCenterY;
+
+                    if ((aGridX % 2) == 1) {
+                        aX1 -= 5.0f;
+                    }
+
+                    if ((aGridY % 2) == 1) {
+                        aY1 -= 5.0f;
+                    }
+
+                    Graphics::DrawArrow(aX1, aY1, aX2, aY2, 4.0f, 0.5f);
+
+                }
+            }
+        }
+    }
 
     int aSwatchIndex = 0;
 
@@ -303,6 +333,10 @@ void GameArena::Draw() {
 
     Graphics::SetColor();
     gApp->mNinja.Center(mTestNinjaRotation, mTestNinjaFrame, 0.0f, 0.0f);
+
+
+    mTestUnitPath.DrawMarkers();
+
 }
 
 
@@ -341,6 +375,24 @@ void GameArena::DrawGridSelection() {
 
 void GameArena::ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV) {
 
+}
+
+float GameArena::GetUnitGridX(int pGridX, int pGridY, int pGridZ) {
+    float aResult = 0.0f;
+    if (pGridX >= 0 && pGridX < mGridWidth && pGridY >= 0 && pGridY < mGridHeight && pGridZ >= 0 && pGridZ < GRID_DEPTH) {
+        PathNode *aNode = mGrid[pGridZ][pGridX][pGridY];
+        aResult = aNode->mCenterX;
+    }
+    return aResult;
+}
+
+float GameArena::GetUnitGridY(int pGridX, int pGridY, int pGridZ) {
+    float aResult = 0.0f;
+    if (pGridX >= 0 && pGridX < mGridWidth && pGridY >= 0 && pGridY < mGridHeight && pGridZ >= 0 && pGridZ < GRID_DEPTH) {
+        PathNode *aNode = mGrid[pGridZ][pGridX][pGridY];
+        aResult = aNode->mCenterY;
+    }
+    return aResult;
 }
 
 void GameArena::ComputeAllowedPlacements() {
@@ -762,7 +814,7 @@ void GameArena::ComputePathConnections() {
         }
     }
     
-    EnumList (AnimatedGamePath, aPath, mPathList) {
+    EnumList (AnimatedLevelPath, aPath, mPathList) {
         aPath->ComputePath(this);
     }
 
@@ -771,8 +823,185 @@ void GameArena::ComputePathConnections() {
 
 void GameArena::ComputeGridConnections() {
 
+    //1.) Reset all subgrid path nodes.
+    PathNode *aNode = 0;
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aGridX=0;aGridX<mGridWidth;aGridX++) {
+            for (int aGridY=0;aGridY<mGridHeight;aGridY++) {
+                aNode = mGrid[aDepth][aGridX][aGridY];
+                aNode->PathReset();
+            }
+        }
+    }
+
+    //2.) Make all "occupied" tiles entirely occuiped in subgrid.
+    //    (These are tiles where a tower lies)
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
+            int aStartGridX = aTileGridX * SUBDIVISIONS_PER_TILE;
+            for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
+                GameTile *aTile = GetTile(aTileGridX, aTileGridY, aDepth);
+                if (aTile != 0 && aTile->mOccupied == true) {
+                    int aStartGridY = aTileGridY * SUBDIVISIONS_PER_TILE;
+                    for (int aOffsetX=0;aOffsetX<=SUBDIVISIONS_PER_TILE;aOffsetX++) {
+                        int aGridX = aStartGridX + aOffsetX;
+                        for (int aOffsetY=0;aOffsetY<=SUBDIVISIONS_PER_TILE;aOffsetY++) {
+                            int aGridY = aStartGridY + aOffsetY;
+                            aNode = mGrid[aDepth][aGridX][aGridY];
+                            aNode->mOccupied = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //3.) ... Link up nodes insernally among tiles...
+
+    // o o o o
+    // |X|X|X|
+    // o-o-o-o
+
+    PathNode *aNodeU = 0;
+    PathNode *aNodeR = 0;
+    PathNode *aNodeD = 0;
+    PathNode *aNodeL = 0;
+
+    PathNode *aNodeUL = 0;
+    PathNode *aNodeUR = 0;
+    PathNode *aNodeDR = 0;
+    PathNode *aNodeDL = 0;
+
+
+
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
+            int aStartGridX = aTileGridX * SUBDIVISIONS_PER_TILE;
+            for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
+                GameTile *aTile = GetTile(aTileGridX, aTileGridY, aDepth);
+                if (aTile) {
+                    int aStartGridY = aTileGridY * SUBDIVISIONS_PER_TILE;
+                    for (int aOffsetX=1;aOffsetX<=SUBDIVISIONS_PER_TILE-1;aOffsetX++) {
+                        int aGridX = aStartGridX + aOffsetX;
+                        for (int aOffsetY=1;aOffsetY<=SUBDIVISIONS_PER_TILE-1;aOffsetY++) {
+                            int aGridY = aStartGridY + aOffsetY;
+                            aNode = mGrid[aDepth][aGridX][aGridY];
+
+                            if (aNode->IsBlocked()) { continue; }
+
+                            aNodeU = 0;
+                            aNodeR = 0;
+                            aNodeD = 0;
+                            aNodeL = 0;
+
+                            aNodeUL = 0;
+                            aNodeUR = 0;
+                            aNodeDR = 0;
+                            aNodeDL = 0;
+
+                            if (aOffsetY > 0) { aNodeU = mGrid[aDepth][aGridX][aGridY-1]; }
+                            if (aOffsetY < SUBDIVISIONS_PER_TILE) { aNodeD = mGrid[aDepth][aGridX][aGridY+1]; }
+                            if (aOffsetX > 0) {
+                                aNodeL = mGrid[aDepth][aGridX-1][aGridY];
+                                if (aOffsetY > 0) { aNodeUL = mGrid[aDepth][aGridX-1][aGridY-1]; }
+                                if (aOffsetY < SUBDIVISIONS_PER_TILE) { aNodeDL = mGrid[aDepth][aGridX-1][aGridY+1]; }
+                            }
+                            if (aOffsetX < SUBDIVISIONS_PER_TILE) {
+                                aNodeR = mGrid[aDepth][aGridX+1][aGridY];
+                                if (aOffsetY > 0) { aNodeUR = mGrid[aDepth][aGridX+1][aGridY-1]; }
+                                if (aOffsetY < SUBDIVISIONS_PER_TILE) { aNodeDR = mGrid[aDepth][aGridX+1][aGridY+1]; }
+                            }
+
+                            if(aNodeU != 0 && aNodeU->IsBlocked() == false) {
+                                aNode->ConnectTo(aNodeU, PATH_COST_ADJ);
+                            }
+                            if(aNodeR != 0 && aNodeR->IsBlocked() == false) {
+                                aNode->ConnectTo(aNodeR, PATH_COST_ADJ);
+                            }
+                            if(aNodeD != 0 && aNodeD->IsBlocked() == false) {
+                                aNode->ConnectTo(aNodeD, PATH_COST_ADJ);
+                            }
+                            if(aNodeL != 0 && aNodeL->IsBlocked() == false) {
+                                aNode->ConnectTo(aNodeL, PATH_COST_ADJ);
+                            }
+
+
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ComputeTestPath();
 
 }
+
+void GameArena::ComputeTestPath() {
+
+    GameTile *aStartTile = 0;
+    GameTile *aEndTile = 0;
+
+    PathNode *aStartNode = 0;
+    PathNode *aEndNode = 0;
+
+    for (int aGridY=0;aGridY<mTileGridHeightTotal;aGridY++) {
+        for (int aGridX=0;aGridX<mTileGridWidthTotal;aGridX++) {
+            for (int aDepth=GRID_DEPTH-1;aDepth>=0;aDepth--) {
+                GameTile *aTile = GetTile(aGridX, aGridY, aDepth);
+                if (aTile) {
+                    for (int aInnerX=0;aInnerX<=SUBDIVISIONS_PER_TILE;aInnerX++) {
+                        for (int aInnerY=0;aInnerY<=SUBDIVISIONS_PER_TILE;aInnerY++) {
+                            PathNode *aNode = aTile->mGrid[aInnerX][aInnerY];
+                            if (aNode->IsBlocked() == false) {
+                                aStartNode = aNode;
+                                goto FOUND_X;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+FOUND_X:
+
+    for (int aGridY=(mTileGridHeightTotal-1);aGridY>=0;aGridY--) {
+        for (int aGridX=(mTileGridWidthTotal-1);aGridX>=0;aGridX--) {
+            for (int aDepth=GRID_DEPTH-1;aDepth>=0;aDepth--) {
+                GameTile *aTile = GetTile(aGridX, aGridY, aDepth);
+                if (aTile) {
+                    for (int aInnerX=SUBDIVISIONS_PER_TILE;aInnerX>=0;aInnerX--) {
+                        for (int aInnerY=SUBDIVISIONS_PER_TILE;aInnerY>=0;aInnerY--) {
+                            PathNode *aNode = aTile->mGrid[aInnerX][aInnerY];
+                            if (aNode->IsBlocked() == false) {
+                                aEndNode = aNode;
+                                goto FOUND_Y;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+FOUND_Y:
+
+    if (aStartNode != 0 && aEndNode != 0) {
+
+        mTestUnitPath.mStartX = aStartNode->mGridX;
+        mTestUnitPath.mStartY = aStartNode->mGridY;
+        mTestUnitPath.mStartZ = aStartNode->mGridZ;
+
+        mTestUnitPath.mEndX = aEndNode->mGridX;
+        mTestUnitPath.mEndY = aEndNode->mGridY;
+        mTestUnitPath.mEndZ = aEndNode->mGridZ;
+
+        mTestUnitPath.ComputePath(this);
+        
+    }
+}
+
 
 //This will assign nodes to tiles, compute node positions, and figure out which
 //nodes are "blocked" by default...
@@ -784,7 +1013,7 @@ void GameArena::RefreshUnitGridNodes() {
         for (int aGridX=0;aGridX<mGridWidth;aGridX++) {
             for (int aGridY=0;aGridY<mGridHeight;aGridY++) {
                 aNode = mGrid[aDepth][aGridX][aGridY];
-                aNode->Reset();
+                aNode->HardReset();
                 aNode->mBlocked = true;
             }
         }
@@ -953,11 +1182,11 @@ void GameArena::RefreshUnitGridNodes() {
     //      oooo oooo
 
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-        //for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
-        for (int aTileGridX=(mTileGridWidthTotal-1);aTileGridX>=0;aTileGridX--) {
+        for (int aTileGridX=0;aTileGridX<mTileGridWidthTotal;aTileGridX++) {
+            //for (int aTileGridX=(mTileGridWidthTotal-1);aTileGridX>=0;aTileGridX--) {
             int aStartGridX = aTileGridX * SUBDIVISIONS_PER_TILE;
-            //for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
-            for (int aTileGridY=(mTileGridHeightTotal-1);aTileGridY>=0;aTileGridY--) {
+            for (int aTileGridY=0;aTileGridY<mTileGridHeightTotal;aTileGridY++) {
+                //for (int aTileGridY=(mTileGridHeightTotal-1);aTileGridY>=0;aTileGridY--) {
 
                 GameTile *aTile = GetTile(aTileGridX, aTileGridY, aDepth);
                 if (aTile) {
@@ -1006,13 +1235,10 @@ void GameArena::RefreshUnitGridNodes() {
                     }
 
                     if (aTile->mTileType == TILE_TYPE_NORMAL) {
-
-
                         aBlockUL = true;
                         aBlockUR = true;
                         aBlockDL = true;
                         aBlockDR = true;
-
                         if (aTileL && aTileU && aTileUL) {
                             if (aTileUL->mTileType == TILE_TYPE_NORMAL &&
                                 aTileU->mTileType == TILE_TYPE_NORMAL &&
@@ -1050,8 +1276,6 @@ void GameArena::RefreshUnitGridNodes() {
                             }
                         }
 
-
-
                         if (aTileR && aTileU && aTileUR) {
                             if (aTileUR->mTileType == TILE_TYPE_NORMAL &&
                                 aTileU->mTileType == TILE_TYPE_NORMAL &&
@@ -1067,7 +1291,6 @@ void GameArena::RefreshUnitGridNodes() {
                             if (aTileU->mTileType == TILE_TYPE_NORMAL && aTileR->mTileType == TILE_TYPE_RAMP_R && aTileUR->mTileType == TILE_TYPE_RAMP_R) {
                                 aBlockUR = false;
                             }
-
                             if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileU->mTileType == TILE_TYPE_RAMP_U && aTileUR->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockUR = false;
                             }
@@ -1096,14 +1319,12 @@ void GameArena::RefreshUnitGridNodes() {
                                 aTileL->mBlocked == false) {
                                 aBlockDL = false;
                             }
-
                             if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileL->mTileType == TILE_TYPE_RAMP_R && aTileDL->mTileType == TILE_TYPE_RAMP_R) {
                                 aBlockDL = false;
                             }
                             if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileL->mTileType == TILE_TYPE_RAMP_L && aTileDL->mTileType == TILE_TYPE_RAMP_L) {
                                 aBlockDL = false;
                             }
-
                             if (aTileL->mTileType == TILE_TYPE_NORMAL && aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDL->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockDL = false;
                             }
@@ -1138,7 +1359,6 @@ void GameArena::RefreshUnitGridNodes() {
                             if (aTileD->mTileType == TILE_TYPE_NORMAL && aTileR->mTileType == TILE_TYPE_RAMP_R && aTileDR->mTileType == TILE_TYPE_RAMP_R) {
                                 aBlockDR = false;
                             }
-
                             if (aTileR->mTileType == TILE_TYPE_NORMAL && aTileD->mTileType == TILE_TYPE_RAMP_U && aTileDR->mTileType == TILE_TYPE_RAMP_U) {
                                 aBlockDR = false;
                             }
@@ -1167,7 +1387,6 @@ void GameArena::RefreshUnitGridNodes() {
                                 aBlockR = false;
                             }
                         }
-
                         if (aTileL) {
                             if (aTileL->mBlocked == false &&
                                 (aTileL->mTileType == TILE_TYPE_NORMAL || aTileL->mTileType == TILE_TYPE_RAMP_L)) {
@@ -1495,6 +1714,7 @@ void GameArena::Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
             }
         }
     }
+    ComputeAllowedPlacements();
     GenerateUnitGrid();
     ComputePathConnections();
 }
@@ -1521,6 +1741,7 @@ void GameArena::GenerateUnitGrid() {
 
     if (mTileGridWidthTotal <= 0 || mTileGridHeightTotal <= 0) { return; }
 
+    PathNode *aNode = 0;
     mGridWidth = (mTileGridWidthTotal * SUBDIVISIONS_PER_TILE) + 1;
     mGridHeight = (mTileGridHeightTotal * SUBDIVISIONS_PER_TILE) + 1;
     mGrid = new PathNode***[GRID_DEPTH];
@@ -1529,11 +1750,14 @@ void GameArena::GenerateUnitGrid() {
         for (int aGridX=0;aGridX<mGridWidth;aGridX++) {
             mGrid[aDepth][aGridX] = new PathNode*[mGridHeight];
             for (int aGridY=0;aGridY<mGridHeight;aGridY++) {
-                mGrid[aDepth][aGridX][aGridY] = new PathNode();
+                aNode = new PathNode();
+                aNode->mGridX = aGridX;
+                aNode->mGridY = aGridY;
+                aNode->mGridZ = aDepth;
+                mGrid[aDepth][aGridX][aGridY] = aNode;
             }
         }
     }
-
     RefreshUnitGridNodes();
     ComputePathConnections();
 }
@@ -1594,9 +1818,6 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     gArenaActiveHeight2 = gArenaActiveHeight * 0.5f;
     gArenaActiveX = pGridBufferH * gTileSize;
     gArenaActiveY = pGridBufferV * gTileSize;
-
-    ComputeAllowedPlacements();
-    ComputePathConnections();
 }
 
 void GameArena::Save(const char *pPath) {
@@ -1629,7 +1850,7 @@ void GameArena::Save(const char *pPath) {
     }
     FXMLTag *aPathListTag = new FXMLTag("path_list");
     *aArenaTag += aPathListTag;
-    EnumList (AnimatedGamePath, aPath, mPathList) {
+    EnumList (AnimatedLevelPath, aPath, mPathList) {
         *aPathListTag += aPath->Save();
     }
     
@@ -1647,7 +1868,7 @@ void GameArena::Load(const char *pPath)
     FXML aXML;
     aXML.Load(aPath);
 
-    FreeList(AnimatedGamePath, mPathList);
+    FreeList(AnimatedLevelPath, mPathList);
 
     FXMLTag *aArenaTag = aXML.GetRoot();
     if (aArenaTag) {
@@ -1669,7 +1890,7 @@ void GameArena::Load(const char *pPath)
             
             EnumTagsMatching (aArenaTag, aPathListTag, "path_list") {
                 EnumTags (aPathListTag, aPathTag) {
-                    AnimatedGamePath *aPath = new AnimatedGamePath();
+                    AnimatedLevelPath *aPath = new AnimatedLevelPath();
                     aPath->Load(aPathTag);
                     mPathList += aPath;
                 }
@@ -1694,8 +1915,6 @@ void GameArena::Load(const char *pPath)
     printf("Grid Size [%d x %d] Active [%d x %d]\n", mTileGridWidthTotal, mTileGridHeightTotal, mTileGridWidthActive, mTileGridHeightTotal);
 
     GenerateUnitGrid();
-    RefreshUnitGridNodes();
-    
     ComputeAllowedPlacements();
     ComputePathConnections();
 }

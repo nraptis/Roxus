@@ -43,9 +43,10 @@ PathNode::~PathNode() { }
 //    mCenterX = CX(pGridX, pGridZ);mCenterY = CY(pGridY, pGridZ);
 //}
 
-void PathNode::Reset() {
+void PathNode::HardReset() {
     mBlocked = false;
     mOccupied = false;
+    mPathConnectionCount = 0;
 }
 
 bool PathNode::IsBlocked() {
@@ -68,6 +69,7 @@ void PathNode::ConnectTo(PathNode *pNode, int pCost) {
         //TODO: If we are crashing here, there is an outside logical error.
         //Note: It's possible to arrive at an illegal configuration in editor mode...
         if (mPathConnectionCount < NODE_CONNECTION_COUNT) {
+            mPathConnection[mPathConnectionCount].Reset();
             mPathConnection[mPathConnectionCount].mNode = pNode;
             mPathConnection[mPathConnectionCount].mCost = pCost;
             mPathConnectionCount++;
@@ -76,9 +78,10 @@ void PathNode::ConnectTo(PathNode *pNode, int pCost) {
 }
 
 void PathNode::PathReset() {
-    for (int i=0;i<NODE_CONNECTION_COUNT;i++) {
-        mPathConnection[i].Reset();
-    }
+    //for (int i=0;i<NODE_CONNECTION_COUNT;i++) {
+    //    mPathConnection[i].Reset();
+    //}
     mPathConnectionCount = 0;
+    mOccupied = false;
 }
 

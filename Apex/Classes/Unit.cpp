@@ -189,7 +189,7 @@ void Unit::ComputePath()
     mPathIndex = 0;
 }
 
-void Unit::SetUp(GamePath *pPath)
+void Unit::SetUp(LevelPath *pPath)
 {
     mGridX = pPath->mStartX;
     mGridY = pPath->mStartY;

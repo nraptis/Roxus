@@ -41,9 +41,7 @@ public:
     PathNode();
     virtual ~PathNode();
 
-    //virtual void                        SetUp(int pGridX, int pGridY, int pGridZ);
-
-    void                                Reset();
+    void                                HardReset();
 
     void                                DrawConnections();
 

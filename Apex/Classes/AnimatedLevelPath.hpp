@@ -1,20 +1,20 @@
 //
-//  AnimatedGamePath.hpp
+//  AnimatedLevelPath.hpp
 //  Apex
 //
 //  Created by Raptis, Nicholas on 7/12/18.
 //  Copyright © 2018 Raptis, Nicholas. All rights reserved.
 //
 
-#ifndef AnimatedGamePath_hpp
-#define AnimatedGamePath_hpp
+#ifndef AnimatedLevelPath_hpp
+#define AnimatedLevelPath_hpp
 
-#include "GamePath.h"
+#include "LevelPath.hpp"
 #include "FDrawQuad.hpp"
 #include "FPointList.h"
 #include "FVertexBuffer.h"
 
-struct AnimatedGamePathNode {
+struct AnimatedLevelPathNode {
 public:
     float                               mCenterX;
     float                               mCenterY;
@@ -42,7 +42,7 @@ public:
     float                               mDistanceFromPrevious;
 };
 
-struct AnimatedGamePathChunk {
+struct AnimatedLevelPathChunk {
 public:
     FList                               mPathNodeList;
 
@@ -60,10 +60,10 @@ public:
     float                               mDistance;
 };
 
-class AnimatedGamePath : public GamePath {
+class AnimatedLevelPath : public LevelPath {
 public:
-    AnimatedGamePath();
-    virtual ~AnimatedGamePath();
+    AnimatedLevelPath();
+    virtual ~AnimatedLevelPath();
 
     void                                Update();
 
@@ -121,4 +121,4 @@ public:
 
 };
 
-#endif /* AnimatedGamePath_hpp */
+#endif /* AnimatedLevelPath_hpp */

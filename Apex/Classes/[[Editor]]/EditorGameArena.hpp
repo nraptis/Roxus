@@ -37,8 +37,8 @@ public:
     
     void                                        AddPath();
     void                                        DeleteCurrentPath();
-    void                                        RemovePath(AnimatedGamePath *pPath);
-    AnimatedGamePath                            *mCurrentPath;
+    void                                        RemovePath(AnimatedLevelPath *pPath);
+    AnimatedLevelPath                            *mCurrentPath;
 
 
     void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
