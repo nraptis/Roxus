@@ -6,15 +6,13 @@
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#ifndef Mustache_TilePathFinderHeap_h
-#define Mustache_TilePathFinderHeap_h
+#ifndef TILE_PATH_FINDER_HEAP_HPP
+#define TILE_PATH_FINDER_HEAP_HPP
 
 #include "GameTile.h"
 
-class TilePathFinderHeap
-{
+class TilePathFinderHeap {
 public:
-    
     TilePathFinderHeap();
     ~TilePathFinderHeap();
     
@@ -26,7 +24,6 @@ public:
     
     int                             mSize;
     int                             mCount;
-    
     PathNodeConnection              **mData;
     
 };

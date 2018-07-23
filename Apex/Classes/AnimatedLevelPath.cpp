@@ -34,7 +34,7 @@ AnimatedLevelPath::AnimatedLevelPath() {
     mUpRampScaleFactor = 1.5f;
     mDownRampScaleFactor = 0.5f;
 
-    mSprite = &gApp->m1024x1024;
+    mSprite = &gApp->mPathArrow;
 }
 
 AnimatedLevelPath::~AnimatedLevelPath() {

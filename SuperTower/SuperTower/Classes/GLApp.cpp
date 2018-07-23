@@ -160,6 +160,9 @@ void GLApp::Load() {
     mTile2.Load("tile_whole_2");
     mTile3.Load("tile_whole_3");
     mTile4.Load("tile_whole_4");
+    
+    mPathArrow.Load("path_cycle_arrow");
+    
 
     //AppShellSetSpriteFrameScale(1.0f);
     //We can't change this on the fly...

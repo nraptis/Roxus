@@ -1,16 +1,16 @@
 //
-//  GamePath.cpp
+//  LevelPath.cpp
 //  Mustache
 //
 //  Created by Nick Raptis on 7/5/13.
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "GamePath.h"
+#include "LevelPath.hpp"
 #include "GameArena.h"
 #include "FSpline.h"
 
-GamePath::GamePath() {
+LevelPath::LevelPath() {
     mStartX = 0;
     mStartY = 0;
     mStartZ = 1;
@@ -24,7 +24,7 @@ GamePath::GamePath() {
     mPathZ = 0;
 }
 
-GamePath::~GamePath() {
+LevelPath::~LevelPath() {
     delete [] mPathX;
     mPathX = 0;
     mPathY = 0;
@@ -33,7 +33,7 @@ GamePath::~GamePath() {
     mSize = 0;
 }
 
-void GamePath::ComputePath(GameArena *pArena) {
+void LevelPath::ComputePath(GameArena *pArena) {
     GameTile *aStartTile = pArena->GetTile(mStartX, mStartY, mStartZ);
     GameTile *aEndTile = pArena->GetTile(mEndX, mEndY, mEndZ);
     mPathFinder.FindPath(aStartTile, aEndTile);
@@ -66,7 +66,7 @@ void GamePath::ComputePath(GameArena *pArena) {
 }
 
 /*
-void GamePath::ComputeSmoothPath() {
+void LevelPath::ComputeSmoothPath() {
     mSmoothLength = 0;
     if (mLength > 2) {
         int aPathX, aPathY, aPathZ;
@@ -166,7 +166,7 @@ void GamePath::ComputeSmoothPath() {
     }
 }
 
-void GamePath::AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, int pGridZ)
+void LevelPath::AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, int pGridZ)
 {
     
     //printf("Adding Smootj [%d %d %d] [%.2f %.2f %.2f]\n", pGridX, pGridY, pGridZ, pX, pY, pZ);
@@ -227,7 +227,7 @@ void GamePath::AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, i
 */
 
 
-FXMLTag *GamePath::Save() {
+FXMLTag *LevelPath::Save() {
     FXMLTag *aTag = new FXMLTag("path");
     aTag->AddParam("start_x", FString(mStartX).c());
     aTag->AddParam("start_y", FString(mStartY).c());
@@ -238,7 +238,7 @@ FXMLTag *GamePath::Save() {
     return aTag;
 }
 
-void GamePath::Load(FXMLTag *pTag) {
+void LevelPath::Load(FXMLTag *pTag) {
     if (pTag) {
         mStartX = FString(pTag->GetParamValue("start_x")).ToInt();
         mStartY = FString(pTag->GetParamValue("start_y")).ToInt();

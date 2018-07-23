@@ -104,6 +104,8 @@ public:
     FSprite                                 mLevelBackTunnel;
     FSprite                                 mLevelBackFloor;
     FSprite                                 mLevelBackBridge;
+    
+    FSprite                                 mPathArrow;
 
     FSprite                                 mCheck;
 

@@ -1,6 +1,5 @@
 //
 //  TilePathFinderHeap.cpp
-//  Mustache
 //
 //  Created by Nick Raptis on 7/5/13.
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
@@ -25,23 +24,14 @@ void TilePathFinderHeap::Reset() {
     mCount = 0;
 }
 
-
-
-void TilePathFinderHeap::Add(PathNodeConnection *pConnection)
-{
-    
-    if(mCount == mSize)
-    {
+void TilePathFinderHeap::Add(PathNodeConnection *pConnection) {
+    if (mCount == mSize) {
         mSize = mSize + mSize / 2 + 1;
-        
         PathNodeConnection **aData = new PathNodeConnection*[mSize];
-        
-        for(int i=0;i<mCount;i++)aData[i] = mData[i];
-        
+        for (int i=0;i<mCount;i++) { aData[i] = mData[i]; }
         delete [] mData;
         mData = aData;
     }
-    
     mData[mCount] = pConnection;
     mCount++;
 }
@@ -56,7 +46,7 @@ bool TilePathFinderHeap::Contains(PathNodeConnection *pConnection) {
 
 PathNodeConnection *TilePathFinderHeap::Pop() {
     PathNodeConnection *aResult = 0;
-    int aMinCost = 866686668;
+    int aMinCost = 2147483647;
     int aMinIndex = -1;
     for (int i=0;i<mCount;i++) {
         PathNodeConnection *aCheck = mData[i];
@@ -74,13 +64,4 @@ PathNodeConnection *TilePathFinderHeap::Pop() {
     }
     return aResult;
 }
-
-
-
-
-
-
-
-
-
 

@@ -8,9 +8,9 @@ int main (int argc, char **argv) {
     gDirDocuments = "/Users/zk9gy1t/Documents/[Proto]/Roxus/Apex/Data/";
     gDirExport = "/Users/zk9gy1t/Desktop/[[[Export]]]/";
 
-    //gDirBundle = "/Users/nraptis/Desktop/[[[[GitHub]]]]/Roxus/Apex/Assets/";
-    //gDirDocuments = "/Users/nraptis/Desktop/[[[[GitHub]]]]/Roxus/Apex/Data/";
-    //gDirExport = "/Users/nraptis/Desktop/[[[Export]]]/";
+    gDirBundle = "/Users/nraptis/Desktop/[[[[GitHub]]]]/Roxus/Apex/Assets/";
+    gDirDocuments = "/Users/nraptis/Desktop/[[[[GitHub]]]]/Roxus/Apex/Data/";
+    gDirExport = "/Users/nraptis/Desktop/[[[Export]]]/";
     
     gApp = new GLApp();
     return os_core_main(argc, argv);

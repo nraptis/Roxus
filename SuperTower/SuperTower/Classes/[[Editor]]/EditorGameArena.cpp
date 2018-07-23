@@ -40,7 +40,7 @@ void EditorGameArena::Update() {
         }
     }
 
-    EnumList(AnimatedGamePath, aPath, mPathList) {
+    EnumList(AnimatedLevelPath, aPath, mPathList) {
         aPath->mEditorMode = true;//(mEditorMode == EDITOR_MODE_PATH);
         aPath->mSelected = (aPath == mCurrentPath);
         aPath->Update();
@@ -49,7 +49,7 @@ void EditorGameArena::Update() {
 
 void EditorGameArena::Draw() {
     GameArena::Draw();
-    EnumList(AnimatedGamePath, aPath, mPathList) {
+    EnumList(AnimatedLevelPath, aPath, mPathList) {
         aPath->DrawEditorMarkers();
     }
 
@@ -135,7 +135,7 @@ void EditorGameArena::Draw() {
 }
 
 void EditorGameArena::AddPath() {
-    AnimatedGamePath *aPath = new AnimatedGamePath();
+    AnimatedLevelPath *aPath = new AnimatedLevelPath();
     aPath->mStartX = mTileGridBufferH;
     aPath->mStartY = mTileGridBufferV + gRand.Get(mTileGridHeightActive);
     aPath->mStartZ = 1;
@@ -151,7 +151,7 @@ void EditorGameArena::DeleteCurrentPath() {
     RemovePath(mCurrentPath);
 }
 
-void EditorGameArena::RemovePath(AnimatedGamePath *pPath) {
+void EditorGameArena::RemovePath(AnimatedLevelPath *pPath) {
     if (pPath) {
         mPathList.Remove(pPath);
         //delete pPath;
@@ -209,7 +209,7 @@ void EditorGameArena::Click(float pX, float pY) {
         }
     }
     ComputePathConnections();
-    EnumList (AnimatedGamePath, aPath, mPathList) {
+    EnumList (AnimatedLevelPath, aPath, mPathList) {
         aPath->ComputePath(this);
     }
 }
@@ -221,7 +221,7 @@ void EditorGameArena::AttemptPathSelect(float pX, float pY) {
     GetEditorGridPos(pX, pY, aGridX, aGridY, aGridZ);
     mCurrentPath = 0;
     if (aGridX != -1 && aGridY != -1 && aGridZ != -1) {
-        EnumList(AnimatedGamePath, aPath, mPathList) {
+        EnumList(AnimatedLevelPath, aPath, mPathList) {
             if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aGridZ) {
                 mCurrentPath = aPath;
             }
@@ -230,7 +230,7 @@ void EditorGameArena::AttemptPathSelect(float pX, float pY) {
             }
         }
         if (mCurrentPath == 0) {
-            EnumList(AnimatedGamePath, aPath, mPathList) {
+            EnumList(AnimatedLevelPath, aPath, mPathList) {
                 for (int i=0;i<aPath->mLength;i++) {
                     int aPathGridX = aPath->mPathX[i];
                     int aPathGridY = aPath->mPathY[i];
@@ -251,7 +251,7 @@ void EditorGameArena::AttemptPathSelect(float pX, float pY) {
         for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
             GetGridPosAtDepth(pX, pY, aDepth, aGridX, aGridY);
 
-            EnumList(AnimatedGamePath, aPath, mPathList) {
+            EnumList(AnimatedLevelPath, aPath, mPathList) {
                 if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aDepth) {
                     mCurrentPath = aPath;
                 }
@@ -260,7 +260,7 @@ void EditorGameArena::AttemptPathSelect(float pX, float pY) {
                 }
             }
             if (mCurrentPath == 0) {
-                EnumList(AnimatedGamePath, aPath, mPathList) {
+                EnumList(AnimatedLevelPath, aPath, mPathList) {
                     for (int i=0;i<aPath->mLength;i++) {
                         int aPathGridX = aPath->mPathX[i];
                         int aPathGridY = aPath->mPathY[i];

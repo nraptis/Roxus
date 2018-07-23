@@ -24,11 +24,11 @@ public:
                                                     float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4
                                                     );
 	
-	inline void                             Add(float x, float y, float u, float v){Add(x, y, 0, u, v, 0.0f);}
-	void                                    Add(float x, float y, float z, float u, float v, float w=0.0f);
+	inline void                             Add(float x, float y, float u, float v){Add(x, y, 0, u, v, 1.0f);}
+	void                                    Add(float x, float y, float z, float u, float v, float w=1.0f);
     
     
-    void                                    AddUV(float u, float v){AddUVW(u,v,0.0f);}
+    void                                    AddUV(float u, float v){AddUVW(u,v,1.0f);}
     void                                    AddUVW(float u, float v, float w);
     void                                    AddXYZ(float x, float y, float z);
     

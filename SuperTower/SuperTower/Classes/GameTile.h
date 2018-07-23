@@ -9,7 +9,7 @@
 #ifndef GAME_TILE_HPP
 #define GAME_TILE_HPP
 
-#define SUBDIVISIONS_PER_TILE 4
+#define SUBDIVISIONS_PER_TILE 3
 
 #define TILE_TYPE_NORMAL 0
 #define TILE_TYPE_RAMP_U 1
@@ -31,7 +31,9 @@ public:
     void                                SetUp(int pGridX, int pGridY, int pGridZ);
 
     void                                ResetGrid();
-    
+
+    //void                                ConnectCentralGridNodes();
+
 
     virtual void                        Update();
     virtual void                        Draw();
@@ -58,16 +60,14 @@ public:
     // -------------
 
     //Basically, with 3 subdivisions, since the tile "contains" both
-    //"edges" for top and bottom,
+    //"edges" for top and bottom.
 
     PathNode                            *mGrid[SUBDIVISIONS_PER_TILE + 1][SUBDIVISIONS_PER_TILE + 1];
-
 
     float                               mTop;
     float                               mRight;
     float                               mBottom;
     float                               mLeft;
-    
 
 };
 

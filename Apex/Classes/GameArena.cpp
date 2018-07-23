@@ -45,7 +45,7 @@ GameArena::GameArena() {
 
     //Load("test_level_1.xml");
 
-    Load("super_basic_hifi_path_test");
+    //Load("super_basic_hifi_path_test");
 
     //Load("ramps_test_01.xml");
 
@@ -53,7 +53,7 @@ GameArena::GameArena() {
     //Load("45_degree_corners.xml");
     //Load("45_degree_corners_inverse.xml");
 
-    //Load("crazy_ramps");
+    Load("crazy_ramps");
 
     //Load("crazy_ramps");
 
