@@ -39,12 +39,13 @@ public:
 
     //Our main "grid" of tiles...
     GameTile                                    ****mTile;
-    
-    //Our higher fidelity grid with SUBDIVISIONS per tile.
-    //AKA the "UNIT grid" ... The world in which our units live...
-    PathNode                                    ****mGrid;
-    int                                         mGridWidth;
-    int                                         mGridHeight;
+
+    //The grid that we use for pathfinding, etc - these are clones of the objects in mUnitGridBase...
+    PathNode                                    ****mUnitGrid;
+    PathNode                                    ****mUnitGridBase;
+
+    int                                         mUnitGridWidth;
+    int                                         mUnitGridHeight;
 
     bool                                        **mTowerAllowed;
     void                                        ComputeAllowedPlacements();
@@ -59,7 +60,8 @@ public:
     void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
     FList                                       mDeletedTileList;
 
-    void                                        DeleteGridNode(int pGridX, int pGridY, int pGridZ);
+    //For smaller grid, the nodes from GRID BASE (assumed we will be mapping
+    //properly from unit grid base to unit grid) ... 
     FList                                       mDeletedNodeList;
 
     bool                                        mTileVisible[GRID_DEPTH];

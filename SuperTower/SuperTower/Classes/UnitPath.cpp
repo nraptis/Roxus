@@ -88,14 +88,39 @@ void UnitPath::DrawMarkers() {
             float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
             float aCenterY = gArena->GetUnitGridY(aGridY, aGridY, aGridZ);
 
-                Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.15f);
-                Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
-                Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.1f);
-                Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 1.0f);
+            Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.15f);
+            Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
+            Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.1f);
+            Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 1.0f);
 
             aPrevGridX = aGridX;
             aPrevGridY = aGridY;
             aPrevGridZ = aGridZ;
+        }
+
+        for (int i=0;i<mLength;i++) {
+
+            aGridX = mPathX[i];
+            aGridY = mPathY[i];
+            aGridZ = mPathZ[i];
+
+            float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
+            float aCenterY = gArena->GetUnitGridY(aGridY, aGridY, aGridZ);
+
+            if (gApp->mDarkMode) {
+                Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.125f);
+            } else {
+                Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.625f);
+            }
+            Graphics::DrawPoint(aCenterX, aCenterY, 5.0f);
+
+
+            if (gApp->mDarkMode) {
+                Graphics::SetColor(0.25f, 0.85f, 0.25f, 0.125f);
+            } else {
+                Graphics::SetColor(0.25f, 0.85f, 0.25f, 0.625f);
+            }
+            Graphics::DrawPoint(aCenterX, aCenterY, 3.0f);
         }
     }
 
@@ -105,7 +130,12 @@ void UnitPath::DrawMarkers() {
     float aY2 = gArena->GetUnitGridY(mEndX, mEndY, mEndZ);
 
     if (mLength < 2) {
-        Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.75f);
+        if (gApp->mDarkMode) {
+            Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.15f);
+        } else {
+            Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.75f);
+        }
+
         Graphics::DrawLine(aX1, aY1, aX2, aY2, 8.0f);
     }
 

@@ -132,6 +132,8 @@ void EditorGameArena::Draw() {
      aPath = aPath->mParent;
      }
      */
+
+    mTestUnitPath.DrawMarkers();
 }
 
 void EditorGameArena::AddPath() {
