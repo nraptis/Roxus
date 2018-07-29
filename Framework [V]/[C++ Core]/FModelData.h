@@ -13,7 +13,7 @@
 #include "core_graphics.h"
 #include "FString.h"
 #include "FFile.h"
-#include "FImage.h"
+#include "FImage.hpp"
 #include "FSprite.h"
 
 extern bool gModelDiscardNormals;

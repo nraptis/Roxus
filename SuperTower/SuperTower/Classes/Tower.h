@@ -10,16 +10,15 @@
 #define Mustache_Tower_h
 
 #include "GLApp.h"
-#include "GameObject.h"
+#include "LargeGameObject.hpp"
 #include "Unit.h"
 
-class Tower : public GameObject
-{
+class Tower : public LargeGameObject {
 public:
-    
+
     Tower();
     virtual ~Tower();
-    
+
     virtual void                        Update();
     virtual void                        Draw();
     

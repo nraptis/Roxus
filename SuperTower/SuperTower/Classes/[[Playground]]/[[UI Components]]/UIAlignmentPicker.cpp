@@ -18,7 +18,7 @@
 
 #include "UIAlignmentPicker.hpp"
 #include "ToolMenuSectionRow.hpp"
-#include "FApp.h"
+#include "FApp.hpp"
 
 UIAlignmentPicker::UIAlignmentPicker() {
     mConsumesTouches = false;

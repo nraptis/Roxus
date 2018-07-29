@@ -1,7 +1,7 @@
 #ifndef SPLINE_H
 #define SPLINE_H
 
-#include "FVec2.h"
+#include "FVec2.hpp"
 #include "FVec3.h"
 
 #include "FString.h"

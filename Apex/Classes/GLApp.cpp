@@ -30,7 +30,7 @@ float gArenaActiveHeight2 = 256.0f;
 float gArenaActiveX = 0.0f;
 float gArenaActiveY = 0.0f;
 
-bool gEditorMode = true;
+bool gEditorMode = false;
 
 GLApp *gApp = 0;
 GLApp::GLApp() {

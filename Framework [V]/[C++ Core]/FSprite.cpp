@@ -1,6 +1,6 @@
-#include "FApp.h"
+#include "FApp.hpp"
 #include "FSprite.h"
-#include "FTexture.h"
+#include "FTexture.hpp"
 #include "FVertexBuffer.h"
 #include "FStringBuffer.h"
 #include "core_includes.h"

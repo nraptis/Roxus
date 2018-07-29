@@ -10,7 +10,7 @@
 #include "PathEditorMenu.hpp"
 #include "PGPathEditor.hpp"
 #include "PGMainCanvas.hpp"
-#include "FApp.h"
+#include "FApp.hpp"
 #include "ScreenTransformMenu.hpp"
 #include "UIImagePicker.hpp"
 

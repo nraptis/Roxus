@@ -82,7 +82,6 @@ public:
 
     float                                       GetUnitGridX(int pGridX, int pGridY, int pGridZ);
     float                                       GetUnitGridY(int pGridX, int pGridY, int pGridZ);
-    
 
     void                                        RefreshGridCursor(float pX, float pY);
 
@@ -95,14 +94,18 @@ public:
     PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
     Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
+
+    void                                        AddUnit(Unit *pUnit, LevelPath *pPath);
+    void                                        AddUnit(Unit *pUnit);
+
+    FObjectList                                 mUnitCollection;
+    
+
     //Assumption: Grid nodes already exist.
     //If, for example, we change a tile or place a tower, we should REFRESH the nodes.
     //This will assign nodes to tiles, compute node positions, and figure out which
     //nodes are "blocked" by default...
     void                                        RefreshUnitGridNodes();
-
-
-
     void                                        ComputePathConnections();
 
     //Assumed that ComputePathConnections() was called...
@@ -112,10 +115,23 @@ public:
     FList                                       mPathList;
 
     FObjectList                                 mTowerCollection;
+
+    void                                        SpawnUnitsOnPath(FList *pUnitList, LevelPath *pPath);
+
+    void                                        DumpLevelPathToTileList(LevelPath *pPath);
+    FList                                       mTileList;
+    
+    LevelPath                                   *AttemptPathSelect(float pX, float pY);
     
     //Takes into consideration the actual tiles of the arena to determine exactly
     //which x, y, and z grid positions the user's finger has landed on...
     void                                        GetGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
+
+    //Editor only: this determines which grid position our fingers would land at
+    //for a given depth...
+    void                                        GetEditorGridPosAtDepth(float pX, float pY, int pDepth, int &pGridX, int &pGridY);
+    void                                        GetEditorGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
+
 
     void                                        Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
@@ -142,12 +158,8 @@ public:
     float                                       mTestNinjaFrame;
     
     UnitPath                                    mTestUnitPath;
-
-    
-
     void                                        ComputeTestPath();
 
-    
 };
 
 extern GameArena *gArena;

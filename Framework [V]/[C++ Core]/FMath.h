@@ -11,7 +11,7 @@
 #define PHYSICS_DOT(x1,y1,x2,y2)((x1)*(x2)+(y1)*(y2))
 #define PHYSICS_CROSS(x1,y1,x2,y2)((x1)*(y2)-(x2)*(y1))
 
-#include "FVec2.h"
+#include "FVec2.hpp"
 #include "FVec3.h"
 
 float Distance(float x1, float y1, float x2, float y2);

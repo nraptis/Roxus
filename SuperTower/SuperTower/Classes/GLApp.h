@@ -13,9 +13,9 @@
 
 #define GAPP (gApp)
 
-#include "FApp.h"
+#include "FApp.hpp"
 #include "FSprite.h"
-#include "FFont.h"
+#include "FFont.hpp"
 #include "FModelData.h"
 #include "FCanvas.hpp"
 #include "SpriteSequenceNested.h"

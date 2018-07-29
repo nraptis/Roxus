@@ -1,21 +1,19 @@
 #ifndef FSprite_H
 #define FSprite_H
 
-#include "FImage.h"
+#include "FImage.hpp"
 #include "FImageBundler.h"
-#include "FTexture.h"
+#include "FTexture.hpp"
 #include "FString.h"
-#include "FVec2.h"
+#include "FVec2.hpp"
 
 class FTexture;
 
-class FSprite
-{
+class FSprite {
 public:
-    
 	FSprite();
 	~FSprite();
-    
+
 	void                            Load(char *pName, FImageBundler *pBundler);
 	inline void                     Load(const char *pFile, FImageBundler *pBundler){Load((char*)pFile,pBundler);}
     inline void                     Load(FString pFile, FImageBundler *pBundler){Load(pFile.c(),pBundler);}
@@ -49,46 +47,9 @@ public:
     bool                            mDidLoadFromBundle;
     bool                            mDidLoadFromResource;
     bool                            mDidLoadSingle;
-    
-    
-    
-    //void                            SetupBackground(FImage *pImage, int pAppWidth, int pAppHeight, int pImageRectX, int pImageRectY, int pImageRectWidth, int pImageRectHeight);
-    
-    
-    //void                            CalculateUV(int x, int y, int pWidth, int pHeight, int pImageWidth, int pImageHeight, bool pCentered=true, bool pRotate=false);
-    
-    //void                            StretchTo(FImage *pImage, int pNewWidth, int pNewHeight);
-	
-	//void                            Rotate90();
-    
-    //void                            Recenter(float pX, float pY);
-    
-	
+
 	void                            Kill();
-	
-    
-    /*
-	void                            DrawPercentH(float pStartPercent, float pEndPercent);
-	void                            DrawPercentH(float pEndPercent){DrawPercentH(0,pEndPercent);}
-	
-	void                            DrawPercentH(float x, float y, float pStartPercent, float pEndPercent);
-	void                            DrawPercentH(float x, float y, float pEndPercent){DrawPercentH(x,y,0,pEndPercent);}
-	
-	void                            DrawPercentH(FVec2 pPos, float pStartPercent, float pEndPercent){DrawPercentH(pPos.mX,pPos.mY,pStartPercent,pEndPercent);}
-	void                            DrawPercentH(FVec2 pPos, float pEndPercent){DrawPercentH(pPos.mX,pPos.mY,0,pEndPercent);}
-	
-	
-	void                            DrawPercentV(float pStartPercent, float pEndPercent);
-	void                            DrawPercentV(float pEndPercent){DrawPercentV(0,pEndPercent);}
-	
-	void                            DrawPercentV(float x, float y, float pStartPercent, float pEndPercent);
-	void                            DrawPercentV(float x, float y, float pEndPercent){DrawPercentV(x,y,0,pEndPercent);}
-	
-	void                            DrawPercentV(FVec2 pPos, float pStartPercent, float pEndPercent){DrawPercentV(pPos.mX,pPos.mY,pStartPercent,pEndPercent);}
-	void                            DrawPercentV(FVec2 pPos, float pEndPercent){DrawPercentV(pPos.mX,pPos.mY,0,pEndPercent);}
-	*/
-    
-	
+
 	void                            Draw();
 	void                            Draw(float x, float y);
 	void                            Draw(float pX, float pY, float pScale, float pRotation=0);
@@ -137,12 +98,9 @@ public:
 	
 	void                            Center(float x, float y, int pFacing);
 	void                            Center(FVec2 pPosition, int pFacing){Center(pPosition.mX,pPosition.mY,pFacing);}
-    
-    
-    
+
     void                            DrawShiftedCorners(float x, float y, float pScale, float pRotationDegrees, FVec2 pShiftUL, FVec2 pShiftUR, FVec2 pShiftDL, FVec2 pShiftDR);
-    
-    
+
     void                            DrawSliceTo(FTextureRect *pTextureRect, float pStartX, float pStartY, float pEndX, float pEndY, float pDrawStartX, float pDrawStartY, float pDrawEndX, float pDrawEndY);
     void                            DrawSlice(FTextureRect *pTextureRect, float pStartX, float pStartY, float pEndX, float pEndY);
     
@@ -176,14 +134,7 @@ public:
     
     float                                   mWidth;
     float                                   mHeight;
-	
-	//float                           mCenterX, mCenterY;
-    
-    //int                             mOffsetX;
-    //int                             mOffsetY;
-	
-	//float                           mTextureCoord[8];
-	//float                           mVertex[8];
+
     FTextureRect                            mTextureRect;
     
     
@@ -209,29 +160,8 @@ public:
     inline float                            GetStartY(){return mTextureRect.GetStartY();}
     inline float                            GetEndX(){return mTextureRect.GetEndX();}
     inline float                            GetEndY(){return mTextureRect.GetEndY();}
-    
-	//inline float                    GetStartU(){return mTextureCoord[0];}
-	//inline float                    GetStartV(){return mTextureCoord[1];}
-	//inline float                    GetEndU(){return mTextureCoord[6];}
-	//inline float                    GetEndV(){return mTextureCoord[7];}
-    
-    //inline float                    GetStartX(){return mVertex[0];}
-	//inline float                    GetStartY(){return mVertex[1];}
-	//inline float                    GetEndX(){return mVertex[6];}
-	//inline float                    GetEndY(){return mVertex[7];}
-    
-    
-    //void                            SetStartU(float pU){mTextureCoord[0]=pU;mTextureCoord[4]=pU;}
-	//void                            SetStartV(float pV){mTextureCoord[1]=pV;mTextureCoord[3]=pV;}
-	//void                            SetEndU(float pU){mTextureCoord[6]=pU;mTextureCoord[2]=pU;}
-	//void                            SetEndV(float pV){mTextureCoord[7]=pV;mTextureCoord[5]=pV;}
-    
-    //void                            SetStartX(float pX){mVertex[0]=pX;mVertex[4]=pX;}
-	//void                            SetStartY(float pY){mVertex[1]=pY;mVertex[3]=pY;}
-	//void                            SetEndX(float pX){mVertex[6]=pX;mVertex[2]=pX;}
-	//void                            SetEndY(float pY){mVertex[7]=pY;mVertex[5]=pY;}
 
-    bool                            mAddToSpriteList;
+    bool                                    mAddToSpriteList;
 };
 
 

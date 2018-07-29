@@ -1,6 +1,6 @@
-#include "FTexture.h"
+#include "FTexture.hpp"
 #include "FSprite.h"
-#include "FImage.h"
+#include "FImage.hpp"
 
 #include "core_includes.h"
 #include "core_graphics.h"

@@ -9,7 +9,7 @@
 #include "EditorMainMenu.hpp"
 #include "WorldContainer.hpp"
 #include "PGMainCanvas.hpp"
-#include "FApp.h"
+#include "FApp.hpp"
 #include "EditorGameArena.hpp"
 
 EditorMainMenu::EditorMainMenu() : ToolMenu() {

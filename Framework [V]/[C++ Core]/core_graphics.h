@@ -8,7 +8,7 @@
 #include "FColor.hpp"
 #include "FRect.h"
 #include "FPoint.h"
-#include "FVec2.h"
+#include "FVec2.hpp"
 #include "FVec3.h"
 #include "FPrimitive.h"
 #include "FMatrix.h"

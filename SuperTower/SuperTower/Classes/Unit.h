@@ -11,42 +11,27 @@
 
 #include "GLApp.h"
 #include "LevelPath.hpp"
-#include "GameObject.h"
+#include "SmallGameObject.hpp"
+
 
 class GameArena;
+class AnimatedLevelPath;
 
-class Unit : public GameObject
-{
+class Unit : public SmallGameObject {
 public:
-    
+
     Unit();
     virtual ~Unit();
-    
-    GLApp                               *mApp;
-    GameArena                           *mArena;
-    
-    LevelPath                            mPath;
-    
+
     virtual void                        Update();
     virtual void                        Draw();
 
-    void                                ComputePath();
-
-    void                                SetUp(LevelPath *pPath);
-    
-    //This is this unit's final grid destination... Huzzah!
-    int                                 mFinalGridX;
-    int                                 mFinalGridY;
-    int                                 mFinalGridZ;
-    
-    int                                 mHPMax;
     int                                 mHP;
+    int                                 mHPMax;
 
     float                               mTargetX;
     float                               mTargetY;
     float                               mTargetZ;
-    
-    int                                 mPathIndex;
     
     float                               mWalkSpeed;
     
@@ -56,6 +41,45 @@ public:
     float                               mRotationSpeed;
     
     float                               mFrame;
+
+
+
+    /*
+    float                               mX;
+    float                               mY;
+    float                               mZ;
+
+    int                                 mDrawZ;
+
+    int                                 mGridX;
+    int                                 mGridY;
+    int                                 mGridZ;
+
+    //void                                SetUp(int pGridX, int pGridY);
+    void                                SetUp(int pGridX, int pGridY, int pGridZ);
+    */
+
+
+
+
+
+    ///////////////////////////////////////////////
+    //                                           //
+    //           Only Pathing Stuff              //
+    //                                           //
+
+
+    void                                PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, LevelPath *pPath);
+
+    int                                 mDestinationGridX;
+    int                                 mDestinationGridY;
+    int                                 mDestinationGridZ;
+
+    LevelPath                           *mTrackingPath;
+
+    int                                 mPathIndex;
+
+
     
 };
 

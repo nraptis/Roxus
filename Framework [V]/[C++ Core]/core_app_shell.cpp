@@ -3,7 +3,7 @@
 #include "core_graphics.h"
 #include "os_core_social.h"
 
-#include "FApp.h"
+#include "FApp.hpp"
 
 float gDeviceWidth = 1024.0f;
 float gDeviceHeight = 768.0f;

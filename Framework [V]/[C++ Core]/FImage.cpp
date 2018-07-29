@@ -1,6 +1,6 @@
 #include "core_includes.h"
-#include "FImage.h"
-#include "FApp.h"
+#include "FImage.hpp"
+#include "FApp.hpp"
 #include "FStringBuffer.h"
 #include "FResource.h"
 

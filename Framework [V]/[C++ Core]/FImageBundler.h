@@ -10,7 +10,7 @@
 #ifndef IMAGE_BUNDLER_H
 #define IMAGE_BUNDLER_H
 
-#include "FImage.h"
+#include "FImage.hpp"
 #include "FString.h"
 #include "FList.h"
 

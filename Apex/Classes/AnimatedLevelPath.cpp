@@ -822,7 +822,7 @@ void AnimatedLevelPath::AddBend(int pDepth, float pStartX, float pStartY,
         }
         mPointList.Add(pStartX, pStartY);
         mPointList.Add(aKnot1X, aKnot1Y);
-        int aPointCount = 12;
+        int aPointCount = 24;
         for (int i=1;i<aPointCount;i++) {
             float aPercent = ((float)i) / ((float)aPointCount);
             float aAngle = aStartAngle + aAngleDifference * aPercent;

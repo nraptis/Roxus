@@ -11,8 +11,8 @@
 
 #include "FHashTable.hpp"
 #include "FSprite.h"
-#include "FImage.h"
-#include "FTexture.h"
+#include "FImage.hpp"
+#include "FTexture.hpp"
 
 class FTextureCacheNode
 {

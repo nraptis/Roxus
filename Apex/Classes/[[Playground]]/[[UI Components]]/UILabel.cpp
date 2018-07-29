@@ -8,7 +8,7 @@
 
 #include "UILabel.hpp"
 #include "ToolMenuSectionRow.hpp"
-#include "FApp.h"
+#include "FApp.hpp"
 
 UILabel::UILabel() {
     mConsumesTouches = false;

@@ -8,7 +8,7 @@
 
 #include "UICheckBox.hpp"
 #include "ToolMenuSectionRow.hpp"
-#include "FApp.h"
+#include "FApp.hpp"
 
 
 UICheckBox::UICheckBox() {

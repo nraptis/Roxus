@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Nick Raptis. All rights reserved.
 //
 
-#include "FVec2.h"
+#include "FVec2.hpp"
 #include "core_includes.h"
 
 float FVec2::Length() {

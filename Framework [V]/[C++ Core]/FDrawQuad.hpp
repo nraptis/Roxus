@@ -11,7 +11,7 @@
 
 #include "core_includes.h"
 
-#include "FTexture.h"
+#include "FTexture.hpp"
 #include "FVertexBuffer.h"
 #include "FPrimitive.h"
 #include "FColor.hpp"

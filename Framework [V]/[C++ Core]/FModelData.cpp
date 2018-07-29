@@ -8,8 +8,8 @@
 
 #include "core_includes.h"
 #include "FModelData.h"
-#include "FApp.h"
-#include "FTexture.h"
+#include "FApp.hpp"
+#include "FTexture.hpp"
 #include "FList.h"
 
 bool gModelDiscardNormals = false;

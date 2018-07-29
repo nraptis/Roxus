@@ -9,7 +9,7 @@
 #ifndef FRAMEWORK_VEC_3
 #define FRAMEWORK_VEC_3
 
-#include "FVec2.h"
+#include "FVec2.hpp"
 
 class FVec3
 {

@@ -9,7 +9,7 @@
 #include "WorldMenu.hpp"
 #include "WorldContainer.hpp"
 #include "PGMainCanvas.hpp"
-#include "FApp.h"
+#include "FApp.hpp"
 
 WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
     mName = "WorldMenu";

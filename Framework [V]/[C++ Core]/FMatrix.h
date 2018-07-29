@@ -9,7 +9,7 @@
 #ifndef FRAMEWORK_MATRIX_H
 #define FRAMEWORK_MATRIX_H
 
-#include "FVec2.h"
+#include "FVec2.hpp"
 #include "FVec3.h"
 
 class FMatrix

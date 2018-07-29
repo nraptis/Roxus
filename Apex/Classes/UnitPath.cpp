@@ -34,7 +34,6 @@ UnitPath::~UnitPath() {
 }
 
 void UnitPath::ComputePath(GameArena *pArena) {
-
     PathNode *aStartNode = pArena->GetGridNode(mStartX, mStartY, mStartZ);
     PathNode *aEndNode = pArena->GetGridNode(mEndX, mEndY, mEndZ);
     mPathFinder.FindPath(aStartNode, aEndNode);
@@ -58,9 +57,11 @@ void UnitPath::ComputePath(GameArena *pArena) {
             mPathX[aIndex] = aConnection->mNode->mGridX;
             mPathY[aIndex] = aConnection->mNode->mGridY;
             mPathZ[aIndex] = aConnection->mNode->mGridZ;
+
             aConnection = aConnection->mParent;
             aIndex--;
         }
+
     } else {
         mLength = 0;
     }
@@ -77,25 +78,42 @@ void UnitPath::DrawMarkers() {
         int aGridY = 0;
         int aGridZ = 0;
         for (int i=0;i<mLength;i++) {
-
             aGridX = mPathX[i];
             aGridY = mPathY[i];
             aGridZ = mPathZ[i];
 
             float aPreviousCenterX = gArena->GetUnitGridX(aPrevGridX, aPrevGridY, aPrevGridZ);
             float aPreviousCenterY = gArena->GetUnitGridY(aPrevGridX, aPrevGridY, aPrevGridZ);
-
             float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
-            float aCenterY = gArena->GetUnitGridY(aGridY, aGridY, aGridZ);
-
-                Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.15f);
-                Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
-                Graphics::SetColor(0.45f, 0.45f, 0.45f, 0.1f);
-                Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 1.0f);
+            float aCenterY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
+            Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.75f);
+            Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
+            Graphics::SetColor(0.95f, 0.95f, 0.45f, 1.0f);
+            Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 1.0f);
 
             aPrevGridX = aGridX;
             aPrevGridY = aGridY;
             aPrevGridZ = aGridZ;
+        }
+
+        for (int i=0;i<mLength;i++) {
+            aGridX = mPathX[i];
+            aGridY = mPathY[i];
+            aGridZ = mPathZ[i];
+            float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
+            float aCenterY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
+            if (gApp->mDarkMode) {
+                Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.125f);
+            } else {
+                Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.625f);
+            }
+            Graphics::DrawPoint(aCenterX, aCenterY, 5.0f);
+            if (gApp->mDarkMode) {
+                Graphics::SetColor(0.25f, 0.85f, 0.25f, 0.125f);
+            } else {
+                Graphics::SetColor(0.25f, 0.85f, 0.25f, 0.625f);
+            }
+            Graphics::DrawPoint(aCenterX, aCenterY, 3.0f);
         }
     }
 
@@ -105,7 +123,11 @@ void UnitPath::DrawMarkers() {
     float aY2 = gArena->GetUnitGridY(mEndX, mEndY, mEndZ);
 
     if (mLength < 2) {
-        Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.75f);
+        if (gApp->mDarkMode) {
+            Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.15f);
+        } else {
+            Graphics::SetColor(0.75f, 0.75f, 0.125f, 0.75f);
+        }
         Graphics::DrawLine(aX1, aY1, aX2, aY2, 8.0f);
     }
 

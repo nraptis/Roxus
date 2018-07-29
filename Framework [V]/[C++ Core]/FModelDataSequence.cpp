@@ -9,7 +9,7 @@
 #include "FModelDataSequence.h"
 #include "FModelData.h"
 #include "FFile.h"
-#include "FTexture.h"
+#include "FTexture.hpp"
 
 FModelDataSequence::FModelDataSequence() {
     mTexture = 0;

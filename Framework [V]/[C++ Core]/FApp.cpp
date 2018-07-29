@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Nick Raptis. All rights reserved.
 //
 
-#include "FApp.h"
+#include "FApp.hpp"
 #include "core_includes.h"
 
 FApp *gAppBase = 0;
