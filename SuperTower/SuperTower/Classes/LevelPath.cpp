@@ -7,7 +7,7 @@
 //
 
 #include "LevelPath.hpp"
-#include "GameArena.h"
+#include "GameArena.hpp"
 #include "FSpline.h"
 
 LevelPath::LevelPath() {

@@ -7,7 +7,7 @@
 //
 
 #include "ToolMenuSection.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "ToolMenu.hpp"
 
 ToolMenuSection::ToolMenuSection() {

@@ -8,7 +8,7 @@
 
 #include "FModelDataSequence.h"
 #include "FModelData.h"
-#include "FFile.h"
+#include "FFile.hpp"
 #include "FTexture.hpp"
 
 FModelDataSequence::FModelDataSequence() {

@@ -9,8 +9,8 @@
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
 #include "WorldContainer.hpp"
-#include "GameArena.h"
-#include "GLApp.h"
+#include "GameArena.hpp"
+#include "GLApp.hpp"
 
 WorldGestureContainer::WorldGestureContainer() {
     mName = "path_editor";

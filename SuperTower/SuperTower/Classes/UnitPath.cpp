@@ -7,7 +7,7 @@
 //
 
 #include "UnitPath.hpp"
-#include "GameArena.h"
+#include "GameArena.hpp"
 #include "FSpline.h"
 
 UnitPath::UnitPath() {
@@ -139,8 +139,12 @@ void UnitPath::DrawMarkers() {
         Graphics::SetColor();
     }
 
+    Graphics::SetColor(0.25f);
+
     gApp->mUnitCircleHard.Center(aX1, aY1);
     gApp->mUnitCircleHard.Center(aX2, aY2);
+
+    Graphics::SetColor();
     
 }
 

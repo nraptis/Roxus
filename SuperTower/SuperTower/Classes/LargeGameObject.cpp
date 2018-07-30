@@ -7,7 +7,7 @@
 //
 
 #include "LargeGameObject.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 LargeGameObject::LargeGameObject() {
     mX = 0.0f;

@@ -7,7 +7,7 @@
 //
 
 #import "Root.h"
-#import "GLApp.h"
+#import "GLApp.hpp"
 
 Root *gRoot;
 

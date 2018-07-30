@@ -7,8 +7,8 @@
 //
 
 #include "SmallGameObject.hpp"
-#include "GLApp.h"
-#include "GameArena.h"
+#include "GLApp.hpp"
+#include "GameArena.hpp"
 
 SmallGameObject::SmallGameObject() {
     mX = 0.0f;

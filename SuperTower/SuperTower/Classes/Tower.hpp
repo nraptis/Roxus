@@ -9,9 +9,9 @@
 #ifndef Mustache_Tower_h
 #define Mustache_Tower_h
 
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "LargeGameObject.hpp"
-#include "Unit.h"
+#include "Unit.hpp"
 
 class Tower : public LargeGameObject {
 public:

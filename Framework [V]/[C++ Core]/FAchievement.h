@@ -2,8 +2,8 @@
 #ifndef FRAMEWORK_ACHIEVEMENT_HPP
 #define FRAMEWORK_ACHIEVEMENT_HPP
 
-#include "FFile.h"
-#include "FList.h"
+#include "FFile.hpp"
+#include "FList.hpp"
 
 class FAchievement {
 public:

@@ -7,7 +7,7 @@
 
 #include "core_includes.h"
 #include "core_app_shell.h"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "Util_ScreenFrame.h"
 #include "FCanvas.hpp"
 #include "PGMainCanvas.hpp"

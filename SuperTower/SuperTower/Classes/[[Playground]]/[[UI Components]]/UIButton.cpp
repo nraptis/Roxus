@@ -7,7 +7,7 @@
 //
 
 #include "UIButton.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "PGMainCanvas.hpp"
 #include "ToolMenuSectionRow.hpp"
 

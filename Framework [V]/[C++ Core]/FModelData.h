@@ -12,7 +12,7 @@
 
 #include "core_graphics.h"
 #include "FString.h"
-#include "FFile.h"
+#include "FFile.hpp"
 #include "FImage.hpp"
 #include "FSprite.h"
 

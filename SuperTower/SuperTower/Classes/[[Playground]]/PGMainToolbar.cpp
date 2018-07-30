@@ -8,7 +8,7 @@
 
 #include "PGMainToolbar.hpp"
 #include "PGMainCanvas.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "UIImagePicker.hpp"
 #include "PGPathEditor.hpp"
 #include "UIAlignmentPicker.hpp"

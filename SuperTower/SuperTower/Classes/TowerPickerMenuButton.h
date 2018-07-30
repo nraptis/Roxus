@@ -9,7 +9,7 @@
 #ifndef Mustache_TowerPickerMenuButton_h
 #define Mustache_TowerPickerMenuButton_h
 
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 class TowerPickerMenuButton
 {

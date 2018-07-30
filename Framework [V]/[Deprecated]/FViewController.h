@@ -15,7 +15,7 @@
 
 #include "FView.h"
 #include "FHashTable.hpp"
-#include "FList.h"
+#include "FList.hpp"
 
 class FView;
 class FViewContainer;

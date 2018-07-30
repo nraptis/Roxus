@@ -10,7 +10,7 @@
 #define LEVEL_PATH_HPP
 
 #include "TilePathFinder.h"
-#include "GameTile.h"
+#include "GameTile.hpp"
 
 //The most basic form of path, contains only grid data
 //and computes most efficient path using modified A*
@@ -39,6 +39,8 @@ public:
     int                                 *mPathX;
     int                                 *mPathY;
     int                                 *mPathZ;
+
+    FString                             mName;
 
     FXMLTag                             *Save();
     void                                Load(FXMLTag *pTag);

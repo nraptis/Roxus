@@ -9,15 +9,17 @@
 #ifndef GAME_ARENA_H
 #define GAME_ARENA_H
 
-#include "GLApp.h"
-#include "GameTile.h"
+#include "GLApp.hpp"
+#include "GameTile.hpp"
 #include "AnimatedLevelPath.hpp"
 #include "UnitPath.hpp"
-#include "Tower.h"
+#include "Tower.hpp"
 #include "TowerBullet.h"
-#include "Unit.h"
+#include "Unit.hpp"
+#include "UnitGroup.hpp"
 #include "FXML.h"
 #include "FObject.h"
+#include "GameArenaHelper.hpp"
 
 #define GRID_DEPTH 3
 //#define SUBTILES_PER_TILE 5
@@ -25,7 +27,7 @@
 
 #define MAIN_FLOOR 1
 
-
+//TODO: The end node for each path is never blocked...
 
 class GameArena {
 public:
@@ -34,6 +36,8 @@ public:
     
     virtual void                                Update();
     virtual void                                Draw();
+
+    GameArenaHelper                             mHelper;
 
     TilePathFinder                              mPathFinder;
 
@@ -59,6 +63,10 @@ public:
 
     void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
     FList                                       mDeletedTileList;
+
+    //Assumption: The group is not null, the leader is not null, there is at least one item in the unit list...
+    void                                        Deploy(UnitGroup *pGroup);
+    
 
     //For smaller grid, the nodes from GRID BASE (assumed we will be mapping
     //properly from unit grid base to unit grid) ... 
@@ -89,18 +97,30 @@ public:
     void                                        DrawGridSelection();
     
     virtual void                                Click(float pX, float pY);
-    
-    GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
-    PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
-    Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
+    //This is on the TILE GRID
+    GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
+
+    //This is on the UNIT GRID
+    PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
+
+    PathNode                                    *GetEndNodeForPath(LevelPath *pPath);
+    PathNode                                    *GetEndNodeForTile(GameTile *pTile);
+
+    PathNode                                    *GetStartNodeForPath(LevelPath *pPath);
+    
+    //This is on the TILE GRID
+    Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
     void                                        AddUnit(Unit *pUnit, LevelPath *pPath);
     void                                        AddUnit(Unit *pUnit);
-
-    FObjectList                                 mUnitCollection;
     
+    FObjectList                                 mUnitCollection;
 
+    FObjectList                                 mUnitGroupCollection;
+    
+    //UnitGroup
+    
     //Assumption: Grid nodes already exist.
     //If, for example, we change a tile or place a tower, we should REFRESH the nodes.
     //This will assign nodes to tiles, compute node positions, and figure out which
@@ -108,16 +128,30 @@ public:
     void                                        RefreshUnitGridNodes();
     void                                        ComputePathConnections();
 
+    //Basically un-occupy all tiles and reset our connections...
+    //Then, re-occupy all nodes covered by tower tiles, and anything that
+    //is not a moving unit...
+    void                                        ResetGridConnections();
+
     //Assumed that ComputePathConnections() was called...
+    //Assumed that we have OCCUPIED the desired tiles that will
+    //be occupied for this twist of the pepper dispenser.
     void                                        ComputeGridConnections();
+
+    //We will set the occupied state of the path nodes based on a particular unit group
+    //and have the other groups block tiles depending on their proximity to *this* group...
+    //... Keep in mind that the group could be separated from its target path or on the
+    //target path...
+    void                                        ConfigureGridConnections(UnitGroup *pGroup);
+
 
 
     FList                                       mPathList;
 
     FObjectList                                 mTowerCollection;
 
-    void                                        SpawnUnitsOnPath(FList *pUnitList, LevelPath *pPath);
-
+    void                                        SpawnUnitsOnPath(FList *pUnitList, LevelPath *pPath, Unit *pLeader=0);
+    
     void                                        DumpLevelPathToTileList(LevelPath *pPath);
     FList                                       mTileList;
     
@@ -159,6 +193,7 @@ public:
     
     UnitPath                                    mTestUnitPath;
     void                                        ComputeTestPath();
+
 
 };
 

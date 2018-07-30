@@ -7,7 +7,7 @@
 //
 
 #include "DragableCanvas.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 DragableCanvas::DragableCanvas() {
     mConsumesTouches = true;

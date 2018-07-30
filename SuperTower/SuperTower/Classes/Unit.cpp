@@ -6,27 +6,37 @@
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "Unit.h"
-#include "GameArena.h"
+#include "Unit.hpp"
+#include "GameArena.hpp"
+#include "UnitPath.hpp"
 #include "AnimatedLevelPath.hpp"
 
 Unit::Unit() {
-
     mTrackingPath = 0;
 
-    mTargetX = 0.0f;
-    mTargetY = 0.0f;
-    mTargetZ = 0.0f;
+    mPath = 0;
+
+    mMovePercent = 0.0f;
+
+    mMoveStartX = 0.0f;
+    mMoveStartY = 0.0f;
+    mMoveStartZ = 0.0f;
+
+    mMoveEndX = 0.0f;
+    mMoveEndY = 0.0f;
+    mMoveEndZ = 0.0f;
 
     mPathIndex = 0;
 
     mKill = 0;
 
+    mLeader = false;
+
+    mStartedWalking = false;
+
     mDestinationGridX = -1;
     mDestinationGridY = -1;
     mDestinationGridZ = -1;
-    
-    mDrawZ = 0;
     
     mWalkSpeed = gRand.GetFloat(1.25f, 4.0f);
 
@@ -48,62 +58,98 @@ Unit::~Unit() {
 void Unit::Update() {
     float aMaxFrame = (float)gApp->mNinja.mSequenceFrameCount;
 
+    if (mWalking) {
+
+
     mFrame += 0.48f;
     if (mFrame >= aMaxFrame) {
         mFrame -= aMaxFrame;
     }
 
-    if (mWalking) {
+    } else {
+        mFrame = 0.0f;
+    }
 
-        float aTargetRotation = FaceTarget(mTargetX, mTargetY, mX, mY);
-        
+    if (mLeader) {
+
+
+    }
+
+
+    /*
+    mMovePercent = 0.0f;
+
+    mMoveStartX = 0.0f;
+    mMoveStartY = 0.0f;
+    mMoveStartZ = 0.0f;
+
+    mMoveEndX = 0.0f;
+    mMoveEndY = 0.0f;
+    mMoveEndZ = 0.0f;
+    */
+
+
+    if (mWalking) {
+        float aTargetRotation = FaceTarget(mMoveStartX, mMoveStartY, mX, mY);
         mRotation += DistanceBetweenAngles(mRotation, aTargetRotation) / 14.0f;
 
-
         //TODO: Position will be controlled by a smoothing track of some sort...
-
     }
 }
 
 void Unit::Draw() {
     Graphics::SetColor();
+
+    if (gApp->mDarkMode) {
+        Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
+    }
+
     gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 1.0f, 0.0f);
+
+
+    if (mLeader) {
+
+        Graphics::SetColor(0.5f);
+        if (gApp->mDarkMode) {
+            Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
+        }
+
+        gApp->mUnitCircleSoft.Draw(mX, mY, 0.5f, 0.0f, 1);
+
+    } else {
+        Graphics::SetColor(0.5f);
+        if (gApp->mDarkMode) {
+            Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
+        }
+        gApp->mUnitCircleHard.Draw(mX, mY, 0.35f, 0.0f, 1);
+    }
+
+    Graphics::SetColor();
 }
 
-//void Unit::PlaceOnGrid(PathNode *pNode, LevelPath *pPath) {
+void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath) {
 
-void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, LevelPath *pPath) {
-    if (pStartNode != 0 && pDestinationNode != 0 && pPath != 0) {
-        int aGridX = pStartNode->mGridX;
-        int aGridY = pStartNode->mGridY;
-        int aGridZ = pStartNode->mGridZ;
+    int aGridX = pStartNode->mGridX;
+    int aGridY = pStartNode->mGridY;
+    int aGridZ = pStartNode->mGridZ;
 
-        mGridX = pStartNode->mGridX;
-        mGridY = pStartNode->mGridY;
-        mGridZ = pStartNode->mGridZ;
+    mStartNode = pStartNode;
+    mGridX = pStartNode->mGridX;
+    mGridY = pStartNode->mGridY;
+    mGridZ = pStartNode->mGridZ;
 
-        mX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
-        mY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
+    mX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
+    mY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
 
+    //Our Destination should be the center node of the end tile..
+    mDestinationNode = pDestinationNode;
+    mDestinationGridX = pDestinationNode->mGridX;
+    mDestinationGridY = pDestinationNode->mGridY;
+    mDestinationGridZ = pDestinationNode->mGridZ;
 
+    mDestinationTile = pDestinationTile;
 
-        //TODO: Our Destination should be the center node of the end tile..
-        //mDestinationGridX = pPath->mEndX;
-        //mDestinationGridY = pPath->mEndY;
-        //mDestinationGridZ = pPath->mEndZ;
-
-
-        mTrackingPath = pPath;
-    }
-
-
-    /*
-    if (pNode) {
-        PlaceOnGrid(pNode->mGridX, pNode->mGridY, pNode->mGridZ);
-    } else {
-        PlaceOnGrid(pNode->mGridX, pNode->mGridY, pNode->mGridZ);
-    }
-    */
+    mTrackingPath = pPath;
 }
 
 

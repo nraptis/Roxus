@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "Tower.h"
-#include "GLApp.h"
+#include "Tower.hpp"
+#include "GLApp.hpp"
 
 Tower::Tower() {
     mFrame = 0;

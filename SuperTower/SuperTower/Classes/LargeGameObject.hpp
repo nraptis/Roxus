@@ -9,7 +9,7 @@
 #ifndef LARGE_GAME_OBJECT_HPP
 #define LARGE_GAME_OBJECT_HPP
 
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "FObject.h"
 
 class LargeGameObject : public FObject {

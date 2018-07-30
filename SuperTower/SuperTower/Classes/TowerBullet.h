@@ -9,7 +9,7 @@
 #ifndef Mustache_TowerBulletBullet_h
 #define Mustache_TowerBulletBullet_h
 
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 class TowerBullet
 {

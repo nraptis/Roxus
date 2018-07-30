@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "GameTile.h"
-#include "GameArena.h"
+#include "GameTile.hpp"
+#include "GameArena.hpp"
 
 GameTile::GameTile() {
     mTileType = TILE_TYPE_NORMAL;

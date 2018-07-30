@@ -9,7 +9,7 @@
 #ifndef SMALL_GAME_OBJECT_HPP
 #define SMALL_GAME_OBJECT_HPP
 
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "FObject.h"
 
 class SmallGameObject : public FObject {

@@ -10,13 +10,12 @@
 #define FRAMEWORK_FILE_H
 
 #include "FString.h"
-#include "FList.h"
+#include "FList.hpp"
 #include "FColor.hpp"
 
-class FFile
-{
+class FFile {
 public:
-    
+
     FFile();
     virtual ~FFile();
     
@@ -91,7 +90,6 @@ public:
     bool                                    LoadSequence(const char *pFileBase, int pStartIndex, int pEndIndex);
     
     FList                                   mList;
-    
 };
 
 

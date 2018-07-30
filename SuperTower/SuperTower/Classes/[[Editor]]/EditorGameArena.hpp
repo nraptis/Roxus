@@ -9,7 +9,7 @@
 #ifndef EDITOR_GAME_ARENA_H
 #define EDITOR_GAME_ARENA_H
 
-#include "GameArena.h"
+#include "GameArena.hpp"
 
 #define EDITOR_MODE_TILES 0
 #define EDITOR_MODE_PATH 1

@@ -10,7 +10,7 @@
 #define FRAMEWORK_WINDOW_HPP
 
 #include "FCanvas.hpp"
-#include "FList.h"
+#include "FList.hpp"
 #include "FHashTable.hpp"
 
 class FWindow {

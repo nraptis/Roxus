@@ -10,7 +10,7 @@
 #define UNIT_PATH_HPP
 
 #include "TilePathFinder.h"
-#include "GameTile.h"
+#include "GameTile.hpp"
 
 //Rule: U can't place any tower iff
 // 1.) It blocks a "level path" from reaching its destination.

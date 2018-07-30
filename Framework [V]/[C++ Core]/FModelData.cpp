@@ -10,7 +10,7 @@
 #include "FModelData.h"
 #include "FApp.hpp"
 #include "FTexture.hpp"
-#include "FList.h"
+#include "FList.hpp"
 
 bool gModelDiscardNormals = false;
 bool gModelDiscardUVW = false;
@@ -1807,83 +1807,59 @@ void FModelDataOptimizer::Generate(FModelData *pData)
     FreeList(FModelDataOptimizerNode, aNodeList)
 }
 
-void FModelDataOptimizer::SolveXYZ(FModelData *pReference, FModelData *pTarget)
-{
+void FModelDataOptimizer::SolveXYZ(FModelData *pReference, FModelData *pTarget) {
     pTarget->SizeXYZ(mCypherCount);
     int aWrapIndex;
-    for(int i=0;i<mCypherCount;i++)
-    {
+    for (int i=0;i<mCypherCount;i++) {
         aWrapIndex = mCypher[i];
         pTarget->AddXYZ(pReference->GetX(aWrapIndex), pReference->GetY(aWrapIndex), pReference->GetZ(aWrapIndex));
     }
 }
 
-void FModelDataOptimizer::SolveUVW(FModelData *pReference, FModelData *pTarget)
-{
+void FModelDataOptimizer::SolveUVW(FModelData *pReference, FModelData *pTarget) {
     pTarget->SizeUVW(mCypherCount);
     int aWrapIndex;
-    for(int i=0;i<mCypherCount;i++)
-    {
+    for (int i=0;i<mCypherCount;i++) {
         aWrapIndex = mCypher[i];
         pTarget->AddUVW(pReference->GetU(aWrapIndex), pReference->GetV(aWrapIndex), pReference->GetW(aWrapIndex));
     }
 }
 
-void FModelDataOptimizer::SolveNormal(FModelData *pReference, FModelData *pTarget)
-{
+void FModelDataOptimizer::SolveNormal(FModelData *pReference, FModelData *pTarget) {
     pTarget->SizeNormal(mCypherCount);
     int aWrapIndex;
-    for(int i=0;i<mCypherCount;i++)
-    {
+    for (int i=0;i<mCypherCount;i++) {
         aWrapIndex = mCypher[i];
         pTarget->AddNormal(pReference->GetNormX(aWrapIndex),pReference->GetNormY(aWrapIndex),pReference->GetNormZ(aWrapIndex));
     }
 }
 
-void FModelDataOptimizer::Convert(FModelData *pData, FModelDataIndexed *pTarget)
-{
-    if(pTarget != 0)
-    {
+void FModelDataOptimizer::Convert(FModelData *pData, FModelDataIndexed *pTarget) {
+    if (pTarget != 0) {
         pTarget->Free();
     }
-    
-    if((pData != 0) && (pTarget != 0))
-    {
-        //FModelDataIndexed *aResult = new FModelDataIndexed();
-        
-        if(mCypherCount <= 0)
-        {
+    if ((pData != 0) && (pTarget != 0)) {
+        if (mCypherCount <= 0) {
             Generate(pData);
         }
-        
-        for(int i=0;i<mCypherCount;i++)
-        {
+        for (int i=0;i<mCypherCount;i++) {
             int aWrapIndex = mCypher[i];
-            
             pTarget->AddXYZ(pData->GetX(aWrapIndex), pData->GetY(aWrapIndex), pData->GetZ(aWrapIndex));
             
-            if(pData->mUVWCount > 0)
-            {
+            if (pData->mUVWCount > 0) {
                 pTarget->AddUVW(pData->GetU(aWrapIndex), pData->GetV(aWrapIndex), pData->GetW(aWrapIndex));
             }
-            if(pData->mNormalCount > 0)
-            {
+            if (pData->mNormalCount > 0) {
                 pTarget->AddNormal(pData->GetNormX(aWrapIndex),pData->GetNormY(aWrapIndex),pData->GetNormZ(aWrapIndex));
             }
         }
-        
-        for(int i=0;i<mIndexCount;i++)
-        {
+        for (int i=0;i<mIndexCount;i++) {
             pTarget->AddIndex(mIndex[i]);
         }
-        
-        //Log("Converted Targ[ %d %d %d %d ]\n", pTarget->mXYZCount, pTarget->mUVWCount, pTarget->mNormalCount, pTarget->mIndexCount);
     }
 }
 
-FModelDataIndexed *FModelDataOptimizer::Convert(FModelData *pData)
-{
-    
+FModelDataIndexed *FModelDataOptimizer::Convert(FModelData *pData) {
     FModelDataIndexed *aResult = new FModelDataIndexed();
     
     Convert(pData, aResult);

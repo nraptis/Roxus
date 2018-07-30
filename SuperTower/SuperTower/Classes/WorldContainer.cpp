@@ -7,7 +7,7 @@
 //
 
 #include "WorldContainer.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "WorldMenu.hpp"
 #include "EditorMainMenu.hpp"
 

@@ -121,4 +121,4 @@ public:
 
 };
 
-#endif /* AnimatedLevelPath_hpp */
+#endif

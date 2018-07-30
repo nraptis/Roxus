@@ -9,7 +9,7 @@
 #ifndef TILE_PATH_FINDER_HEAP_HPP
 #define TILE_PATH_FINDER_HEAP_HPP
 
-#include "GameTile.h"
+#include "GameTile.hpp"
 
 class TilePathFinderHeap {
 public:

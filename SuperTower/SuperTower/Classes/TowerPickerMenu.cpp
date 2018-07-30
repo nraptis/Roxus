@@ -8,7 +8,7 @@
 
 #include "TowerPickerMenu.h"
 #include "EditorGameArena.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 TowerPickerMenu::TowerPickerMenu() {
     mApp = GAPP;

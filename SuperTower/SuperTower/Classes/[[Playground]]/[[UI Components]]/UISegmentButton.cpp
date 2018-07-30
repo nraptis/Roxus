@@ -7,7 +7,7 @@
 //
 
 #include "UISegmentButton.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "PGMainCanvas.hpp"
 
 UISegmentButton::UISegmentButton() {

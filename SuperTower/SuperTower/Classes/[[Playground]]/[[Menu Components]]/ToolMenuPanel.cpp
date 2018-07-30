@@ -7,7 +7,7 @@
 //
 
 #include "ToolMenuPanel.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 ToolMenuPanel::ToolMenuPanel() {
     mName = "ToolMenuPanel";

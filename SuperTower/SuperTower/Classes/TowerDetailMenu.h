@@ -9,8 +9,8 @@
 #ifndef Mustache_TowerDetailMenu_h
 #define Mustache_TowerDetailMenu_h
 
-#include "GLApp.h"
-#import "Tower.h"
+#include "GLApp.hpp"
+#import "Tower.hpp"
 
 class TowerDetailMenu
 {
