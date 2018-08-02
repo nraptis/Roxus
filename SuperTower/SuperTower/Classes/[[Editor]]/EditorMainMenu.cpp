@@ -313,9 +313,9 @@ void EditorMainMenu::Notify(void *pSender, const char *pNotification) {
             gWorldContainer->mGestureContainer->BaseLayout();
         }
 
-        if (pSender == mButtonClearTunnels) { gEditor->Clear(0); }
-        if (pSender == mButtonClearTiles) { gEditor->Clear(1); }
-        if (pSender == mButtonClearBridges) { gEditor->Clear(2); }
+        if (pSender == mButtonClearTunnels) { gEditor->ClearTiles(0); }
+        if (pSender == mButtonClearTiles) { gEditor->ClearTiles(1); }
+        if (pSender == mButtonClearBridges) { gEditor->ClearTiles(2); }
 
         if (pSender == mButtonFloodTunnels) { gEditor->Flood(0); }
         if (pSender == mButtonFloodTiles) { gEditor->Flood(1); }

@@ -23,6 +23,9 @@ public:
     FList                           mUnitList;
 
     void                            Refresh();
+
+    bool                            ContainsUnit(Unit *pUnit);
+
     
 };
 

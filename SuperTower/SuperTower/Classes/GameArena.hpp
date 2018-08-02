@@ -37,10 +37,12 @@ public:
     virtual void                                Update();
     virtual void                                Draw();
 
+    void                                        Clear();
+
     GameArenaHelper                             mHelper;
 
     TilePathFinder                              mPathFinder;
-
+    
     //Our main "grid" of tiles...
     GameTile                                    ****mTile;
 
@@ -51,6 +53,13 @@ public:
     int                                         mUnitGridWidth;
     int                                         mUnitGridHeight;
 
+    //This is for walking allowance when taking a single step...
+    bool                                        ***mWalkAllowed;
+    void                                        ResetWalkAllowedGrid();
+
+    //...There can only be one tower at ANY level along the grid, assumed top level...
+    //TODO: Make special grid locations election function for TOWERS which select the top
+    //available colliding tile with click position...
     bool                                        **mTowerAllowed;
     void                                        ComputeAllowedPlacements();
     
@@ -66,10 +75,9 @@ public:
 
     //Assumption: The group is not null, the leader is not null, there is at least one item in the unit list...
     void                                        Deploy(UnitGroup *pGroup);
-    
 
     //For smaller grid, the nodes from GRID BASE (assumed we will be mapping
-    //properly from unit grid base to unit grid) ... 
+    //properly from unit grid base to unit grid) ... co
     FList                                       mDeletedNodeList;
 
     bool                                        mTileVisible[GRID_DEPTH];
@@ -107,6 +115,9 @@ public:
     PathNode                                    *GetEndNodeForPath(LevelPath *pPath);
     PathNode                                    *GetEndNodeForTile(GameTile *pTile);
 
+    GameTile                                    *GetEndTileForPath(LevelPath *pPath);
+    GameTile                                    *GetStartTileForPath(LevelPath *pPath);
+
     PathNode                                    *GetStartNodeForPath(LevelPath *pPath);
     
     //This is on the TILE GRID
@@ -120,7 +131,7 @@ public:
     FObjectList                                 mUnitGroupCollection;
     
     //UnitGroup
-    
+
     //Assumption: Grid nodes already exist.
     //If, for example, we change a tile or place a tower, we should REFRESH the nodes.
     //This will assign nodes to tiles, compute node positions, and figure out which
@@ -143,8 +154,17 @@ public:
     //... Keep in mind that the group could be separated from its target path or on the
     //target path...
     void                                        ConfigureGridConnections(UnitGroup *pGroup);
+    //Or... we might want to do it without any unit group in consideration...
+    //For placement, we don't consider the look-ahead, only the current position...
+    void                                        ConfigureGridConnectionsForPlacement();
+    
+    void                                        OccupyGridForUnit(Unit *pUnit, int pLookAhead=2);
 
-
+    //This is somewhat expensive on a per-unit basis because we will need to refresh the whole adjacency grid...
+    bool                                        CanUnitWalkToAdjacentGridPosition(Unit *pUnit, int pGridX, int pGridY, int pGridZ);
+    
+    //Scan through all unit groups and see if this unit is leading any of them...
+    bool                                        IsLeaderUnit(Unit *pUnit);
 
     FList                                       mPathList;
 
@@ -165,8 +185,7 @@ public:
     //for a given depth...
     void                                        GetEditorGridPosAtDepth(float pX, float pY, int pDepth, int &pGridX, int &pGridY);
     void                                        GetEditorGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ);
-
-
+    
     void                                        Generate(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
     void                                        ResizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBufferV);
@@ -174,8 +193,8 @@ public:
     //Assumptions: Grid is already sized and loaded
     void                                        GenerateUnitGrid();
 
-    void                                        Clear(int pDepth);
-    void                                        Clear();
+    void                                        ClearTiles(int pDepth);
+    void                                        ClearTiles();
 
     void                                        Flood(int pDepth);
     void                                        IncreaseBuffer();

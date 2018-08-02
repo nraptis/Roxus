@@ -26,6 +26,9 @@ void UnitGroup::Refresh() {
             aUnit->mLeader = false;
         }
     }
+}
 
+bool UnitGroup::ContainsUnit(Unit *pUnit) {
+    return mUnitList.Exists(pUnit);
 }
 

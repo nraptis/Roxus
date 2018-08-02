@@ -31,20 +31,19 @@ public:
     int                                 mHP;
     int                                 mHPMax;
 
-    bool                                mStartedWalking;
+    //The FIRST time we start walking, whether the leader or a follower.
+    bool                                mDidStartWalking;
     
     float                               mWalkSpeed;
-    bool                                mWalking;
+    bool                                mIsWalking;
 
     float                               mMovePercent;
 
     float                               mMoveStartX;
     float                               mMoveStartY;
-    float                               mMoveStartZ;
 
     float                               mMoveEndX;
     float                               mMoveEndY;
-    float                               mMoveEndZ;
 
     float                               mRotation;
     float                               mRotationSpeed;
@@ -53,11 +52,21 @@ public:
 
     bool                                mLeader;
 
+    void                                Sleep(int pSleepTime);
+    bool                                mIsSleeping;
+    int                                 mSleepTimer;
+
+
     ///////////////////////////////////////////////
     //                                           //
     //           Only Pathing Stuff              //
     //                                           //
 
+
+    void                                AttemptToAdvanceToNextPathSegment(float pMoveAmount);
+
+
+    int                                 GetCurrentPathIndex();
 
     void                                PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath);
 
