@@ -226,7 +226,6 @@ void LevelPath::AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, 
 }
 */
 
-
 FXMLTag *LevelPath::Save() {
     FXMLTag *aTag = new FXMLTag("path");
     aTag->AddParam("start_x", FString(mStartX).c());

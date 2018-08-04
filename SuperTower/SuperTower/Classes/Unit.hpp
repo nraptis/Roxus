@@ -31,11 +31,17 @@ public:
     int                                 mHP;
     int                                 mHPMax;
 
+    bool                                ShouldResignLeadership();
+
+
     //The FIRST time we start walking, whether the leader or a follower.
     bool                                mDidStartWalking;
     
     float                               mWalkSpeed;
     bool                                mIsWalking;
+
+    
+
 
     float                               mMovePercent;
 
@@ -62,9 +68,13 @@ public:
     //           Only Pathing Stuff              //
     //                                           //
 
+    //We make an ATTEMPT to clone the path, if we are not on the path,
+    //then forget about it, there is no way to reconcile the current index.
+    void                                AttemptCopyPathFromUnit(Unit *pUnit);
+    void                                ResetPath();
+
 
     void                                AttemptToAdvanceToNextPathSegment(float pMoveAmount);
-
 
     int                                 GetCurrentPathIndex();
 
@@ -84,6 +94,8 @@ public:
     UnitPath                            *mPath;
 
     int                                 mPathIndex;
+
+    bool                                mDidReachEndOfPath;
 
     //                                           //
     //                                           //

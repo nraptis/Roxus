@@ -18,13 +18,22 @@ public:
 
     UnitGroup();
     virtual ~UnitGroup();
-    
-    Unit                            *mLeader;
+
+
+    //Unit                            *mLeader;
+    //New rule, Unit #0 is always the leader...
+    Unit                            *Leader();
+    bool                            IsLeader(Unit *pUnit);
+
+
     FList                           mUnitList;
 
     void                            Refresh();
 
     bool                            ContainsUnit(Unit *pUnit);
+
+    bool                            RemoveUnit(Unit *pUnit);
+
 
     
 };

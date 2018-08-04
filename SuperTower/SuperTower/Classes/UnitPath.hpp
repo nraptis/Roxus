@@ -12,7 +12,7 @@
 #include "TilePathFinder.h"
 #include "GameTile.hpp"
 
-//Rule: U can't place any tower iff
+//Rule: You can't place any tower if...
 // 1.) It blocks a "level path" from reaching its destination.
 // 2.) It prevents any unit from reaching its destination...
 // -------
@@ -36,9 +36,17 @@ public:
 
     TilePathFinder                      mPathFinder;
 
+    void                                Reset();
+
+
     void                                DrawMarkers();
 
     void                                ComputePath(GameArena *pArena);
+
+    
+    void                                CloneFrom(UnitPath *pPath);
+
+    int                                 GetIndexOfGridPosition(int pGridX, int pGridY, int pGridZ);
 
     int                                 mStartX;
     int                                 mStartY;
@@ -49,8 +57,11 @@ public:
     int                                 mEndZ;
 
     int                                 mLength;
+
+private:
     int                                 mSize;
 
+public:
     int                                 *mPathX;
     int                                 *mPathY;
     int                                 *mPathZ;

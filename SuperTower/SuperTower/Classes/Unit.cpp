@@ -37,6 +37,8 @@ Unit::Unit() {
 
     mDidStartWalking = false;
 
+    mDidReachEndOfPath = false;
+
     mDestinationGridX = -1;
     mDestinationGridY = -1;
     mDestinationGridZ = -1;
@@ -56,7 +58,9 @@ Unit::Unit() {
 }
 
 Unit::~Unit() {
-    //printf("Delete Unit [%x]\n", this);
+    printf("Delete Unit [%x]\n", this);
+    delete mPath;
+    mPath = 0;
 }
 
 void Unit::Update() {
@@ -64,7 +68,7 @@ void Unit::Update() {
 
     if (mIsWalking) {
 
-        mFrame += 0.48f;
+        mFrame += 1.25f;
         if (mFrame >= aMaxFrame) {
             mFrame -= aMaxFrame;
         }
@@ -84,13 +88,13 @@ void Unit::Update() {
     }
 
     if (mIsSleeping == false) {
-        if (mLeader && mIsWalking == false && mPath != NULL) {
+        if (mLeader) {
+            if (mIsWalking == false && mPath != NULL) {
+                AttemptToAdvanceToNextPathSegment(0.0f);
+            }
+        }
+    }
 
-            AttemptToAdvanceToNextPathSegment(0.0f);
-
-
-        } //
-    } // mIsSleeping == false
 
     /*
      mMovePercent = 0.0f;
@@ -141,6 +145,10 @@ void Unit::Update() {
         //TODO: Position will be controlled by a smoothing track of some sort...
     }
 
+    if (mGridX == mDestinationGridX && mGridY == mDestinationGridY && mGridZ == mDestinationGridZ) {
+        mDidReachEndOfPath = true;
+    }
+    
 }
 
 void Unit::Draw() {
@@ -173,6 +181,46 @@ void Unit::Draw() {
     Graphics::SetColor();
 }
 
+bool Unit::ShouldResignLeadership() {
+
+    bool aResult = false;
+
+    if (mDidReachEndOfPath) aResult = true;
+    if (mKill != 0) aResult = true;
+
+    return aResult;
+}
+
+void Unit::ResetPath() {
+    mPathIndex = -1;
+    if (mPath != NULL) {
+        mPath->Reset();
+    }
+}
+
+void Unit::AttemptCopyPathFromUnit(Unit *pUnit) {
+    ResetPath();
+    if (pUnit != NULL && pUnit->mPath != NULL) {
+
+        int aNewPathIndex = pUnit->mPath->GetIndexOfGridPosition(mGridX, mGridY, mGridZ);
+        if (aNewPathIndex != -1) {
+            if (mPath == NULL) {
+                mPath = new UnitPath();
+            }
+            mPath->CloneFrom(pUnit->mPath);
+            mPathIndex = aNewPathIndex;
+
+            //TODO: Verify...
+            if (mIsWalking) {
+                mPathIndex -= 1;
+            }
+
+        }
+
+
+    }
+}
+
 void Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
 
     if (mPath != NULL && mPathIndex < (mPath->mLength - 1)) {
@@ -192,7 +240,6 @@ void Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
         } else {
 
             mIsWalking = true;
-
             mPathIndex += 1;
 
             mGridX = aNextGridX;mGridY = aNextGridY;mGridZ = aNextGridZ;

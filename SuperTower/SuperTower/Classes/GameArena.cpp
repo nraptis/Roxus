@@ -97,82 +97,109 @@ void GameArena::Update() {
         mDeletedNodeList.RemoveAll();
     }
 
-    /*
-     for(int i=0;i<mTileGridWidth;i++)
-     {
-     for(int n=0;n<mTileGridHeight;n++)
-     {
-     if(mTile[i][n])
-     {
-     mTile[i][n]->Update();
-     }
-     }
-     }
-     */
-    
-    /*
-     
-     EnumList(Unit, aUnit, mUnitList)
-     {
-     aUnit->Update();
-     
-     if(aUnit->mWalking == false)
-     {
-     if(gRand.Get(40) == 22)
-     {
-     //mWalking
-     
-     bool aFail = true;
-     
-     
-     while(aFail)
-     {
-     int aDirX = gRand.Get(3) - 1;
-     int aDirY = gRand.Get(3) - 1;
-     
-     if(aDirX != 0 || aDirY != 0)
-     {
-     int aTargetX = aUnit->mTileGridX + aDirX;
-     int aTargetY = aUnit->mTileGridY + aDirY;
-     
-     if(aTargetX >= 0 && aTargetY >= 0 && aTargetX < mTileGridWidth && aTargetY < mTileGridHeight)
-     {
-     
-     aUnit->WalkTo(aTargetX, aTargetY);
-     aFail = false;
-     }
-     }
-     }
-     }
-     }
-     }
-     
-     */
-    
-    /*
-     EnumList(Tower, aTower, mTowerList)
-     {
-     aTower->Update();
-     
-     if(aTower->mCoolDownTime <= 0)
-     {
-     
-     }
-     }
-     */
 
-    mUnitCollection.Update();
 
+    //mUnitList;
+
+    //mUnitGroupList;
+
+
+
+    //mAddUnitGroupList.RemoveAll();
+    //mAddUnitGroupList.RemoveAll();
+    //mKillUnitGroupList.RemoveAll();
+    //mKillUnitList.RemoveAll();
+    //mDeleteUnitGroupList.RemoveAll();
+    //mDeleteUnitList.RemoveAll();
+
+    RefreshUnitGroups();
+
+    EnumList(Unit, aUnit, mUnitList) { aUnit->Update(); }
     mTowerCollection.Update();
+    EnumList (AnimatedLevelPath, aPath, mPathList) { aPath->Update(); }
 
-    EnumList (AnimatedLevelPath, aPath, mPathList) {
-        aPath->Update();
+
+    //TODO: Handing off the path to the next unit in the group...
+
+    //
+    EnumList(Unit, aUnit, mUnitList) {
+        if (aUnit->mDidReachEndOfPath) {
+            //Todo: Poof animation..
+            aUnit->Kill();
+        }
     }
+    RefreshUnitGroups();
+
+    //TODO: Update bullets.
+    //REQUIRE: no units can be killed on this update after THIS point...
+
+    SplitUnitGroups();
+    KillAllInvalidUnitGroups();
+
+
+
+    ///////////////////////////////////////////
+    ////                                   ////
+    ////      Remove killed units..        ////
+
+    EnumList(Unit, aUnit, mUnitList) {
+        if (aUnit->mKill) {
+            mKillUnitList.Add(aUnit);
+        }
+    }
+
+    mDeleteUnitList.RemoveAll();
+    EnumList(Unit, aUnit, mKillUnitList) {
+        mUnitList.Remove(aUnit);
+        aUnit->mKill--;
+        if (aUnit->mKill <= 0) {
+            mDeleteUnitList.Add(aUnit);
+        }
+    }
+    EnumList(Unit, aUnit, mDeleteUnitList) {
+        mKillUnitList.Remove(aUnit);
+        delete aUnit;
+    }
+
+
+    ////                                   ////
+    ////                                   ////
+    ///////////////////////////////////////////
+
+
+    ///////////////////////////////////////////
+    ////                                   ////
+    ////     Remove killed groups..        ////
+
+    EnumList(UnitGroup, aGroup, mUnitGroupList) {
+        if (aGroup->mKill) {
+            mKillUnitGroupList.Add(aGroup);
+        }
+    }
+
+    mDeleteUnitGroupList.RemoveAll();
+    EnumList(UnitGroup, aGroup, mKillUnitGroupList) {
+        mUnitGroupList.Remove(aGroup);
+        aGroup->mKill--;
+        if (aGroup->mKill <= 0) {
+            mDeleteUnitGroupList.Add(aGroup);
+        }
+    }
+
+    EnumList(UnitGroup, aGroup, mDeleteUnitGroupList) {
+        mKillUnitGroupList.Remove(aGroup);
+        delete aGroup;
+    }
+
+    ////                                   ////
+    ////                                   ////
+    ///////////////////////////////////////////
+
+
 }
 
 void GameArena::Draw() {
     Graphics::SetColor();
-
 
     EnumList (AnimatedLevelPath, aPath, mPathList) {
         aPath->DrawPrepare();
@@ -205,13 +232,14 @@ void GameArena::Draw() {
             }
         }
 
-        EnumList(Unit, aUnit, mUnitCollection.mObjectList) {
+        EnumList(Unit, aUnit, mUnitList) {
             if (aUnit->mKill == 0 && aUnit->mGridZ == aDepth) {
                 aUnit->Draw();
             }
         }
 
         if (aDepth == 1) {
+
             //EnumList(Tower, aTower, mTowerList)
             //{
             //    aTower->Draw();
@@ -228,6 +256,7 @@ void GameArena::Draw() {
              }
              }
              */
+
         }
     }
     
@@ -245,12 +274,10 @@ void GameArena::Draw() {
 
         for (int aGridX=0;aGridX<mTileGridWidthTotal;aGridX++) {
             for (int aGridY=0;aGridY<mTileGridHeightTotal;aGridY++) {
-
                 GameTile *aTile1 = mTile[aDepth][aGridX][aGridY];
-
                 if (aTile1) {
                     for (int i=0;i<aTile1->mPathConnectionCount;i++) {
-                        PathNode *aConnectedNode = aTile1->mPathConnection[i].mNode;
+                        //PathNode *aConnectedNode = aTile1->mPathConnection[i].mNode;
                         //Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aConnectedNode->mCenterX, aConnectedNode->mCenterY);
                     }
                 }
@@ -396,6 +423,7 @@ void GameArena::ComputeAllowedPlacements() {
         }
     }
 }
+
 void GameArena::RemoveTower(Tower *pTower) {
     if (pTower) {
         pTower->Kill();
@@ -714,16 +742,15 @@ void GameArena::SpawnUnitsOnPath(FList *pUnitList, LevelPath *pPath, Unit *pLead
         pUnitList->MoveToFirst(pLeader);
     }
 
-    Unit *aLeader = (Unit *)(pUnitList->First());
-
+    //Unit *aLeader = (Unit *)(pUnitList->First());
     UnitGroup *aGroup = new UnitGroup();
-    aGroup->mLeader = aLeader;
     EnumList(Unit, aUnit, *pUnitList) {
         aUnit->PlaceOnGrid(aStartNode, aEndNode, aEndTile, pPath);
         aGroup->mUnitList.Add(aUnit);
-        AddUnit(aUnit);
+        mUnitList.Add(aUnit);
     }
-    mUnitGroupCollection.Add(aGroup);
+    mUnitGroupList.Add(aGroup);
+    //mUnitGroupCollection.Add(aGroup);
 
     Deploy(aGroup);
 }
@@ -830,7 +857,7 @@ void GameArena::Deploy(UnitGroup *pGroup) {
         return;
     }
 
-    Unit *aLeader = pGroup->mLeader;
+    Unit *aLeader = pGroup->Leader();
     if (aLeader == NULL) {
         printf("Fatal Error: Null leader for unit group...\n");
         return;
@@ -902,15 +929,174 @@ void GameArena::Deploy(UnitGroup *pGroup) {
 
 
     //...
-    
+
+}
+
+void GameArena::SplitUnitGroups() {
+    bool aReloop = true;
+    do {
+        aReloop = TrySplitUnitGroups();
+    } while (aReloop);
+}
+
+bool GameArena::TrySplitUnitGroups() {
+    bool aResult = false;
+
+    int aUnitGroupCountBefore = mUnitGroupList.mCount;
 
 
+    mAddUnitGroupList.RemoveAll();
+
+    mProcessUnitGroupList.RemoveAll();
+
+    EnumList(UnitGroup, aGroup, mUnitGroupList) {
+        if (aGroup->mKill == 0) {
+            mProcessUnitGroupList.Add(aGroup);
+        }
+    }
+
+    EnumList(UnitGroup, aGroup, mProcessUnitGroupList) {
+        if (TrySplitUnitGroup(aGroup)) {
+            aResult = true;
+        }
+    }
+
+    EnumList(UnitGroup, aGroup, mAddUnitGroupList) {
+        mUnitGroupList.Add(aGroup);
+    }
+    mAddUnitGroupList.RemoveAll();
+
+    KillAllInvalidUnitGroups();
+    RemoveKilledUnitGroups();
+
+    if (aResult == true) {
+        printf("Unit Groups Split Before: %d Groups, After: %d Groups\n", aUnitGroupCountBefore, mUnitGroupList.mCount);
+    }
+
+
+
+    return aResult;
+}
+
+//We only want to perform one split each time we encounter this method...
+//new groups get added to mAddUnitGroupList, defunct groups get killed (not deleted)
+bool GameArena::TrySplitUnitGroup(UnitGroup *pGroup) {
+
+    if (pGroup == NULL) return false;
+    if (pGroup->mUnitList.mCount <= 1) return false;
+
+    Unit *aLeader = pGroup->Leader();
+
+    Unit *aUnit = NULL;
+    int aSplitIndex = -1;
+    for (int aIndex=0;aIndex<pGroup->mUnitList.mCount;aIndex++) {
+        aUnit = (Unit *)(pGroup->mUnitList.mData[aIndex]);
+        if (aUnit->ShouldResignLeadership()) {
+            aSplitIndex = aIndex;
+        }
+    }
+
+    if (aSplitIndex != -1) {
+        if ((aSplitIndex + 1) < pGroup->mUnitList.mCount) {
+            UnitGroup *aGroup = new UnitGroup();
+            mAddUnitGroupList.Add(aGroup);
+            for (int aIndex=aSplitIndex+1;aIndex<pGroup->mUnitList.mCount;aIndex++) {
+                aUnit = (Unit *)(pGroup->mUnitList.mData[aIndex]);
+                aGroup->mUnitList.Add(aUnit);
+            }
+            Unit *aNewLeader = aGroup->Leader();
+            HandOffPath(aLeader, aNewLeader);
+        }
+
+        if (true) {
+            UnitGroup *aGroup = new UnitGroup();
+            mAddUnitGroupList.Add(aGroup);
+            aUnit = (Unit *)(pGroup->mUnitList.mData[aSplitIndex]);
+            aGroup->mUnitList.Add(aUnit);
+            HandOffPath(aLeader, aUnit);
+        }
+
+        if (aSplitIndex > 0) {
+            UnitGroup *aGroup = new UnitGroup();
+            mAddUnitGroupList.Add(aGroup);
+            for (int aIndex=aSplitIndex;aIndex<aSplitIndex;aIndex++) {
+                aUnit = (Unit *)(pGroup->mUnitList.mData[aIndex]);
+                aGroup->mUnitList.Add(aUnit);
+            }
+            Unit *aNewLeader = aGroup->Leader();
+            HandOffPath(aLeader, aNewLeader);
+        }
+
+
+        pGroup->Kill();
+        return true;
+    }
+
+
+    //We could have SEVERAL slowed units, in a row, which would stay in a group together...
+    //Basically...
+
+    /*
+    //If a unit has fallen to a slower speed and is in the middle of the group, split the group accordingly...
+    /// [f][f][s][f]
+    /// => 3 new groups...
+    EnumList(UnitGroup, aGroup, mUnitGroupList) {
+        if (aGroup->mKill == false) {
+
+        }
+    }
+
+
+    //If a Leader unit should resign leadership, add the leader to a new group and re-organize accordingly
+    EnumList(UnitGroup, aGroup, mUnitGroupCollection.mObjectList) {
+        Unit *aLeader = aGroup->mLeader;
+        if (aGroup->mKill == false && aLeader != 0) {
+            if (aLeader->ShouldResignLeadership()) {
+
+
+
+                //
+
+            }
+        }
+    }
+    */
+
+    return false;
+}
+
+void GameArena::HandOffPath(Unit *pFromUnit, Unit *pToUnit) {
+    if ((pFromUnit != NULL) && (pToUnit != NULL) && (pFromUnit != pToUnit)) {
+        pToUnit->AttemptCopyPathFromUnit(pFromUnit);
+    }
+}
+
+
+void GameArena::KillAllInvalidUnitGroups() {
+
+}
+
+void GameArena::RemoveKilledUnitGroups() {
+    EnumList(UnitGroup, aGroup, mUnitGroupList) {
+        if (aGroup->mKill) {
+            mKillUnitGroupList.Add(aGroup);
+        }
+    }
+    EnumList(UnitGroup, aGroup, mKillUnitGroupList) {
+        mUnitGroupList.Remove(aGroup);
+    }
+}
+
+void GameArena::RefreshUnitGroups() {
+    EnumList(UnitGroup, aGroup, mUnitGroupList) {
+        aGroup->Refresh();
+    }
 }
 
 void GameArena::Click(float pX, float pY) {
 
     int aUnitIndex = 0;
-    EnumList(Unit, aUnit, mUnitCollection.mObjectList) {
+    EnumList(Unit, aUnit, mUnitList) {
         printf("Unit[%d] {%d, %d, %d}\n", aUnitIndex, aUnit->mGridX, aUnit->mGridY, aUnit->mGridZ);
         aUnitIndex += 1;
     }
@@ -1007,23 +1193,14 @@ Tower *GameArena::GetTower(int pGridX, int pGridY, int pGridZ) {
 }
 
 void GameArena::AddUnit(Unit *pUnit, LevelPath *pPath) {
-
     if (pUnit) {
         FList aUnitList;
         aUnitList.Add(pUnit);
         SpawnUnitsOnPath(&aUnitList, pPath);
     }
-
-}
-
-void GameArena::AddUnit(Unit *pUnit) {
-    if (pUnit) {
-        mUnitCollection.Add(pUnit);
-    }
 }
 
 void GameArena::ComputePathConnections() {
-
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
         for (int aX=0;aX<mTileGridWidthTotal;aX++) {
             for (int aY=0;aY<mTileGridHeightTotal;aY++) {
@@ -1054,10 +1231,12 @@ void GameArena::ComputePathConnections() {
                 GameTile *aTile = GetTile(aX, aY, aDepth);
                 if (aTile) {
                     if (aTile->IsBlocked() == false) {
+
                         GameTile *aTileU = GetTile(aX, aY - 1, aDepth);
                         GameTile *aTileD = GetTile(aX, aY + 1, aDepth);
                         GameTile *aTileL = GetTile(aX - 1, aY, aDepth);
                         GameTile *aTileR = GetTile(aX + 1, aY, aDepth);
+
                         if (aTile->IsNormal()) {
                             if (aTileU) {
                                 if(aTileU->IsNormal() || aTileU->mTileType == TILE_TYPE_RAMP_U) {
@@ -1351,7 +1530,7 @@ void GameArena::ComputeGridConnections() {
 void GameArena::ConfigureGridConnections(UnitGroup *pGroup) {
     ResetGridConnections();
     if (pGroup) {
-        EnumList(Unit, aUnit, mUnitCollection.mObjectList) {
+        EnumList(Unit, aUnit, mUnitList) {
             if (pGroup->ContainsUnit(aUnit) == false) {
                 //TODO: Based on manhattan distance
 
@@ -1360,7 +1539,7 @@ void GameArena::ConfigureGridConnections(UnitGroup *pGroup) {
         }
     }
 
-    Unit *aLeader = pGroup->mLeader;
+    Unit *aLeader = pGroup->Leader();
     PathNode *aNode = 0;
 
     //Make sure the destination tile is not occupied (it can't be occupied)
@@ -1386,7 +1565,7 @@ void GameArena::ConfigureGridConnections(UnitGroup *pGroup) {
 
 void GameArena::ConfigureGridConnectionsForPlacement() {
     ResetGridConnections();
-    EnumList(Unit, aUnit, mUnitCollection.mObjectList) {
+    EnumList(Unit, aUnit, mUnitList) {
         OccupyGridForUnit(aUnit, 0);
     }
     ComputeGridConnections();
@@ -1429,9 +1608,7 @@ void GameArena::OccupyGridForUnit(Unit *pUnit, int pLookAhead) {
 }
 
 bool GameArena::CanUnitWalkToAdjacentGridPosition(Unit *pUnit, int pGridX, int pGridY, int pGridZ) {
-
     if (pUnit) {
-
         ConfigureGridConnectionsForPlacement();
 
         int aGridX = pUnit->mGridX;
@@ -1469,15 +1646,11 @@ bool GameArena::CanUnitWalkToAdjacentGridPosition(Unit *pUnit, int pGridX, int p
 
 bool GameArena::IsLeaderUnit(Unit *pUnit) {
     bool aResult = false;
-
-    EnumList(UnitGroup, aGroup, mUnitGroupCollection.mObjectList) {
-        if (aGroup->mKill == 0) {
-            if (aGroup->mLeader == pUnit) {
-                return true;
-            }
+    EnumList(UnitGroup, aGroup, mUnitGroupList) {
+        if (aGroup->mKill == 0 && aGroup->IsLeader(pUnit)) {
+            return true;
         }
     }
-
     return aResult;
 }
 

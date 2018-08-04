@@ -123,12 +123,41 @@ public:
     //This is on the TILE GRID
     Tower                                       *GetTower(int pGridX, int pGridY, int pGridZ);
 
-    void                                        AddUnit(Unit *pUnit, LevelPath *pPath);
-    void                                        AddUnit(Unit *pUnit);
-    
-    FObjectList                                 mUnitCollection;
+    void                                        SplitUnitGroups();
+    bool                                        TrySplitUnitGroups();
+    bool                                        TrySplitUnitGroup(UnitGroup *pGroup);
 
-    FObjectList                                 mUnitGroupCollection;
+    void                                        KillAllInvalidUnitGroups();
+
+    //Quickie spawn function for a singleton unit.
+    void                                        AddUnit(Unit *pUnit, LevelPath *pPath);
+
+    //This only concerns itself with killed units in the main list, not
+    //processed and killed units from the previous heartbeat...
+
+    void                                        RemoveKilledUnitGroups();
+
+    void                                        RefreshUnitGroups();
+
+    void                                        HandOffPath(Unit *pFromUnit, Unit *pToUnit);
+
+
+
+    FList                                       mUnitList;
+
+    FList                                       mUnitGroupList;
+
+    FList                                       mProcessUnitGroupList;
+
+
+
+    FList                                       mAddUnitGroupList;
+    
+    FList                                       mKillUnitGroupList;
+    FList                                       mKillUnitList;
+
+    FList                                       mDeleteUnitGroupList;
+    FList                                       mDeleteUnitList;
     
     //UnitGroup
 
@@ -212,8 +241,6 @@ public:
     
     UnitPath                                    mTestUnitPath;
     void                                        ComputeTestPath();
-
-
 };
 
 extern GameArena *gArena;

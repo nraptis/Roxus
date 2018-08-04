@@ -15,12 +15,26 @@ UnitGroup::UnitGroup() {
 }
 
 UnitGroup::~UnitGroup() {
-    
+
 }
 
+Unit *UnitGroup::Leader() {
+    return (Unit *)mUnitList.First();
+}
+
+bool UnitGroup::IsLeader(Unit *pUnit) {
+    bool aResult = false;
+    if (pUnit != NULL && Leader() == pUnit) {
+        aResult = true;
+    }
+    return aResult;
+}
+
+
 void UnitGroup::Refresh() {
-    EnumList(Unit, aUnit, mUnitList) {
-        if (aUnit == mLeader) {
+    for (int aIndex = 0;aIndex<mUnitList.mCount;aIndex++) {
+        Unit *aUnit = (Unit *)(mUnitList.mData[aIndex]);
+        if (aIndex == 0) {
             aUnit->mLeader = true;
         } else {
             aUnit->mLeader = false;
@@ -30,5 +44,14 @@ void UnitGroup::Refresh() {
 
 bool UnitGroup::ContainsUnit(Unit *pUnit) {
     return mUnitList.Exists(pUnit);
+}
+
+bool UnitGroup::RemoveUnit(Unit *pUnit) {
+    bool aResult = false;
+    if (mUnitList.Exists(pUnit)) {
+        mUnitList.Remove(pUnit);
+        aResult = true;
+    }
+    return aResult;
 }
 

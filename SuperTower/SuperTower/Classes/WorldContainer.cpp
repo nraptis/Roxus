@@ -43,6 +43,7 @@ WorldContainer::WorldContainer() {
 
         mTestMenu = new WorldMenu(this);
         AddChild(mTestMenu);
+        //mTestMenu->Collapse();
 
     }
 }
@@ -63,7 +64,8 @@ void WorldContainer::Layout() {
             float aWidth = mWidth - 64.0f;
             float aHeight = mHeight - 64.0f;
             if (aWidth > 420.0f) { aWidth = 420.0f; }
-            if (640.0f > 640.0f) { aHeight = 640.0f; }
+            if (aHeight > 420.0f) { aHeight = 420.0f; }
+
             if (mEditorMenu) {
                 if (mEditorMenu->mExpanded) {
                     mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
