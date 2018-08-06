@@ -7,7 +7,7 @@
 //
 
 #include "ToolMenu.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "PGMainCanvas.hpp"
 
 ToolMenu::ToolMenu() {

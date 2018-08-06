@@ -92,8 +92,8 @@ void WorldGestureContainer::Update() {
     float aArenaStartY = mWorldPinchStartArenaY;
     float aTouchCenterX = mWorldPinchTouchCenterX;
     float aTouchCenterY = mWorldPinchTouchCenterY;
-    ConvertPoint(aArenaStartX, aArenaStartY, mWorldTransform, this);
 
+    ConvertPoint(aArenaStartX, aArenaStartY, mWorldTransform, this);
 
     float aShiftX = aTouchCenterX - aArenaStartX;
     float aShiftY = aTouchCenterY - aArenaStartY;

@@ -29,9 +29,6 @@ public:
     virtual void                        Update();
     virtual void                        Draw();
 
-    void                                DrawGridPosInfo(float pShift);
-
-
     //Rule: We always have a unit group.
     UnitGroup                           *mGroup;
     bool                                mIsLeader;
@@ -45,17 +42,15 @@ public:
 
     bool                                ShouldResignLeadership();
 
-    //The percent we are between  the move start position and
-    //the move end position.
-    void                                RefreshStepPercent();
-    float                               mStepPercent;
-    
 
     //The FIRST time we start walking, whether the leader or a follower.
     bool                                mDidStartWalking;
     
     float                               mWalkSpeed;
     bool                                mIsWalking;
+
+    
+
 
     float                               mMovePercent;
 
@@ -74,13 +69,6 @@ public:
     bool                                mIsSleeping;
     int                                 mSleepTimer;
 
-
-    void                                ForceCompleteCurrentWalkPathSegment();
-
-
-    //Assumption, this is not our current grid location and is an adjacent
-    //grid location, and is unblocked.
-    void                                FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMovePercent);
 
     ///////////////////////////////////////////////
     //                                           //

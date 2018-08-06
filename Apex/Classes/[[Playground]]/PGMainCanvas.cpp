@@ -7,7 +7,7 @@
 //
 
 #include "PGMainCanvas.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "ToolMenuModalUnderlay.hpp"
 #include "UIImagePicker.hpp"
 #include "PGPathEditor.hpp"

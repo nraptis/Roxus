@@ -148,6 +148,7 @@ void ToolMenuSectionRow::AddButton(UIButton *pButton) {
         UIElement *aElement = new UIElement();
         aElement->SetButton(pButton);
         AddElement(aElement);
+        gNotify.Register(this, pButton, "button_click");
     }
 }
 

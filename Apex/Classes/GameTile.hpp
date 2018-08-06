@@ -9,16 +9,16 @@
 #ifndef GAME_TILE_HPP
 #define GAME_TILE_HPP
 
-#define SUBDIVISIONS_PER_TILE 2
+#define SUBDIVISIONS_PER_TILE   4
 
-#define TILE_TYPE_NORMAL 0
-#define TILE_TYPE_RAMP_U 1
-#define TILE_TYPE_RAMP_D 2
-#define TILE_TYPE_RAMP_L 3
-#define TILE_TYPE_RAMP_R 4
-#define TILE_TYPE_BLOCKED 5
+#define TILE_TYPE_NORMAL        0
+#define TILE_TYPE_RAMP_U        1
+#define TILE_TYPE_RAMP_D        2
+#define TILE_TYPE_RAMP_L        3
+#define TILE_TYPE_RAMP_R        4
+#define TILE_TYPE_BLOCKED       5
 
-#include "GLApp.h"
+#include "GLApp.hpp"
 #include "FXML.h"
 #include "PathNode.hpp"
 
@@ -31,10 +31,7 @@ public:
     void                                SetUp(int pGridX, int pGridY, int pGridZ);
 
     void                                ResetGrid();
-
-    //void                                ConnectCentralGridNodes();
-
-
+    
     virtual void                        Update();
     virtual void                        Draw();
     

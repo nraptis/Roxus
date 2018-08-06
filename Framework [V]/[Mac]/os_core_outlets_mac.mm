@@ -6,8 +6,8 @@
 #include "os_core_outlets.h"
 #include "core_includes.h"
 #include "FString.h"
-#include "FFile.h"
-#include "FList.h"
+#include "FFile.hpp"
+#include "FList.hpp"
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>

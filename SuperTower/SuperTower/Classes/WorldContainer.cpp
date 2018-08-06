@@ -9,6 +9,7 @@
 #include "WorldContainer.hpp"
 #include "GLApp.hpp"
 #include "WorldMenu.hpp"
+#include "TimelineMenu.hpp"
 #include "EditorMainMenu.hpp"
 
 WorldContainer *gWorldContainer = 0;
@@ -16,6 +17,7 @@ WorldContainer::WorldContainer() {
     gWorldContainer = this;
 
     mTestMenu = 0;
+    mTimelineMenu = 0;
     mEditorMenu = 0;
     mGestureContainer = 0;
     mTransformContainer = 0;
@@ -41,10 +43,11 @@ WorldContainer::WorldContainer() {
     } else {
         mArena = new GameArena();
 
-        mTestMenu = new WorldMenu(this);
-        AddChild(mTestMenu);
-        //mTestMenu->Collapse();
+        //mTestMenu = new WorldMenu(this);
+        //AddChild(mTestMenu);
 
+        mTimelineMenu = new TimelineMenu();
+        AddChild(mTimelineMenu);
     }
 }
 
@@ -66,6 +69,9 @@ void WorldContainer::Layout() {
             if (aWidth > 420.0f) { aWidth = 420.0f; }
             if (aHeight > 420.0f) { aHeight = 420.0f; }
 
+            float aMaxHeight = gDeviceHeight * 0.45f;
+            if (aHeight > aMaxHeight) { aHeight = aMaxHeight; }
+            
             if (mEditorMenu) {
                 if (mEditorMenu->mExpanded) {
                     mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
@@ -78,6 +84,14 @@ void WorldContainer::Layout() {
                     mTestMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
                 } else {
                     mTestMenu->SetFrame(32.0f, 32.0f, aWidth, mTestMenu->GetHeight());
+                }
+            }
+            if (mTimelineMenu) {
+                float aMenuX = mWidth - (aWidth + 32.0f);
+                if (mTimelineMenu->mExpanded) {
+                    mTimelineMenu->SetFrame(aMenuX, 32.0f, aWidth, aHeight);
+                } else {
+                    mTestMenu->SetFrame(aMenuX, 32.0f, aWidth, mTimelineMenu->GetHeight());
                 }
             }
         }
@@ -99,7 +113,6 @@ void WorldContainer::Draw() {
     aQuad.SetColorLeft(0.04f, 0.03f, 0.02f, 0.25f);
     aQuad.SetColorRight(0.02f, 0.06f, 0.05f, 0.25f);
     aQuad.Draw();
-    
     if (mTransformContainer != 0 && mArena != 0) {
         mTransformContainer->DrawTransform();
         mArena->Draw();

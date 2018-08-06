@@ -7,7 +7,7 @@
 //
 
 #include "TowerPickerMenuButton.h"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 TowerPickerMenuButton::TowerPickerMenuButton()
 {

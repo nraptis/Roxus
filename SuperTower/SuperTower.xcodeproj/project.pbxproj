@@ -229,6 +229,7 @@
 		5018A9FB210A118100C020ED /* FVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C1210A118100C020ED /* FVertexBuffer.cpp */; };
 		5018A9FC210A118100C020ED /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C3210A118100C020ED /* FWindow.cpp */; };
 		5018A9FD210A118100C020ED /* FXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C5210A118100C020ED /* FXML.cpp */; };
+		505690BC211777A10030A968 /* TimelineMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505690BA211777A10030A968 /* TimelineMenu.cpp */; };
 		5074FC91210A2E4800D52ACE /* SmallGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5074FC8F210A2E4800D52ACE /* SmallGameObject.cpp */; };
 		50B92BAC21010737006BB37B /* os_core_app_shell_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */; };
 		50B92BAD21010737006BB37B /* os_core_includes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3F21010737006BB37B /* os_core_includes.cpp */; };
@@ -599,6 +600,8 @@
 		5018A9C4210A118100C020ED /* FWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FWindow.hpp; sourceTree = "<group>"; };
 		5018A9C5210A118100C020ED /* FXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FXML.cpp; sourceTree = "<group>"; };
 		5018A9C6210A118100C020ED /* FXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXML.h; sourceTree = "<group>"; };
+		505690BA211777A10030A968 /* TimelineMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimelineMenu.cpp; sourceTree = "<group>"; };
+		505690BB211777A10030A968 /* TimelineMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TimelineMenu.hpp; sourceTree = "<group>"; };
 		5074FC8F210A2E4800D52ACE /* SmallGameObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SmallGameObject.cpp; sourceTree = "<group>"; };
 		5074FC90210A2E4800D52ACE /* SmallGameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SmallGameObject.hpp; sourceTree = "<group>"; };
 		50B92B3D21010737006BB37B /* os_core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_core_app_shell.h; sourceTree = "<group>"; };
@@ -736,6 +739,8 @@
 				5018A836210A116A00C020ED /* WorldMenu.hpp */,
 				5018A837210A116A00C020ED /* WorldTransformContainer.cpp */,
 				5018A838210A116A00C020ED /* WorldTransformContainer.hpp */,
+				505690BA211777A10030A968 /* TimelineMenu.cpp */,
+				505690BB211777A10030A968 /* TimelineMenu.hpp */,
 			);
 			name = Classes;
 			path = SuperTower/Classes;
@@ -1577,6 +1582,7 @@
 				5018A8CC210A116A00C020ED /* PGPath.cpp in Sources */,
 				5018A9F8210A118100C020ED /* FTouchManager.cpp in Sources */,
 				5018A8B4210A116A00C020ED /* DragableCanvas.cpp in Sources */,
+				505690BC211777A10030A968 /* TimelineMenu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

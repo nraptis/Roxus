@@ -153,7 +153,7 @@ void EditorGameArena::DeleteCurrentPath() {
     RemovePath(mCurrentPath);
 }
 
-void EditorGameArena::RemovePath(AnimatedLevelPath *pPath) {
+void EditorGameArena::RemovePath(LevelPath *pPath) {
     if (pPath) {
         mPathList.Remove(pPath);
         //delete pPath;
@@ -168,7 +168,7 @@ void EditorGameArena::Click(float pX, float pY) {
     GetEditorGridPos(pX, pY, aGridX, aGridY, aGridZ);
 
     if (aGridX == -1 || aGridY == -1 || aGridZ == -1) {
-        GetGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
+        GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
         aGridZ = mTileDepth;
     }
 
@@ -176,7 +176,7 @@ void EditorGameArena::Click(float pX, float pY) {
 
     if (mEditorMode == EDITOR_MODE_PATH) {
         if (mPathSelectMode || mCurrentPath == 0) {
-            AttemptPathSelect(pX, pY);
+            mCurrentPath = AttemptPathSelect(pX, pY);
         } else {
             if (aGridX != -1 && aGridY != -1 && mCurrentPath != 0) {
                 if (mPathStartMode) {
@@ -191,7 +191,7 @@ void EditorGameArena::Click(float pX, float pY) {
             }
         }
     } else if(mEditorMode == EDITOR_MODE_TILES) {
-        GetGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
+        GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
         printf("Click [%d,%d] Depth[%d]\n", aGridX, aGridY, mTileDepth);
         if ((aGridX >= 0) && (aGridY >= 0) && (aGridX < mTileGridWidthTotal) && (aGridY < mTileGridHeightTotal)) {
             GameTile *aTile = GetTile(aGridX, aGridY, mTileDepth);
@@ -216,141 +216,11 @@ void EditorGameArena::Click(float pX, float pY) {
     }
 }
 
-void EditorGameArena::AttemptPathSelect(float pX, float pY) {
-    int aGridX = -1;
-    int aGridY = -1;
-    int aGridZ = -1;
-    GetEditorGridPos(pX, pY, aGridX, aGridY, aGridZ);
-    mCurrentPath = 0;
-    if (aGridX != -1 && aGridY != -1 && aGridZ != -1) {
-        EnumList(AnimatedLevelPath, aPath, mPathList) {
-            if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aGridZ) {
-                mCurrentPath = aPath;
-            }
-            if (aPath->mEndX == aGridX && aPath->mEndY == aGridY && aPath->mEndZ == aGridZ) {
-                mCurrentPath = aPath;
-            }
-        }
-        if (mCurrentPath == 0) {
-            EnumList(AnimatedLevelPath, aPath, mPathList) {
-                for (int i=0;i<aPath->mLength;i++) {
-                    int aPathGridX = aPath->mPathX[i];
-                    int aPathGridY = aPath->mPathY[i];
-                    int aPathGridZ = aPath->mPathZ[i];
-                    if (aPathGridX == aGridX && aPathGridY == aGridY && aPathGridZ == aGridZ) {
-                        mCurrentPath = aPath;
-                    }
-                }
-            }
-        }
-    }
 
 
-    if (mCurrentPath == 0) {
 
 
-        mCurrentPath = 0;
-        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-            GetGridPosAtDepth(pX, pY, aDepth, aGridX, aGridY);
 
-            EnumList(AnimatedLevelPath, aPath, mPathList) {
-                if (aPath->mStartX == aGridX && aPath->mStartY == aGridY && aPath->mStartZ == aDepth) {
-                    mCurrentPath = aPath;
-                }
-                if (aPath->mEndX == aGridX && aPath->mEndY == aGridY && aPath->mEndZ == aDepth) {
-                    mCurrentPath = aPath;
-                }
-            }
-            if (mCurrentPath == 0) {
-                EnumList(AnimatedLevelPath, aPath, mPathList) {
-                    for (int i=0;i<aPath->mLength;i++) {
-                        int aPathGridX = aPath->mPathX[i];
-                        int aPathGridY = aPath->mPathY[i];
-                        int aPathGridZ = aPath->mPathZ[i];
-                        if (aPathGridX == aGridX && aPathGridY == aGridY && aPathGridZ == aDepth) {
-                            mCurrentPath = aPath;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-}
-
-void EditorGameArena::GetGridPosAtDepth(float pX, float pY, int pDepth, int &pGridX, int &pGridY) {
-    pGridX = -1;
-    pGridY = -1;
-    if (pDepth >= 0 && pDepth < GRID_DEPTH) {
-        int aGridX = -1;
-        if (pX > 0) {
-            aGridX = (int)(pX / gTileSize);
-            if (aGridX >= mTileGridWidthTotal) {
-                aGridX = -1;
-            }
-        }
-        if (aGridX != -1) {
-            int aGridY = -1;
-            int aLandGridY = (int)(pY / gTileSize);
-            float aCenterY = 0.0f;
-            float aEpsilon = 0.01f;
-            float aTop = 0.0f;
-            float aBottom = 0.0f;
-            aGridY = aLandGridY - 1;
-            for (int k=0;k<3;k++) {
-                aCenterY = CY(aGridY, pDepth);
-                aTop = aCenterY - (gTileSize2 + aEpsilon);
-                aBottom = aCenterY + (gTileSize2 + aEpsilon);
-                if (pY >= aTop && pY <= aBottom) {
-                    pGridX = aGridX;
-                    pGridY = aGridY;
-                    return;
-                }
-                aGridY += 1;
-            }
-        }
-    }
-}
-
-void EditorGameArena::GetEditorGridPos(float pX, float pY, int &pGridX, int &pGridY, int &pGridZ) {
-    pGridX = -1;
-    pGridY = -1;
-    pGridZ = -1;
-    int aGridX = -1;
-    if (pX > 0) {
-        aGridX = (int)(pX / gTileSize);
-        if (aGridX >= mTileGridWidthTotal) {
-            aGridX = -1;
-        }
-    }
-    if (aGridX != -1) {
-        int aGridY = -1;
-        GameTile *aTile = 0;
-        int aLandGridY = (int)(pY / gTileSize);
-        float aCenterY = 0.0f;
-        float aEpsilon = 0.01f;
-        float aTop = 0.0f;
-        float aBottom = 0.0f;
-        for (int aDepth=GRID_DEPTH-1;aDepth>=0;aDepth--) {
-            aGridY = aLandGridY - 1;
-            for (int k=0;k<3;k++) {
-                aTile = GetTile(aGridX, aGridY, aDepth);
-                if (aTile != 0) {
-                    aCenterY = CY(aGridY, aDepth);
-                    aTop = aCenterY - (gTileSize2 + aEpsilon);
-                    aBottom = aCenterY + (gTileSize2 + aEpsilon);
-                    if (pY >= aTop && pY <= aBottom) {
-                        pGridX = aGridX;
-                        pGridY = aGridY;
-                        pGridZ = aDepth;
-                        return;
-                    }
-                }
-                aGridY += 1;
-            }
-        }
-    }
-}
 
 void EditorGameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
     if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mTileGridWidthTotal) && (pGridY < mTileGridHeightTotal) && (pGridZ < GRID_DEPTH)) {

@@ -1,7 +1,7 @@
 //#import <Foundation/Foundation.h>
 
 #include "os_core_app_shell.h"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 int main (int argc, char **argv) {
     gDirBundle = "/Users/zk9gy1t/Documents/[Proto]/Roxus/Apex/Assets/";

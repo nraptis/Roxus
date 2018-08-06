@@ -1,15 +1,15 @@
 //
-//  GameObject.cpp
+//  LargeGameObject.cpp
 //  Mustache
 //
 //  Created by Nick Raptis on 7/8/13.
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "GameObject.h"
-#include "GLApp.h"
+#include "LargeGameObject.hpp"
+#include "GLApp.hpp"
 
-GameObject::GameObject() {
+LargeGameObject::LargeGameObject() {
     mX = 0.0f;
     mY = 0.0f;
     mZ = 0.0f;
@@ -19,17 +19,17 @@ GameObject::GameObject() {
     mGridZ = -1;
 }
 
-GameObject::~GameObject() { }
+LargeGameObject::~LargeGameObject() { }
 
-void GameObject::Update() { }
+void LargeGameObject::Update() { }
 
-void GameObject::Draw() { }
+void LargeGameObject::Draw() { }
 
-void GameObject::SetUp(int pGridX, int pGridY) {
-    SetUp(pGridX, pGridY, 1);
-}
+//void LargeGameObject::SetUp(int pGridX, int pGridY) {
+//    SetUp(pGridX, pGridY, 1);
+//}
 
-void GameObject::SetUp(int pGridX, int pGridY, int pGridZ) {
+void LargeGameObject::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;

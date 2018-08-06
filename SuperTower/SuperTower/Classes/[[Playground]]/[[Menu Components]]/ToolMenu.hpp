@@ -50,6 +50,7 @@ public:
     void                                    SetMenu(ToolMenuSection *pSection);
 
 
+    void                                    DeactivateCloseButton();
 
     void                                    Expand();
     void                                    Collapse();

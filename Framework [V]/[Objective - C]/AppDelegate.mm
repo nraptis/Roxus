@@ -24,20 +24,15 @@
     
     //float aScreenScale = [mainscr scale];
     
-    if((aWidth >= 1000)  || (aHeight >= 1000))
-    {
+    if ((aWidth >= 1000)  || (aHeight >= 1000)) {
         aIsTablet = true;
         gIsLargeScreen=true;
         gIsRetina = false;
-    }
-    else
-    {
+    } else {
         gIsLargeScreen=false;
         gIsRetina = true;
     }
-    
-    
-    
+
     float aAppWidth = aWidth;
     float aAppHeight = aHeight;
     
@@ -59,7 +54,7 @@
     
 
     FString aPathBundle;
-    char aCharPath[1024];
+    char aCharPath[2048];
     memset(aCharPath, 0, sizeof(aCharPath));
     
     CFURLRef aResourceURL = CFBundleCopyBundleURL(CFBundleGetMainBundle());
@@ -85,7 +80,8 @@
     AppShellSetDirectoryDocuments(aPathDocuments.c());
     AppShellSetOSVersion(gOSVersion);
     AppShellSetAdBannerHeight(0.0f);
-    
+
+    AppShellSetImageFileScale(3);
     
     //UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     //UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"root"];

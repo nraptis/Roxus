@@ -6,41 +6,55 @@
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "Unit.h"
-#include "GameArena.h"
+#include "Unit.hpp"
+#include "GameArena.hpp"
+#include "UnitPath.hpp"
+#include "AnimatedLevelPath.hpp"
+
+#define UNIT_DEFAULT_SLEEP_TIME 32
 
 Unit::Unit() {
-    mApp = GAPP;
-    mArena = gArena;
+    mTrackingPath = 0;
 
-    mX = 0.0f;
-    mY = 0.0f;
-    mZ = 0.0f;
+    mPrevGridX = -1;
+    mPrevGridY = -1;
+    mPrevGridZ = -1;
 
-    mTargetX = 0.0f;
-    mTargetY = 0.0f;
-    mTargetZ = 0.0f;
+    mGroup = 0;
+    mPath = 0;
+
+    mMovePercent = 0.0f;
+
+    mMoveStartX = 0.0f;
+    mMoveStartY = 0.0f;
+
+    mMoveEndX = 0.0f;
+    mMoveEndY = 0.0f;
 
     mPathIndex = 0;
 
     mKill = 0;
 
-    mFinalGridX = 0;
-    mFinalGridY = 0;
-    mFinalGridZ = 0;
+    mIsLeader = false;
+
+    mWalkSpeed = 0.0f;
+    mIsWalking = false;
+
+    mDidStartWalking = false;
+
+    mDidReachEndOfPath = false;
+
+    mDestinationGridX = -1;
+    mDestinationGridY = -1;
+    mDestinationGridZ = -1;
     
-    mGridX = -1;
-    mGridY = -1;
-    mGridZ = 1;
-    
-    mDrawZ = 0;
-    
-    mWalkSpeed = gRand.GetFloat(1.25f, 4.0f);//gRand.GetFloat(2.5f, 4.0f);
-    
+    mWalkSpeed = gRand.GetFloat(1.25f, 4.0f);
+
     mHPMax = 200;
     mHP = mHPMax;
-    
-    mWalking = false;
+
+    mIsSleeping = false;
+    mSleepTimer = 0;
     
     mRotation = 0.0f;
     mRotationSpeed = 2.0f;
@@ -48,206 +62,273 @@ Unit::Unit() {
     mFrame = 0.0f;
 }
 
-Unit::~Unit()
-{
-    //printf("Delete Unit [%x]\n", this);
+Unit::~Unit() {
+    printf("Delete Unit [%lx]\n", (unsigned long)this);
+
+    if (mGroup) {
+
+        //
+    }
+
+    delete mPath;
+    mPath = 0;
 }
 
 void Unit::Update() {
-    float aMaxFrame = (float)mApp->mNinja.mSequenceFrameCount;
+    float aMaxFrame = (float)gApp->mNinja.mSequenceFrameCount;
 
-    mFrame += 0.48f;
-    if(mFrame >= aMaxFrame)mFrame -= aMaxFrame;
-    
-    if (mWalking) {
+    if (mIsWalking) {
 
-        float aTargetRotation = FaceTarget(mTargetX, mTargetY, mX, mY);
-        
-        mRotation += DistanceBetweenAngles(mRotation, aTargetRotation) / 13.0f;
-        
-        float aDirX = Sin(180.0f - mRotation);
-        float aDirY = Cos(180.0f - mRotation);
-        
-        mX += aDirX * mWalkSpeed;
-        mY += aDirY * mWalkSpeed;
-        
-        
-        float aDiffX = mTargetX - mX;
-        float aDiffY = mTargetY - mY;
-        
-        float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
-        
-        float aBumpDist = 30.0f;
-        
-        if(aDist < (aBumpDist * aBumpDist))
-        {
-            //Advance Up The Path... !
+        mFrame += 1.25f;
+        if (mFrame >= aMaxFrame) {
+            mFrame -= aMaxFrame;
+        }
 
-            /*
-            mPathIndex++;
-            if(mPathIndex >= mPath.mSmoothLength)
-            {
-                mWalking = false;
-                mKill = 100;
-            }
-            else
-            {
-                
-                mTargetX = mPath.mSmoothPathX[mPathIndex];
-                mTargetY = mPath.mSmoothPathY[mPathIndex];
-                mTargetZ = mPath.mSmoothPathZ[mPathIndex];
-                
-                mGridX = mPath.mSmoothPathGridX[mPathIndex];
-                mGridY = mPath.mSmoothPathGridY[mPathIndex];
-                mGridZ = mPath.mSmoothPathGridZ[mPathIndex];
+    } else {
+        mFrame = 0.0f;
+    }
 
-                mDrawZ = mPath.mSmoothPathDrawZ[mPathIndex];
+
+    if (mIsSleeping) {
+        mSleepTimer -= 1;
+        if (mSleepTimer <= 0) {
+            mSleepTimer = 0;
+            mIsSleeping = false;
+        }
+
+    }
+
+    if (mIsSleeping == false) {
+        if (mIsLeader) {
+            if (mIsWalking == false && mPath != NULL) {
+                AttemptToAdvanceToNextPathSegment(0.0f);
             }
-            */
         }
-        
-        /*
-        if(aDist > 0.2f)
-        {
-            aDist = sqrtf(aDist);
-            
-            aDiffX /= aDist;
-            aDiffY /= aDist;
-        }
-        
-        if(aDist < mWalkSpeed)
-        {
-            
-            mGridX = mTargetGridX;
-            mGridY = mTargetGridY;
-            mGridZ = mTargetGridZ;
-            
-            mX = mTargetX;
-            mY = mTargetY;
-            
-            mPathIndex++;
-            if(mPathIndex >= mPath.mLength)
-            {
-                mWalking = false;
-                mKill = 100;
+    }
+
+
+    /*
+     mMovePercent = 0.0f;
+
+     mMoveStartX = 0.0f;
+     mMoveStartY = 0.0f;
+     mMoveStartZ = 0.0f;
+
+     mMoveEndX = 0.0f;
+     mMoveEndY = 0.0f;
+     mMoveEndZ = 0.0f;
+     */
+
+    if (mIsWalking) {
+        float aTargetRotation = FaceTarget(mMoveStartX, mMoveStartY, mX, mY);
+        mRotation += DistanceBetweenAngles(mRotation, aTargetRotation) / 14.0f;
+
+        float aDirX = mMoveEndX - mX;
+        float aDirY = mMoveEndY - mY;
+
+        float aOvershoot = mWalkSpeed;
+        bool aGoToNextSegment = false;
+
+        float aDistance = aDirX * aDirX + aDirY * aDirY;
+        if (aDistance > 0.01f) {
+            aDistance = sqrtf(aDistance);
+            aDirX /= aDistance;
+            aDirY /= aDistance;
+
+            if (aDistance > mWalkSpeed) {
+                //Just inch towards the next location...
+                mX += aDirX * mWalkSpeed;
+                mY += aDirY * mWalkSpeed;
+            } else {
+                aOvershoot = mWalkSpeed - aDistance;
+                mX = mMoveEndX;
+                mY = mMoveEndY;
+                aGoToNextSegment = true;
             }
-            else
-            {
-                WalkTo(mPath.mPathX[mPathIndex], mPath.mPathY[mPathIndex], mPath.mPathZ[mPathIndex]);
+        } else {
+            aGoToNextSegment = true;
+        }
+
+        if (aGoToNextSegment) {
+            if (AttemptToAdvanceToNextPathSegment(aOvershoot)) {
+                gArena->UnitDidFinishWalkingStep(this);
             }
-            
-            
         }
-        else
-        {
-            mX += aDiffX * mWalkSpeed;
-            mY += aDiffY * mWalkSpeed;
-        }
-        */
+
+        //TODO: Position will be controlled by a smoothing track of some sort...
+    }
+
+    if (mGridX == mDestinationGridX && mGridY == mDestinationGridY && mGridZ == mDestinationGridZ) {
+        mDidReachEndOfPath = true;
     }
     
 }
 
-void Unit::Draw()
-{
-    //mApp->mKnight.Center(mRotationIndex, mFrame, mX, mY - 40.0f);
-    
+void Unit::Draw() {
     Graphics::SetColor();
-    //mApp->mRobot.Draw(mX, mY, 180.0f - mRotation, mFrame, 0.6f, 0.0f);
-    mApp->mRobot.Draw(mX, mY, 180.0f - mRotation, 0.0f, 0.6f, 0.0f);
-    
-    /*
-    SetColor(0.5f);
-    mApp->mUnitCircleSoft.Center(mX, mY);
-    
-    SetColor();
-    mApp->mUnitCircleHard.Center(mX, mY);
-    
-    SetColor(1.0f, 0.0f, 0.0f);
-    
-    DrawLine(mX, mY, mX + Sin(180.0f - mRotation) * 25, mY + Cos(180.0f - mRotation) * 25);
-    
-    //DrawRect(mTargetX - 20, mTargetY - 20, 40, 40);
-    
-    //mTargetX, mTargetY
-    */
-}
 
-void Unit::ComputePath()
-{
-    mPath.mStartX = mGridX;
-    mPath.mStartY = mGridY;
-    mPath.mStartZ = mGridZ;
-    
-    mPath.mEndX = mFinalGridX;
-    mPath.mEndY = mFinalGridY;
-    mPath.mEndZ = mFinalGridZ;
-    
-    //mPath.ComputePath();
+    if (gApp->mDarkMode) {
+        Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
+    }
 
+    gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 1.0f, 0.0f);
     
-    mPathIndex = 0;
-}
+    if (mIsLeader) {
 
-void Unit::SetUp(LevelPath *pPath)
-{
-    mGridX = pPath->mStartX;
-    mGridY = pPath->mStartY;
-    mGridZ = pPath->mStartZ;
-    
-    mFinalGridX = pPath->mEndX;
-    mFinalGridY = pPath->mEndY;
-    mFinalGridZ = pPath->mEndZ;
-    
-    mX = CX(mGridX, mGridZ);
-    mY = CY(mGridY, mGridZ);
-    
-    ComputePath();
-
-    /*
-    if(mPath.mSmoothLength > 0)
-    {
-        mWalking = true;
-        
-        mX = mPath.mSmoothPathX[0];
-        mY = mPath.mSmoothPathY[0];
-        mZ = mPath.mSmoothPathZ[0];
-        
-        mDrawZ = mPath.mSmoothPathDrawZ[0];
-        
-        
-        if(mZ > 1)mDrawZ = 2;
-        else if(mZ > 0)mDrawZ = 1;
-        else mDrawZ = 0;
-        
-        
-        if(mPath.mSmoothLength > 1)
-        {
-            mPathIndex = 1;
-            
-            mTargetX = mPath.mSmoothPathX[mPathIndex];
-            mTargetY = mPath.mSmoothPathY[mPathIndex];
-            mTargetZ = mPath.mSmoothPathZ[mPathIndex];
-
-            mDrawZ = mPath.mSmoothPathDrawZ[mPathIndex];
-            
-            
-            mRotation = FaceTarget(mTargetX, mTargetY, mX, mY);
-            
-            
-            
-            
-            
-            
-            
+        Graphics::SetColor(0.5f);
+        if (gApp->mDarkMode) {
+            Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
         }
-        
-        //WalkTo(mPath.mPathX[1], mPath.mPathY[1], mPath.mPathZ[1]);
+
+        gApp->mUnitCircleSoft.Draw(mX, mY, 0.5f, 0.0f, 1);
+
+    } else {
+        Graphics::SetColor(0.5f);
+        if (gApp->mDarkMode) {
+            Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
+        }
+        gApp->mUnitCircleHard.Draw(mX, mY, 0.35f, 0.0f, 1);
     }
-    else
-    {
-        mWalking = false;
-    }
-    */
-    
+
+    Graphics::SetColor();
 }
+
+bool Unit::ShouldResignLeadership() {
+
+    bool aResult = false;
+
+    if (mDidReachEndOfPath) aResult = true;
+    if (mKill != 0) aResult = true;
+
+    return aResult;
+}
+
+void Unit::ResetPath() {
+    mPathIndex = -1;
+    if (mPath != NULL) {
+        mPath->Reset();
+    }
+}
+
+void Unit::AttemptCopyPathFromUnit(Unit *pUnit) {
+    ResetPath();
+    if (pUnit != NULL && pUnit->mPath != NULL) {
+
+        int aNewPathIndex = pUnit->mPath->GetIndexOfGridPosition(mGridX, mGridY, mGridZ);
+        if (aNewPathIndex != -1) {
+            if (mPath == NULL) {
+                mPath = new UnitPath();
+            }
+            mPath->CloneFrom(pUnit->mPath);
+            mPathIndex = aNewPathIndex;
+
+            //TODO: Verify...
+            if (mIsWalking) {
+                mPathIndex -= 1;
+            }
+
+        }
+
+
+    }
+}
+
+bool Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
+
+    bool aResult = false;
+    if (mPath != NULL && mPathIndex < (mPath->mLength - 1)) {
+        int aNextGridX = mPath->mPathX[mPathIndex + 1];
+        int aNextGridY = mPath->mPathY[mPathIndex + 1];
+        int aNextGridZ = mPath->mPathZ[mPathIndex + 1];
+
+        PathNode *aNode = gArena->GetGridNode(mGridX, mGridY, mGridZ);
+        PathNode *aNextNode = gArena->GetGridNode(aNextGridX, aNextGridY, aNextGridZ);
+
+        if (gArena->CanUnitWalkToAdjacentGridPosition(this, aNextGridX, aNextGridY, aNextGridZ) == false) {
+            printf("Unit - Unable to walk to next desired location...\n");
+        } else if (aNode == NULL) {
+            printf("Unit - Attempting to walk and CURRENT NODE isn't found...\n");
+        } else if (aNextNode == NULL) {
+            printf("Unit - Attempting to walk and NEXT NODE isn't found...\n");
+        } else {
+
+
+            mIsWalking = true;
+            mPathIndex += 1;
+
+            mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
+            mGridX = aNextGridX;mGridY = aNextGridY;mGridZ = aNextGridZ;
+            mMoveStartX = aNode->mCenterX;mMoveStartY = aNode->mCenterY;
+            mMoveEndX = aNextNode->mCenterX;mMoveEndY = aNextNode->mCenterY;
+
+            aResult = true;
+        }
+    } else {
+        mIsWalking = false;
+    }
+
+    if (mIsWalking) {
+        //Advance our distance along the path...
+        float aDirX = mMoveEndX - mX;
+        float aDirY = mMoveEndY - mY;
+        float aDistance = aDirX * aDirX + aDirY * aDirY;
+        if (aDistance > 0.01f) {
+            aDistance = sqrtf(aDistance);
+            aDirX /= aDistance;
+            aDirY /= aDistance;
+            mX += aDirX * pMoveAmount;
+            mY += aDirY * pMoveAmount;
+        }
+    }
+
+    return aResult;
+}
+
+int Unit::GetCurrentPathIndex() {
+    int aResult = -1;
+    if (mPath != NULL) {
+        for (int i=0;i<mPath->mLength;i++) {
+            if (mPath->mPathX[i] == mGridX &&
+                mPath->mPathY[i] == mGridY &&
+                mPath->mPathZ[i] == mGridZ) {
+                aResult = i;
+                break;
+            }
+        }
+    }
+    return aResult;
+}
+
+void Unit::Sleep(int pSleepTime) {
+    mIsSleeping = true;
+    mSleepTimer = pSleepTime;
+}
+
+void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath) {
+    
+    mGridX = pStartNode->mGridX;
+    mGridY = pStartNode->mGridY;
+    mGridZ = pStartNode->mGridZ;
+    
+    mPrevGridX = mGridX;
+    mPrevGridY = mGridY;
+    mPrevGridZ = mGridZ;
+
+    mStartNode = pStartNode;
+
+    mX = gArena->GetUnitGridX(mGridX, mGridY, mGridZ);
+    mY = gArena->GetUnitGridY(mGridX, mGridY, mGridZ);
+
+    //Our Destination should be the center node of the end tile..
+    mDestinationNode = pDestinationNode;
+    mDestinationGridX = pDestinationNode->mGridX;
+    mDestinationGridY = pDestinationNode->mGridY;
+    mDestinationGridZ = pDestinationNode->mGridZ;
+
+    mDestinationTile = pDestinationTile;
+
+    mTrackingPath = pPath;
+}
+
+
+

@@ -7,21 +7,15 @@
 //
 
 #include "UnitPath.hpp"
-#include "GameArena.h"
+#include "GameArena.hpp"
 #include "FSpline.h"
 
 UnitPath::UnitPath() {
-    mStartX = 0;
-    mStartY = 0;
-    mStartZ = 1;
-    mEndX = 0;
-    mEndY = 0;
-    mEndZ = 1;
+    mStartX = -1;mStartY = -1;mStartZ = -1;
+    mEndX = -1;mEndY = -1;mEndZ = -1;
     mLength = 0;
     mSize = 0;
-    mPathX = 0;
-    mPathY = 0;
-    mPathZ = 0;
+    mPathX = 0;mPathY = 0;mPathZ = 0;
 }
 
 UnitPath::~UnitPath() {
@@ -84,8 +78,10 @@ void UnitPath::DrawMarkers() {
 
             float aPreviousCenterX = gArena->GetUnitGridX(aPrevGridX, aPrevGridY, aPrevGridZ);
             float aPreviousCenterY = gArena->GetUnitGridY(aPrevGridX, aPrevGridY, aPrevGridZ);
+            
             float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
             float aCenterY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
+
             Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.75f);
             Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
             Graphics::SetColor(0.95f, 0.95f, 0.45f, 1.0f);
@@ -137,8 +133,51 @@ void UnitPath::DrawMarkers() {
         Graphics::SetColor();
     }
 
+    Graphics::SetColor(0.25f);
+
     gApp->mUnitCircleHard.Center(aX1, aY1);
     gApp->mUnitCircleHard.Center(aX2, aY2);
 
+    Graphics::SetColor();
+    
 }
 
+void UnitPath::Reset() {
+    mStartX = -1;mStartY = -1;mStartZ = -1;
+    mEndX = -1;mEndY = -1;mEndZ = -1;
+    mLength = 0;
+}
+
+void UnitPath::CloneFrom(UnitPath *pPath) {
+    Reset();
+    if (pPath) {
+        if (pPath->mLength > mSize) {
+            delete [] mPathX;
+            mSize = pPath->mLength;
+            mPathX = new int[mSize * 3];
+            mPathY = mPathX + mSize;
+            mPathZ = mPathY + mSize;
+        }
+        mLength = pPath->mLength;
+        for (int i=0;i<mLength;i++) {
+            mPathX[i] = pPath->mPathX[i];
+            mPathY[i] = pPath->mPathY[i];
+            mPathZ[i] = pPath->mPathZ[i];
+        }
+        mStartX = pPath->mStartX;mStartY = pPath->mStartY;mStartZ = pPath->mStartZ;
+        mEndX = pPath->mEndX;mEndY = pPath->mEndY;mEndZ = pPath->mEndZ;
+    }
+}
+
+int UnitPath::GetIndexOfGridPosition(int pGridX, int pGridY, int pGridZ) {
+    int aResult = -1;
+    for (int i=0;i<mLength;i++) {
+        if (mPathX[i] == pGridX &&
+            mPathY[i] == pGridY &&
+            mPathZ[i] == pGridZ) {
+            aResult = i;
+            break;
+        }
+    }
+    return aResult;
+}

@@ -42,15 +42,13 @@ AnimatedLevelPath::~AnimatedLevelPath() {
 }
 
 void AnimatedLevelPath::Update() {
-    mTextureAnimationOffset += 0.0050f;
-    if (mTextureAnimationOffset >= 1.0f) {
-        mTextureAnimationOffset -= 1.0f;
+    mTextureAnimationOffset -= 0.0250f;
+    if (mTextureAnimationOffset <= -1.0f) {
+        mTextureAnimationOffset += 1.0f;
     }
 }
 
 void AnimatedLevelPath::DrawEditorMarkers() {
-
-
     if (mLength >= 2) {
         int aStartDirX = mPathX[1] - mPathX[0];
         int aStartDirY = mPathY[1] - mPathY[0];

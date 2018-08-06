@@ -7,7 +7,7 @@
 //
 
 #include "LevelPath.hpp"
-#include "GameArena.h"
+#include "GameArena.hpp"
 #include "FSpline.h"
 
 LevelPath::LevelPath() {
@@ -225,7 +225,6 @@ void LevelPath::AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, 
     
 }
 */
-
 
 FXMLTag *LevelPath::Save() {
     FXMLTag *aTag = new FXMLTag("path");

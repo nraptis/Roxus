@@ -7,7 +7,7 @@
 //
 
 #include "ToolMenuModalUnderlay.hpp"
-#include "GLApp.h"
+#include "GLApp.hpp"
 
 ToolMenuModalUnderlay::ToolMenuModalUnderlay() {
     mConsumesTouches = false;

@@ -51,14 +51,9 @@ bool UnitGroup::ContainsUnit(Unit *pUnit) {
 }
 
 void UnitGroup::AddUnit(Unit *pUnit) {
-
-    if (pUnit != NULL) {
-
     if (mUnitList.Exists(pUnit) == false) {
         mUnitList.Add(pUnit);
         Refresh();
-    }
-        pUnit->mGroup = this;
     }
 }
 

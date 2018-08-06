@@ -12,7 +12,7 @@
 #include "FCanvas.hpp"
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
-#include "GameArena.h"
+#include "GameArena.hpp"
 #include "EditorGameArena.hpp"
 
 class WorldMenu;

@@ -18,9 +18,9 @@ WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
 
     SetTitle("World Editor");
     SetScrollMode(true);
-
-    WorldGestureContainer *aGesture = mWorld->mGestureContainer;
     
+    WorldGestureContainer *aGesture = mWorld->mGestureContainer;
+
     mSliderZoom = new UISlider();
     mSliderZoom->SetText("Zoom:");
     mSliderZoom->SetValue(&aGesture->mWorldScale);
@@ -33,14 +33,13 @@ WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
     mSliderPanRotation->SetRange(-180.0f, 180.0f);
     AddSection(mSliderPanRotation);
 
-
     mSliderTestRotation = new UISlider();
     mSliderTestRotation->SetText("Rotation:");
     mSliderTestRotation->SetValue(&gArena->mTestNinjaRotation);
     mSliderTestRotation->SetRange(0.0f, 360.0f);
     AddSection(mSliderTestRotation);
 
-
+    DeactivateCloseButton();
 }
 
 WorldMenu::~WorldMenu() {

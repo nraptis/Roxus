@@ -35,11 +35,25 @@ public:
     virtual ~GameArena();
     
     virtual void                                Update();
+
+
     virtual void                                Draw();
+
+    void                                        UpdateBody();
 
     void                                        Clear();
 
     GameArenaHelper                             mHelper;
+
+
+    bool                                        mUpdateEnabled;
+    int                                         mUpdateSpeedIndex;
+    int                                         mUpdateTick;
+
+    void                                        UpdateOneFrame();
+    bool                                        mOneFrameUpdateEnqueued;
+    
+
 
     TilePathFinder                              mPathFinder;
     
@@ -72,6 +86,8 @@ public:
 
     void                                        DeleteTile(int pGridX, int pGridY, int pGridZ);
     FList                                       mDeletedTileList;
+
+    bool                                        UnitGridPositionsAreAdjacent(int pGridX1, int pGridY1, int pGridZ1, int pGridX2, int pGridY2, int pGridZ2);
 
     //Assumption: The group is not null, the leader is not null, there is at least one item in the unit list...
     void                                        Deploy(UnitGroup *pGroup);
@@ -106,10 +122,8 @@ public:
     
     virtual void                                Click(float pX, float pY);
 
-    //This is on the TILE GRID
     GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
 
-    //This is on the UNIT GRID
     PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
 
     PathNode                                    *GetEndNodeForPath(LevelPath *pPath);
@@ -141,7 +155,9 @@ public:
 
     void                                        HandOffPath(Unit *pFromUnit, Unit *pToUnit);
 
-
+    //Okay, by the time we get to here, we are guaranteed to have
+    //a previous grid location and current grid location...
+    void                                        UnitDidFinishWalkingStep(Unit *pUnit);
 
     FList                                       mUnitList;
 

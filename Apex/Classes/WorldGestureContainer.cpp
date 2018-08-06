@@ -9,8 +9,8 @@
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
 #include "WorldContainer.hpp"
-#include "GameArena.h"
-#include "GLApp.h"
+#include "GameArena.hpp"
+#include "GLApp.hpp"
 
 WorldGestureContainer::WorldGestureContainer() {
     mName = "path_editor";
@@ -56,7 +56,12 @@ void WorldGestureContainer::Layout() {
             FRect aFit = FRect::FitAspectFit(aBounds, aWorldWidth, aWorldHeight, 10.0f, aWorldScale);
 
             //TODO: Twiddle for zooming...
-            aWorldScale *= 2.5f;
+            if ((gDeviceWidth + gDeviceHeight) < 1700.0f) {
+                aWorldScale *= 2.5f;
+
+            } else {
+                
+            }
 
             mWorldScale = aWorldScale;
             mWorldOffsetX = mWidth2 + gArenaActiveX * aWorldScale;

@@ -1,6 +1,5 @@
 //
 //  Unit.cpp
-//  Mustache
 //
 //  Created by Nick Raptis on 6/15/13.
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
@@ -16,6 +15,13 @@
 Unit::Unit() {
     mTrackingPath = 0;
 
+    mPrevGridX = -1;
+    mPrevGridY = -1;
+    mPrevGridZ = -1;
+
+    mStepPercent = 0.0f;
+
+    mGroup = 0;
     mPath = 0;
 
     mMovePercent = 0.0f;
@@ -30,7 +36,7 @@ Unit::Unit() {
 
     mKill = 0;
 
-    mLeader = false;
+    mIsLeader = false;
 
     mWalkSpeed = 0.0f;
     mIsWalking = false;
@@ -58,21 +64,23 @@ Unit::Unit() {
 }
 
 Unit::~Unit() {
-    printf("Delete Unit [%x]\n", this);
+    printf("Delete Unit [%lx]\n", (unsigned long)this);
+
+    if (mGroup) {
+
+    }
+    
     delete mPath;
     mPath = 0;
 }
 
 void Unit::Update() {
     float aMaxFrame = (float)gApp->mNinja.mSequenceFrameCount;
-
     if (mIsWalking) {
-
         mFrame += 1.25f;
         if (mFrame >= aMaxFrame) {
             mFrame -= aMaxFrame;
         }
-
     } else {
         mFrame = 0.0f;
     }
@@ -88,7 +96,7 @@ void Unit::Update() {
     }
 
     if (mIsSleeping == false) {
-        if (mLeader) {
+        if (mIsLeader) {
             if (mIsWalking == false && mPath != NULL) {
                 AttemptToAdvanceToNextPathSegment(0.0f);
             }
@@ -128,6 +136,7 @@ void Unit::Update() {
                 //Just inch towards the next location...
                 mX += aDirX * mWalkSpeed;
                 mY += aDirY * mWalkSpeed;
+                RefreshStepPercent();
             } else {
                 aOvershoot = mWalkSpeed - aDistance;
                 mX = mMoveEndX;
@@ -139,10 +148,11 @@ void Unit::Update() {
         }
 
         if (aGoToNextSegment) {
-            AttemptToAdvanceToNextPathSegment(aOvershoot);
+            if (AttemptToAdvanceToNextPathSegment(aOvershoot)) {
+                gArena->UnitDidFinishWalkingStep(this);
+            }
         }
 
-        //TODO: Position will be controlled by a smoothing track of some sort...
     }
 
     if (mGridX == mDestinationGridX && mGridY == mDestinationGridY && mGridZ == mDestinationGridZ) {
@@ -159,9 +169,8 @@ void Unit::Draw() {
     }
 
     gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 1.0f, 0.0f);
-
-
-    if (mLeader) {
+    
+    if (mIsLeader) {
 
         Graphics::SetColor(0.5f);
         if (gApp->mDarkMode) {
@@ -180,6 +189,15 @@ void Unit::Draw() {
 
     Graphics::SetColor();
 }
+
+void Unit::DrawGridPosInfo(float pShift) {
+
+    FString aGridString = FString("[") + FString(mGridX) + FString(",")
+     + FString(mGridY) + FString(",") + FString(mGridZ) + FString("]");
+
+    gApp->mSysFont.Center(aGridString.c(), mX, mY - 24.0f + pShift, 0.45f);
+}
+
 
 bool Unit::ShouldResignLeadership() {
 
@@ -214,15 +232,63 @@ void Unit::AttemptCopyPathFromUnit(Unit *pUnit) {
             if (mIsWalking) {
                 mPathIndex -= 1;
             }
-
         }
-
-
     }
 }
 
-void Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
+void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMovePercent) {
 
+    PathNode *aPrevNode = gArena->GetGridNode(mGridX, mGridY, mGridZ);
+    PathNode *aNode = gArena->GetGridNode(pGridX, pGridY, pGridZ);
+
+    if (aPrevNode == NULL || aNode == NULL) {
+        printf("Fatal Error: Node [%lX] Or Prev Node [%lX] is NULL...\n", (unsigned long)aPrevNode, (unsigned long)aNode);
+        mIsWalking = false;
+        return;
+    }
+
+    printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
+
+    mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
+    mGridX = pGridX;mGridY = pGridY;mGridZ = pGridZ;
+
+    mIsWalking = true;
+    mDidStartWalking = true;
+
+    mMoveStartX = aPrevNode->mCenterX;
+    mMoveStartY = aPrevNode->mCenterY;
+
+    mMoveEndX = aNode->mCenterX;
+    mMoveEndY = aNode->mCenterY;
+
+
+    float aDirX = mMoveEndX - mX;
+    float aDirY = mMoveEndY - mY;
+    float aDistance = aDirX * aDirX + aDirY * aDirY;
+    if (aDistance > 0.01f) {
+        aDistance = sqrtf(aDistance);
+        aDirX /= aDistance;
+        aDirY /= aDistance;
+        float aMoveAmount = aDistance * pMovePercent;
+        if (aDistance > aMoveAmount) {
+            mX += aDirX * aMoveAmount;
+            mY += aDirY * aMoveAmount;
+            RefreshStepPercent();
+        } else {
+            mX = mMoveEndX;
+            mY = mMoveEndY;
+            RefreshStepPercent();
+        }
+    } else {
+        mX = mMoveEndX;
+        mY = mMoveEndY;
+        RefreshStepPercent();
+    }
+}
+
+bool Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
+
+    bool aResult = false;
     if (mPath != NULL && mPathIndex < (mPath->mLength - 1)) {
         int aNextGridX = mPath->mPathX[mPathIndex + 1];
         int aNextGridY = mPath->mPathY[mPathIndex + 1];
@@ -232,19 +298,24 @@ void Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
         PathNode *aNextNode = gArena->GetGridNode(aNextGridX, aNextGridY, aNextGridZ);
 
         if (gArena->CanUnitWalkToAdjacentGridPosition(this, aNextGridX, aNextGridY, aNextGridZ) == false) {
-            printf("Unit - Unable to walk to next desired location...\n");
+            //printf("Unit - Unable to walk to next desired location...\n");
         } else if (aNode == NULL) {
-            printf("Unit - Attempting to walk and CURRENT NODE isn't found...\n");
+            //printf("Unit - Attempting to walk and CURRENT NODE isn't found...\n");
         } else if (aNextNode == NULL) {
-            printf("Unit - Attempting to walk and NEXT NODE isn't found...\n");
+            //printf("Unit - Attempting to walk and NEXT NODE isn't found...\n");
         } else {
+
+            mDidStartWalking = true;
 
             mIsWalking = true;
             mPathIndex += 1;
 
+            mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
             mGridX = aNextGridX;mGridY = aNextGridY;mGridZ = aNextGridZ;
             mMoveStartX = aNode->mCenterX;mMoveStartY = aNode->mCenterY;
             mMoveEndX = aNextNode->mCenterX;mMoveEndY = aNextNode->mCenterY;
+
+            aResult = true;
         }
     } else {
         mIsWalking = false;
@@ -261,8 +332,11 @@ void Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
             aDirY /= aDistance;
             mX += aDirX * pMoveAmount;
             mY += aDirY * pMoveAmount;
+            RefreshStepPercent();
         }
     }
+
+    return aResult;
 }
 
 int Unit::GetCurrentPathIndex() {
@@ -285,11 +359,43 @@ void Unit::Sleep(int pSleepTime) {
     mSleepTimer = pSleepTime;
 }
 
+void Unit::ForceCompleteCurrentWalkPathSegment() {
+    if (mIsWalking) {
+        mX = mMoveEndX;
+        mY = mMoveEndY;
+    }
+}
+
+void Unit::RefreshStepPercent() {
+
+    float aStepDiffX = (mMoveEndX - mMoveStartX);
+    float aStepDiffY = (mMoveEndY - mMoveStartY);
+
+    float aDiffX = mX - mMoveStartX;
+    float aDiffY = mY - mMoveStartY;
+
+    float aStepLength = aStepDiffX * aStepDiffX + aStepDiffY * aStepDiffY;
+    if (aStepLength > SQRT_EPSILON) {
+        aStepLength = sqrtf(aStepLength);
+        float aMoveLength = aDiffX * aDiffX + aDiffY * aDiffY;
+        if (aMoveLength > SQRT_EPSILON) {
+            aMoveLength = sqrtf(aMoveLength);
+        }
+        mStepPercent = aMoveLength / aStepLength;
+    } else {
+        mStepPercent = 0.0f;
+    }
+}
+
 void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath) {
     
     mGridX = pStartNode->mGridX;
     mGridY = pStartNode->mGridY;
     mGridZ = pStartNode->mGridZ;
+    
+    mPrevGridX = mGridX;
+    mPrevGridY = mGridY;
+    mPrevGridZ = mGridZ;
 
     mStartNode = pStartNode;
 
