@@ -231,6 +231,7 @@
 		5018A9FD210A118100C020ED /* FXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C5210A118100C020ED /* FXML.cpp */; };
 		505690BC211777A10030A968 /* TimelineMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505690BA211777A10030A968 /* TimelineMenu.cpp */; };
 		5074FC91210A2E4800D52ACE /* SmallGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5074FC8F210A2E4800D52ACE /* SmallGameObject.cpp */; };
+		509C8AFB2119F9E00065FC49 /* ArenaMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509C8AF92119F9E00065FC49 /* ArenaMenu.cpp */; };
 		50B92BAC21010737006BB37B /* os_core_app_shell_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */; };
 		50B92BAD21010737006BB37B /* os_core_includes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3F21010737006BB37B /* os_core_includes.cpp */; };
 		50B92BAE21010737006BB37B /* os_core_outlets_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B4221010737006BB37B /* os_core_outlets_ios.mm */; };
@@ -604,6 +605,8 @@
 		505690BB211777A10030A968 /* TimelineMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TimelineMenu.hpp; sourceTree = "<group>"; };
 		5074FC8F210A2E4800D52ACE /* SmallGameObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SmallGameObject.cpp; sourceTree = "<group>"; };
 		5074FC90210A2E4800D52ACE /* SmallGameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SmallGameObject.hpp; sourceTree = "<group>"; };
+		509C8AF92119F9E00065FC49 /* ArenaMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArenaMenu.cpp; sourceTree = "<group>"; };
+		509C8AFA2119F9E00065FC49 /* ArenaMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ArenaMenu.hpp; sourceTree = "<group>"; };
 		50B92B3D21010737006BB37B /* os_core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_core_app_shell.h; sourceTree = "<group>"; };
 		50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_app_shell_ios.cpp; sourceTree = "<group>"; };
 		50B92B3F21010737006BB37B /* os_core_includes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_includes.cpp; sourceTree = "<group>"; };
@@ -741,6 +744,8 @@
 				5018A838210A116A00C020ED /* WorldTransformContainer.hpp */,
 				505690BA211777A10030A968 /* TimelineMenu.cpp */,
 				505690BB211777A10030A968 /* TimelineMenu.hpp */,
+				509C8AF92119F9E00065FC49 /* ArenaMenu.cpp */,
+				509C8AFA2119F9E00065FC49 /* ArenaMenu.hpp */,
 			);
 			name = Classes;
 			path = SuperTower/Classes;
@@ -1494,6 +1499,7 @@
 				5018A8E2210A116A00C020ED /* WorldContainer.cpp in Sources */,
 				5018A9ED210A118100C020ED /* FScrollCanvas.cpp in Sources */,
 				50004B6B210F580E00DB953C /* UnitGroup.cpp in Sources */,
+				509C8AFB2119F9E00065FC49 /* ArenaMenu.cpp in Sources */,
 				5018A9C9210A118100C020ED /* core_social.cpp in Sources */,
 				50B92BC421010737006BB37B /* main.mm in Sources */,
 				5018A9F5210A118100C020ED /* FStringBuffer.cpp in Sources */,

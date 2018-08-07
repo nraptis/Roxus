@@ -1068,6 +1068,8 @@ void GameArena::UnitDidFinishWalkingStep(Unit *pUnit) {
 
         if (aGroup->Count() > 1 && aLeader == pUnit) {
 
+            float aOvershootPercent = aLeader->mStepPercent;
+            
             printf("Advancing [%lX] Prev[%d %d %d] Cur[%d %d %d]\n", (unsigned long)aLeader, aLeader->mPrevGridX, aLeader->mPrevGridY, aLeader->mPrevGridZ, aLeader->mGridX, aLeader->mGridY, aLeader->mGridZ);
 
             //Here we know the unit is the leader AND at index 0...
@@ -1115,9 +1117,7 @@ void GameArena::UnitDidFinishWalkingStep(Unit *pUnit) {
                     if (aUnit->mDidStartWalking == false) {
                         aDidSendNonMovingUnitAlongPath = true;
                     }
-
-                    aUnit->FollowToNextPathSegment(aGridX, aGridY, aGridZ, 0.0f);
-
+                    aUnit->FollowToNextPathSegment(aGridX, aGridY, aGridZ, aOvershootPercent);
                 } else {
                     aBlockedIndex = i;
                 }
@@ -1129,13 +1129,8 @@ void GameArena::UnitDidFinishWalkingStep(Unit *pUnit) {
             }
 
             if (aBlockedIndex != -1) {
-
                 //Separate everything out from the block index on backwards.
-
-
-
             }
-
         }
     }
 }
@@ -1187,12 +1182,9 @@ bool GameArena::TrySplitUnitGroups() {
 //We only want to perform one split each time we encounter this method...
 //new groups get added to mAddUnitGroupList, defunct groups get killed (not deleted)
 bool GameArena::TrySplitUnitGroup(UnitGroup *pGroup) {
-
     if (pGroup == NULL) return false;
     if (pGroup->mUnitList.mCount <= 1) return false;
-
     Unit *aLeader = pGroup->Leader();
-
     Unit *aUnit = NULL;
     int aSplitIndex = -1;
     for (int aIndex=0;aIndex<pGroup->mUnitList.mCount;aIndex++) {
@@ -1232,12 +1224,9 @@ bool GameArena::TrySplitUnitGroup(UnitGroup *pGroup) {
             Unit *aNewLeader = aGroup->Leader();
             HandOffPath(aLeader, aNewLeader);
         }
-
-
         pGroup->Kill();
         return true;
     }
-
 
     //We could have SEVERAL slowed units, in a row, which would stay in a group together...
     //Basically...
@@ -1248,21 +1237,15 @@ bool GameArena::TrySplitUnitGroup(UnitGroup *pGroup) {
      /// => 3 new groups...
      EnumList(UnitGroup, aGroup, mUnitGroupList) {
      if (aGroup->mKill == false) {
-
      }
      }
-
 
      //If a Leader unit should resign leadership, add the leader to a new group and re-organize accordingly
      EnumList(UnitGroup, aGroup, mUnitGroupCollection.mObjectList) {
      Unit *aLeader = aGroup->mLeader;
      if (aGroup->mKill == false && aLeader != 0) {
      if (aLeader->ShouldResignLeadership()) {
-
-
-
      //
-
      }
      }
      }
@@ -1300,7 +1283,6 @@ void GameArena::RefreshUnitGroups() {
 }
 
 void GameArena::Click(float pX, float pY) {
-
     int aUnitIndex = 0;
     EnumList(Unit, aUnit, mUnitList) {
         printf("Unit[%d] {%d, %d, %d}\n", aUnitIndex, aUnit->mGridX, aUnit->mGridY, aUnit->mGridZ);
@@ -1312,11 +1294,11 @@ void GameArena::Click(float pX, float pY) {
         LevelPath *aSelectedPath = AttemptPathSelect(pX, pY);
         if (aSelectedPath) {
             //Spawn some test units.
-            int aSpawnCount = 3 + gRand.Get(8);
+            int aSpawnCount = 2;
             FList aUnitList;
             for (int aUnitIndex=0;aUnitIndex<aSpawnCount;aUnitIndex++) {
                 Unit *aUnit = new Unit();
-                aUnit->mWalkSpeed = 2.25f;
+                aUnit->mWalkSpeed = 1.5f;
                 aUnitList.Add(aUnit);
             }
 
@@ -1362,7 +1344,24 @@ void GameArena::Click(float pX, float pY) {
     ComputePathConnections();
 }
 
+void GameArena::TestTouch(float pX, float pY, void *pData) {
+
+}
+
+void GameArena::TestDrag(float pX, float pY, void *pData) {
+
+}
+
+void GameArena::TestRelease(float pX, float pY, void *pData) {
+
+}
+
+void GameArena::TestFlush() {
+
+}
+
 void GameArena::RefreshGridCursor(float pX, float pY) {
+
     /*
      mCursorGridX = GetGridX(pX);
      mCursorGridY = GetGridY(pY);
@@ -1374,6 +1373,7 @@ void GameArena::RefreshGridCursor(float pX, float pY) {
      mCursorGridY = -1;
      }
      */
+
 }
 
 Tower *GameArena::GetTower(int pGridX, int pGridY, int pGridZ) {

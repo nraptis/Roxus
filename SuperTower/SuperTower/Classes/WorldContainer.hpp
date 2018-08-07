@@ -18,6 +18,7 @@
 class WorldMenu;
 class TimelineMenu;
 class EditorMainMenu;
+class ArenaMenu;
 class WorldContainer : public FCanvas {
 public:
     WorldContainer();
@@ -45,6 +46,10 @@ public:
 
     TimelineMenu                            *mTimelineMenu;
     WorldMenu                               *mTestMenu;
+
+    ArenaMenu                               *mArenaMenu;
+
+
     EditorMainMenu                          *mEditorMenu;
 
 };

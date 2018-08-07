@@ -158,13 +158,32 @@ void WorldGestureContainer::TouchDown(float pX, float pY, void *pData) {
             mWorldTransform->ConvertPoint(mWorldPinchStartArenaX, mWorldPinchStartArenaY, this);
         }
     }
+
+    if (gArena->mTestMode != TEST_MODE_NONE) {
+        float aX = pX;float aY = pY;
+        FCanvas::Convert(aX, aY, this, mWorldTransform);
+        gArena->TestTouch(aX, aY, pData);
+    }
+
 }
 
 void WorldGestureContainer::TouchMove(float pX, float pY, void *pData) {
 
+    if (gArena->mTestMode != TEST_MODE_NONE) {
+        float aX = pX;float aY = pY;
+        FCanvas::Convert(aX, aY, this, mWorldTransform);
+        gArena->TestDrag(aX, aY, pData);
+    }
+
 }
 
 void WorldGestureContainer::TouchUp(float pX, float pY, void *pData) {
+
+    if (gArena->mTestMode != TEST_MODE_NONE) {
+        float aX = pX;float aY = pY;
+        FCanvas::Convert(aX, aY, this, mWorldTransform);
+        gArena->TestRelease(aX, aY, pData);
+    }
 
 }
 

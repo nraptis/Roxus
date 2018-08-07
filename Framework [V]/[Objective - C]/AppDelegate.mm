@@ -81,7 +81,7 @@
     AppShellSetOSVersion(gOSVersion);
     AppShellSetAdBannerHeight(0.0f);
 
-    AppShellSetImageFileScale(3);
+    AppShellSetImageFileScale(2);
     
     //UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     //UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"root"];

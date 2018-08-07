@@ -9,6 +9,10 @@
 #ifndef GAME_ARENA_H
 #define GAME_ARENA_H
 
+#define TEST_MODE_NONE 0
+#define TEST_MODE_UNIT_GROUP_CREATE 1
+
+
 #include "GLApp.hpp"
 #include "GameTile.hpp"
 #include "AnimatedLevelPath.hpp"
@@ -53,6 +57,7 @@ public:
     void                                        UpdateOneFrame();
     bool                                        mOneFrameUpdateEnqueued;
     
+
 
 
     TilePathFinder                              mPathFinder;
@@ -121,6 +126,14 @@ public:
     void                                        DrawGridSelection();
     
     virtual void                                Click(float pX, float pY);
+
+    void                                        TestTouch(float pX, float pY, void *pData);
+    void                                        TestDrag(float pX, float pY, void *pData);
+    void                                        TestRelease(float pX, float pY, void *pData);
+    void                                        TestFlush();
+
+
+
 
     GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
 
@@ -257,6 +270,21 @@ public:
     
     UnitPath                                    mTestUnitPath;
     void                                        ComputeTestPath();
+
+
+
+    //#define TEST_MODE_NONE 0
+    //#define TEST_MODE_UNIT_GROUP_CREATE 1
+
+    int                                         mTestMode;
+    int                                         mPreviousTestMode;
+    void                                        TestModeDidChange(int pPreviousMode, int pCurrentMode);
+
+
+
+
+
+
 };
 
 extern GameArena *gArena;

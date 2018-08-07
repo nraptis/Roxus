@@ -85,7 +85,6 @@ void Unit::Update() {
         mFrame = 0.0f;
     }
 
-
     if (mIsSleeping) {
         mSleepTimer -= 1;
         if (mSleepTimer <= 0) {
@@ -102,19 +101,6 @@ void Unit::Update() {
             }
         }
     }
-
-
-    /*
-     mMovePercent = 0.0f;
-
-     mMoveStartX = 0.0f;
-     mMoveStartY = 0.0f;
-     mMoveStartZ = 0.0f;
-
-     mMoveEndX = 0.0f;
-     mMoveEndY = 0.0f;
-     mMoveEndZ = 0.0f;
-     */
 
     if (mIsWalking) {
         float aTargetRotation = FaceTarget(mMoveStartX, mMoveStartY, mX, mY);
@@ -152,13 +138,11 @@ void Unit::Update() {
                 gArena->UnitDidFinishWalkingStep(this);
             }
         }
-
     }
-
+    
     if (mGridX == mDestinationGridX && mGridY == mDestinationGridY && mGridZ == mDestinationGridZ) {
         mDidReachEndOfPath = true;
     }
-    
 }
 
 void Unit::Draw() {
@@ -171,12 +155,10 @@ void Unit::Draw() {
     gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 1.0f, 0.0f);
     
     if (mIsLeader) {
-
         Graphics::SetColor(0.5f);
         if (gApp->mDarkMode) {
             Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
         }
-
         gApp->mUnitCircleSoft.Draw(mX, mY, 0.5f, 0.0f, 1);
 
     } else {
@@ -184,17 +166,14 @@ void Unit::Draw() {
         if (gApp->mDarkMode) {
             Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
         }
-        gApp->mUnitCircleHard.Draw(mX, mY, 0.35f, 0.0f, 1);
+        gApp->mUnitCircleHard.Draw(mX, mY, 0.25f, 0.0f, 1);
     }
-
     Graphics::SetColor();
 }
 
 void Unit::DrawGridPosInfo(float pShift) {
-
     FString aGridString = FString("[") + FString(mGridX) + FString(",")
      + FString(mGridY) + FString(",") + FString(mGridZ) + FString("]");
-
     gApp->mSysFont.Center(aGridString.c(), mX, mY - 24.0f + pShift, 0.45f);
 }
 
@@ -219,7 +198,6 @@ void Unit::ResetPath() {
 void Unit::AttemptCopyPathFromUnit(Unit *pUnit) {
     ResetPath();
     if (pUnit != NULL && pUnit->mPath != NULL) {
-
         int aNewPathIndex = pUnit->mPath->GetIndexOfGridPosition(mGridX, mGridY, mGridZ);
         if (aNewPathIndex != -1) {
             if (mPath == NULL) {
@@ -227,17 +205,15 @@ void Unit::AttemptCopyPathFromUnit(Unit *pUnit) {
             }
             mPath->CloneFrom(pUnit->mPath);
             mPathIndex = aNewPathIndex;
-
             //TODO: Verify...
-            if (mIsWalking) {
-                mPathIndex -= 1;
-            }
+            //if (mIsWalking) {
+            //    mPathIndex -= 1;
+            //}
         }
     }
 }
 
 void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMovePercent) {
-
     PathNode *aPrevNode = gArena->GetGridNode(mGridX, mGridY, mGridZ);
     PathNode *aNode = gArena->GetGridNode(pGridX, pGridY, pGridZ);
 
@@ -257,10 +233,8 @@ void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMo
 
     mMoveStartX = aPrevNode->mCenterX;
     mMoveStartY = aPrevNode->mCenterY;
-
     mMoveEndX = aNode->mCenterX;
     mMoveEndY = aNode->mCenterY;
-
 
     float aDirX = mMoveEndX - mX;
     float aDirY = mMoveEndY - mY;
@@ -287,8 +261,11 @@ void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMo
 }
 
 bool Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
-
+    //By default we will have gone 0% forward...
+    mStepPercent = 0.0f;
     bool aResult = false;
+
+    //We can't advance to the next path location if we are at the last path location...
     if (mPath != NULL && mPathIndex < (mPath->mLength - 1)) {
         int aNextGridX = mPath->mPathX[mPathIndex + 1];
         int aNextGridY = mPath->mPathY[mPathIndex + 1];
@@ -310,10 +287,18 @@ bool Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
             mIsWalking = true;
             mPathIndex += 1;
 
-            mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
-            mGridX = aNextGridX;mGridY = aNextGridY;mGridZ = aNextGridZ;
-            mMoveStartX = aNode->mCenterX;mMoveStartY = aNode->mCenterY;
-            mMoveEndX = aNextNode->mCenterX;mMoveEndY = aNextNode->mCenterY;
+            mPrevGridX = mGridX;
+            mPrevGridY = mGridY;
+            mPrevGridZ = mGridZ;
+
+            mGridX = aNextGridX;
+            mGridY = aNextGridY;
+            mGridZ = aNextGridZ;
+            
+            mMoveStartX = aNode->mCenterX;
+            mMoveStartY = aNode->mCenterY;
+            mMoveEndX = aNextNode->mCenterX;
+            mMoveEndY = aNextNode->mCenterY;
 
             aResult = true;
         }
@@ -367,13 +352,10 @@ void Unit::ForceCompleteCurrentWalkPathSegment() {
 }
 
 void Unit::RefreshStepPercent() {
-
     float aStepDiffX = (mMoveEndX - mMoveStartX);
     float aStepDiffY = (mMoveEndY - mMoveStartY);
-
     float aDiffX = mX - mMoveStartX;
     float aDiffY = mY - mMoveStartY;
-
     float aStepLength = aStepDiffX * aStepDiffX + aStepDiffY * aStepDiffY;
     if (aStepLength > SQRT_EPSILON) {
         aStepLength = sqrtf(aStepLength);
@@ -388,17 +370,16 @@ void Unit::RefreshStepPercent() {
 }
 
 void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath) {
-    
     mGridX = pStartNode->mGridX;
     mGridY = pStartNode->mGridY;
     mGridZ = pStartNode->mGridZ;
-    
+
     mPrevGridX = mGridX;
     mPrevGridY = mGridY;
     mPrevGridZ = mGridZ;
 
     mStartNode = pStartNode;
-
+    
     mX = gArena->GetUnitGridX(mGridX, mGridY, mGridZ);
     mY = gArena->GetUnitGridY(mGridX, mGridY, mGridZ);
 
@@ -409,7 +390,7 @@ void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTil
     mDestinationGridZ = pDestinationNode->mGridZ;
 
     mDestinationTile = pDestinationTile;
-
+    
     mTrackingPath = pPath;
 }
 
