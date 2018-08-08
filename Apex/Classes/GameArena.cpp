@@ -81,8 +81,8 @@ GameArena::GameArena() {
     
     
     mTestMode = TEST_MODE_UNIT_GROUP_CREATE;
-    
     mPreviousTestMode = mTestMode;
+    
     
     mTestCreateGroup = 0;
     mTestSelectedGroup = 0;
@@ -96,10 +96,15 @@ GameArena::GameArena() {
 
 GameArena::~GameArena() {
     gArena = 0;
-    
 }
 
 void GameArena::Update() {
+    
+    if (mTestMode != mPreviousTestMode) {
+        TestModeDidChange(mPreviousTestMode, mTestMode);
+        mPreviousTestMode = mTestMode;
+    }
+    
     if (mOneFrameUpdateEnqueued) {
         mUpdateEnabled = false;
         mOneFrameUpdateEnqueued = false;
@@ -107,9 +112,7 @@ void GameArena::Update() {
     } else if(mUpdateEnabled == false) {
         return;
     } else {
-        
         mUpdateTick += 1;
-        
         if (mUpdateSpeedIndex == 0) {
             //Extra Slow...
             if (mUpdateTick >= 25) {
@@ -151,12 +154,6 @@ void GameArena::Update() {
 }
 
 void GameArena::UpdateBody() {
-    //mUpdateSpeedIndex = 2;
-    //mUpdateTick;
-    
-    
-    
-    
     
     float aMaxFrame = (float)gApp->mNinja.mSequenceFrameCount;
     
@@ -177,31 +174,13 @@ void GameArena::UpdateBody() {
         mDeletedNodeList.RemoveAll();
     }
     
-    
-    
-    //mUnitList;
-    
-    //mUnitGroupList;
-    
-    
-    
-    //mAddUnitGroupList.RemoveAll();
-    //mAddUnitGroupList.RemoveAll();
-    //mKillUnitGroupList.RemoveAll();
-    //mKillUnitList.RemoveAll();
-    //mDeleteUnitGroupList.RemoveAll();
-    //mDeleteUnitList.RemoveAll();
-    
     RefreshUnitGroups();
     
     EnumList(Unit, aUnit, mUnitList) { aUnit->Update(); }
     mTowerCollection.Update();
     EnumList (AnimatedLevelPath, aPath, mPathList) { aPath->Update(); }
     
-    
     //TODO: Handing off the path to the next unit in the group...
-    
-    //
     EnumList(Unit, aUnit, mUnitList) {
         if (aUnit->mDidReachEndOfPath) {
             //Todo: Poof animation..
@@ -212,11 +191,8 @@ void GameArena::UpdateBody() {
     
     //TODO: Update bullets.
     //REQUIRE: no units can be killed on this update after THIS point...
-    
     SplitUnitGroups();
     KillAllInvalidUnitGroups();
-    
-    
     
     ///////////////////////////////////////////
     ////                                   ////
@@ -499,40 +475,40 @@ void GameArena::DrawPathableNodes() {
     ConfigureGridConnectionsForPlacement();
     
     if (gApp->mDarkMode == false) {
-    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-        for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
-            for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
-                PathNode *aNode = mUnitGrid[aDepth][aGridX][aGridY];
-                LevelPath *aPath = GetPathForNode(aNode->mGridX, aNode->mGridY, aNode->mGridZ);
-                
-                if (aNode->mBlocked == false && aPath != NULL) {
-                    if (aNode->mOccupied == false) {
-                        Graphics::SetColor(0.95f, 0.95f, 0.95f, mTileOpacity[aDepth]);
-                        Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 3.0f);
-                        
-                    } else {
-                        Graphics::SetColor(0.025f, 0.025f, 0.025f, mTileOpacity[aDepth]);
-                        Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 3.0f);
-                        
-                    }
+        for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+            for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
+                for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
+                    PathNode *aNode = mUnitGrid[aDepth][aGridX][aGridY];
+                    LevelPath *aPath = GetPathForNode(aNode->mGridX, aNode->mGridY, aNode->mGridZ);
                     
-                    if (aDepth == 0) {
-                        Graphics::SetColor(1.0f, 0.75f, 0.25f, mTileOpacity[aDepth]);
+                    if (aNode->mBlocked == false && aPath != NULL) {
+                        if (aNode->mOccupied == false) {
+                            Graphics::SetColor(0.95f, 0.95f, 0.95f, mTileOpacity[aDepth]);
+                            Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 3.0f);
+                            
+                        } else {
+                            Graphics::SetColor(0.025f, 0.025f, 0.025f, mTileOpacity[aDepth]);
+                            Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 3.0f);
+                            
+                        }
+                        
+                        if (aDepth == 0) {
+                            Graphics::SetColor(1.0f, 0.75f, 0.25f, mTileOpacity[aDepth]);
+                        }
+                        if (aDepth == 1) {
+                            Graphics::SetColor(0.125f, 0.75f, 0.75f, mTileOpacity[aDepth]);
+                        }
+                        if (aDepth == 2) {
+                            Graphics::SetColor(0.855f, 0.125f, 0.85f, mTileOpacity[aDepth]);
+                        }
+                        if (aNode->mOccupied) {
+                            Graphics::SetColor(0.45f, 0.25f, 0.22f, mTileOpacity[aDepth]);
+                        }
+                        Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 1.5f);
                     }
-                    if (aDepth == 1) {
-                        Graphics::SetColor(0.125f, 0.75f, 0.75f, mTileOpacity[aDepth]);
-                    }
-                    if (aDepth == 2) {
-                        Graphics::SetColor(0.855f, 0.125f, 0.85f, mTileOpacity[aDepth]);
-                    }
-                    if (aNode->mOccupied) {
-                        Graphics::SetColor(0.45f, 0.25f, 0.22f, mTileOpacity[aDepth]);
-                    }
-                    Graphics::DrawPoint(aNode->mCenterX, aNode->mCenterY, 1.5f);
                 }
             }
         }
-    }
     }
     
 }
@@ -1251,7 +1227,7 @@ void GameArena::UnitDidStartWalkingFromIdle(Unit *pUnit) {
                 }
                 
                 UnitDidFinishWalkingStep(aLeader);
-                                         
+                
             }
             
             
@@ -1829,13 +1805,13 @@ PathNode *GameArena::GetClosestNode(float pX, float pY, bool pAllowBlocked, bool
                 PathNode *aNode = aTile->mGrid[aOffsetX][aOffsetY];
                 if (aNode != NULL) {
                     
-                                float aDiffX = aNode->mCenterX - pX;
-                                float aDiffY = aNode->mCenterY - pY;
-                                float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
-                                if (aDist < aBestDist) {
-                                    aClosestNode = aNode;
-                                    aBestDist = aDist;
-                                }
+                    float aDiffX = aNode->mCenterX - pX;
+                    float aDiffY = aNode->mCenterY - pY;
+                    float aDist = aDiffX * aDiffX + aDiffY * aDiffY;
+                    if (aDist < aBestDist) {
+                        aClosestNode = aNode;
+                        aBestDist = aDist;
+                    }
                     
                 }
             }
@@ -1844,31 +1820,31 @@ PathNode *GameArena::GetClosestNode(float pX, float pY, bool pAllowBlocked, bool
     
     
     if (aClosestNode != NULL && aTile != NULL) {
-    if (pAllowRamps == true || aTile->IsRamp() == false) {
-        
-    } else {
-        aClosestNode = NULL;
-    }
+        if (pAllowRamps == true || aTile->IsRamp() == false) {
+            
+        } else {
+            aClosestNode = NULL;
+        }
     }
     
-    
-    if (aClosestNode != NULL && aTile != NULL) {
-    if (pAllowBlocked == true || aClosestNode->mBlocked == false) {
-    
-    } else {
-        aClosestNode = NULL;
-    }
-    }
     
     if (aClosestNode != NULL && aTile != NULL) {
-    if (pAllowOccupied == true || aClosestNode->mOccupied == false) {
-        
-    } else {
-        aClosestNode = NULL;
-    }
+        if (pAllowBlocked == true || aClosestNode->mBlocked == false) {
+            
+        } else {
+            aClosestNode = NULL;
+        }
     }
     
-                
+    if (aClosestNode != NULL && aTile != NULL) {
+        if (pAllowOccupied == true || aClosestNode->mOccupied == false) {
+            
+        } else {
+            aClosestNode = NULL;
+        }
+    }
+    
+    
     
     
     //
