@@ -75,7 +75,11 @@ void UICheckBox::Layout() {
 }
 
 void UICheckBox::Update() {
-
+    if (mTarget) {
+        if (*mTarget != mIsChecked) {
+            SetChecked(*mTarget);
+        }
+    }
 }
 
 void UICheckBox::Draw() {

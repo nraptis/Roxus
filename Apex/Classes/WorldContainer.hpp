@@ -16,7 +16,9 @@
 #include "EditorGameArena.hpp"
 
 class WorldMenu;
+class TimelineMenu;
 class EditorMainMenu;
+class ArenaMenu;
 class WorldContainer : public FCanvas {
 public:
     WorldContainer();
@@ -42,7 +44,12 @@ public:
     
     GameArena                               *mArena;
 
+    TimelineMenu                            *mTimelineMenu;
     WorldMenu                               *mTestMenu;
+
+    ArenaMenu                               *mArenaMenu;
+
+
     EditorMainMenu                          *mEditorMenu;
 
 };

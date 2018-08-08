@@ -9,13 +9,19 @@
 #include "WorldContainer.hpp"
 #include "GLApp.hpp"
 #include "WorldMenu.hpp"
+#include "TimelineMenu.hpp"
 #include "EditorMainMenu.hpp"
+#include "ArenaMenu.hpp"
+
 
 WorldContainer *gWorldContainer = 0;
 WorldContainer::WorldContainer() {
     gWorldContainer = this;
 
     mTestMenu = 0;
+    mTimelineMenu = 0;
+    mArenaMenu = 0;
+
     mEditorMenu = 0;
     mGestureContainer = 0;
     mTransformContainer = 0;
@@ -43,8 +49,12 @@ WorldContainer::WorldContainer() {
 
         mTestMenu = new WorldMenu(this);
         AddChild(mTestMenu);
-        //mTestMenu->Collapse();
 
+        mTimelineMenu = new TimelineMenu();
+        AddChild(mTimelineMenu);
+
+        mArenaMenu = new ArenaMenu();
+        AddChild(mArenaMenu);
     }
 }
 
@@ -66,6 +76,11 @@ void WorldContainer::Layout() {
             if (aWidth > 420.0f) { aWidth = 420.0f; }
             if (aHeight > 420.0f) { aHeight = 420.0f; }
 
+            float aMaxHeight = gDeviceHeight * 0.45f;
+            if (aHeight > aMaxHeight) { aHeight = aMaxHeight; }
+
+            float aTimelineHeight = 154.0f;
+            
             if (mEditorMenu) {
                 if (mEditorMenu->mExpanded) {
                     mEditorMenu->SetFrame(32.0f, 32.0f, aWidth, aHeight);
@@ -80,6 +95,26 @@ void WorldContainer::Layout() {
                     mTestMenu->SetFrame(32.0f, 32.0f, aWidth, mTestMenu->GetHeight());
                 }
             }
+            if (mTimelineMenu) {
+                float aMenuX = mWidth - (aWidth + 32.0f);
+                if (mTimelineMenu->mExpanded) {
+                    mTimelineMenu->SetFrame(aMenuX, 32.0f, aWidth, aTimelineHeight);
+                } else {
+                    mTestMenu->SetFrame(aMenuX, 32.0f, aWidth, mTimelineMenu->GetHeight());
+                }
+            }
+
+            if (mArenaMenu) {
+                float aMenuX = mWidth - (aWidth + 32.0f);
+                float aMenuY = 32.0f + 32.0f + aTimelineHeight;
+                if (mArenaMenu->mExpanded) {
+                    mArenaMenu->SetFrame(aMenuX, aMenuY, aWidth, aHeight);
+                } else {
+                    mArenaMenu->SetFrame(aMenuX, aMenuY, aWidth, mArenaMenu->GetHeight());
+                }
+            }
+
+
         }
     }
 }
@@ -99,7 +134,6 @@ void WorldContainer::Draw() {
     aQuad.SetColorLeft(0.04f, 0.03f, 0.02f, 0.25f);
     aQuad.SetColorRight(0.02f, 0.06f, 0.05f, 0.25f);
     aQuad.Draw();
-    
     if (mTransformContainer != 0 && mArena != 0) {
         mTransformContainer->DrawTransform();
         mArena->Draw();

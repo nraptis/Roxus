@@ -105,6 +105,11 @@ void ToolMenu::Notify(void *pSender, const char *pNotification) {
     Kill();
 }
 
+void ToolMenu::DeactivateCloseButton() {
+    mHeader.mButtonClose.Deactivate();
+
+}
+
 void ToolMenu::SetScrollMode(bool pScroll) {
     mScrollMode = pScroll;
     if (pScroll) {
