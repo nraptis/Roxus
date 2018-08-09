@@ -10,6 +10,8 @@
 #define TILE_PATH_FINDER_HEAP_HPP
 
 #include "GameTile.hpp"
+#include "PriorityQueue.hpp"
+#include "FHashTable.hpp"
 
 class TilePathFinderHeap {
 public:
@@ -25,6 +27,12 @@ public:
     int                             mSize;
     int                             mCount;
     PathNodeConnection              **mData;
+    
+    FHashMap                        mHashMap;
+    
+private:
+    void                            HeapSiftUp(int pIndex);
+    void                            HeapSiftDown(int pIndex);
     
 };
 

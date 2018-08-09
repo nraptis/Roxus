@@ -17,7 +17,7 @@ PathNodeConnection::~PathNodeConnection() { }
 
 void PathNodeConnection::Reset() {
     mNode = 0;
-    mParent = 0;
+    mPathParent = 0;
     mCost = 0;
     mCostG = 0;
     mCostH = 0;

@@ -41,7 +41,7 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
         PathNodeConnection *aCurrent = mPathStart;
         
         aCurrent->mNode = pStart;
-        aCurrent->mParent = 0;
+        aCurrent->mPathParent = 0;
         
         int aDiffX = pStart->mGridX - aEndX;
         if(aDiffX < 0)aDiffX = -aDiffX;
@@ -49,7 +49,7 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
         int aDiffY = pStart->mGridX - aEndY;
         if(aDiffY < 0)aDiffY = -aDiffY;
         
-        aCurrent->mParent = 0;
+        aCurrent->mPathParent = 0;
         
         aCurrent->mCostH = (aDiffX + aDiffY) * 100;
         aCurrent->mCostG = 0;
@@ -72,7 +72,7 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                     if (mClosedList.Contains(aConnection) && aCostG >= aConnection->mCostG) { continue; }
                     bool aOpenListContains = mOpenList.Contains(aConnection);
                     if ((aOpenListContains == false) || (aCostG < aConnection->mCostG)) {
-                        aConnection->mParent = aCurrent;
+                        aConnection->mPathParent = aCurrent;
                         aConnection->mCostG = aCostG;
                         aDiffX = aConnection->mNode->mGridX - aEndX;
                         if (aDiffX < 0) { aDiffX = -aDiffX; }

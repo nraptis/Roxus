@@ -49,7 +49,7 @@ Unit::Unit() {
     mDestinationGridY = -1;
     mDestinationGridZ = -1;
     
-    mWalkSpeed = gRand.GetFloat(1.25f, 4.0f);
+    mWalkSpeed = 0.025f;
 
     mHPMax = 200;
     mHP = mHPMax;
@@ -111,6 +111,7 @@ void Unit::Update() {
         float aDirX = mMoveEndX - mX;
         float aDirY = mMoveEndY - mY;
 
+        
         float aOvershoot = mWalkSpeed;
         bool aGoToNextSegment = false;
 

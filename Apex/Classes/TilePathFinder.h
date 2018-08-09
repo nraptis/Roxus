@@ -12,8 +12,7 @@
 #include "PathNode.hpp"
 #include "TilePathFinderHeap.h"
 
-class TilePathFinder
-{
+class TilePathFinder {
 public:
     
     TilePathFinder();

@@ -23,13 +23,14 @@ public:
 
     void                        Reset();
 
+    //Only used when traversing backwards along the computed path...
+    PathNodeConnection          *mPathParent;
+    
+    
     PathNode                    *mNode;
-
-    PathNodeConnection          *mParent;
-
+    
     //This is the cost to hop to this node from its parent..
     int                         mCost;
-
     //A* Costs, these are updated / replaced on each search..
     int                         mCostG;
     int                         mCostH;

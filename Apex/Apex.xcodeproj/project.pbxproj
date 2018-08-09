@@ -146,6 +146,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D2972C2211BD07A00C14558 /* PriorityQueue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PriorityQueue.hpp; sourceTree = "<group>"; };
 		0D7B11B7211A34980066CD1E /* TowerDetailMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerDetailMenu.h; sourceTree = "<group>"; };
 		0D7B11B8211A34980066CD1E /* PathNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PathNode.hpp; sourceTree = "<group>"; };
 		0D7B11B9211A34980066CD1E /* GameArenaHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameArenaHelper.cpp; sourceTree = "<group>"; };
@@ -488,6 +489,7 @@
 				0D7B1213211A34980066CD1E /* WorldGestureContainer.hpp */,
 				0D7B11C7211A34980066CD1E /* WorldTransformContainer.cpp */,
 				0D7B1218211A34980066CD1E /* WorldTransformContainer.hpp */,
+				0D2972C2211BD07A00C14558 /* PriorityQueue.hpp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

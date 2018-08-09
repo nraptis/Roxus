@@ -54,9 +54,13 @@ GameArena::GameArena() {
     
     //Load("super_basic_hifi_path_test");
     
-    Load("test_level_1");
+    //Load("test_level_1");
     
-    Load("test_level_1_mod");
+    //Load("test_level_1_mod");
+    
+    
+    Load("map_with_long_path");
+    
     
     //Load("ramps_test_01.xml");
     
