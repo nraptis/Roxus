@@ -160,31 +160,36 @@ void WorldGestureContainer::TouchDown(float pX, float pY, void *pData) {
     }
 
     if (gArena->mTestMode != TEST_MODE_NONE) {
-        float aX = pX;float aY = pY;
-        FCanvas::Convert(aX, aY, this, mWorldTransform);
+        
+        float aX = pX;
+        float aY = pY;
+        mWorldTransform->ConvertPoint(aX, aY, this);
         gArena->TestTouch(aX, aY, pData);
+        
+        //gArena->Click(aX, aY);
+        
+        //float aX = pX;float aY = pY;
+        //FCanvas::Convert(aX, aY, this, mWorldTransform);
+        //gArena->TestTouch(aX, aY, pData);
     }
-
 }
 
 void WorldGestureContainer::TouchMove(float pX, float pY, void *pData) {
 
     if (gArena->mTestMode != TEST_MODE_NONE) {
         float aX = pX;float aY = pY;
-        FCanvas::Convert(aX, aY, this, mWorldTransform);
+        mWorldTransform->ConvertPoint(aX, aY, this);
         gArena->TestDrag(aX, aY, pData);
     }
 
 }
 
 void WorldGestureContainer::TouchUp(float pX, float pY, void *pData) {
-
     if (gArena->mTestMode != TEST_MODE_NONE) {
         float aX = pX;float aY = pY;
         FCanvas::Convert(aX, aY, this, mWorldTransform);
         gArena->TestRelease(aX, aY, pData);
     }
-
 }
 
 void WorldGestureContainer::TouchFlush() {
@@ -213,6 +218,11 @@ void WorldGestureContainer::Notify(void *pSender, const char *pNotification) {
 }
 
 void WorldGestureContainer::PanBegin(float pX, float pY) {
+    
+    if (AllowGestures() == false) {
+        CancelAllGestures();
+        return;
+    }
 
     mWorldPanStartOffsetX = mWorldOffsetX;
     mWorldPanStartOffsetY = mWorldOffsetY;
@@ -229,6 +239,12 @@ void WorldGestureContainer::PanBegin(float pX, float pY) {
 }
 
 void WorldGestureContainer::Pan(float pX, float pY) {
+    
+    if (AllowGestures() == false) {
+        CancelAllGestures();
+        return;
+    }
+    
     mWorldOffsetX = mWorldPanStartOffsetX + mGesturePanDistX;
     mWorldOffsetY = mWorldPanStartOffsetY + mGesturePanDistY;
 
@@ -245,6 +261,12 @@ void WorldGestureContainer::PinchBegin(float pScale) {
     if (gEnvironment == ENV_MAC || gEnvironment == ENV_WIN32) {
         printf("***FATAL ERROR*** [Pinching on Computer]\n");
     }
+    
+    if (AllowGestures() == false) {
+        CancelAllGestures();
+        return;
+    }
+    
 
     mWorldPinchStartTouchCenterX = (mTouch[0]->mX + mTouch[1]->mX) * 0.5f;
     mWorldPinchStartTouchCenterY = (mTouch[0]->mY + mTouch[1]->mY) * 0.5f;
@@ -258,6 +280,11 @@ void WorldGestureContainer::PinchBegin(float pScale) {
 }
 
 void WorldGestureContainer::Pinch(float pScale) {
+    if (AllowGestures() == false) {
+        CancelAllGestures();
+        return;
+    }
+    
     //mWorldPinchStartScale = mWorldScale;
     mWorldScale = mWorldPinchStartScale * pScale;
 }
@@ -287,5 +314,33 @@ void WorldGestureContainer::Rotate(float pRotation) {
 
 void WorldGestureContainer::RotateEnd(float pRotation) {
 
+}
+
+bool WorldGestureContainer::AllowGestures() {
+    if (gArena->mTestMode == TEST_MODE_NONE) {
+        return true;
+    }
+    return false;
+}
+
+void WorldGestureContainer::CancelAllGestures() {
+    
+    /*
+    mWorldPinchStartArenaX = 0.0f;
+    mWorldPinchStartArenaY = 0.0f;
+    mWorldPinchStartTouchCenterX = 0.0f;
+    mWorldPinchStartTouchCenterY = 0.0f;
+    mWorldPanStartOffsetX = 0.0f;
+    mWorldPanStartOffsetY = 0.0f;
+    
+    mWorldPinchStartTouchCenterX = 0.0f;
+    mWorldPinchStartTouchCenterY = 0.0f;
+    mWorldPinchTouchCenterX = 0.0f;
+    mWorldPinchTouchCenterY = 0.0f;
+    mWorldPinchStartArenaX = 0.0f;
+    mWorldPinchStartArenaY = 0.0f;
+    */
+    
+    
 }
 

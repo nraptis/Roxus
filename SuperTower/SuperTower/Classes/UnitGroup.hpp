@@ -35,7 +35,8 @@ public:
 
     void                            AddUnit(Unit *pUnit);
     bool                            RemoveUnit(Unit *pUnit);
-
+    
+    void                            DrawConnections(bool pSelected);
 
     
 };

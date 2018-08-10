@@ -37,8 +37,6 @@ WorldContainer::WorldContainer() {
     mGestureContainer->AddChild(mTransformContainer);
     mGestureContainer->mWorldTransform = mTransformContainer;
 
-
-
     if (gEditorMode) {
         gEditor = new EditorGameArena();
         mArena = gEditor;
@@ -47,12 +45,14 @@ WorldContainer::WorldContainer() {
     } else {
         mArena = new GameArena();
 
-        //mTestMenu = new WorldMenu(this);
-        //AddChild(mTestMenu);
+        if ((gEnvironment != ENV_IPHONE) && (gEnvironment != ENV_ANDROID)) {
+            mTestMenu = new WorldMenu(this);
+            AddChild(mTestMenu);
+        }
 
         mTimelineMenu = new TimelineMenu();
         AddChild(mTimelineMenu);
-
+        
         mArenaMenu = new ArenaMenu();
         AddChild(mArenaMenu);
     }
@@ -79,7 +79,7 @@ void WorldContainer::Layout() {
             float aMaxHeight = gDeviceHeight * 0.45f;
             if (aHeight > aMaxHeight) { aHeight = aMaxHeight; }
 
-            float aTimelineHeight = 80.0f;
+            float aTimelineHeight = 154.0f;
             
             if (mEditorMenu) {
                 if (mEditorMenu->mExpanded) {

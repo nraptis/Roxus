@@ -26,32 +26,10 @@ void TilePathFinderHeap::Reset() {
 }
 
 bool TilePathFinderHeap::Contains(PathNodeConnection *pConnection) {
-
-    bool aResult = false;
-    for (int i=0;i<mCount;i++) {
-        if( mData[i] == pConnection) {
-            aResult = true;
-        }
-    }
-    return aResult;
-    //return mHashMap.Exists(pConnection);
+    return mHashMap.Exists(pConnection);
 }
 
 void TilePathFinderHeap::Add(PathNodeConnection *pConnection) {
-
-    if (mCount == mSize) {
-        mSize = mSize + mSize / 2 + 1;
-        PathNodeConnection **aData = new PathNodeConnection*[mSize];
-        for (int i=0;i<mCount;i++) { aData[i] = mData[i]; }
-        delete [] mData;
-        mData = aData;
-    }
-    mData[mCount] = pConnection;
-    mCount++;
-
-    /*
-
-
     mHashMap.Add(pConnection, pConnection);
     if (mCount == mSize) {
         mSize = mSize + mSize / 2 + 1;
@@ -77,32 +55,9 @@ void TilePathFinderHeap::Add(PathNodeConnection *pConnection) {
         aParentIndex = (aBubbleIndex - 1) >> 1;
     }
 
-    */
-
 }
 
 PathNodeConnection *TilePathFinderHeap::Pop() {
-
-    PathNodeConnection *aResult = 0;
-    int aMinCost = 2147483647;
-    int aMinIndex = -1;
-    for (int i=0;i<mCount;i++) {
-        PathNodeConnection *aCheck = mData[i];
-        if (aCheck->mCostTotal < aMinCost) {
-            aMinCost = aCheck->mCostTotal;
-            aResult = aCheck;
-            aMinIndex = i;
-        }
-    }
-    if (aResult) {
-        for (int i=(aMinIndex + 1);i<mCount;i++) {
-            mData[i - 1] = mData[i];
-        }
-        mCount--;
-    }
-    return aResult;
-
-    /*
     PathNodeConnection *aResult = mData[0];
     mCount -= 1;
     mData[0] = mData[mCount];
@@ -131,7 +86,89 @@ PathNodeConnection *TilePathFinderHeap::Pop() {
 
     mHashMap.Remove(aResult);
     return aResult;
-    */
 }
 
+/*
+bool TilePathFinderHeap::Contains(PathNodeConnection *pConnection) {
+    return mHashMap.Exists(pConnection);
+}
+
+void TilePathFinderHeap::Add(PathNodeConnection *pConnection) {
+    mHashMap.Add(pConnection, pConnection);
+
+    if (mCount == mSize) {
+        mSize = mSize + mSize / 2 + 1;
+        PathNodeConnection **aData = new PathNodeConnection*[mSize];
+        for (int i=0;i<mCount;i++) { aData[i] = mData[i]; }
+        delete [] mData;
+        mData = aData;
+    }
+    
+    mData[mCount] = pConnection;
+    mCount += 1;
+    HeapSiftUp(mCount - 1);
+}
+
+
+
+PathNodeConnection *TilePathFinderHeap::Pop() {
+    PathNodeConnection *aResult = mData[0];
+    mData[0] = mData[mCount - 1];
+    mCount -= 1;
+
+    HeapSiftDown(0);
+
+    mHashMap.Remove(aResult);
+    return aResult;
+}
+*/
+
+/*
+void TilePathFinderHeap::HeapSiftUp(int pIndex) {
+    int aIndex = pIndex;
+    int aParentIndex = GetParentIndex(pIndex);
+    PathNodeConnection *aHold = NULL;
+
+    while (pIndex > 0 && mData[aParentIndex]->mCostTotal > mData[aIndex]->mCostTotal) {
+        aHold = mData[aIndex];
+        mData[aIndex] = mData[aParentIndex];
+        mData[aParentIndex] = aHold;
+        aIndex = aParentIndex;
+        aParentIndex = (aIndex - 1) / 2;
+    }
+}
+
+// 0  1  2    3 4   5 6
+void TilePathFinderHeap::HeapSiftDown(int pIndex) {
+
+    PathNodeConnection *aHold = NULL;
+
+    int aIndex = pIndex;
+    int leftChildIndex, rightChildIndex, minIndex;
+
+    leftChildIndex = GetLeftChildIndex(pIndex);
+    rightChildIndex = GetRightChildIndex(pIndex);
+
+    if (rightChildIndex >= mCount) {
+        if (leftChildIndex >= mCount) {
+            return;
+        } else {
+            minIndex = leftChildIndex;
+        }
+    } else {
+        if (mData[leftChildIndex]->mCostTotal <= mData[rightChildIndex]->mCostTotal)
+            minIndex = leftChildIndex;
+        else
+            minIndex = rightChildIndex;
+
+    }
+
+    if (mData[aIndex] > mData[minIndex]) {
+        aHold = mData[minIndex];
+        mData[minIndex] = mData[aIndex];
+        mData[aIndex] = aHold;
+        HeapSiftDown(minIndex);
+    }
+}
+*/
 

@@ -11,13 +11,17 @@
 
 PathNodeConnection::PathNodeConnection() {
     Reset();
+    mListPrev = NULL;
+    mListNext = NULL;
+    mTableNext = NULL;
+    mTableIndex = -1;
 }
 
 PathNodeConnection::~PathNodeConnection() { }
 
 void PathNodeConnection::Reset() {
-    mNode = 0;
-    mParent = 0;
+    mNode = NULL;
+    mPathParent = NULL;
     mCost = 0;
     mCostG = 0;
     mCostH = 0;

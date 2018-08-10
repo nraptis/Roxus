@@ -49,7 +49,7 @@ Unit::Unit() {
     mDestinationGridY = -1;
     mDestinationGridZ = -1;
     
-    mWalkSpeed = gRand.GetFloat(1.25f, 4.0f);
+    mWalkSpeed = 0.025f;
 
     mHPMax = 200;
     mHP = mHPMax;
@@ -97,7 +97,9 @@ void Unit::Update() {
     if (mIsSleeping == false) {
         if (mIsLeader) {
             if (mIsWalking == false && mPath != NULL) {
-                AttemptToAdvanceToNextPathSegment(0.0f);
+                if (AttemptToAdvanceToNextPathSegment(0.0f)) {
+                    gArena->UnitDidStartWalkingFromIdle(this);
+                }
             }
         }
     }
@@ -109,6 +111,7 @@ void Unit::Update() {
         float aDirX = mMoveEndX - mX;
         float aDirY = mMoveEndY - mY;
 
+        
         float aOvershoot = mWalkSpeed;
         bool aGoToNextSegment = false;
 
@@ -382,7 +385,13 @@ void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTil
     
     mX = gArena->GetUnitGridX(mGridX, mGridY, mGridZ);
     mY = gArena->GetUnitGridY(mGridX, mGridY, mGridZ);
-
+    
+    mMoveStartX = mX;
+    mMoveStartY = mY;
+    
+    mMoveEndX = mX;
+    mMoveEndY = mY;
+    
     //Our Destination should be the center node of the end tile..
     mDestinationNode = pDestinationNode;
     mDestinationGridX = pDestinationNode->mGridX;

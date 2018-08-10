@@ -11,6 +11,10 @@
 
 #define TEST_MODE_NONE 0
 #define TEST_MODE_UNIT_GROUP_CREATE 1
+#define TEST_MODE_UNIT_GROUP_SELECT 2
+#define TEST_MODE_ITEM_CREATE 3
+#define TEST_MODE_ITEM_SELECT 4
+#define TEST_MODE_UNIT_SPAWN 5
 
 
 #include "GLApp.hpp"
@@ -42,6 +46,7 @@ public:
 
 
     virtual void                                Draw();
+    
 
     void                                        UpdateBody();
 
@@ -124,6 +129,8 @@ public:
 
     void                                        DrawGridOverlay();
     void                                        DrawGridSelection();
+    void                                        DrawPathableNodes();
+    
     
     virtual void                                Click(float pX, float pY);
 
@@ -133,11 +140,37 @@ public:
     void                                        TestFlush();
 
 
-
-
     GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
 
     PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
+    
+    
+    FRect                                       GetRectForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ);
+    
+    GameTile                                    *GetTopTileForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ);
+    
+    //If there are multiple tiles for a particular node, we get all of the tiles
+    // (max of 2) for the given node...
+    void                                        GetAllTilesForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ, FList *pList);
+    
+    
+    LevelPath                                   *GetPathForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ);
+    
+    
+    LevelPath                                   *GetPathForGridPos(int pTileGridX, int pTileGridY, int pTileGridZ);
+    
+    
+    
+    
+    
+    
+    
+    
+    //Get the closest valid node to a particular screen location....
+    //There is one rule always enforce - the node must be on a tile...
+    PathNode                                    *GetClosestNode(float pX, float pY, bool pAllowBlocked, bool pAllowOccupied, bool pAllowRamps);
+    
+    
 
     PathNode                                    *GetEndNodeForPath(LevelPath *pPath);
     PathNode                                    *GetEndNodeForTile(GameTile *pTile);
@@ -171,6 +204,14 @@ public:
     //Okay, by the time we get to here, we are guaranteed to have
     //a previous grid location and current grid location...
     void                                        UnitDidFinishWalkingStep(Unit *pUnit);
+    
+    
+    //Our leader unit was asleep, and we just started walking. Make sure
+    //all the minnion follower units are in LEGAL positions, and figure out which
+    //ones are clumped up at start node versus not clumped up...
+    void                                        UnitDidStartWalkingFromIdle(Unit *pUnit);
+    
+    
 
     FList                                       mUnitList;
 
@@ -215,6 +256,8 @@ public:
     //Or... we might want to do it without any unit group in consideration...
     //For placement, we don't consider the look-ahead, only the current position...
     void                                        ConfigureGridConnectionsForPlacement();
+    
+    void                                        ConfigureGridConnectionsIgnoringUnits();
     
     void                                        OccupyGridForUnit(Unit *pUnit, int pLookAhead=2);
 
@@ -281,6 +324,20 @@ public:
     void                                        TestModeDidChange(int pPreviousMode, int pCurrentMode);
 
 
+    UnitGroup                                   *mTestCreateGroup;
+    UnitGroup                                   *mTestSelectedGroup;
+    
+    bool                                        mTestGroupShowPath;
+    bool                                        mTestGroupShowAllPath;
+    
+    int                                         mTestUnitGridX;
+    int                                         mTestUnitGridY;
+    
+    float                                       mTestMouseX;
+    float                                       mTestMouseY;
+    
+    
+    //TEST_MODE_UNIT_GROUP_CREATE
 
 
 

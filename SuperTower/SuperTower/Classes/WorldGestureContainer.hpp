@@ -49,6 +49,10 @@ public:
     virtual void                                    RotateStart(float pRotation);
     virtual void                                    Rotate(float pRotation);
     virtual void                                    RotateEnd(float pRotation);
+    
+    bool                                            AllowGestures();
+    void                                            CancelAllGestures();
+    
 
     WorldTransformContainer                         *mWorldTransform;
 

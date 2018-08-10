@@ -35,7 +35,7 @@ void UnitPath::ComputePath(GameArena *pArena) {
     if (aConnection) {
         mLength = 0;
         while (aConnection) {
-            aConnection = aConnection->mParent;
+            aConnection = aConnection->mPathParent;
             mLength++;
         }
         if (mLength >= mSize) {
@@ -52,7 +52,7 @@ void UnitPath::ComputePath(GameArena *pArena) {
             mPathY[aIndex] = aConnection->mNode->mGridY;
             mPathZ[aIndex] = aConnection->mNode->mGridZ;
 
-            aConnection = aConnection->mParent;
+            aConnection = aConnection->mPathParent;
             aIndex--;
         }
 

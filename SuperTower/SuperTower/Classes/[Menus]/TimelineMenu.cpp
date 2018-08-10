@@ -1,22 +1,22 @@
 //
-//  ArenaMenu.cpp
+//  TimelineMenu.cpp
 //  SuperTower
 //
-//  Created by Raptis, Nicholas on 8/7/18.
+//  Created by Raptis, Nicholas on 8/5/18.
 //  Copyright © 2018 Raptis, Nicholas. All rights reserved.
 //
 
-#include "ArenaMenu.hpp"
+#include "TimelineMenu.hpp"
 #include "WorldContainer.hpp"
 #include "PGMainCanvas.hpp"
 #include "FApp.hpp"
 
-ArenaMenu::ArenaMenu() : ToolMenu() {
-    mName = "ArenaMenu";
+TimelineMenu::TimelineMenu() : ToolMenu() {
+    mName = "TimelineMenu";
 
-    SetTitle("Arena Stuff");
+    SetTitle("Timeline");
     SetScrollMode(true);
-    
+
     mFrameRow = new ToolMenuSectionRow();
     AddSection(mFrameRow);
 
@@ -24,12 +24,10 @@ ArenaMenu::ArenaMenu() : ToolMenu() {
     mPlayCheckBox->SetText("Updates Enabled");
     mPlayCheckBox->SetTarget(&gArena->mUpdateEnabled);
 
-
-
     mFrameRow->AddCheckBox(mPlayCheckBox);
 
     mOneFrameButton = new UIButton();
-    mOneFrameButton->SetText(">");
+    mOneFrameButton->SetText("Frame++");
     mFrameRow->AddButton(mOneFrameButton);
 
     mSpeedSegment = new UISegment(5);
@@ -40,30 +38,19 @@ ArenaMenu::ArenaMenu() : ToolMenu() {
     DeactivateCloseButton();
 }
 
-ArenaMenu::~ArenaMenu() {
+TimelineMenu::~TimelineMenu() {
 
 }
 
-void ArenaMenu::Layout() {
+void TimelineMenu::Layout() {
     ToolMenu::Layout();
-
 }
 
-
-void ArenaMenu::Notify(void *pSender, const char *pNotification) {
+void TimelineMenu::Notify(void *pSender, const char *pNotification) {
     if (FString(pNotification) == "button_click") {
-
         if (pSender == mOneFrameButton) {
             gArena->UpdateOneFrame();
         }
-
-    }
-
-    //
-
-    if (FString(pNotification) == "segment") {
-        UISegment *aSegment = (UISegment *)pSender;
-
     }
 }
 
