@@ -12,9 +12,9 @@ TilePathFinderHeap::TilePathFinderHeap() {
     mCount = 0;
     mData = NULL;
 
-    mHashListHead = NULL;
-    mHashListTail = NULL;
-    mTableSize = 31033;
+    mLoops = 0;
+
+    mTableSize = 15149;
     mTable = new PathNodeConnection*[mTableSize];
     for (int i=0;i<mTableSize;i++) {
         mTable[i] = NULL;
@@ -26,21 +26,56 @@ TilePathFinderHeap::~TilePathFinderHeap() {
     mData = NULL;
     mSize = 0;
     mCount = 0;
+
+    delete [] mTable;
+    mTable = 0;
+    mTableSize = 0;
 }
 
 void TilePathFinderHeap::Reset() {
-    HashRemoveAll();
+    for (int i=0;i<mTableSize;i++) { mTable[i] = NULL; }
     mCount = 0;
+    mLoops = 0;
 }
 
 bool TilePathFinderHeap::Contains(PathNodeConnection *pConnection) {
-    return HashExists(pConnection);
+    unsigned int aHash = (FHashMap::Hash(pConnection) % mTableSize);
+    PathNodeConnection *aConnection = mTable[aHash];
+    bool aResult = false;
+    while (aConnection != NULL && aResult == false) {
+        mLoops += 1;
+        aResult = (aConnection == pConnection);
+        aConnection = aConnection->mHashTableNext;
+    }
+    return aResult;
 }
 
 void TilePathFinderHeap::Add(PathNodeConnection *pConnection) {
 
-    HashAdd(pConnection);
-    
+    if (Contains(pConnection)) {
+        printf("Fatal Error: Contains Conn...\n\n");
+    }
+
+    PathNodeConnection *aConnection = 0;
+    PathNodeConnection *aHold = 0;
+    unsigned int aHash = (FHashMap::Hash(pConnection) % mTableSize);
+    pConnection->mHashTableNext = NULL;
+    if (mTable[aHash]) {
+        aConnection = mTable[aHash];
+        while (aConnection) {
+            mLoops += 1;
+            aHold = aConnection;
+            aConnection = aConnection->mHashTableNext;
+        }
+        mLoops += 1;
+        aHold->mHashTableNext = pConnection;
+    } else {
+        mLoops += 1;
+        mTable[aHash] = pConnection;
+    }
+
+    //...
+
     if (mCount == mSize) {
         mSize = mSize + mSize / 2 + 1;
         PathNodeConnection **aData = new PathNodeConnection*[mSize];
@@ -54,6 +89,7 @@ void TilePathFinderHeap::Add(PathNodeConnection *pConnection) {
     PathNodeConnection *aSwapHold = NULL;
     unsigned int aParentIndex = (aBubbleIndex - 1) / 2;
     while (aBubbleIndex > 0 && mData[aBubbleIndex]->mCostTotal < mData[aParentIndex]->mCostTotal) {
+        mLoops += 1;
         aSwapHold = mData[aBubbleIndex];
         mData[aBubbleIndex] = mData[aParentIndex];
         mData[aParentIndex] = aSwapHold;
@@ -74,6 +110,7 @@ PathNodeConnection *TilePathFinderHeap::Pop() {
     unsigned int aRightChild = aLeftChild + 1;
     unsigned int aMinChild = aLeftChild;
     while (aLeftChild < mCount) {
+        mLoops += 1;
         if (aRightChild < mCount && mData[aRightChild]->mCostTotal < mData[aLeftChild]->mCostTotal) {
             aMinChild = aRightChild;
         }
@@ -90,162 +127,27 @@ PathNodeConnection *TilePathFinderHeap::Pop() {
         }
     }
 
-    HashRemove(aResult);
-
-    return aResult;
-}
-
-void TilePathFinderHeap::HashAdd(PathNodeConnection *pConnection) {
-    //mHashMap.Add(pConnection, pConnection);
 
 
-    pConnection->mHashListNext = NULL;
-    pConnection->mHashListPrev = NULL;
-    pConnection->mHashTableNext = NULL;
 
-    PathNodeConnection *aConnection = 0;
-    PathNodeConnection *aHold = 0;
-
-    unsigned int aHash = (FHashMap::Hash(pConnection) % mTableSize);
-
-    pConnection->mHashTableNext = NULL;
-    pConnection->mHashTableIndex = aHash;
-    if (mTable[aHash]) {
-        aConnection = mTable[aHash];
-        while (aConnection) {
-            aHold = aConnection;
-            aConnection = aConnection->mHashTableNext;
-        }
-        aHold->mHashTableNext = pConnection;
-    } else {
-        mTable[aHash] = pConnection;
-    }
-
-    pConnection->mHashListNext = 0;
-    if (mHashListHead == 0) {
-        mHashListHead = pConnection;
-        mHashListTail = pConnection;
-        pConnection->mHashListPrev = 0;
-    } else {
-        pConnection->mHashListPrev = mHashListTail;
-        mHashListTail->mHashListNext = pConnection;
-        mHashListTail = pConnection;
-    }
-}
-
-void TilePathFinderHeap::HashRemove(PathNodeConnection *pConnection) {
-    //mHashMap.Remove(pConnection);
-
-
-    unsigned int aHash = (FHashMap::Hash(pConnection) % mTableSize);
+    unsigned int aHash = (FHashMap::Hash(aResult) % mTableSize);
     PathNodeConnection *aPreviousConnection = NULL;
     PathNodeConnection *aConnection = mTable[aHash];
-    while (aConnection) {
-        if (aConnection == pConnection) {
-
+    bool aFound = false;
+    while (aConnection != NULL && aFound == false) {
+        mLoops += 1;
+        if (aConnection == aResult) {
             if (aPreviousConnection) {
                 aPreviousConnection->mHashTableNext = aConnection->mHashTableNext;
             } else {
                 mTable[aHash] = aConnection->mHashTableNext;
             }
-
-            if (pConnection == mHashListHead) {
-                if (mHashListHead->mHashListNext) {
-                    mHashListHead = mHashListHead->mHashListNext;
-                    mHashListHead->mHashListPrev = NULL;
-                } else {
-                    mHashListTail = NULL;
-                    mHashListHead = NULL;
-                }
-            } else if(pConnection == mHashListTail) {
-                mHashListTail = mHashListTail->mHashListPrev;
-                mHashListTail->mHashListNext = NULL;
-            } else {
-                pConnection->mHashListPrev->mHashListNext = pConnection->mHashListNext;
-                pConnection->mHashListNext->mHashListPrev = pConnection->mHashListPrev;
-            }
-
-            pConnection->mHashListPrev = NULL;
-            pConnection->mHashListNext = NULL;
-
-            /*
-            if (pConnection == mHashListHead) {
-                if (mHashListHead->mHashListNext != NULL) {
-                    mHashListHead = mHashListHead->mHashListNext;
-                    mHashListHead->mHashListPrev = NULL;
-                } else {
-                    mHashListTail = NULL;
-                    mHashListHead = NULL;
-                }
-            } else if(pConnection == mHashListTail) {
-                mHashListTail = mHashListTail->mHashListPrev;
-                mHashListTail->mHashListNext = NULL;
-            } else {
-                pConnection->mHashListPrev->mHashListNext = pConnection->mHashListNext;
-                pConnection->mHashListNext->mHashListPrev = pConnection->mHashListPrev;
-            }
-            pConnection->mHashListPrev = NULL;
-            pConnection->mHashListNext = NULL;
-            */
-
-            return;
+            aFound = true;
         }
         aPreviousConnection = aConnection;
         aConnection = aConnection->mHashTableNext;
     }
 
 
-}
-
-bool TilePathFinderHeap::HashExists(PathNodeConnection *pConnection) {
-
-    //return mHashMap.Exists(pConnection);
-
-    unsigned int aHash = (FHashMap::Hash(pConnection) % mTableSize);
-
-    //Fast lookup?
-    //if (mTable[aHash] == pConnection) { return true; }
-
-    PathNodeConnection *aConnection = mTable[aHash];
-    bool aResult = false;
-    while (aConnection != NULL && aResult == false) {
-        aResult = (aConnection == pConnection);
-        aConnection = aConnection->mHashTableNext;
-    }
     return aResult;
-
 }
-
-void TilePathFinderHeap::HashRemoveAll() {
-    //mHashMap.RemoveAll();
-
-    //
-    //
-    //for (int i=0;i<mTableSize;i++) { mTable[i] = NULL; }
-    //
-    //
-
-    int aLoops = 0;
-    PathNodeConnection *aConnection = mHashListHead;
-    while (aConnection) {
-        printf(" (%d) (C=%d) Setting Table[%d] to NULL\n", aLoops, mCount, aConnection->mHashTableIndex);
-        mTable[aConnection->mHashTableIndex] = NULL;
-        aConnection = aConnection->mHashListNext;
-               aLoops++;
-    }
-
-    aLoops = 0;
-
-    for (int i=0;i<mTableSize;i++) {
-        if (mTable[i] != NULL) {
-            printf("Failed To Remove [%d] @ (%d) ...\n", aLoops, FHashMap::Hash(mTable[i]) % mTableSize);
-            aLoops++;
-        }
-
-    }
-
-    mHashListHead = NULL;
-    mHashListTail = NULL;
-}
-
-

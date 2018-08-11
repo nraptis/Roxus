@@ -44,6 +44,10 @@ void GameTile::Update() {
 
 void GameTile::Draw() {
 
+    if (mDisabled) {
+        return;
+    }
+
     FSprite *aAccessory = 0;
     FSprite *aTile = 0;
 

@@ -11,17 +11,16 @@
 
 PathNodeConnection::PathNodeConnection() {
     Reset();
-    mHashListPrev = NULL;
-    mHashListNext = NULL;
-    mHashTableNext = NULL;
-    mHashTableIndex = -1;
 }
 
-PathNodeConnection::~PathNodeConnection() { }
+PathNodeConnection::~PathNodeConnection() {
+
+}
 
 void PathNodeConnection::Reset() {
     mNode = NULL;
     mPathParent = NULL;
+    mHashTableNext = NULL;
     mCost = 0;
     mCostG = 0;
     mCostH = 0;
@@ -41,11 +40,6 @@ PathNode::PathNode() {
 }
 
 PathNode::~PathNode() { }
-
-//void PathNode::SetUp(int pGridX, int pGridY, int pGridZ) {
-//    mGridX = pGridX;mGridY = pGridY;mGridZ = pGridZ;
-//    mCenterX = CX(pGridX, pGridZ);mCenterY = CY(pGridY, pGridZ);
-//}
 
 void PathNode::HardReset() {
     mBlocked = false;

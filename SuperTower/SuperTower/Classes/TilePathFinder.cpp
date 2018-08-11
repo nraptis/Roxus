@@ -19,13 +19,18 @@ TilePathFinder::~TilePathFinder() {
     mPathEnd = 0;
 }
 
+
 bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     bool aResult = false;
+
+    printf("Pathing From [%d %d %d] => [%d %d %d]\n", pStart->mGridX, pStart->mGridY, pStart->mGridZ, pEnd->mGridX, pEnd->mGridY, pEnd->mGridZ);
 
     mOpenList.Reset();
     mClosedList.Reset();
     
     mPathEnd = 0;
+    int aPathLoops = 0;
+
 
     if (pStart != 0 && pEnd != 0) {
         int aEndX = pEnd->mGridX;
@@ -55,13 +60,20 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
         
         while (mOpenList.mCount > 0) {
             aCurrent = mOpenList.Pop();
-            mClosedList.Add(aCurrent);
+
+            if (mClosedList.Contains(aCurrent)) {
+                return false;
+            } else {
+                mClosedList.Add(aCurrent);
+            }
+            
             aNode = aCurrent->mNode;
             if(aNode->mGridX == aEndX && aNode->mGridY == aEndY && aNode->mGridZ == aEndZ) {
                 mPathEnd = aCurrent;
                 break;
             } else {
                 for (int k=0;k<aNode->mPathConnectionCount;k++) {
+                    aPathLoops++;
                     aConnection = &(aNode->mPathConnection[k]);
                     int aCostG = aCurrent->mCostG + aConnection->mCost;
                     //TODO: Speed-up this lookup.
@@ -84,7 +96,6 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
             }
         }
     }
+    printf("Total Path Loops: %d Open[%d] Closed[%d]\n", aPathLoops, mOpenList.mLoops, mClosedList.mLoops);
     return aResult;
 }
-
-

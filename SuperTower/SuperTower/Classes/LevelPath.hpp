@@ -20,8 +20,6 @@ public:
     
     LevelPath();
     ~LevelPath();
-
-    TilePathFinder                      mPathFinder;
     
     virtual void                        ComputePath(GameArena *pArena);
 

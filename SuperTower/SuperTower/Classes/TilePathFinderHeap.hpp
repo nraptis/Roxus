@@ -28,17 +28,10 @@ public:
     int                                 mCount;
     PathNodeConnection                  **mData;
     
-    FHashMap                            mHashMap;
-
-    void                                HashAdd(PathNodeConnection *pConnection);
-    void                                HashRemove(PathNodeConnection *pConnection);
-    bool                                HashExists(PathNodeConnection *pConnection);
-    void                                HashRemoveAll();
-
-    PathNodeConnection                  *mHashListHead;
-    PathNodeConnection                  *mHashListTail;
     PathNodeConnection                  **mTable;
     int                                 mTableSize;
+
+    int                                 mLoops;
 };
 
 #endif

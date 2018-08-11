@@ -14,10 +14,6 @@
 #include "WorldContainer.hpp"
 #include "PriorityQueue.hpp"
 
-#include "TilePathFinderHeapOld.hpp"
-#include "TilePathFinderHeap.hpp"
-
-
 float gArenaWidth = 512.0f;
 float gArenaWidth2 = 256.0f;
 float gArenaHeight = 512.0f;
@@ -41,157 +37,10 @@ GLApp *gApp = 0;
 GLApp::GLApp() {
     gApp = this;
     mWorld = 0;
-
+    
     //TODO: Twiddle
     //mDarkMode = false;
     mDarkMode = false;
-
-
-    TilePathFinderHeapOld aHeapOld;
-    TilePathFinderHeap aHeap;
-
-    for (int i=0;i<500;i++) {
-
-        PathNodeConnection *aCon = new PathNodeConnection();
-        aCon->mCostTotal = gRand.Get(-2000, 2000);
-
-        aHeapOld.Add(aCon);
-        aHeap.Add(aCon);
-    }
-
-
-    int aPopIter = 0;
-    for (int i=50;i<500;i+=3) {
-
-        PathNodeConnection *aPop1 = aHeapOld.Pop();
-        PathNodeConnection *aPop2 = aHeap.Pop();
-        if (aPop1->mCostTotal != aPop2->mCostTotal) {
-            printf("1.0 [%d] - Mismatch [%d] vs [%d]\n", aPopIter, aPop1->mCostTotal, aPop2->mCostTotal);
-        }
-        aPopIter += 1;
-    }
-
-
-    for (int i=0;i<200;i++) {
-        PathNodeConnection *aCon = new PathNodeConnection();
-        aCon->mCostTotal = gRand.Get(-5000, 5000);
-        aHeapOld.Add(aCon);
-        aHeap.Add(aCon);
-    }
-
-    /*
-    aPopIter = 0;
-    for (int i=3;i<500;i+=3) {
-
-        PathNodeConnection *aPop1 = aHeapOld.Pop();
-        PathNodeConnection *aPop2 = aHeap.Pop();
-        if (aPop1->mCostTotal != aPop2->mCostTotal) {
-            printf("2.0 [%d] - Mismatch [%d] vs [%d]\n", aPopIter, aPop1->mCostTotal, aPop2->mCostTotal);
-        }
-
-        aPopIter += 1;
-    }
-    */
-
-
-    aHeapOld.Reset();
-    aHeap.Reset();
-
-    for (int i=0;i<1110;i++) {
-
-        PathNodeConnection *aCon = new PathNodeConnection();
-        aCon->mCostTotal = gRand.Get(-2000, 2000);
-
-        aHeapOld.Add(aCon);
-        aHeap.Add(aCon);
-    }
-
-    aHeapOld.Reset();
-    aHeap.Reset();
-
-
-    for (int i=0;i<111;i++) {
-
-        PathNodeConnection *aCon = new PathNodeConnection();
-        aCon->mCostTotal = gRand.Get(-2000, 2000);
-
-        aHeapOld.Add(aCon);
-        aHeap.Add(aCon);
-    }
-
-    aHeapOld.Reset();
-    aHeap.Reset();
-
-    //exit(0);
-
-//#include "TilePathFinderHeapOld.hpp"
-//#include "TilePathFinderHeap.hpp"
-
-
-    
-    /*
-    PriorityQueue aQueue;
-    void *aObj1 = (void *)0xDEADBEE0;
-    void *aObj2 = (void *)0xDEADBEE1;
-    void *aObj3 = (void *)0xDEADBEE2;
-    void *aObj4 = (void *)0xDEADBEE3;
-    void *aObj5 = (void *)0xDEADBEE4;
-    void *aObj6 = (void *)0xDEADBEE5;
-    void *aObj7 = (void *)0xBEEADD01;
-    void *aObj8 = (void *)0xBEEADD02;
-    void *aObj9 = (void *)0xBEEADD03;
-    void *aObj10 = (void *)0xBEEADD04;
-    
-    
-    for (int q=0;q<256;q++) {
-    
-    
-    aQueue.Enqueue(aObj1, 4);
-    aQueue.Enqueue(aObj2, 5);
-    aQueue.Enqueue(aObj3, 2);
-    aQueue.Enqueue(aObj4, 7);
-    aQueue.Enqueue(aObj5, 10);
-    aQueue.Enqueue(aObj6, -1);
-        
-    for (int i=0;i<3;i++) {
-        void *aObj = aQueue.Dequeue();
-        printf("Deq1[%d] = %lX\n", i, aObj);
-        
-    }
-    
-    aQueue.Enqueue(aObj7, 4);
-    aQueue.Enqueue(aObj8, 5);
-    aQueue.Enqueue(aObj9, 2);
-    aQueue.Enqueue(aObj10, 7);
-    
-    for (int i=0;i<10;i++) {
-        void *aObj = aQueue.Dequeue();
-        printf("Deq2[%d] = %lX\n", i, aObj);
-        
-    }
-        
-        int aCap1 = gRand.Get(1000);
-        int aCap2 = gRand.Get(1000);
-        
-        for (int i=0;i<aCap1;i++) {
-            aQueue.Enqueue((void *)gRand.Get(1000), gRand.Get(20));
-        }
-        
-        for (int i=0;i<aCap2;i++) {
-            void *aObj = aQueue.Dequeue();
-            printf("Dequeue[%lX]\n", aObj);
-        }
-        
-        
-        
-        
-    }
-    
-    
-    exit(0);
-    */
-     
-    
 }
 
 GLApp::~GLApp() {

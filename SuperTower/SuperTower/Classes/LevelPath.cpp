@@ -36,8 +36,8 @@ LevelPath::~LevelPath() {
 void LevelPath::ComputePath(GameArena *pArena) {
     GameTile *aStartTile = pArena->GetTile(mStartX, mStartY, mStartZ);
     GameTile *aEndTile = pArena->GetTile(mEndX, mEndY, mEndZ);
-    mPathFinder.FindPath(aStartTile, aEndTile);
-    PathNodeConnection *aConnection = mPathFinder.mPathEnd;
+    gArena->mTilePathFinder.FindPath(aStartTile, aEndTile);
+    PathNodeConnection *aConnection = gArena->mTilePathFinder.mPathEnd;
     if (aConnection) {
         mLength = 0;
         while (aConnection) {
@@ -52,7 +52,7 @@ void LevelPath::ComputePath(GameArena *pArena) {
             mPathZ = mPathY + mSize;
         }
         int aIndex = mLength - 1;
-        aConnection = mPathFinder.mPathEnd;
+        aConnection = gArena->mTilePathFinder.mPathEnd;
         while (aConnection) {
             mPathX[aIndex] = aConnection->mNode->mGridX;
             mPathY[aIndex] = aConnection->mNode->mGridY;
@@ -222,8 +222,9 @@ void LevelPath::AddSmooth(float pX, float pY, float pZ, int pGridX, int pGridY, 
     mSmoothPathDrawZ[mSmoothLength] = pGridZ;
     
     mSmoothLength++;
-    
+
 }
+
 */
 
 FXMLTag *LevelPath::Save() {

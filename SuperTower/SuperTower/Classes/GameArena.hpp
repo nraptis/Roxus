@@ -16,7 +16,6 @@
 #define TEST_MODE_ITEM_SELECT 4
 #define TEST_MODE_UNIT_SPAWN 5
 
-
 #include "GLApp.hpp"
 #include "GameTile.hpp"
 #include "AnimatedLevelPath.hpp"
@@ -28,10 +27,6 @@
 #include "FXML.h"
 #include "FObject.h"
 #include "GameArenaHelper.hpp"
-
-#define GRID_DEPTH 3
-//#define SUBTILES_PER_TILE 5
-
 
 #define MAIN_FLOOR 1
 
@@ -54,6 +49,9 @@ public:
 
     GameArenaHelper                             mHelper;
 
+    TilePathFinder                              mTilePathFinder;
+    TilePathFinder                              mUnitPathFinder;
+    
 
     bool                                        mUpdateEnabled;
     int                                         mUpdateSpeedIndex;
@@ -69,6 +67,13 @@ public:
     
     //Our main "grid" of tiles...
     GameTile                                    ****mTile;
+    
+    //GRID_DEPTH
+    //MAX_TILE_GRID_WIDTH
+    //MAX_TILE_GRID_HEIGHT
+    //MAX_UNIT_GRID_WIDTH
+    //MAX_UNIT_GRID_HEIGHT
+
 
     //The grid that we use for pathfinding, etc - these are clones of the objects in mUnitGridBase...
     PathNode                                    ****mUnitGrid;

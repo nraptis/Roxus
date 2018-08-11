@@ -3209,6 +3209,16 @@ void GameArena::RefreshUnitGridNodes() {
             }
         }
     }
+
+    /*
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
+            for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
+                mUnitGrid[aDepth][aGridX][aGridY]->SetConnectionGridPositions(aGridX, aGridY, aDepth);
+            }
+        }
+    }
+    */
 }
 
 void GameArena::UpdateOneFrame() {
@@ -3330,7 +3340,10 @@ void GameArena::GenerateUnitGrid() {
         }
     }
     printf("Unit Grid Count = [%d]\n", aUnitGridCount);
-    
+
+    printf("Tile Grid = [%d x %d x %x]\n", GRID_DEPTH, mTileGridWidthTotal, mTileGridHeightTotal);
+    printf("Unit Grid = [%d x %d x %x]\n", GRID_DEPTH, mUnitGridWidth, mUnitGridHeight);
+
     mUnitGrid = new PathNode***[GRID_DEPTH];
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
         mUnitGrid[aDepth] = new PathNode**[mUnitGridWidth];
@@ -3353,6 +3366,8 @@ void GameArena::GenerateUnitGrid() {
             }
         }
     }
+
+    //mUnitPathFinder.SetLookupTableSize(mUnitGridWidth, mUnitGridHeight, GRID_DEPTH);
     
     RefreshUnitGridNodes();
     ComputePathConnections();
@@ -3463,6 +3478,8 @@ void GameArena::SizeGrid(int pWidth, int pHeight, int pGridBufferH, int pGridBuf
     gArenaActiveX = pGridBufferH * gTileSize;
     gArenaActiveY = pGridBufferV * gTileSize;
     
+    //mTilePathFinder.SetLookupTableSize(mTileGridWidthTotal, mTileGridHeightTotal, GRID_DEPTH);
+
     GenerateUnitGrid();
 }
 

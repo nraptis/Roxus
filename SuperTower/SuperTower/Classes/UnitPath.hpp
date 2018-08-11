@@ -33,12 +33,9 @@ class UnitPath {
 public:
     UnitPath();
     ~UnitPath();
-
-    TilePathFinder                      mPathFinder;
-
+    
     void                                Reset();
-
-
+    
     void                                DrawMarkers();
 
     void                                ComputePath(GameArena *pArena);
