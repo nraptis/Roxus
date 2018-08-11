@@ -8,16 +8,12 @@
 
 #include "TilePathFinder.h"
 
-
-
-TilePathFinder::TilePathFinder()
-{
+TilePathFinder::TilePathFinder() {
     mPathStart = new PathNodeConnection();
     mPathEnd = 0;
 }
 
-TilePathFinder::~TilePathFinder()
-{
+TilePathFinder::~TilePathFinder() {
     delete mPathStart;
     mPathStart = 0;
     mPathEnd = 0;
@@ -35,11 +31,11 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
         int aEndX = pEnd->mGridX;
         int aEndY = pEnd->mGridY;
         int aEndZ = pEnd->mGridZ;
-        
+
         PathNode *aNode = 0;
         PathNodeConnection *aConnection = 0;
         PathNodeConnection *aCurrent = mPathStart;
-        
+
         aCurrent->mNode = pStart;
         aCurrent->mPathParent = 0;
         

@@ -37,10 +37,11 @@ public:
     int                         mCostTotal;
 
     //Hash table + fast iterate support...
-    PathNodeConnection          *mListPrev;
-    PathNodeConnection          *mListNext;
-    PathNodeConnection          *mTableNext;
-    int                         mTableIndex;
+    PathNodeConnection          *mHashListPrev;
+    PathNodeConnection          *mHashListNext;
+    PathNodeConnection          *mHashTableNext;
+    int                         mHashTableIndex;
+    
 };
 
 class PathNode {

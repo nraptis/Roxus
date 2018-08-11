@@ -14,6 +14,10 @@
 #include "WorldContainer.hpp"
 #include "PriorityQueue.hpp"
 
+#include "TilePathFinderHeapOld.hpp"
+#include "TilePathFinderHeap.hpp"
+
+
 float gArenaWidth = 512.0f;
 float gArenaWidth2 = 256.0f;
 float gArenaHeight = 512.0f;
@@ -41,6 +45,89 @@ GLApp::GLApp() {
     //TODO: Twiddle
     //mDarkMode = false;
     mDarkMode = false;
+
+
+    TilePathFinderHeapOld aHeapOld;
+    TilePathFinderHeap aHeap;
+
+    for (int i=0;i<500;i++) {
+
+        PathNodeConnection *aCon = new PathNodeConnection();
+        aCon->mCostTotal = gRand.Get(-2000, 2000);
+
+        aHeapOld.Add(aCon);
+        aHeap.Add(aCon);
+    }
+
+
+    int aPopIter = 0;
+    for (int i=50;i<500;i+=3) {
+
+        PathNodeConnection *aPop1 = aHeapOld.Pop();
+        PathNodeConnection *aPop2 = aHeap.Pop();
+        if (aPop1->mCostTotal != aPop2->mCostTotal) {
+            printf("1.0 [%d] - Mismatch [%d] vs [%d]\n", aPopIter, aPop1->mCostTotal, aPop2->mCostTotal);
+        }
+        aPopIter += 1;
+    }
+
+
+    for (int i=0;i<200;i++) {
+        PathNodeConnection *aCon = new PathNodeConnection();
+        aCon->mCostTotal = gRand.Get(-5000, 5000);
+        aHeapOld.Add(aCon);
+        aHeap.Add(aCon);
+    }
+
+    /*
+    aPopIter = 0;
+    for (int i=3;i<500;i+=3) {
+
+        PathNodeConnection *aPop1 = aHeapOld.Pop();
+        PathNodeConnection *aPop2 = aHeap.Pop();
+        if (aPop1->mCostTotal != aPop2->mCostTotal) {
+            printf("2.0 [%d] - Mismatch [%d] vs [%d]\n", aPopIter, aPop1->mCostTotal, aPop2->mCostTotal);
+        }
+
+        aPopIter += 1;
+    }
+    */
+
+
+    aHeapOld.Reset();
+    aHeap.Reset();
+
+    for (int i=0;i<1110;i++) {
+
+        PathNodeConnection *aCon = new PathNodeConnection();
+        aCon->mCostTotal = gRand.Get(-2000, 2000);
+
+        aHeapOld.Add(aCon);
+        aHeap.Add(aCon);
+    }
+
+    aHeapOld.Reset();
+    aHeap.Reset();
+
+
+    for (int i=0;i<111;i++) {
+
+        PathNodeConnection *aCon = new PathNodeConnection();
+        aCon->mCostTotal = gRand.Get(-2000, 2000);
+
+        aHeapOld.Add(aCon);
+        aHeap.Add(aCon);
+    }
+
+    aHeapOld.Reset();
+    aHeap.Reset();
+
+    //exit(0);
+
+//#include "TilePathFinderHeapOld.hpp"
+//#include "TilePathFinderHeap.hpp"
+
+
     
     /*
     PriorityQueue aQueue;

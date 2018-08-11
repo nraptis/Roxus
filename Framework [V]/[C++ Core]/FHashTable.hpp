@@ -81,10 +81,12 @@ public:
     void                                        *mObject;
 
 private:
+
     FHashMapNode                                *mListPrev;
     FHashMapNode                                *mListNext;
     FHashMapNode                                *mTableNext;
     int                                         mTableIndex;
+
 };
 
 class FHashMap {

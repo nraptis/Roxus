@@ -11,10 +11,10 @@
 
 PathNodeConnection::PathNodeConnection() {
     Reset();
-    mListPrev = NULL;
-    mListNext = NULL;
-    mTableNext = NULL;
-    mTableIndex = -1;
+    mHashListPrev = NULL;
+    mHashListNext = NULL;
+    mHashTableNext = NULL;
+    mHashTableIndex = -1;
 }
 
 PathNodeConnection::~PathNodeConnection() { }
@@ -88,4 +88,3 @@ void PathNode::PathReset() {
     mPathConnectionCount = 0;
     mOccupied = false;
 }
-

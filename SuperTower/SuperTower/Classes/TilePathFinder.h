@@ -10,7 +10,7 @@
 #define Mustache_TilePathFinder_h
 
 #include "PathNode.hpp"
-#include "TilePathFinderHeap.h"
+#include "TilePathFinderHeap.hpp"
 
 class TilePathFinder {
 public:
