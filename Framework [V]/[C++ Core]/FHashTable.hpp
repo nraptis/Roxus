@@ -99,7 +99,11 @@ public:
     bool                                        Exists(void *pKey);
     void                                        *Get(void *pKey);
 
-    static unsigned int                         Hash(void *pKey);
+    static inline unsigned int                  Hash(void *pKey) {
+        unsigned long aResult = (unsigned long)pKey;
+        aResult = ((aResult >> 16) ^ (aResult));
+        return (unsigned int)aResult;
+    }
 
     bool                                        IsEmpty();
 

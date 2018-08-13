@@ -521,11 +521,7 @@ void FHashMap::SetTableSize(int pSize) {
     mTableSize = aNewSize;
 }
 
-unsigned int FHashMap::Hash(void *pObject) {
-    unsigned long aResult = ((unsigned long)pObject);
-    aResult = (((aResult >> 16) + 5788) ^ (aResult));
-    return (unsigned int)aResult;
-}
+
 
 void FHashMap::GetAllNodes(void *pKey, FList &pList) {
     if (mTableSize > 0) {

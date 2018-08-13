@@ -235,6 +235,7 @@
 		5018A9FC210A118100C020ED /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C3210A118100C020ED /* FWindow.cpp */; };
 		5018A9FD210A118100C020ED /* FXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C5210A118100C020ED /* FXML.cpp */; };
 		50191F81211DE832000E58DA /* TilePathFinderHeapOld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50191F7F211DE832000E58DA /* TilePathFinderHeapOld.cpp */; };
+		50617AF72121C67F001A49EE /* NodePathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50617AF52121C67F001A49EE /* NodePathFinder.cpp */; };
 		50B92BAC21010737006BB37B /* os_core_app_shell_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */; };
 		50B92BAD21010737006BB37B /* os_core_includes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3F21010737006BB37B /* os_core_includes.cpp */; };
 		50B92BAE21010737006BB37B /* os_core_outlets_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B4221010737006BB37B /* os_core_outlets_ios.mm */; };
@@ -615,6 +616,8 @@
 		5018A9C6210A118100C020ED /* FXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXML.h; sourceTree = "<group>"; };
 		50191F7F211DE832000E58DA /* TilePathFinderHeapOld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TilePathFinderHeapOld.cpp; sourceTree = "<group>"; };
 		50191F80211DE832000E58DA /* TilePathFinderHeapOld.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TilePathFinderHeapOld.hpp; sourceTree = "<group>"; };
+		50617AF52121C67F001A49EE /* NodePathFinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NodePathFinder.cpp; sourceTree = "<group>"; };
+		50617AF62121C67F001A49EE /* NodePathFinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NodePathFinder.hpp; sourceTree = "<group>"; };
 		50B92B3D21010737006BB37B /* os_core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_core_app_shell.h; sourceTree = "<group>"; };
 		50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_app_shell_ios.cpp; sourceTree = "<group>"; };
 		50B92B3F21010737006BB37B /* os_core_includes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_includes.cpp; sourceTree = "<group>"; };
@@ -722,6 +725,8 @@
 				50105C4D211C7F8A00EAF106 /* SmallGameObject.hpp */,
 				50105C47211C7F8A00EAF106 /* SpriteSequenceNested.cpp */,
 				50105BDB211C7F8A00EAF106 /* SpriteSequenceNested.h */,
+				50617AF52121C67F001A49EE /* NodePathFinder.cpp */,
+				50617AF62121C67F001A49EE /* NodePathFinder.hpp */,
 				50105C35211C7F8A00EAF106 /* TilePathFinder.cpp */,
 				50105C39211C7F8A00EAF106 /* TilePathFinder.h */,
 				50191F7F211DE832000E58DA /* TilePathFinderHeapOld.cpp */,
@@ -1480,6 +1485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50617AF72121C67F001A49EE /* NodePathFinder.cpp in Sources */,
 				50105D00211C7F8A00EAF106 /* GLApp.cpp in Sources */,
 				50B92BB621010737006BB37B /* FViewContainer.cpp in Sources */,
 				50105CCA211C7F8A00EAF106 /* GameArenaHelper.cpp in Sources */,

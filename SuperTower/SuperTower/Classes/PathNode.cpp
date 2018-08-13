@@ -20,7 +20,11 @@ PathNodeConnection::~PathNodeConnection() {
 void PathNodeConnection::Reset() {
     mNode = NULL;
     mPathParent = NULL;
-    mHashTableNext = NULL;
+    //mHashTableNext = NULL;
+    
+    mOpenHashTableNext = NULL;
+    mClosedHashTableNext = NULL;
+
     mCost = 0;
     mCostG = 0;
     mCostH = 0;

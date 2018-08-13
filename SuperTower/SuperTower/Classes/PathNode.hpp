@@ -37,7 +37,12 @@ public:
     int                         mCostH;
     int                         mCostTotal;
 
-    PathNodeConnection          *mHashTableNext;
+    //PathNodeConnection          *mHashTableNext;
+
+    //The open list and closed list can sometimes intersect...
+    PathNodeConnection          *mOpenHashTableNext;
+    PathNodeConnection          *mClosedHashTableNext;
+
 };
 
 class PathNode {

@@ -56,12 +56,10 @@ GameArena::GameArena() {
     
     //Load("test_level_1");
     
-    //Load("test_level_1_mod");
+    Load("test_level_1_mod");
     
     
-    Load("map_with_long_path");
-    
-    
+    //Load("map_with_long_path");
     //Load("ramps_test_01.xml");
     
     //Load("pathing_map_02_inverse.xml");
@@ -471,6 +469,37 @@ void GameArena::Draw() {
     }
     
     DrawPathableNodes();
+
+
+    for (int a = 0;a<mTilePathFinder.mOpenListCount;a++) {
+        PathNodeConnection *aOpenCon = mTilePathFinder.mOpenListData[a];
+        int aGridX = aOpenCon->mNode->mGridX;
+        int aGridY = aOpenCon->mNode->mGridY;
+        int aGridZ = aOpenCon->mNode->mGridZ;
+
+        GameTile *aTile = GetTile(aGridX, aGridY, aGridZ);
+        if (aTile) {
+            Graphics::SetColor(0.15f);
+            gApp->mUnitCircleSoft.Center(aTile->mCenterX, aTile->mCenterY);
+        }
+    }
+
+
+    for (int a = 0;a<mTilePathFinder.mClosedListCount;a++) {
+        PathNodeConnection *aOpenCon = mTilePathFinder.mClosedListData[a];
+        int aGridX = aOpenCon->mNode->mGridX;
+        int aGridY = aOpenCon->mNode->mGridY;
+        int aGridZ = aOpenCon->mNode->mGridZ;
+
+        GameTile *aTile = GetTile(aGridX, aGridY, aGridZ);
+        if (aTile) {
+            Graphics::SetColor(0.15f);
+            gApp->mUnitCircleHard.Center(aTile->mCenterX, aTile->mCenterY);
+        }
+    }
+
+    Graphics::SetColor();
+
     
 }
 

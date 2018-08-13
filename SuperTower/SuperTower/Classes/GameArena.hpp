@@ -20,6 +20,7 @@
 #include "GameTile.hpp"
 #include "AnimatedLevelPath.hpp"
 #include "UnitPath.hpp"
+#include "NodePathFinder.hpp"
 #include "Tower.hpp"
 #include "TowerBullet.h"
 #include "Unit.hpp"
@@ -49,9 +50,8 @@ public:
 
     GameArenaHelper                             mHelper;
 
-    TilePathFinder                              mTilePathFinder;
-    TilePathFinder                              mUnitPathFinder;
-    
+    NodePathFinder                              mTilePathFinder;
+    NodePathFinder                              mUnitPathFinder;
 
     bool                                        mUpdateEnabled;
     int                                         mUpdateSpeedIndex;
@@ -59,9 +59,6 @@ public:
 
     void                                        UpdateOneFrame();
     bool                                        mOneFrameUpdateEnqueued;
-    
-
-
 
     TilePathFinder                              mPathFinder;
     

@@ -10,7 +10,7 @@
 #define Mustache_TilePathFinder_h
 
 #include "PathNode.hpp"
-#include "TilePathFinderHeap.hpp"
+#include "TilePathFinderHeapOld.hpp"
 
 class TilePathFinder {
 public:
@@ -26,8 +26,8 @@ public:
 
     //TODO: The memory paging / thrashing with 2 separate objects
     //is too slow, these all need to be in a flat array, operations inline.
-    TilePathFinderHeap                  mOpenList;
-    TilePathFinderHeap                  mClosedList;
+    TilePathFinderHeapOld               mOpenList;
+    TilePathFinderHeapOld               mClosedList;
 };
 
 #endif

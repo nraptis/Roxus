@@ -19,7 +19,6 @@ TilePathFinder::~TilePathFinder() {
     mPathEnd = 0;
 }
 
-
 bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     bool aResult = false;
 
@@ -31,8 +30,11 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     mPathEnd = 0;
     int aPathLoops = 0;
 
-
     if (pStart != 0 && pEnd != 0) {
+
+        int k = 0;
+        int aCostG = 0;
+        
         int aEndX = pEnd->mGridX;
         int aEndY = pEnd->mGridY;
         int aEndZ = pEnd->mGridZ;
@@ -55,27 +57,25 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
         aCurrent->mCostH = (aDiffX + aDiffY) * 100;
         aCurrent->mCostG = 0;
         aCurrent->mCostTotal = aCurrent->mCostH + aCurrent->mCostG;
-        
+
         mOpenList.Add(aCurrent);
-        
+
         while (mOpenList.mCount > 0) {
             aCurrent = mOpenList.Pop();
-
             if (mClosedList.Contains(aCurrent)) {
                 return false;
             } else {
                 mClosedList.Add(aCurrent);
             }
-            
             aNode = aCurrent->mNode;
             if(aNode->mGridX == aEndX && aNode->mGridY == aEndY && aNode->mGridZ == aEndZ) {
                 mPathEnd = aCurrent;
                 break;
             } else {
-                for (int k=0;k<aNode->mPathConnectionCount;k++) {
+                for (k=0;k<aNode->mPathConnectionCount;k++) {
                     aPathLoops++;
                     aConnection = &(aNode->mPathConnection[k]);
-                    int aCostG = aCurrent->mCostG + aConnection->mCost;
+                    aCostG = aCurrent->mCostG + aConnection->mCost;
                     //TODO: Speed-up this lookup.
                     if (mClosedList.Contains(aConnection) && aCostG >= aConnection->mCostG) { continue; }
                     bool aOpenListContains = mOpenList.Contains(aConnection);
@@ -96,6 +96,6 @@ bool TilePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
             }
         }
     }
-    printf("Total Path Loops: %d Open[%d] Closed[%d]\n", aPathLoops, mOpenList.mLoops, mClosedList.mLoops);
+    
     return aResult;
 }
