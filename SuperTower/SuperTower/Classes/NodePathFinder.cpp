@@ -34,6 +34,9 @@ NodePathFinder::~NodePathFinder() {
 
 bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     bool aResult = false;
+    bool aFound = false;
+    bool aOpenListContains = false;
+    bool aClosedListContains = false;
     
     //printf("Pathing From [%d %d %d] => [%d %d %d]\n", pStart->mGridX, pStart->mGridY, pStart->mGridZ, pEnd->mGridX, pEnd->mGridY, pEnd->mGridZ);
 
@@ -47,13 +50,8 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     unsigned int aLeftChild = 0;
     unsigned int aRightChild = 0;
     unsigned int aMinChild = 0;
-    bool aFound = false;
-
     unsigned int aCostG = 0;
-    bool aOpenListContains = false;
-    bool aClosedListContains = false;
-
-    int k = 0;
+    unsigned int aConnectionIndex = 0;
 
     //Flush the lists...
 
@@ -212,8 +210,8 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                 break;
             } else {
                 //For all of our node's connections...
-                for (k=0;k<aNode->mPathConnectionCount;k++) {
-                    aConnection = &(aNode->mPathConnection[k]);
+                for (aConnectionIndex=0;aConnectionIndex<aNode->mPathConnectionCount;aConnectionIndex++) {
+                    aConnection = &(aNode->mPathConnection[aConnectionIndex]);
 
                     //Adjust G cost by adding this connections cost.
                     aCostG = aCurrent->mCostG + aConnection->mCost;

@@ -132,6 +132,10 @@ public:
     void                                        DrawGridOverlay();
     void                                        DrawGridSelection();
     void                                        DrawPathableNodes();
+    void                                        DrawLevelPathCosts();
+    void                                        DrawLevelPathConnections();
+
+
     
     
     virtual void                                Click(float pX, float pY);

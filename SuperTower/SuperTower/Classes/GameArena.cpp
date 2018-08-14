@@ -365,32 +365,15 @@ void GameArena::Draw() {
     
     
 
-    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+    //DrawLevelPathConnections();
 
-        if (gApp->mDarkMode) {
-            Graphics::SetColorSwatch(aDepth, 0.075f);
-        } else {
-            Graphics::SetColorSwatch(aDepth, 0.5f);
-        }
 
-        for (int aGridX=0;aGridX<mTileGridWidthTotal;aGridX++) {
-            for (int aGridY=0;aGridY<mTileGridHeightTotal;aGridY++) {
-                GameTile *aTile1 = mTile[aDepth][aGridX][aGridY];
-                if (aTile1) {
-                    for (int i=0;i<aTile1->mPathConnectionCount;i++) {
-                        PathNode *aConnectedNode = aTile1->mPathConnection[i].mNode;
-                        Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aConnectedNode->mCenterX, aConnectedNode->mCenterY);
-                    }
-                }
-            }
-        }
-    }
 
     /*
 
         
         
-
+     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
         
         for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
             for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
@@ -456,11 +439,13 @@ void GameArena::Draw() {
     //Graphics::SetColor();
     //gApp->mNinja.Center(mTestNinjaRotation, mTestNinjaFrame, 0.0f, 0.0f);
     
-    Graphics::SetColor();
-    mTestUnitPath.DrawMarkers();
+    //Graphics::SetColor();
+    //mTestUnitPath.DrawMarkers();
+
     
-    Graphics::SetColor(1.0f, 0.5f, 0.66f, 0.25f);
-    Graphics::DrawPoint(mTestMouseX, mTestMouseY, 40.0f);
+    //Graphics::SetColor(1.0f, 0.5f, 0.66f, 0.25f);
+    //Graphics::DrawPoint(mTestMouseX, mTestMouseY, 40.0f);
+
     
     EnumList(UnitGroup, aGroup, mUnitGroupList) {
         if (aGroup != mTestSelectedGroup) {
@@ -473,10 +458,38 @@ void GameArena::Draw() {
         }
     }
     
-    DrawPathableNodes();
+    //DrawPathableNodes();
+    //DrawLevelPathCosts();
 
 
 
+    Graphics::SetColor();
+
+    
+}
+
+void GameArena::DrawLevelPathConnections() {
+    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+        if (gApp->mDarkMode) {
+            Graphics::SetColorSwatch(aDepth, 0.075f);
+        } else {
+            Graphics::SetColorSwatch(aDepth, 0.5f);
+        }
+        for (int aGridX=0;aGridX<mTileGridWidthTotal;aGridX++) {
+            for (int aGridY=0;aGridY<mTileGridHeightTotal;aGridY++) {
+                GameTile *aTile1 = mTile[aDepth][aGridX][aGridY];
+                if (aTile1) {
+                    for (int i=0;i<aTile1->mPathConnectionCount;i++) {
+                        PathNode *aConnectedNode = aTile1->mPathConnection[i].mNode;
+                        Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aConnectedNode->mCenterX, aConnectedNode->mCenterY);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void GameArena::DrawLevelPathCosts() {
     for (int a=0;a<mTilePathFinder.mOpenListCount;a++) {
         PathNodeConnection *aOpenCon = mTilePathFinder.mOpenListData[a];
         int aGridX = aOpenCon->mNode->mGridX;
@@ -503,10 +516,6 @@ void GameArena::Draw() {
             aClosedCon = aClosedCon->mClosedHashTableNext;
         }
     }
-
-    Graphics::SetColor();
-
-    
 }
 
 void GameArena::DrawPathableNodes() {
