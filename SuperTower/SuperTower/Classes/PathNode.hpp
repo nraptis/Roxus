@@ -30,19 +30,18 @@ public:
     PathNode                    *mNode;
     
     //This is the cost to hop to this node from its parent..
-    int                         mCost;
+    unsigned int                mCost;
 
     //A* Costs, these are updated / replaced on each search..
-    int                         mCostG;
-    int                         mCostH;
-    int                         mCostTotal;
+    unsigned int                mCostG;
+    unsigned int                mCostH;
+    unsigned int                mCostTotal;
 
     //PathNodeConnection          *mHashTableNext;
 
     //The open list and closed list can sometimes intersect...
     PathNodeConnection          *mOpenHashTableNext;
     PathNodeConnection          *mClosedHashTableNext;
-
 };
 
 class PathNode {

@@ -226,8 +226,8 @@ void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMo
         return;
     }
 
-    printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
-
+    //printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
+    
     mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
     mGridX = pGridX;mGridY = pGridY;mGridZ = pGridZ;
 

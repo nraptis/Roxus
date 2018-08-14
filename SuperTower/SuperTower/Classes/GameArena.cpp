@@ -364,35 +364,39 @@ void GameArena::Draw() {
     Graphics::SetColor();
     
     
-    
+
     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-        
+
         if (gApp->mDarkMode) {
             Graphics::SetColorSwatch(aDepth, 0.075f);
         } else {
             Graphics::SetColorSwatch(aDepth, 0.5f);
         }
-        
+
         for (int aGridX=0;aGridX<mTileGridWidthTotal;aGridX++) {
             for (int aGridY=0;aGridY<mTileGridHeightTotal;aGridY++) {
                 GameTile *aTile1 = mTile[aDepth][aGridX][aGridY];
                 if (aTile1) {
                     for (int i=0;i<aTile1->mPathConnectionCount;i++) {
-                        //PathNode *aConnectedNode = aTile1->mPathConnection[i].mNode;
-                        //Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aConnectedNode->mCenterX, aConnectedNode->mCenterY);
+                        PathNode *aConnectedNode = aTile1->mPathConnection[i].mNode;
+                        Graphics::DrawArrow(aTile1->mCenterX, aTile1->mCenterY, aConnectedNode->mCenterX, aConnectedNode->mCenterY);
                     }
                 }
             }
         }
+    }
+
+    /*
+
         
         
+
         
         for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
             for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
                 PathNode *aNode = mUnitGrid[aDepth][aGridX][aGridY];
                 for (int i=0;i<aNode->mPathConnectionCount;i++) {
                     PathNode *aConnectedNode = aNode->mPathConnection[i].mNode;
-                    
                     if (aNode->mGridZ != aConnectedNode->mGridZ) {
                         
                         float aX1 = aNode->mCenterX;
@@ -416,6 +420,7 @@ void GameArena::Draw() {
             }
         }
     }
+    */
     
     
     //TODO: Start Grid Depth = 1
@@ -471,12 +476,12 @@ void GameArena::Draw() {
     DrawPathableNodes();
 
 
-    for (int a = 0;a<mTilePathFinder.mOpenListCount;a++) {
+
+    for (int a=0;a<mTilePathFinder.mOpenListCount;a++) {
         PathNodeConnection *aOpenCon = mTilePathFinder.mOpenListData[a];
         int aGridX = aOpenCon->mNode->mGridX;
         int aGridY = aOpenCon->mNode->mGridY;
         int aGridZ = aOpenCon->mNode->mGridZ;
-
         GameTile *aTile = GetTile(aGridX, aGridY, aGridZ);
         if (aTile) {
             Graphics::SetColor(0.15f);
@@ -484,17 +489,18 @@ void GameArena::Draw() {
         }
     }
 
-
-    for (int a = 0;a<mTilePathFinder.mClosedListCount;a++) {
-        PathNodeConnection *aOpenCon = mTilePathFinder.mClosedListData[a];
-        int aGridX = aOpenCon->mNode->mGridX;
-        int aGridY = aOpenCon->mNode->mGridY;
-        int aGridZ = aOpenCon->mNode->mGridZ;
-
-        GameTile *aTile = GetTile(aGridX, aGridY, aGridZ);
-        if (aTile) {
-            Graphics::SetColor(0.15f);
-            gApp->mUnitCircleHard.Center(aTile->mCenterX, aTile->mCenterY);
+    for (int a=0;a<mTilePathFinder.mClosedListTableSize;a++) {
+        PathNodeConnection *aClosedCon = mTilePathFinder.mClosedListTableData[a];
+        while (aClosedCon != NULL) {
+            int aGridX = aClosedCon->mNode->mGridX;
+            int aGridY = aClosedCon->mNode->mGridY;
+            int aGridZ = aClosedCon->mNode->mGridZ;
+            GameTile *aTile = GetTile(aGridX, aGridY, aGridZ);
+            if (aTile) {
+                Graphics::SetColor(0.15f);
+                gApp->mUnitCircleHard.Center(aTile->mCenterX, aTile->mCenterY);
+            }
+            aClosedCon = aClosedCon->mClosedHashTableNext;
         }
     }
 
@@ -1348,7 +1354,8 @@ void GameArena::UnitDidFinishWalkingStep(Unit *pUnit) {
         if (aGroup->Count() > 1 && aLeader == pUnit) {
             
             float aOvershootPercent = aLeader->mStepPercent;
-            printf("Advancing [%lX] Prev[%d %d %d] Cur[%d %d %d]\n", (unsigned long)aLeader, aLeader->mPrevGridX, aLeader->mPrevGridY, aLeader->mPrevGridZ, aLeader->mGridX, aLeader->mGridY, aLeader->mGridZ);
+            //printf("Advancing [%lX] Prev[%d %d %d] Cur[%d %d %d]\n", (unsigned long)aLeader, aLeader->mPrevGridX, aLeader->mPrevGridY, aLeader->mPrevGridZ, aLeader->mGridX, aLeader->mGridY, aLeader->mGridZ);
+
             
             //Here we know the unit is the leader AND at index 0...
             //Therefore we can "reverse bubble" the previous positions
@@ -3240,14 +3247,14 @@ void GameArena::RefreshUnitGridNodes() {
     }
 
     /*
-    for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-        for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
-            for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
-                mUnitGrid[aDepth][aGridX][aGridY]->SetConnectionGridPositions(aGridX, aGridY, aDepth);
-            }
-        }
-    }
-    */
+     for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
+     for (int aGridX=0;aGridX<mUnitGridWidth;aGridX++) {
+     for (int aGridY=0;aGridY<mUnitGridHeight;aGridY++) {
+     mUnitGrid[aDepth][aGridX][aGridY]->SetConnectionGridPositions(aGridX, aGridY, aDepth);
+     }
+     }
+     }
+     */
 }
 
 void GameArena::UpdateOneFrame() {

@@ -26,20 +26,13 @@ public:
     PathNodeConnection                  *mPathStart;
     
     //MAX_UNIT_GRID_WIDTH * GRID_DEPTH * MAX_UNIT_GRID_HEIGHT
-    PathNodeConnection                  *mOpenListData[((MAX_UNIT_GRID_WIDTH * MAX_UNIT_GRID_HEIGHT * GRID_DEPTH) * 2) + (15149 * 2)];
-    //MAX_UNIT_GRID_WIDTH * GRID_DEPTH * MAX_UNIT_GRID_HEIGHT
-    PathNodeConnection                  **mClosedListData;
-    //15149
+    PathNodeConnection                  *mOpenListData[(MAX_UNIT_GRID_WIDTH * MAX_UNIT_GRID_HEIGHT * GRID_DEPTH) + (15149 * 2)];
     PathNodeConnection                  **mOpenListTableData;
-    //15149
     PathNodeConnection                  **mClosedListTableData;
 
     int                                 mOpenListCount;
     int                                 mOpenListSize;
     int                                 mOpenListTableSize;
-
-    int                                 mClosedListCount;
-    int                                 mClosedListSize;
     int                                 mClosedListTableSize;
 };
 

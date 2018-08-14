@@ -11,16 +11,11 @@
 NodePathFinder::NodePathFinder() {
     mPathStart = new PathNodeConnection();
     mPathEnd = 0;
-
     mOpenListCount = 0;
     mOpenListSize = MAX_UNIT_GRID_WIDTH * MAX_UNIT_GRID_HEIGHT * GRID_DEPTH;
-    mClosedListCount = 0;
-    mClosedListSize = MAX_UNIT_GRID_WIDTH * MAX_UNIT_GRID_HEIGHT * GRID_DEPTH;
     mOpenListTableSize = 15149;
     mClosedListTableSize = 15149;
-
-    mClosedListData = &(mOpenListData[mOpenListSize]);
-    mOpenListTableData = &(mClosedListData[mClosedListSize]);
+    mOpenListTableData = &(mOpenListData[mOpenListSize]);
     mClosedListTableData = &(mOpenListTableData[mOpenListTableSize]);
 
     for (int i=0;i<mOpenListTableSize;i++) {
@@ -39,8 +34,8 @@ NodePathFinder::~NodePathFinder() {
 
 bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     bool aResult = false;
-
-    printf("Pathing From [%d %d %d] => [%d %d %d]\n", pStart->mGridX, pStart->mGridY, pStart->mGridZ, pEnd->mGridX, pEnd->mGridY, pEnd->mGridZ);
+    
+    //printf("Pathing From [%d %d %d] => [%d %d %d]\n", pStart->mGridX, pStart->mGridY, pStart->mGridZ, pEnd->mGridX, pEnd->mGridY, pEnd->mGridZ);
 
     PathNodeConnection *aPreviousConnection = NULL;
     PathNodeConnection *aHold = NULL;
@@ -54,31 +49,31 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
     unsigned int aMinChild = 0;
     bool aFound = false;
 
-    int aCostG = 0;
+    unsigned int aCostG = 0;
     bool aOpenListContains = false;
     bool aClosedListContains = false;
 
     int k = 0;
 
-
-    //mClosedList.Reset();
-
-
     //Flush the lists...
+
+    //Seems to go much faster by flushing whole hash table to 0
+    //and not using linked list style pointers.
     for (int i=0;i<mOpenListTableSize;i++) {
         mOpenListTableData[i] = NULL;
     }
+
     for (int i=0;i<mOpenListTableSize;i++) {
         mClosedListTableData[i] = NULL;
     }
 
+    //Reset the open list
     mOpenListCount = 0;
-    mClosedListCount = 0;
-
     mPathEnd = 0;
 
-    
     if (pStart != 0 && pEnd != 0) {
+
+        //Here is our target grid position.
         int aEndX = pEnd->mGridX;
         int aEndY = pEnd->mGridY;
         int aEndZ = pEnd->mGridZ;
@@ -92,17 +87,17 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
 
         int aDiffX = pStart->mGridX - aEndX;
         if(aDiffX < 0)aDiffX = -aDiffX;
-
         int aDiffY = pStart->mGridX - aEndY;
         if(aDiffY < 0)aDiffY = -aDiffY;
 
         aCurrent->mPathParent = 0;
-
+        //H cost = (Manhattan distance) * 100
         aCurrent->mCostH = (aDiffX + aDiffY) * 100;
         aCurrent->mCostG = 0;
+        //Total cost = (g cost + h cost)
         aCurrent->mCostTotal = aCurrent->mCostH + aCurrent->mCostG;
 
-        //OpenListAdd(aCurrent);
+        //Add aCurrent to the open list (min heap + hash table)
         aHash = (FHashMap::Hash(aCurrent) % mOpenListTableSize);
         aCurrent->mOpenHashTableNext = NULL;
         if (mOpenListTableData[aHash]) {
@@ -116,32 +111,38 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
             mOpenListTableData[aHash] = aCurrent;
         }
 
-        if (mOpenListCount >= mOpenListSize) {
+        //We should never overflow.
+        if (mOpenListCount == mOpenListSize) {
             printf("Fatal Error: OpenList Overflow...");
             return false;
         }
 
+        //Add to end of heap and bubble up (still adding to open list)
         mOpenListData[mOpenListCount] = aCurrent;
         aBubbleIndex = mOpenListCount;
         mOpenListCount += 1;
-
-        aParentIndex = (aBubbleIndex - 1) / 2;
+        aParentIndex = (aBubbleIndex - 1) >> 1;
         while (aBubbleIndex > 0 && mOpenListData[aBubbleIndex]->mCostTotal < mOpenListData[aParentIndex]->mCostTotal) {
             aHold = mOpenListData[aBubbleIndex];
             mOpenListData[aBubbleIndex] = mOpenListData[aParentIndex];
             mOpenListData[aParentIndex] = aHold;
             aBubbleIndex = aParentIndex;
-            aParentIndex = (aBubbleIndex - 1) / 2;
+            aParentIndex = (aBubbleIndex - 1) >> 1;
         }
 
+        //While open list is not empty...
         while (mOpenListCount > 0) {
+
+            //Pop the minimum cost node from the open list.
             aCurrent = mOpenListData[0];
             mOpenListCount -= 1;
+            //First item from min heap
             mOpenListData[0] = mOpenListData[mOpenListCount];
             aBubbleIndex = 0;
-            aLeftChild = 2 * aBubbleIndex + 1;
+            aLeftChild = (aBubbleIndex << 1) + 1;
             aRightChild = aLeftChild + 1;
             aMinChild = aLeftChild;
+            //Bubble down the heap.
             while (aLeftChild < mOpenListCount) {
                 if (aRightChild < mOpenListCount && mOpenListData[aRightChild]->mCostTotal < mOpenListData[aLeftChild]->mCostTotal) {
                     aMinChild = aRightChild;
@@ -151,7 +152,7 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                     mOpenListData[aMinChild] = mOpenListData[aBubbleIndex];
                     mOpenListData[aBubbleIndex] = aHold;
                     aBubbleIndex = aMinChild;
-                    aLeftChild = (aBubbleIndex * 2) + 1;
+                    aLeftChild = (aBubbleIndex << 1) + 1;
                     aRightChild = aLeftChild + 1;
                     aMinChild = aLeftChild;
                 } else {
@@ -159,6 +160,7 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                 }
             }
 
+            //Remove aCurrent from open list hash table.
             aHash = (FHashMap::Hash(aCurrent) % mOpenListTableSize);
             aPreviousConnection = NULL;
             aHold = mOpenListTableData[aHash];
@@ -176,6 +178,7 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                 aHold = aHold->mOpenHashTableNext;
             }
 
+            //Check if aCurrent is on the closed list (just a hash table)
             aHash = (FHashMap::Hash(aCurrent) % mClosedListTableSize);
             aHold = mClosedListTableData[aHash];
             aClosedListContains = false;
@@ -184,51 +187,38 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                 aHold = aHold->mClosedHashTableNext;
             }
 
-            if (aClosedListContains) {
-                return false;
-            }
-            
-            aHash = (FHashMap::Hash(aCurrent) % mClosedListTableSize);
-            aCurrent->mClosedHashTableNext = NULL;
-            if (mClosedListTableData[aHash]) {
-                aSearch = mClosedListTableData[aHash];
-                while (aSearch != NULL) {
-                    aHold = aSearch;
-                    aSearch = aSearch->mClosedHashTableNext;
+            if (aClosedListContains == false) {
+
+                //Insert aCurrent into the closed list (optimized to just hash table)
+                aHash = (FHashMap::Hash(aCurrent) % mClosedListTableSize);
+                aCurrent->mClosedHashTableNext = NULL;
+                if (mClosedListTableData[aHash]) {
+                    aSearch = mClosedListTableData[aHash];
+                    while (aSearch != NULL) {
+                        aHold = aSearch;
+                        aSearch = aSearch->mClosedHashTableNext;
+                    }
+                    aHold->mClosedHashTableNext = aCurrent;
+                } else {
+                    mClosedListTableData[aHash] = aCurrent;
                 }
-                aHold->mClosedHashTableNext = aCurrent;
-            } else {
-                mClosedListTableData[aHash] = aCurrent;
+                //return false;
             }
 
-            if (mClosedListCount >= mClosedListSize) {
-                printf("Fatal Error: ClosedList Overflow...");
-                return false;
-            }
-
-            mClosedListData[mClosedListCount] = aCurrent;
-            aBubbleIndex = mClosedListCount;
-            mClosedListCount += 1;
-
-            aParentIndex = (aBubbleIndex - 1) / 2;
-            while (aBubbleIndex > 0 && mClosedListData[aBubbleIndex]->mCostTotal < mClosedListData[aParentIndex]->mCostTotal) {
-                aHold = mClosedListData[aBubbleIndex];
-                mClosedListData[aBubbleIndex] = mClosedListData[aParentIndex];
-                mClosedListData[aParentIndex] = aHold;
-                aBubbleIndex = aParentIndex;
-                aParentIndex = (aBubbleIndex - 1) / 2;
-            }
-
+            //If we are at the end, we have our shortest path...
             aNode = aCurrent->mNode;
             if(aNode->mGridX == aEndX && aNode->mGridY == aEndY && aNode->mGridZ == aEndZ) {
                 mPathEnd = aCurrent;
                 break;
             } else {
+                //For all of our node's connections...
                 for (k=0;k<aNode->mPathConnectionCount;k++) {
-                    aPathLoops++;
                     aConnection = &(aNode->mPathConnection[k]);
+
+                    //Adjust G cost by adding this connections cost.
                     aCostG = aCurrent->mCostG + aConnection->mCost;
 
+                    //Find if this connection is in the closed list.
                     aHash = (FHashMap::Hash(aConnection) % mClosedListTableSize);
                     aHold = mClosedListTableData[aHash];
                     aClosedListContains = false;
@@ -237,8 +227,10 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                         aHold = aHold->mClosedHashTableNext;
                     }
 
+                    //If we're on the list with a lower g cost, ignore...
                     if (aCostG >= aConnection->mCostG && aClosedListContains == true) { continue; }
 
+                    //Find if this connection is in the open list.
                     aHash = (FHashMap::Hash(aConnection) % mOpenListTableSize);
                     aHold = mOpenListTableData[aHash];
                     aOpenListContains = false;
@@ -247,17 +239,28 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                         aHold = aHold->mOpenHashTableNext;
                     }
 
+                    //If this connection is not in the open list and
+                    //we have a lower g cost than previously...
                     if ((aOpenListContains == false) || (aCostG < aConnection->mCostG)) {
+
+                        //This is part of our final solution, link to parent.
                         aConnection->mPathParent = aCurrent;
+
+                        //Adjust the connection's g cost to the new lowest g cost.
                         aConnection->mCostG = aCostG;
                         aDiffX = aConnection->mNode->mGridX - aEndX;
                         if (aDiffX < 0) { aDiffX = -aDiffX; }
                         aDiffY = aConnection->mNode->mGridY - aEndY;
                         if (aDiffY < 0) { aDiffY = -aDiffY; }
+                        //H cost = (Manhattan distance) * 100
                         aConnection->mCostH = (aDiffX + aDiffY) * 100;
+                        //Total cost = (g cost + h cost)
                         aConnection->mCostTotal = aConnection->mCostH + aConnection->mCostG;
+
+                        //If we are not in the open list, add to the open list.
                         if (aOpenListContains == false) {
 
+                            //Open list hash table step.
                             aHash = (FHashMap::Hash(aConnection) % mOpenListTableSize);
                             aConnection->mOpenHashTableNext = NULL;
                             if (mOpenListTableData[aHash]) {
@@ -276,17 +279,19 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
                                 return false;
                             }
 
+                            //Open list min heap step.
                             mOpenListData[mOpenListCount] = aConnection;
                             aBubbleIndex = mOpenListCount;
                             mOpenListCount += 1;
 
-                            aParentIndex = (aBubbleIndex - 1) / 2;
+                            //Bubble up.
+                            aParentIndex = (aBubbleIndex - 1) >> 1;
                             while (aBubbleIndex > 0 && mOpenListData[aBubbleIndex]->mCostTotal < mOpenListData[aParentIndex]->mCostTotal) {
                                 aHold = mOpenListData[aBubbleIndex];
                                 mOpenListData[aBubbleIndex] = mOpenListData[aParentIndex];
                                 mOpenListData[aParentIndex] = aHold;
                                 aBubbleIndex = aParentIndex;
-                                aParentIndex = (aBubbleIndex - 1) / 2;
+                                aParentIndex = (aBubbleIndex - 1) >> 1;
                             }
                         }
                     }
@@ -294,6 +299,8 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
             }
         }
     }
+
+    //$1,000,000.
     return aResult;
 }
 
