@@ -30,7 +30,7 @@ public:
 
 
     void                                        SetTitle(int pSegment, const char *pTitle);
-    void                                        SetTitles(const char *pTitle1, const char *pTitle2=0, const char *pTitle3=0, const char *pTitle4=0, const char *pTitle5=0, const char *pTitle6=0);
+    void                                        SetTitles(const char *pTitle1, const char *pTitle2=0, const char *pTitle3=0, const char *pTitle4=0, const char *pTitle5=0, const char *pTitle6=0, const char *pTitle7=0, const char *pTitle8=0);
 
     void                                        SetTarget(int *pTarget);
     int                                         *mTarget;

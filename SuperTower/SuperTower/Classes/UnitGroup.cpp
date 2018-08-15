@@ -72,6 +72,12 @@ bool UnitGroup::RemoveUnit(Unit *pUnit) {
     return aResult;
 }
 
+void UnitGroup::SetDeploySpeed(float pSpeed) {
+    EnumList(Unit, aUnit, mUnitList) {
+        aUnit->mWalkSpeed = pSpeed;
+    }
+}
+
 void UnitGroup::DrawConnections(bool pSelected) {
     
     if (mUnitList.mCount <= 0) { return; }

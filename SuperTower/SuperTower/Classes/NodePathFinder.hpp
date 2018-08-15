@@ -11,7 +11,6 @@
 
 #include "PathNode.hpp"
 #include "GameTile.hpp"
-#include "TilePathFinderHeap.hpp"
 
 class NodePathFinder {
 public:

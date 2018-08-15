@@ -80,9 +80,6 @@ void PathNode::ConnectTo(PathNode *pNode, int pCost) {
 }
 
 void PathNode::PathReset() {
-    //for (int i=0;i<NODE_CONNECTION_COUNT;i++) {
-    //    mPathConnection[i].Reset();
-    //}
     mPathConnectionCount = 0;
     mOccupied = false;
 }

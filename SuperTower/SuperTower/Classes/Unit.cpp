@@ -106,43 +106,56 @@ void Unit::Update() {
 
     if (mIsWalking) {
         float aTargetRotation = FaceTarget(mMoveStartX, mMoveStartY, mX, mY);
-        mRotation += DistanceBetweenAngles(mRotation, aTargetRotation) / 14.0f;
+        mRotation = aTargetRotation; //+= DistanceBetweenAngles(mRotation, aTargetRotation) / 3.0f;
 
-        float aDirX = mMoveEndX - mX;
-        float aDirY = mMoveEndY - mY;
-
-        
-        float aOvershoot = mWalkSpeed;
-        bool aGoToNextSegment = false;
-
+        float aDirX = mMoveEndX - mMoveStartX;
+        float aDirY = mMoveEndY - mMoveStartY;
         float aDistance = aDirX * aDirX + aDirY * aDirY;
         if (aDistance > 0.01f) {
             aDistance = sqrtf(aDistance);
             aDirX /= aDistance;
             aDirY /= aDistance;
+        }
+        
+        Unit *aLeader = mGroup->Leader();
+        if (mIsLeader) {
+            float aEndDirX = mMoveEndX - mX;
+            float aEndDirY = mMoveEndY - mY;
+            float aEndDistance = aEndDirX * aEndDirX + aEndDirY * aEndDirY;
+            if (aEndDistance > 0.01f) {
+                aEndDistance = sqrtf(aEndDistance);
+            }
 
-            if (aDistance > mWalkSpeed) {
-                //Just inch towards the next location...
-                mX += aDirX * mWalkSpeed;
-                mY += aDirY * mWalkSpeed;
-                RefreshStepPercent();
+            float aOvershoot = mWalkSpeed;
+            bool aGoToNextSegment = false;
+            if (aEndDistance > 0.01f) {
+                if (aEndDistance > mWalkSpeed) {
+                    //Just inch towards the next location...
+                    mX += aDirX * mWalkSpeed;
+                    mY += aDirY * mWalkSpeed;
+                    RefreshStepPercent();
+                } else {
+                    aOvershoot = mWalkSpeed - aEndDistance;
+                    mX = mMoveEndX;
+                    mY = mMoveEndY;
+                    aGoToNextSegment = true;
+                }
             } else {
-                aOvershoot = mWalkSpeed - aDistance;
-                mX = mMoveEndX;
-                mY = mMoveEndY;
                 aGoToNextSegment = true;
             }
-        } else {
-            aGoToNextSegment = true;
-        }
 
-        if (aGoToNextSegment) {
-            if (AttemptToAdvanceToNextPathSegment(aOvershoot)) {
-                gArena->UnitDidFinishWalkingStep(this);
+            if (aGoToNextSegment) {
+                if (AttemptToAdvanceToNextPathSegment(aOvershoot)) {
+                    gArena->UnitDidFinishWalkingStep(this);
+                }
             }
+        } else {
+            mStepPercent = aLeader->mStepPercent;
+            mX = mMoveStartX + aDirX * aDistance * mStepPercent;
+            mY = mMoveStartY + aDirY * aDistance * mStepPercent;
         }
     }
-    
+
     if (mGridX == mDestinationGridX && mGridY == mDestinationGridY && mGridZ == mDestinationGridZ) {
         mDidReachEndOfPath = true;
     }
@@ -155,7 +168,7 @@ void Unit::Draw() {
         Graphics::SetColor(0.2f, 0.2f, 0.2f, 0.15f);
     }
 
-    gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 1.0f, 0.0f);
+    gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 0.5f, 0.0f);
     
     if (mIsLeader) {
         Graphics::SetColor(0.5f);
@@ -226,7 +239,7 @@ void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMo
         return;
     }
 
-    //printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
+    printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
     
     mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
     mGridX = pGridX;mGridY = pGridY;mGridZ = pGridZ;
@@ -311,8 +324,8 @@ bool Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
 
     if (mIsWalking) {
         //Advance our distance along the path...
-        float aDirX = mMoveEndX - mX;
-        float aDirY = mMoveEndY - mY;
+        float aDirX = mMoveEndX - mMoveStartX;
+        float aDirY = mMoveEndY - mMoveStartY;
         float aDistance = aDirX * aDirX + aDirY * aDirY;
         if (aDistance > 0.01f) {
             aDistance = sqrtf(aDistance);

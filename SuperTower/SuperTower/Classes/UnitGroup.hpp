@@ -33,6 +33,13 @@ public:
 
     bool                            ContainsUnit(Unit *pUnit);
 
+    //Assuming we are not yet deployed and want a ubiquitous speed...
+    void                            SetDeploySpeed(float pSpeed);
+
+    //mTestSingleGroupSpawnSpeed = 2.0f;
+    //mTestDragGroupSpawnSpeed = 0.85f;
+
+
     void                            AddUnit(Unit *pUnit);
     bool                            RemoveUnit(Unit *pUnit);
     

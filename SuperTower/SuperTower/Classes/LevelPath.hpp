@@ -9,7 +9,6 @@
 #ifndef LEVEL_PATH_HPP
 #define LEVEL_PATH_HPP
 
-#include "TilePathFinder.h"
 #include "GameTile.hpp"
 
 //The most basic form of path, contains only grid data

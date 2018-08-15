@@ -11,7 +11,6 @@
 		50105CCB211C7F8A00EAF106 /* UnitPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BDA211C7F8A00EAF106 /* UnitPath.cpp */; };
 		50105CCC211C7F8A00EAF106 /* WorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BDE211C7F8A00EAF106 /* WorldContainer.cpp */; };
 		50105CCD211C7F8A00EAF106 /* SmallGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE0211C7F8A00EAF106 /* SmallGameObject.cpp */; };
-		50105CCE211C7F8A00EAF106 /* TilePathFinderHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE1211C7F8A00EAF106 /* TilePathFinderHeap.cpp */; };
 		50105CCF211C7F8A00EAF106 /* WorldGestureContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE3211C7F8A00EAF106 /* WorldGestureContainer.cpp */; };
 		50105CD0211C7F8A00EAF106 /* Tower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE4211C7F8A00EAF106 /* Tower.cpp */; };
 		50105CD1211C7F8A00EAF106 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE5211C7F8A00EAF106 /* GameTile.cpp */; };
@@ -51,7 +50,6 @@
 		50105CF3211C7F8A00EAF106 /* PathEditorMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C2E211C7F8A00EAF106 /* PathEditorMenu.cpp */; };
 		50105CF4211C7F8A00EAF106 /* LevelPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C30211C7F8A00EAF106 /* LevelPath.cpp */; };
 		50105CF5211C7F8A00EAF106 /* TowerBullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C31211C7F8A00EAF106 /* TowerBullet.cpp */; };
-		50105CF6211C7F8A00EAF106 /* TilePathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C35211C7F8A00EAF106 /* TilePathFinder.cpp */; };
 		50105CF7211C7F8A00EAF106 /* TowerPickerMenuButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C36211C7F8A00EAF106 /* TowerPickerMenuButton.cpp */; };
 		50105CF8211C7F8A00EAF106 /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C38211C7F8A00EAF106 /* Unit.cpp */; };
 		50105CF9211C7F8A00EAF106 /* LargeGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C3A211C7F8A00EAF106 /* LargeGameObject.cpp */; };
@@ -234,7 +232,6 @@
 		5018A9FB210A118100C020ED /* FVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C1210A118100C020ED /* FVertexBuffer.cpp */; };
 		5018A9FC210A118100C020ED /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C3210A118100C020ED /* FWindow.cpp */; };
 		5018A9FD210A118100C020ED /* FXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C5210A118100C020ED /* FXML.cpp */; };
-		50191F81211DE832000E58DA /* TilePathFinderHeapOld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50191F7F211DE832000E58DA /* TilePathFinderHeapOld.cpp */; };
 		50617AF72121C67F001A49EE /* NodePathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50617AF52121C67F001A49EE /* NodePathFinder.cpp */; };
 		50B92BAC21010737006BB37B /* os_core_app_shell_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */; };
 		50B92BAD21010737006BB37B /* os_core_includes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3F21010737006BB37B /* os_core_includes.cpp */; };
@@ -284,14 +281,12 @@
 		50105BDE211C7F8A00EAF106 /* WorldContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldContainer.cpp; sourceTree = "<group>"; };
 		50105BDF211C7F8A00EAF106 /* UnitGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UnitGroup.hpp; sourceTree = "<group>"; };
 		50105BE0211C7F8A00EAF106 /* SmallGameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallGameObject.cpp; sourceTree = "<group>"; };
-		50105BE1211C7F8A00EAF106 /* TilePathFinderHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilePathFinderHeap.cpp; sourceTree = "<group>"; };
 		50105BE2211C7F8A00EAF106 /* LevelPath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelPath.hpp; sourceTree = "<group>"; };
 		50105BE3211C7F8A00EAF106 /* WorldGestureContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldGestureContainer.cpp; sourceTree = "<group>"; };
 		50105BE4211C7F8A00EAF106 /* Tower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tower.cpp; sourceTree = "<group>"; };
 		50105BE5211C7F8A00EAF106 /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
 		50105BE6211C7F8A00EAF106 /* WorldTransformContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldTransformContainer.cpp; sourceTree = "<group>"; };
 		50105BE7211C7F8A00EAF106 /* Unit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Unit.hpp; sourceTree = "<group>"; };
-		50105BE8211C7F8A00EAF106 /* TilePathFinderHeap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TilePathFinderHeap.hpp; sourceTree = "<group>"; };
 		50105BEA211C7F8A00EAF106 /* ArenaMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArenaMenu.hpp; sourceTree = "<group>"; };
 		50105BEB211C7F8A00EAF106 /* TimelineMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimelineMenu.cpp; sourceTree = "<group>"; };
 		50105BEC211C7F8A00EAF106 /* WorldMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldMenu.hpp; sourceTree = "<group>"; };
@@ -363,11 +358,9 @@
 		50105C32211C7F8A00EAF106 /* WorldGestureContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldGestureContainer.hpp; sourceTree = "<group>"; };
 		50105C33211C7F8A00EAF106 /* Tower.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tower.hpp; sourceTree = "<group>"; };
 		50105C34211C7F8A00EAF106 /* GameTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameTile.hpp; sourceTree = "<group>"; };
-		50105C35211C7F8A00EAF106 /* TilePathFinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilePathFinder.cpp; sourceTree = "<group>"; };
 		50105C36211C7F8A00EAF106 /* TowerPickerMenuButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerPickerMenuButton.cpp; sourceTree = "<group>"; };
 		50105C37211C7F8A00EAF106 /* WorldTransformContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldTransformContainer.hpp; sourceTree = "<group>"; };
 		50105C38211C7F8A00EAF106 /* Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Unit.cpp; sourceTree = "<group>"; };
-		50105C39211C7F8A00EAF106 /* TilePathFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilePathFinder.h; sourceTree = "<group>"; };
 		50105C3A211C7F8A00EAF106 /* LargeGameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LargeGameObject.cpp; sourceTree = "<group>"; };
 		50105C3B211C7F8A00EAF106 /* AnimatedLevelPath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimatedLevelPath.hpp; sourceTree = "<group>"; };
 		50105C3C211C7F8A00EAF106 /* Util_ScreenFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_ScreenFrame.cpp; sourceTree = "<group>"; };
@@ -614,8 +607,6 @@
 		5018A9C4210A118100C020ED /* FWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FWindow.hpp; sourceTree = "<group>"; };
 		5018A9C5210A118100C020ED /* FXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FXML.cpp; sourceTree = "<group>"; };
 		5018A9C6210A118100C020ED /* FXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXML.h; sourceTree = "<group>"; };
-		50191F7F211DE832000E58DA /* TilePathFinderHeapOld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TilePathFinderHeapOld.cpp; sourceTree = "<group>"; };
-		50191F80211DE832000E58DA /* TilePathFinderHeapOld.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TilePathFinderHeapOld.hpp; sourceTree = "<group>"; };
 		50617AF52121C67F001A49EE /* NodePathFinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NodePathFinder.cpp; sourceTree = "<group>"; };
 		50617AF62121C67F001A49EE /* NodePathFinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NodePathFinder.hpp; sourceTree = "<group>"; };
 		50B92B3D21010737006BB37B /* os_core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_core_app_shell.h; sourceTree = "<group>"; };
@@ -727,12 +718,6 @@
 				50105BDB211C7F8A00EAF106 /* SpriteSequenceNested.h */,
 				50617AF52121C67F001A49EE /* NodePathFinder.cpp */,
 				50617AF62121C67F001A49EE /* NodePathFinder.hpp */,
-				50105C35211C7F8A00EAF106 /* TilePathFinder.cpp */,
-				50105C39211C7F8A00EAF106 /* TilePathFinder.h */,
-				50191F7F211DE832000E58DA /* TilePathFinderHeapOld.cpp */,
-				50191F80211DE832000E58DA /* TilePathFinderHeapOld.hpp */,
-				50105BE1211C7F8A00EAF106 /* TilePathFinderHeap.cpp */,
-				50105BE8211C7F8A00EAF106 /* TilePathFinderHeap.hpp */,
 				50105BE4211C7F8A00EAF106 /* Tower.cpp */,
 				50105C33211C7F8A00EAF106 /* Tower.hpp */,
 				50105C31211C7F8A00EAF106 /* TowerBullet.cpp */,
@@ -1530,13 +1515,10 @@
 				5018A9CE210A118100C020ED /* FButton.cpp in Sources */,
 				50105CF5211C7F8A00EAF106 /* TowerBullet.cpp in Sources */,
 				5018A9FB210A118100C020ED /* FVertexBuffer.cpp in Sources */,
-				50105CF6211C7F8A00EAF106 /* TilePathFinder.cpp in Sources */,
 				5018A9D6210A118100C020ED /* FGestureView.cpp in Sources */,
-				50191F81211DE832000E58DA /* TilePathFinderHeapOld.cpp in Sources */,
 				50105CD3211C7F8A00EAF106 /* TimelineMenu.cpp in Sources */,
 				50105D02211C7F8A00EAF106 /* UnitGroup.cpp in Sources */,
 				50105CEB211C7F8A00EAF106 /* UIRoundedRect.cpp in Sources */,
-				50105CCE211C7F8A00EAF106 /* TilePathFinderHeap.cpp in Sources */,
 				5018A9DA210A118100C020ED /* FIndexList.cpp in Sources */,
 				50B92BB421010737006BB37B /* FView.cpp in Sources */,
 				50105CF0211C7F8A00EAF106 /* UIImagePicker.cpp in Sources */,

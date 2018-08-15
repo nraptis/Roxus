@@ -9,7 +9,6 @@
 #ifndef UNIT_PATH_HPP
 #define UNIT_PATH_HPP
 
-#include "TilePathFinder.h"
 #include "GameTile.hpp"
 
 //Rule: You can't place any tower if...
@@ -35,12 +34,11 @@ public:
     ~UnitPath();
     
     void                                Reset();
-    
+
     void                                DrawMarkers();
 
     void                                ComputePath(GameArena *pArena);
 
-    
     void                                CloneFrom(UnitPath *pPath);
 
     int                                 GetIndexOfGridPosition(int pGridX, int pGridY, int pGridZ);

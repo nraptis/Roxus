@@ -20,12 +20,40 @@ public:
 
     virtual void                            Layout();
     virtual void                            Notify(void *pSender, const char *pNotification);
-    
+
+    void                                    RefreshTestMode();
+
     UISegment                               *mTestModeSegment;
     
-    ToolMenuPanel                           *mUnitGroupCreationPanel;
-    UISlider                                *mUnitGroupSpawnSpeedSlider;
-    
+    ToolMenuPanel                           *mUnitGroupDragCreationPanel;
+    UISlider                                *mUnitGroupDragSpawnSpeedSlider;
+    UISegment                               *mUnitGroupDragSpawnTrailerCountSegment;
+
+
+    ToolMenuPanel                           *mUnitGroupSingleCreationPanel;
+    UISlider                                *mUnitGroupSingleSpawnSpeedSlider;
+
+    ToolMenuPanel                           *mMarkerDrawingPanel;
+
+    ToolMenuSectionRow                      *mMarkerDrawingRow1;
+    ToolMenuSectionRow                      *mMarkerDrawingRow2;
+    ToolMenuSectionRow                      *mMarkerDrawingRow3;
+
+    UICheckBox                              *mDrawAllNodesCheckBox;
+    UICheckBox                              *mDrawOccupiedNodesCheckBox;
+    UICheckBox                              *mDrawOccupiedTilesCheckBox;
+    UICheckBox                              *mDrawAllConnectionsCheckBox;
+    UICheckBox                              *mDrawRampConnectionsCheckBox;
+    UICheckBox                              *mDrawSelectedGroupPathCheckBox;
+
+    //mTestDrawAllNodes = false;
+    //mTestDrawOccupiedNodes = false;
+    //mTestDrawOccupiedTiles = false;
+    //mTestDrawAllConnections = false;
+    //mTestDrawRampConnections = false;
+    //mTestDrawSelectedGroupPath = false;
+
+
     
     ToolMenuPanel                           *mItemCreationPanel;
     

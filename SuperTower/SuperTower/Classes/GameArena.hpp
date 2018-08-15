@@ -12,9 +12,10 @@
 #define TEST_MODE_NONE 0
 #define TEST_MODE_UNIT_GROUP_CREATE 1
 #define TEST_MODE_UNIT_GROUP_SELECT 2
-#define TEST_MODE_ITEM_CREATE 3
-#define TEST_MODE_ITEM_SELECT 4
-#define TEST_MODE_UNIT_SPAWN 5
+#define TEST_MODE_UNIT_SELECT 3
+#define TEST_MODE_ITEM_CREATE 4
+#define TEST_MODE_ITEM_SELECT 5
+#define TEST_MODE_UNIT_SPAWN 6
 
 #include "GLApp.hpp"
 #include "GameTile.hpp"
@@ -60,17 +61,8 @@ public:
     void                                        UpdateOneFrame();
     bool                                        mOneFrameUpdateEnqueued;
 
-    TilePathFinder                              mPathFinder;
-    
     //Our main "grid" of tiles...
     GameTile                                    ****mTile;
-    
-    //GRID_DEPTH
-    //MAX_TILE_GRID_WIDTH
-    //MAX_TILE_GRID_HEIGHT
-    //MAX_UNIT_GRID_WIDTH
-    //MAX_UNIT_GRID_HEIGHT
-
 
     //The grid that we use for pathfinding, etc - these are clones of the objects in mUnitGridBase...
     PathNode                                    ****mUnitGrid;
@@ -78,10 +70,6 @@ public:
 
     int                                         mUnitGridWidth;
     int                                         mUnitGridHeight;
-
-    //This is for walking allowance when taking a single step...
-    bool                                        ***mWalkAllowed;
-    void                                        ResetWalkAllowedGrid();
 
     //...There can only be one tower at ANY level along the grid, assumed top level...
     //TODO: Make special grid locations election function for TOWERS which select the top
@@ -136,6 +124,15 @@ public:
     void                                        DrawLevelPathConnections();
 
 
+    void                                        DrawAllNodes();
+    void                                        DrawOccupiedNodes();
+    void                                        DrawOccupiedTiles();
+    void                                        DrawAllConnections();
+    void                                        DrawRampConnections();
+    void                                        DrawSelectedGroupPath();
+
+
+
     
     
     virtual void                                Click(float pX, float pY);
@@ -175,8 +172,6 @@ public:
     //Get the closest valid node to a particular screen location....
     //There is one rule always enforce - the node must be on a tile...
     PathNode                                    *GetClosestNode(float pX, float pY, bool pAllowBlocked, bool pAllowOccupied, bool pAllowRamps);
-    
-    
 
     PathNode                                    *GetEndNodeForPath(LevelPath *pPath);
     PathNode                                    *GetEndNodeForTile(GameTile *pTile);
@@ -321,6 +316,9 @@ public:
     void                                        ComputeTestPath();
 
 
+    void                                        DeleteSelectedUnit();
+    void                                        DeleteSelectedGroup();
+    void                                        SplitGroupOnSelectedUnit();
 
     //#define TEST_MODE_NONE 0
     //#define TEST_MODE_UNIT_GROUP_CREATE 1
@@ -330,8 +328,21 @@ public:
     void                                        TestModeDidChange(int pPreviousMode, int pCurrentMode);
 
 
-    UnitGroup                                   *mTestCreateGroup;
+    bool                                        mTestDrawAllNodes;
+    bool                                        mTestDrawOccupiedNodes;
+    bool                                        mTestDrawOccupiedTiles;
+    bool                                        mTestDrawAllConnections;
+    bool                                        mTestDrawRampConnections;
+    bool                                        mTestDrawSelectedGroupPath;
+
+    float                                       mTestSingleGroupSpawnSpeed;
+    float                                       mTestDragGroupSpawnSpeed;
+
+    int                                         mTestDragGroupSpawnTrailerIndex;
+
+
     UnitGroup                                   *mTestSelectedGroup;
+    Unit                                        *mTestSelectedUnit;
     
     bool                                        mTestGroupShowPath;
     bool                                        mTestGroupShowAllPath;
