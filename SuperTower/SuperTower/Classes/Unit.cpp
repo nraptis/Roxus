@@ -6,7 +6,7 @@
 //
 
 #include "Unit.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 #include "UnitPath.hpp"
 #include "AnimatedLevelPath.hpp"
 
@@ -385,7 +385,7 @@ void Unit::RefreshStepPercent() {
     }
 }
 
-void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath) {
+void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, MapTile *pDestinationTile, LevelPath *pPath) {
     mGridX = pStartNode->mGridX;
     mGridY = pStartNode->mGridY;
     mGridZ = pStartNode->mGridZ;

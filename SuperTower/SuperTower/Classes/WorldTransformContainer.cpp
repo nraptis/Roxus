@@ -8,7 +8,7 @@
 
 #include "WorldTransformContainer.hpp"
 #include "GLApp.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 
 WorldTransformContainer::WorldTransformContainer() {
     mConsumesTouches = false;

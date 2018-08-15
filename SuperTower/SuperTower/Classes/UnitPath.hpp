@@ -9,7 +9,7 @@
 #ifndef UNIT_PATH_HPP
 #define UNIT_PATH_HPP
 
-#include "GameTile.hpp"
+#include "MapTile.hpp"
 
 //Rule: You can't place any tower if...
 // 1.) It blocks a "level path" from reaching its destination.
@@ -27,7 +27,7 @@
 //3.) It is also possible for a "cut off" unit to wander back onto the "level path"
 //as it wanders in "free mode"
 
-class GameArena;
+class MapArena;
 class UnitPath {
 public:
     UnitPath();
@@ -37,7 +37,7 @@ public:
 
     void                                DrawMarkers();
 
-    void                                ComputePath(GameArena *pArena);
+    void                                ComputePath(MapArena *pArena);
 
     void                                CloneFrom(UnitPath *pPath);
 

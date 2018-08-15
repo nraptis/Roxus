@@ -14,9 +14,9 @@
 #include "SmallGameObject.hpp"
 
 
-class GameArena;
+class MapArena;
 class AnimatedLevelPath;
-class GameTile;
+class MapTile;
 class UnitPath;
 class UnitGroup;
 
@@ -98,7 +98,7 @@ public:
     int                                 GetCurrentPathIndex();
 
     //This only happens ONCE as the units enter the game arena / grid.
-    void                                PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, GameTile *pDestinationTile, LevelPath *pPath);
+    void                                PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, MapTile *pDestinationTile, LevelPath *pPath);
 
     int                                 mDestinationGridX;
     int                                 mDestinationGridY;
@@ -106,7 +106,7 @@ public:
 
     LevelPath                           *mTrackingPath;
 
-    GameTile                            *mDestinationTile;
+    MapTile                            *mDestinationTile;
 
     PathNode                            *mStartNode;
     PathNode                            *mDestinationNode;

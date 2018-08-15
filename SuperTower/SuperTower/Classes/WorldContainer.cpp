@@ -38,12 +38,12 @@ WorldContainer::WorldContainer() {
     mGestureContainer->mWorldTransform = mTransformContainer;
 
     if (gEditorMode) {
-        gEditor = new EditorGameArena();
+        gEditor = new EditorMapArena();
         mArena = gEditor;
         mEditorMenu = new EditorMainMenu();
         AddChild(mEditorMenu);
     } else {
-        mArena = new GameArena();
+        mArena = new MapArena();
 
         if ((gEnvironment != ENV_IPHONE) && (gEnvironment != ENV_ANDROID)) {
             mTestMenu = new WorldMenu(this);

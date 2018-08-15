@@ -7,7 +7,7 @@
 //
 
 #include "UnitPath.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 #include "FSpline.h"
 
 UnitPath::UnitPath() {
@@ -27,7 +27,7 @@ UnitPath::~UnitPath() {
     mSize = 0;
 }
 
-void UnitPath::ComputePath(GameArena *pArena) {
+void UnitPath::ComputePath(MapArena *pArena) {
     PathNode *aStartNode = pArena->GetGridNode(mStartX, mStartY, mStartZ);
     PathNode *aEndNode = pArena->GetGridNode(mEndX, mEndY, mEndZ);
 

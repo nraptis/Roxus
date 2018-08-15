@@ -1,15 +1,15 @@
 //
-//  EditorGameArena.cpp
+//  EditorMapArena.cpp
 //  Mustache
 //
 //  Created by Nick Raptis on 6/15/13.
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "EditorGameArena.hpp"
+#include "EditorMapArena.hpp"
 
-EditorGameArena *gEditor = 0;
-EditorGameArena::EditorGameArena() {
+EditorMapArena *gEditor = 0;
+EditorMapArena::EditorMapArena() {
     gEditor = this;
     mTileDepth = 1;
     mTileType = TILE_TYPE_NORMAL;
@@ -24,13 +24,13 @@ EditorGameArena::EditorGameArena() {
 
 }
 
-EditorGameArena::~EditorGameArena() {
+EditorMapArena::~EditorMapArena() {
     if (gEditor == this) {
         gEditor = 0;
     }
 }
 
-void EditorGameArena::Update() {
+void EditorMapArena::Update() {
     
     if (mEditorMode == EDITOR_MODE_TILES) {
         if (mTileDepth == 0) {
@@ -47,8 +47,8 @@ void EditorGameArena::Update() {
     }
 }
 
-void EditorGameArena::Draw() {
-    GameArena::Draw();
+void EditorMapArena::Draw() {
+    MapArena::Draw();
     EnumList(AnimatedLevelPath, aPath, mPathList) {
         aPath->DrawEditorMarkers();
     }
@@ -89,7 +89,7 @@ void EditorGameArena::Draw() {
      {
      for(int aY=0;aY<mGridHeight;aY++)
      {
-     GameTile *aTile = mTile[aDepth][aX][aY];
+     MapTile *aTile = mTile[aDepth][aX][aY];
      if(aTile)
      {
      aTile->DrawConnections();
@@ -132,11 +132,9 @@ void EditorGameArena::Draw() {
      aPath = aPath->mParent;
      }
      */
-
-    mTestUnitPath.DrawMarkers();
 }
 
-void EditorGameArena::AddPath() {
+void EditorMapArena::AddPath() {
     AnimatedLevelPath *aPath = new AnimatedLevelPath();
     aPath->mStartX = mTileGridBufferH;
     aPath->mStartY = mTileGridBufferV + gRand.Get(mTileGridHeightActive);
@@ -149,11 +147,11 @@ void EditorGameArena::AddPath() {
     aPath->ComputePath(this);
 }
 
-void EditorGameArena::DeleteCurrentPath() {
+void EditorMapArena::DeleteCurrentPath() {
     RemovePath(mCurrentPath);
 }
 
-void EditorGameArena::RemovePath(LevelPath *pPath) {
+void EditorMapArena::RemovePath(LevelPath *pPath) {
     if (pPath) {
         mPathList.Remove(pPath);
         //delete pPath;
@@ -161,7 +159,7 @@ void EditorGameArena::RemovePath(LevelPath *pPath) {
     }
 }
 
-void EditorGameArena::Click(float pX, float pY) {
+void EditorMapArena::Click(float pX, float pY) {
     int aGridX = -1;
     int aGridY = -1;
     int aGridZ = -1;
@@ -194,7 +192,7 @@ void EditorGameArena::Click(float pX, float pY) {
         GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
         printf("Click [%d,%d] Depth[%d]\n", aGridX, aGridY, mTileDepth);
         if ((aGridX >= 0) && (aGridY >= 0) && (aGridX < mTileGridWidthTotal) && (aGridY < mTileGridHeightTotal)) {
-            GameTile *aTile = GetTile(aGridX, aGridY, mTileDepth);
+            MapTile *aTile = GetTile(aGridX, aGridY, mTileDepth);
             if (aTile) {
                 if (aTile->mTileType == mTileType) {
                     DeleteTile(aGridX, aGridY, mTileDepth);
@@ -202,7 +200,7 @@ void EditorGameArena::Click(float pX, float pY) {
                     aTile->mTileType = mTileType;
                 }
             } else {
-                aTile = new GameTile();
+                aTile = new MapTile();
                 aTile->SetUp(aGridX, aGridY, mTileDepth);
                 aTile->mTileType = mTileType;
                 mTile[mTileDepth][aGridX][aGridY] = aTile;
@@ -222,7 +220,7 @@ void EditorGameArena::Click(float pX, float pY) {
 
 
 
-void EditorGameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
+void EditorMapArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
     if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mTileGridWidthTotal) && (pGridY < mTileGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
         delete mTile[pGridZ][pGridX][pGridY];
         mTile[pGridZ][pGridX][pGridY] = 0;
@@ -232,12 +230,12 @@ void EditorGameArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
 
 
 
-void EditorGameArena::ExportMap() {
+void EditorMapArena::ExportMap() {
     FString aPath = "recent_map_data.xml";
     Save(aPath.c());
 }
 
-void EditorGameArena::ExportImage() {
+void EditorMapArena::ExportImage() {
     int aTileWidth = 144;
     int aTileHeight = 144;
     int aImageWidth = mTileGridWidthTotal * aTileWidth;
@@ -294,7 +292,7 @@ void EditorGameArena::ExportImage() {
         for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
             for (int aY=0;aY<mTileGridHeightTotal;aY++) {
                 for (int aX=0;aX<mTileGridWidthTotal;aX++) {
-                    GameTile *aTile = mTile[aDepth][aX][aY];
+                    MapTile *aTile = mTile[aDepth][aX][aY];
                     if (aTile) {
                         FImage *aTileImage = 0;
                         FImage *aSpecialImage = 0;

@@ -10,7 +10,7 @@
 #define NODE_PATH_FIND_HPP
 
 #include "PathNode.hpp"
-#include "GameTile.hpp"
+#include "MapTile.hpp"
 
 class NodePathFinder {
 public:

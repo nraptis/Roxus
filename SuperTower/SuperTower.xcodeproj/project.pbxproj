@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		50105CCA211C7F8A00EAF106 /* GameArenaHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BD8211C7F8A00EAF106 /* GameArenaHelper.cpp */; };
 		50105CCB211C7F8A00EAF106 /* UnitPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BDA211C7F8A00EAF106 /* UnitPath.cpp */; };
 		50105CCC211C7F8A00EAF106 /* WorldContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BDE211C7F8A00EAF106 /* WorldContainer.cpp */; };
 		50105CCD211C7F8A00EAF106 /* SmallGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE0211C7F8A00EAF106 /* SmallGameObject.cpp */; };
 		50105CCF211C7F8A00EAF106 /* WorldGestureContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE3211C7F8A00EAF106 /* WorldGestureContainer.cpp */; };
 		50105CD0211C7F8A00EAF106 /* Tower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE4211C7F8A00EAF106 /* Tower.cpp */; };
-		50105CD1211C7F8A00EAF106 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE5211C7F8A00EAF106 /* GameTile.cpp */; };
+		50105CD1211C7F8A00EAF106 /* MapTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE5211C7F8A00EAF106 /* MapTile.cpp */; };
 		50105CD2211C7F8A00EAF106 /* WorldTransformContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BE6211C7F8A00EAF106 /* WorldTransformContainer.cpp */; };
 		50105CD3211C7F8A00EAF106 /* TimelineMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BEB211C7F8A00EAF106 /* TimelineMenu.cpp */; };
 		50105CD4211C7F8A00EAF106 /* ArenaMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105BED211C7F8A00EAF106 /* ArenaMenu.cpp */; };
@@ -56,8 +55,8 @@
 		50105CFA211C7F8A00EAF106 /* Util_ScreenFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C3C211C7F8A00EAF106 /* Util_ScreenFrame.cpp */; };
 		50105CFB211C7F8A00EAF106 /* PathNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C3D211C7F8A00EAF106 /* PathNode.cpp */; };
 		50105CFC211C7F8A00EAF106 /* EditorMainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C43211C7F8A00EAF106 /* EditorMainMenu.cpp */; };
-		50105CFD211C7F8A00EAF106 /* EditorGameArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C45211C7F8A00EAF106 /* EditorGameArena.cpp */; };
-		50105CFE211C7F8A00EAF106 /* GameArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C46211C7F8A00EAF106 /* GameArena.cpp */; };
+		50105CFD211C7F8A00EAF106 /* EditorMapArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C45211C7F8A00EAF106 /* EditorMapArena.cpp */; };
+		50105CFE211C7F8A00EAF106 /* MapArena.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C46211C7F8A00EAF106 /* MapArena.cpp */; };
 		50105CFF211C7F8A00EAF106 /* SpriteSequenceNested.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C47211C7F8A00EAF106 /* SpriteSequenceNested.cpp */; };
 		50105D00211C7F8A00EAF106 /* GLApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C48211C7F8A00EAF106 /* GLApp.cpp */; };
 		50105D01211C7F8A00EAF106 /* TowerPickerMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50105C49211C7F8A00EAF106 /* TowerPickerMenu.cpp */; };
@@ -233,6 +232,7 @@
 		5018A9FC210A118100C020ED /* FWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C3210A118100C020ED /* FWindow.cpp */; };
 		5018A9FD210A118100C020ED /* FXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5018A9C5210A118100C020ED /* FXML.cpp */; };
 		50617AF72121C67F001A49EE /* NodePathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50617AF52121C67F001A49EE /* NodePathFinder.cpp */; };
+		50B4C7CB2123AD9F00D94ABA /* MapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B4C7C92123AD9F00D94ABA /* MapGrid.cpp */; };
 		50B92BAC21010737006BB37B /* os_core_app_shell_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */; };
 		50B92BAD21010737006BB37B /* os_core_includes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B3F21010737006BB37B /* os_core_includes.cpp */; };
 		50B92BAE21010737006BB37B /* os_core_outlets_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50B92B4221010737006BB37B /* os_core_outlets_ios.mm */; };
@@ -272,11 +272,10 @@
 /* Begin PBXFileReference section */
 		50105BD6211C7F8A00EAF106 /* TowerDetailMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerDetailMenu.h; sourceTree = "<group>"; };
 		50105BD7211C7F8A00EAF106 /* PathNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PathNode.hpp; sourceTree = "<group>"; };
-		50105BD8211C7F8A00EAF106 /* GameArenaHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameArenaHelper.cpp; sourceTree = "<group>"; };
 		50105BD9211C7F8A00EAF106 /* TowerBullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerBullet.h; sourceTree = "<group>"; };
 		50105BDA211C7F8A00EAF106 /* UnitPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnitPath.cpp; sourceTree = "<group>"; };
 		50105BDB211C7F8A00EAF106 /* SpriteSequenceNested.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteSequenceNested.h; sourceTree = "<group>"; };
-		50105BDC211C7F8A00EAF106 /* GameArena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameArena.hpp; sourceTree = "<group>"; };
+		50105BDC211C7F8A00EAF106 /* MapArena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MapArena.hpp; sourceTree = "<group>"; };
 		50105BDD211C7F8A00EAF106 /* GLApp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLApp.hpp; sourceTree = "<group>"; };
 		50105BDE211C7F8A00EAF106 /* WorldContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldContainer.cpp; sourceTree = "<group>"; };
 		50105BDF211C7F8A00EAF106 /* UnitGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UnitGroup.hpp; sourceTree = "<group>"; };
@@ -284,7 +283,7 @@
 		50105BE2211C7F8A00EAF106 /* LevelPath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelPath.hpp; sourceTree = "<group>"; };
 		50105BE3211C7F8A00EAF106 /* WorldGestureContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldGestureContainer.cpp; sourceTree = "<group>"; };
 		50105BE4211C7F8A00EAF106 /* Tower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tower.cpp; sourceTree = "<group>"; };
-		50105BE5211C7F8A00EAF106 /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
+		50105BE5211C7F8A00EAF106 /* MapTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapTile.cpp; sourceTree = "<group>"; };
 		50105BE6211C7F8A00EAF106 /* WorldTransformContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldTransformContainer.cpp; sourceTree = "<group>"; };
 		50105BE7211C7F8A00EAF106 /* Unit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Unit.hpp; sourceTree = "<group>"; };
 		50105BEA211C7F8A00EAF106 /* ArenaMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArenaMenu.hpp; sourceTree = "<group>"; };
@@ -357,7 +356,7 @@
 		50105C31211C7F8A00EAF106 /* TowerBullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerBullet.cpp; sourceTree = "<group>"; };
 		50105C32211C7F8A00EAF106 /* WorldGestureContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldGestureContainer.hpp; sourceTree = "<group>"; };
 		50105C33211C7F8A00EAF106 /* Tower.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tower.hpp; sourceTree = "<group>"; };
-		50105C34211C7F8A00EAF106 /* GameTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameTile.hpp; sourceTree = "<group>"; };
+		50105C34211C7F8A00EAF106 /* MapTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MapTile.hpp; sourceTree = "<group>"; };
 		50105C36211C7F8A00EAF106 /* TowerPickerMenuButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerPickerMenuButton.cpp; sourceTree = "<group>"; };
 		50105C37211C7F8A00EAF106 /* WorldTransformContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldTransformContainer.hpp; sourceTree = "<group>"; };
 		50105C38211C7F8A00EAF106 /* Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Unit.cpp; sourceTree = "<group>"; };
@@ -365,14 +364,13 @@
 		50105C3B211C7F8A00EAF106 /* AnimatedLevelPath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimatedLevelPath.hpp; sourceTree = "<group>"; };
 		50105C3C211C7F8A00EAF106 /* Util_ScreenFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_ScreenFrame.cpp; sourceTree = "<group>"; };
 		50105C3D211C7F8A00EAF106 /* PathNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathNode.cpp; sourceTree = "<group>"; };
-		50105C3E211C7F8A00EAF106 /* GameArenaHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameArenaHelper.hpp; sourceTree = "<group>"; };
 		50105C3F211C7F8A00EAF106 /* UnitPath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UnitPath.hpp; sourceTree = "<group>"; };
 		50105C40211C7F8A00EAF106 /* TowerPickerMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerPickerMenuButton.h; sourceTree = "<group>"; };
-		50105C42211C7F8A00EAF106 /* EditorGameArena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditorGameArena.hpp; sourceTree = "<group>"; };
+		50105C42211C7F8A00EAF106 /* EditorMapArena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditorMapArena.hpp; sourceTree = "<group>"; };
 		50105C43211C7F8A00EAF106 /* EditorMainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorMainMenu.cpp; sourceTree = "<group>"; };
 		50105C44211C7F8A00EAF106 /* EditorMainMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditorMainMenu.hpp; sourceTree = "<group>"; };
-		50105C45211C7F8A00EAF106 /* EditorGameArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorGameArena.cpp; sourceTree = "<group>"; };
-		50105C46211C7F8A00EAF106 /* GameArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameArena.cpp; sourceTree = "<group>"; };
+		50105C45211C7F8A00EAF106 /* EditorMapArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorMapArena.cpp; sourceTree = "<group>"; };
+		50105C46211C7F8A00EAF106 /* MapArena.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapArena.cpp; sourceTree = "<group>"; };
 		50105C47211C7F8A00EAF106 /* SpriteSequenceNested.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteSequenceNested.cpp; sourceTree = "<group>"; };
 		50105C48211C7F8A00EAF106 /* GLApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLApp.cpp; sourceTree = "<group>"; };
 		50105C49211C7F8A00EAF106 /* TowerPickerMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TowerPickerMenu.cpp; sourceTree = "<group>"; };
@@ -609,6 +607,8 @@
 		5018A9C6210A118100C020ED /* FXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXML.h; sourceTree = "<group>"; };
 		50617AF52121C67F001A49EE /* NodePathFinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NodePathFinder.cpp; sourceTree = "<group>"; };
 		50617AF62121C67F001A49EE /* NodePathFinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NodePathFinder.hpp; sourceTree = "<group>"; };
+		50B4C7C92123AD9F00D94ABA /* MapGrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MapGrid.cpp; sourceTree = "<group>"; };
+		50B4C7CA2123AD9F00D94ABA /* MapGrid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MapGrid.hpp; sourceTree = "<group>"; };
 		50B92B3D21010737006BB37B /* os_core_app_shell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_core_app_shell.h; sourceTree = "<group>"; };
 		50B92B3E21010737006BB37B /* os_core_app_shell_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_app_shell_ios.cpp; sourceTree = "<group>"; };
 		50B92B3F21010737006BB37B /* os_core_includes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_includes.cpp; sourceTree = "<group>"; };
@@ -697,12 +697,12 @@
 				50105BE9211C7F8A00EAF106 /* [Menus] */,
 				50105BF2211C7F8A00EAF106 /* AnimatedLevelPath.cpp */,
 				50105C3B211C7F8A00EAF106 /* AnimatedLevelPath.hpp */,
-				50105C46211C7F8A00EAF106 /* GameArena.cpp */,
-				50105BDC211C7F8A00EAF106 /* GameArena.hpp */,
-				50105BD8211C7F8A00EAF106 /* GameArenaHelper.cpp */,
-				50105C3E211C7F8A00EAF106 /* GameArenaHelper.hpp */,
-				50105BE5211C7F8A00EAF106 /* GameTile.cpp */,
-				50105C34211C7F8A00EAF106 /* GameTile.hpp */,
+				50B4C7C92123AD9F00D94ABA /* MapGrid.cpp */,
+				50B4C7CA2123AD9F00D94ABA /* MapGrid.hpp */,
+				50105C46211C7F8A00EAF106 /* MapArena.cpp */,
+				50105BDC211C7F8A00EAF106 /* MapArena.hpp */,
+				50105BE5211C7F8A00EAF106 /* MapTile.cpp */,
+				50105C34211C7F8A00EAF106 /* MapTile.hpp */,
 				50105C48211C7F8A00EAF106 /* GLApp.cpp */,
 				50105BDD211C7F8A00EAF106 /* GLApp.hpp */,
 				50105C3A211C7F8A00EAF106 /* LargeGameObject.cpp */,
@@ -850,8 +850,8 @@
 		50105C41211C7F8A00EAF106 /* [[Editor]] */ = {
 			isa = PBXGroup;
 			children = (
-				50105C45211C7F8A00EAF106 /* EditorGameArena.cpp */,
-				50105C42211C7F8A00EAF106 /* EditorGameArena.hpp */,
+				50105C45211C7F8A00EAF106 /* EditorMapArena.cpp */,
+				50105C42211C7F8A00EAF106 /* EditorMapArena.hpp */,
 				50105C43211C7F8A00EAF106 /* EditorMainMenu.cpp */,
 				50105C44211C7F8A00EAF106 /* EditorMainMenu.hpp */,
 			);
@@ -1473,7 +1473,6 @@
 				50617AF72121C67F001A49EE /* NodePathFinder.cpp in Sources */,
 				50105D00211C7F8A00EAF106 /* GLApp.cpp in Sources */,
 				50B92BB621010737006BB37B /* FViewContainer.cpp in Sources */,
-				50105CCA211C7F8A00EAF106 /* GameArenaHelper.cpp in Sources */,
 				50105CE7211C7F8A00EAF106 /* UISegmentButton.cpp in Sources */,
 				50CCF77520F661BE008199E6 /* Root.mm in Sources */,
 				5018A9FA210A118100C020ED /* FVec3.cpp in Sources */,
@@ -1490,7 +1489,7 @@
 				50105CF8211C7F8A00EAF106 /* Unit.cpp in Sources */,
 				5018A9E0210A118100C020ED /* FModelData.cpp in Sources */,
 				5018A9F7210A118100C020ED /* FTextureCache.cpp in Sources */,
-				50105CFD211C7F8A00EAF106 /* EditorGameArena.cpp in Sources */,
+				50105CFD211C7F8A00EAF106 /* EditorMapArena.cpp in Sources */,
 				50105CE1211C7F8A00EAF106 /* ScreenTransformMenu.cpp in Sources */,
 				50105CD4211C7F8A00EAF106 /* ArenaMenu.cpp in Sources */,
 				50105CCD211C7F8A00EAF106 /* SmallGameObject.cpp in Sources */,
@@ -1550,6 +1549,7 @@
 				5018A9DD210A118100C020ED /* FList.cpp in Sources */,
 				50105CD7211C7F8A00EAF106 /* AnimatedLevelPath.cpp in Sources */,
 				5018A9F9210A118100C020ED /* FVec2.cpp in Sources */,
+				50B4C7CB2123AD9F00D94ABA /* MapGrid.cpp in Sources */,
 				50105CFB211C7F8A00EAF106 /* PathNode.cpp in Sources */,
 				50105CEE211C7F8A00EAF106 /* PGMainToolbar.cpp in Sources */,
 				5018A9C8210A118100C020ED /* core_graphics.cpp in Sources */,
@@ -1568,7 +1568,7 @@
 				5018A9E1210A118100C020ED /* FModelDataSequence.cpp in Sources */,
 				50105CD9211C7F8A00EAF106 /* ToolMenuHeader.cpp in Sources */,
 				50B92BB221010737006BB37B /* FScrollView.cpp in Sources */,
-				50105CFE211C7F8A00EAF106 /* GameArena.cpp in Sources */,
+				50105CFE211C7F8A00EAF106 /* MapArena.cpp in Sources */,
 				5018A9EA210A118100C020ED /* FRandomizer.cpp in Sources */,
 				5018A9EE210A118100C020ED /* FSize.cpp in Sources */,
 				5018A9CD210A118100C020ED /* FApp.cpp in Sources */,
@@ -1597,7 +1597,7 @@
 				5018A9C7210A118100C020ED /* core_app_shell.cpp in Sources */,
 				50105CE2211C7F8A00EAF106 /* ToolMenuModalUnderlay.cpp in Sources */,
 				50B92BB821010737006BB37B /* FViewTransform.cpp in Sources */,
-				50105CD1211C7F8A00EAF106 /* GameTile.cpp in Sources */,
+				50105CD1211C7F8A00EAF106 /* MapTile.cpp in Sources */,
 				5018A9D8210A118100C020ED /* FImage.cpp in Sources */,
 				50B92BB121010737006BB37B /* os_core_web.cpp in Sources */,
 				5018A9F8210A118100C020ED /* FTouchManager.cpp in Sources */,

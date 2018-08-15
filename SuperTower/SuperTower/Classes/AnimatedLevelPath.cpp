@@ -146,7 +146,7 @@ void AnimatedLevelPath::Draw(int pDepth) {
     }
 }
 
-void AnimatedLevelPath::ComputePath(GameArena *pArena) {
+void AnimatedLevelPath::ComputePath(MapArena *pArena) {
     LevelPath::ComputePath(pArena);
     Generate();
 }

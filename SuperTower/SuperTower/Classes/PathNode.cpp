@@ -7,7 +7,7 @@
 //
 
 #include "PathNode.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 
 PathNodeConnection::PathNodeConnection() {
     Reset();

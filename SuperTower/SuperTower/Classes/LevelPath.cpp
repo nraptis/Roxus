@@ -7,7 +7,7 @@
 //
 
 #include "LevelPath.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 #include "FSpline.h"
 
 LevelPath::LevelPath() {
@@ -33,9 +33,9 @@ LevelPath::~LevelPath() {
     mSize = 0;
 }
 
-void LevelPath::ComputePath(GameArena *pArena) {
-    GameTile *aStartTile = pArena->GetTile(mStartX, mStartY, mStartZ);
-    GameTile *aEndTile = pArena->GetTile(mEndX, mEndY, mEndZ);
+void LevelPath::ComputePath(MapArena *pArena) {
+    MapTile *aStartTile = pArena->GetTile(mStartX, mStartY, mStartZ);
+    MapTile *aEndTile = pArena->GetTile(mEndX, mEndY, mEndZ);
     gArena->mTilePathFinder.FindPath(aStartTile, aEndTile);
     PathNodeConnection *aConnection = gArena->mTilePathFinder.mPathEnd;
     if (aConnection) {

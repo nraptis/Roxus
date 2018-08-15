@@ -1,5 +1,5 @@
 //
-//  GameArena.h
+//  MapArena.h
 //  Mustache
 //
 //  Created by Nick Raptis on 6/15/13.
@@ -18,7 +18,7 @@
 #define TEST_MODE_UNIT_SPAWN 6
 
 #include "GLApp.hpp"
-#include "GameTile.hpp"
+#include "MapTile.hpp"
 #include "AnimatedLevelPath.hpp"
 #include "UnitPath.hpp"
 #include "NodePathFinder.hpp"
@@ -28,16 +28,15 @@
 #include "UnitGroup.hpp"
 #include "FXML.h"
 #include "FObject.h"
-#include "GameArenaHelper.hpp"
 
 #define MAIN_FLOOR 1
 
 //TODO: The end node for each path is never blocked...
 
-class GameArena {
+class MapArena {
 public:
-    GameArena();
-    virtual ~GameArena();
+    MapArena();
+    virtual ~MapArena();
     
     virtual void                                Update();
 
@@ -49,8 +48,6 @@ public:
 
     void                                        Clear();
 
-    GameArenaHelper                             mHelper;
-
     NodePathFinder                              mTilePathFinder;
     NodePathFinder                              mUnitPathFinder;
 
@@ -60,9 +57,9 @@ public:
 
     void                                        UpdateOneFrame();
     bool                                        mOneFrameUpdateEnqueued;
-
+    
     //Our main "grid" of tiles...
-    GameTile                                    ****mTile;
+    MapTile                                     ****mTile;
 
     //The grid that we use for pathfinding, etc - these are clones of the objects in mUnitGridBase...
     PathNode                                    ****mUnitGrid;
@@ -98,13 +95,10 @@ public:
 
     bool                                        mTileVisible[GRID_DEPTH];
     float                                       mTileOpacity[GRID_DEPTH];
-    
     int                                         mTileGridWidthTotal;
     int                                         mTileGridHeightTotal;
-    
     int                                         mTileGridWidthActive;
     int                                         mTileGridHeightActive;
-    
     int                                         mTileGridBufferH;
     int                                         mTileGridBufferV;
 
@@ -143,14 +137,14 @@ public:
     void                                        TestFlush();
 
 
-    GameTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
+    MapTile                                    *GetTile(int pGridX, int pGridY, int pGridZ);
 
     PathNode                                    *GetGridNode(int pGridX, int pGridY, int pGridZ);
     
     
     FRect                                       GetRectForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ);
     
-    GameTile                                    *GetTopTileForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ);
+    MapTile                                    *GetTopTileForNode(int pUnitGridX, int pUnitGridY, int pUnitGridZ);
     
     //If there are multiple tiles for a particular node, we get all of the tiles
     // (max of 2) for the given node...
@@ -174,10 +168,10 @@ public:
     PathNode                                    *GetClosestNode(float pX, float pY, bool pAllowBlocked, bool pAllowOccupied, bool pAllowRamps);
 
     PathNode                                    *GetEndNodeForPath(LevelPath *pPath);
-    PathNode                                    *GetEndNodeForTile(GameTile *pTile);
+    PathNode                                    *GetEndNodeForTile(MapTile *pTile);
 
-    GameTile                                    *GetEndTileForPath(LevelPath *pPath);
-    GameTile                                    *GetStartTileForPath(LevelPath *pPath);
+    MapTile                                    *GetEndTileForPath(LevelPath *pPath);
+    MapTile                                    *GetStartTileForPath(LevelPath *pPath);
 
     PathNode                                    *GetStartNodeForPath(LevelPath *pPath);
     
@@ -309,13 +303,6 @@ public:
     void                                        Save(const char *pPath=0);
     void                                        Load(const char *pPath=0);
 
-    float                                       mTestNinjaRotation;
-    float                                       mTestNinjaFrame;
-    
-    UnitPath                                    mTestUnitPath;
-    void                                        ComputeTestPath();
-
-
     void                                        DeleteSelectedUnit();
     void                                        DeleteSelectedGroup();
     void                                        SplitGroupOnSelectedUnit();
@@ -353,14 +340,9 @@ public:
     float                                       mTestMouseX;
     float                                       mTestMouseY;
     
-    
     //TEST_MODE_UNIT_GROUP_CREATE
-
-
-
-
 };
 
-extern GameArena *gArena;
+extern MapArena *gArena;
 
 #endif

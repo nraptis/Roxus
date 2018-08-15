@@ -12,8 +12,8 @@
 #include "FCanvas.hpp"
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
-#include "GameArena.hpp"
-#include "EditorGameArena.hpp"
+#include "MapArena.hpp"
+#include "EditorMapArena.hpp"
 
 class WorldMenu;
 class TimelineMenu;
@@ -42,7 +42,7 @@ public:
     WorldGestureContainer                   *mGestureContainer;
     WorldTransformContainer                 *mTransformContainer;
     
-    GameArena                               *mArena;
+    MapArena                               *mArena;
 
     TimelineMenu                            *mTimelineMenu;
     WorldMenu                               *mTestMenu;

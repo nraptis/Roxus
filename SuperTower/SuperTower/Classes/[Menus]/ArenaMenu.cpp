@@ -84,7 +84,9 @@ ArenaMenu::ArenaMenu() : ToolMenu() {
 
     mUnitGroupDragSpawnSpeedSlider = new UISlider();
     mUnitGroupDragSpawnSpeedSlider->SetValue(&gArena->mTestDragGroupSpawnSpeed);
+    mUnitGroupDragSpawnSpeedSlider->SetRange(0.25f, 360.0f);
     mUnitGroupDragCreationPanel->AddSection(mUnitGroupDragSpawnSpeedSlider);
+
 
     mUnitGroupDragSpawnTrailerCountSegment = new UISegment(5);
     mUnitGroupDragSpawnTrailerCountSegment->SetTitles("0", "1", "3", "5", "10");
@@ -99,7 +101,10 @@ ArenaMenu::ArenaMenu() : ToolMenu() {
 
     mUnitGroupSingleSpawnSpeedSlider = new UISlider();
     mUnitGroupSingleSpawnSpeedSlider->SetValue(&gArena->mTestSingleGroupSpawnSpeed);
+    mUnitGroupSingleSpawnSpeedSlider->SetRange(0.25f, 360.0f);
     mUnitGroupSingleCreationPanel->AddSection(mUnitGroupSingleSpawnSpeedSlider);
+
+
 
     DeactivateCloseButton();
 

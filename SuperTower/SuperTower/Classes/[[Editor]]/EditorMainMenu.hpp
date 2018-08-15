@@ -13,7 +13,7 @@
 #include "FPoint.h"
 
 class WorldContainer;
-class EditorGameArena;
+class EditorMapArena;
 class EditorMainMenu : public ToolMenu {
 public:
     EditorMainMenu();

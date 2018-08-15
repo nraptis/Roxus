@@ -9,18 +9,18 @@
 #ifndef LEVEL_PATH_HPP
 #define LEVEL_PATH_HPP
 
-#include "GameTile.hpp"
+#include "MapTile.hpp"
 
 //The most basic form of path, contains only grid data
 //and computes most efficient path using modified A*
-class GameArena;
+class MapArena;
 class LevelPath {
 public:
     
     LevelPath();
     ~LevelPath();
     
-    virtual void                        ComputePath(GameArena *pArena);
+    virtual void                        ComputePath(MapArena *pArena);
 
     int                                 mStartX;
     int                                 mStartY;
