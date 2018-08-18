@@ -31,10 +31,16 @@ public:
 
     void                                DrawGridPosInfo(float pShift);
 
+    int                                 mConsecutivePathingFailures;
+
+    void                                Flash(int pFlashTime=30, int pFlashCycles=4);
+
 
     //Rule: We always have a unit group.
     UnitGroup                           *mGroup;
     bool                                mIsLeader;
+
+    bool                                mIsFrozen;
 
     int                                 mPrevGridX;
     int                                 mPrevGridY;
@@ -44,6 +50,15 @@ public:
     int                                 mHPMax;
 
     bool                                ShouldResignLeadership();
+
+
+    int                                 mFlashTime;
+    int                                 mFlashTimer;
+    int                                 mFlashCycles;
+    bool                                mFlashing;
+    float                               mFlashFade;
+    
+    
 
     //The percent we are between  the move start position and
     //the move end position.
@@ -76,6 +91,8 @@ public:
 
 
     void                                ForceCompleteCurrentWalkPathSegment();
+    void                                Halt();
+
 
 
     //Assumption, this is not our current grid location and is an adjacent
@@ -106,7 +123,7 @@ public:
 
     LevelPath                           *mTrackingPath;
 
-    MapTile                            *mDestinationTile;
+    MapTile                             *mDestinationTile;
 
     PathNode                            *mStartNode;
     PathNode                            *mDestinationNode;

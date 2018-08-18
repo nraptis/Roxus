@@ -7,6 +7,7 @@
 //
 
 #include "EditorMapArena.hpp"
+#include "MapGrid.hpp"
 
 EditorMapArena *gEditor = 0;
 EditorMapArena::EditorMapArena() {
@@ -54,9 +55,9 @@ void EditorMapArena::Draw() {
     }
 
     if (mEditorMode == EDITOR_MODE_TILES) {
-        for (int aGridX = 0;aGridX < mTileGridWidthTotal;aGridX++) {
-            for (int aGridY = 0;aGridY < mTileGridHeightTotal;aGridY++) {
-                if (GetTile(aGridX, aGridY, mTileDepth) == 0) {
+        for (int aGridX = 0;aGridX < mGrid->mTileGridWidthTotal;aGridX++) {
+            for (int aGridY = 0;aGridY < mGrid->mTileGridHeightTotal;aGridY++) {
+                if (mGrid->GetTile(aGridX, aGridY, mTileDepth) == 0) {
                     float aCenterX = CX(aGridX, mTileDepth);
                     float aCenterY = CY(aGridY, mTileDepth);
                     float aLeft = aCenterX - gTileSize2;
@@ -136,11 +137,11 @@ void EditorMapArena::Draw() {
 
 void EditorMapArena::AddPath() {
     AnimatedLevelPath *aPath = new AnimatedLevelPath();
-    aPath->mStartX = mTileGridBufferH;
-    aPath->mStartY = mTileGridBufferV + gRand.Get(mTileGridHeightActive);
+    aPath->mStartX = mGrid->mTileGridBufferH;
+    aPath->mStartY = mGrid->mTileGridBufferV + gRand.Get(mGrid->mTileGridHeightActive);
     aPath->mStartZ = 1;
-    aPath->mEndX = mTileGridBufferH + mTileGridHeightActive - 1;
-    aPath->mStartY = mTileGridBufferV + gRand.Get(mTileGridHeightActive);
+    aPath->mEndX = mGrid->mTileGridBufferH + mGrid->mTileGridHeightActive - 1;
+    aPath->mStartY = mGrid->mTileGridBufferV + gRand.Get(mGrid->mTileGridHeightActive);
     aPath->mStartZ = 1;
     mPathList += aPath;
     mCurrentPath = aPath;
@@ -163,10 +164,10 @@ void EditorMapArena::Click(float pX, float pY) {
     int aGridX = -1;
     int aGridY = -1;
     int aGridZ = -1;
-    GetEditorGridPos(pX, pY, aGridX, aGridY, aGridZ);
+    mGrid->GetEditorGridPos(pX, pY, aGridX, aGridY, aGridZ);
 
     if (aGridX == -1 || aGridY == -1 || aGridZ == -1) {
-        GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
+        mGrid->GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
         aGridZ = mTileDepth;
     }
 
@@ -189,10 +190,10 @@ void EditorMapArena::Click(float pX, float pY) {
             }
         }
     } else if(mEditorMode == EDITOR_MODE_TILES) {
-        GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
+        mGrid->GetEditorGridPosAtDepth(pX, pY, mTileDepth, aGridX, aGridY);
         printf("Click [%d,%d] Depth[%d]\n", aGridX, aGridY, mTileDepth);
-        if ((aGridX >= 0) && (aGridY >= 0) && (aGridX < mTileGridWidthTotal) && (aGridY < mTileGridHeightTotal)) {
-            MapTile *aTile = GetTile(aGridX, aGridY, mTileDepth);
+        if ((aGridX >= 0) && (aGridY >= 0) && (aGridX < mGrid->mTileGridWidthTotal) && (aGridY < mGrid->mTileGridHeightTotal)) {
+            MapTile *aTile = mGrid->GetTile(aGridX, aGridY, mTileDepth);
             if (aTile) {
                 if (aTile->mTileType == mTileType) {
                     DeleteTile(aGridX, aGridY, mTileDepth);
@@ -203,32 +204,28 @@ void EditorMapArena::Click(float pX, float pY) {
                 aTile = new MapTile();
                 aTile->SetUp(aGridX, aGridY, mTileDepth);
                 aTile->mTileType = mTileType;
-                mTile[mTileDepth][aGridX][aGridY] = aTile;
+                mGrid->mTile[mTileDepth][aGridX][aGridY] = aTile;
             }
-            RefreshUnitGridNodes();
+            mGrid->RefreshUnitGridNodes();
         }
     }
-    ComputePathConnections();
+    mGrid->ComputePathConnections();
     EnumList (AnimatedLevelPath, aPath, mPathList) {
         aPath->ComputePath(this);
     }
 }
 
-
-
-
-
-
-
 void EditorMapArena::DeleteTile(int pGridX, int pGridY, int pGridZ) {
-    if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mTileGridWidthTotal) && (pGridY < mTileGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
-        delete mTile[pGridZ][pGridX][pGridY];
-        mTile[pGridZ][pGridX][pGridY] = 0;
+    if ((pGridX >= 0) && (pGridY >= 0) && (pGridZ >= 0) && (pGridX < mGrid->mTileGridWidthTotal) && (pGridY < mGrid->mTileGridHeightTotal) && (pGridZ < GRID_DEPTH)) {
+
+
+        mGrid->DeleteTile(pGridX, pGridY, pGridZ);
+
+
+        //delete mGrid->mTile[pGridZ][pGridX][pGridY];
+        //mGrid->mTile[pGridZ][pGridX][pGridY] = 0;
     }
 }
-
-
-
 
 void EditorMapArena::ExportMap() {
     FString aPath = "recent_map_data.xml";
@@ -238,8 +235,8 @@ void EditorMapArena::ExportMap() {
 void EditorMapArena::ExportImage() {
     int aTileWidth = 144;
     int aTileHeight = 144;
-    int aImageWidth = mTileGridWidthTotal * aTileWidth;
-    int aImageHeight = mTileGridHeightTotal * aTileHeight;
+    int aImageWidth = mGrid->mTileGridWidthTotal * aTileWidth;
+    int aImageHeight = mGrid->mTileGridHeightTotal * aTileHeight;
     printf("Saving Image!! (%d x %d)\n", aImageWidth, aImageHeight);
     FImage aImageTunnel;
     FImage aImageFloor;
@@ -253,7 +250,7 @@ void EditorMapArena::ExportImage() {
     FImage aImageBridgeRampL;
     FImage aImageBridgeRampR;
     FImage aImageBlocker;
-
+    
     aImageTunnel.Load("tile_tunnel.png");
     aImageFloor.Load("tile_floor.png");
     aImageBridge.Load("tile_bridge.png");
@@ -290,9 +287,9 @@ void EditorMapArena::ExportImage() {
         FImage aSaveImage;
         aSaveImage.Make(aImageWidth, aImageHeight, 0xFFFFFFFF);
         for (int aDepth=0;aDepth<GRID_DEPTH;aDepth++) {
-            for (int aY=0;aY<mTileGridHeightTotal;aY++) {
-                for (int aX=0;aX<mTileGridWidthTotal;aX++) {
-                    MapTile *aTile = mTile[aDepth][aX][aY];
+            for (int aY=0;aY<mGrid->mTileGridHeightTotal;aY++) {
+                for (int aX=0;aX<mGrid->mTileGridWidthTotal;aX++) {
+                    MapTile *aTile = mGrid->mTile[aDepth][aX][aY];
                     if (aTile) {
                         FImage *aTileImage = 0;
                         FImage *aSpecialImage = 0;

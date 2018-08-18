@@ -7,7 +7,7 @@
 //
 
 #include "TowerPickerMenu.h"
-#include "EditorGameArena.hpp"
+#include "EditorMapArena.hpp"
 #include "GLApp.hpp"
 
 TowerPickerMenu::TowerPickerMenu() {

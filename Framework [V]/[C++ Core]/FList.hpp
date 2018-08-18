@@ -38,6 +38,9 @@ public:
     
     void                    RemoveAllBefore(int pIndex);
     void                    RemoveAllAfter(int pIndex);
+
+    void                    RemoveAllAtOrBefore(int pIndex);
+    void                    RemoveAllAtOrAfter(int pIndex);
     
     void                    RemoveAll() { mCount=0; }
 	

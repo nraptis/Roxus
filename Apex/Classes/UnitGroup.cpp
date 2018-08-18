@@ -72,6 +72,22 @@ bool UnitGroup::RemoveUnit(Unit *pUnit) {
     return aResult;
 }
 
+void UnitGroup::SetDeploySpeed(float pSpeed) {
+    EnumList(Unit, aUnit, mUnitList) {
+        aUnit->mWalkSpeed = pSpeed;
+    }
+}
+
+void UnitGroup::SetNeedsRepath() {
+    
+}
+
+void UnitGroup::Halt() {
+    EnumList(Unit, aUnit, mUnitList) {
+        aUnit->Halt();
+    }
+}
+
 void UnitGroup::DrawConnections(bool pSelected) {
     
     if (mUnitList.mCount <= 0) { return; }
@@ -111,11 +127,7 @@ void UnitGroup::DrawConnections(bool pSelected) {
             Graphics::SetColor(0.66f, 0.66f, 0.25f, 0.75f);
             Graphics::OutlineRect(aX - 4.0f, aY - 4.0f, 9.0f, 9.0f, 2.0f);
         }
-        
     }
-    
-    
-    
 }
 
 

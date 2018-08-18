@@ -9,7 +9,7 @@
 #include "WorldGestureContainer.hpp"
 #include "WorldTransformContainer.hpp"
 #include "WorldContainer.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 #include "GLApp.hpp"
 
 WorldGestureContainer::WorldGestureContainer() {

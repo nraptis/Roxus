@@ -37,22 +37,22 @@ WorldContainer::WorldContainer() {
     mGestureContainer->AddChild(mTransformContainer);
     mGestureContainer->mWorldTransform = mTransformContainer;
 
-
-
     if (gEditorMode) {
-        gEditor = new EditorGameArena();
+        gEditor = new EditorMapArena();
         mArena = gEditor;
         mEditorMenu = new EditorMainMenu();
         AddChild(mEditorMenu);
     } else {
-        mArena = new GameArena();
+        mArena = new MapArena();
 
-        mTestMenu = new WorldMenu(this);
-        AddChild(mTestMenu);
+        if ((gEnvironment != ENV_IPHONE) && (gEnvironment != ENV_ANDROID)) {
+            mTestMenu = new WorldMenu(this);
+            AddChild(mTestMenu);
+        }
 
         mTimelineMenu = new TimelineMenu();
         AddChild(mTimelineMenu);
-
+        
         mArenaMenu = new ArenaMenu();
         AddChild(mArenaMenu);
     }

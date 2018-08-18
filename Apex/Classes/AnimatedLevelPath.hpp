@@ -72,7 +72,7 @@ public:
     void                                DrawPrepare();
     void                                Draw(int pDepth);
 
-    virtual void                        ComputePath(GameArena *pArena);
+    virtual void                        ComputePath(MapArena *pArena);
 
     void                                Reset();
     void                                Generate();

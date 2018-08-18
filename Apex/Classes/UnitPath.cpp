@@ -7,7 +7,7 @@
 //
 
 #include "UnitPath.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 #include "FSpline.h"
 
 UnitPath::UnitPath() {
@@ -27,11 +27,13 @@ UnitPath::~UnitPath() {
     mSize = 0;
 }
 
-void UnitPath::ComputePath(GameArena *pArena) {
+void UnitPath::ComputePath(MapArena *pArena) {
     PathNode *aStartNode = pArena->GetGridNode(mStartX, mStartY, mStartZ);
     PathNode *aEndNode = pArena->GetGridNode(mEndX, mEndY, mEndZ);
-    mPathFinder.FindPath(aStartNode, aEndNode);
-    PathNodeConnection *aConnection = mPathFinder.mPathEnd;
+
+
+    gArena->mUnitPathFinder.FindPath(aStartNode, aEndNode);
+    PathNodeConnection *aConnection = gArena->mUnitPathFinder.mPathEnd;
     if (aConnection) {
         mLength = 0;
         while (aConnection) {
@@ -46,7 +48,7 @@ void UnitPath::ComputePath(GameArena *pArena) {
             mPathZ = mPathY + mSize;
         }
         int aIndex = mLength - 1;
-        aConnection = mPathFinder.mPathEnd;
+        aConnection = gArena->mUnitPathFinder.mPathEnd;
         while (aConnection) {
             mPathX[aIndex] = aConnection->mNode->mGridX;
             mPathY[aIndex] = aConnection->mNode->mGridY;
@@ -55,7 +57,6 @@ void UnitPath::ComputePath(GameArena *pArena) {
             aConnection = aConnection->mPathParent;
             aIndex--;
         }
-
     } else {
         mLength = 0;
     }

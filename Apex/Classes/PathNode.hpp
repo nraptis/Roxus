@@ -13,7 +13,7 @@
 
 //TODO: The real number here should be 8, however,
 //illegal configurations allow us to have more connections..
-#define NODE_CONNECTION_COUNT 24
+#define NODE_CONNECTION_COUNT 12
 
 class PathNode;
 class PathNodeConnection {
@@ -30,11 +30,19 @@ public:
     PathNode                    *mNode;
     
     //This is the cost to hop to this node from its parent..
-    int                         mCost;
+    unsigned int                mCost;
+
     //A* Costs, these are updated / replaced on each search..
-    int                         mCostG;
-    int                         mCostH;
-    int                         mCostTotal;
+    unsigned int                mCostG;
+    unsigned int                mCostH;
+    unsigned int                mCostTotal;
+
+    //unsigned int                mDisabled;
+    //PathNodeConnection          *mHashTableNext;
+
+    //The open list and closed list can sometimes intersect...
+    PathNodeConnection          *mOpenHashTableNext;
+    PathNodeConnection          *mClosedHashTableNext;
 };
 
 class PathNode {
@@ -43,6 +51,7 @@ public:
     virtual ~PathNode();
 
     void                                HardReset();
+
 
     void                                DrawConnections();
 

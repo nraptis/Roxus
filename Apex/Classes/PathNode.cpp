@@ -7,17 +7,24 @@
 //
 
 #include "PathNode.hpp"
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 
 PathNodeConnection::PathNodeConnection() {
     Reset();
 }
 
-PathNodeConnection::~PathNodeConnection() { }
+PathNodeConnection::~PathNodeConnection() {
+
+}
 
 void PathNodeConnection::Reset() {
-    mNode = 0;
-    mPathParent = 0;
+    mNode = NULL;
+    mPathParent = NULL;
+    //mHashTableNext = NULL;
+    
+    mOpenHashTableNext = NULL;
+    mClosedHashTableNext = NULL;
+
     mCost = 0;
     mCostG = 0;
     mCostH = 0;
@@ -37,11 +44,6 @@ PathNode::PathNode() {
 }
 
 PathNode::~PathNode() { }
-
-//void PathNode::SetUp(int pGridX, int pGridY, int pGridZ) {
-//    mGridX = pGridX;mGridY = pGridY;mGridZ = pGridZ;
-//    mCenterX = CX(pGridX, pGridZ);mCenterY = CY(pGridY, pGridZ);
-//}
 
 void PathNode::HardReset() {
     mBlocked = false;
@@ -78,10 +80,6 @@ void PathNode::ConnectTo(PathNode *pNode, int pCost) {
 }
 
 void PathNode::PathReset() {
-    //for (int i=0;i<NODE_CONNECTION_COUNT;i++) {
-    //    mPathConnection[i].Reset();
-    //}
     mPathConnectionCount = 0;
     mOccupied = false;
 }
-

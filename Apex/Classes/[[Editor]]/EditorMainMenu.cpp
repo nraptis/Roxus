@@ -10,7 +10,7 @@
 #include "WorldContainer.hpp"
 #include "PGMainCanvas.hpp"
 #include "FApp.hpp"
-#include "EditorGameArena.hpp"
+#include "EditorMapArena.hpp"
 
 EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mName = "EditorMainMenu";

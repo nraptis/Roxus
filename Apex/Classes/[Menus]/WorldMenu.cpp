@@ -35,7 +35,8 @@ WorldMenu::WorldMenu(WorldContainer *pWorld) : ToolMenu() {
 
     mSliderTestRotation = new UISlider();
     mSliderTestRotation->SetText("Rotation:");
-    mSliderTestRotation->SetValue(&gArena->mTestNinjaRotation);
+    //mSliderTestRotation->SetValue(&gArena->mTestNinjaRotation);
+
     mSliderTestRotation->SetRange(0.0f, 360.0f);
     AddSection(mSliderTestRotation);
 

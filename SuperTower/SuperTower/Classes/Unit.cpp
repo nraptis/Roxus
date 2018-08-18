@@ -7,6 +7,7 @@
 
 #include "Unit.hpp"
 #include "MapArena.hpp"
+#include "MapGrid.hpp"
 #include "UnitPath.hpp"
 #include "AnimatedLevelPath.hpp"
 
@@ -23,6 +24,8 @@ Unit::Unit() {
 
     mGroup = 0;
     mPath = 0;
+
+    mConsecutivePathingFailures = 0;
 
     mMovePercent = 0.0f;
 
@@ -42,8 +45,15 @@ Unit::Unit() {
     mIsWalking = false;
 
     mDidStartWalking = false;
-
     mDidReachEndOfPath = false;
+
+
+    mFlashTime = 60;
+    mFlashTimer = 0;
+    mFlashCycles = 4;
+    mFlashing = false;
+    mFlashFade = 0.0f;
+
 
     mDestinationGridX = -1;
     mDestinationGridY = -1;
@@ -53,6 +63,8 @@ Unit::Unit() {
 
     mHPMax = 200;
     mHP = mHPMax;
+
+    mIsFrozen = false;
 
     mIsSleeping = false;
     mSleepTimer = 0;
@@ -65,16 +77,52 @@ Unit::Unit() {
 
 Unit::~Unit() {
     printf("Delete Unit [%lx]\n", (unsigned long)this);
-
     if (mGroup) {
 
     }
-    
     delete mPath;
     mPath = 0;
 }
 
 void Unit::Update() {
+
+    if (mFlashing) {
+        mFlashTimer += 1;
+        if (mFlashTimer > mFlashTime) {
+            mFlashing = false;
+            mFlashTimer = 0;
+            mFlashTime = 0;
+            mFlashFade = 1.0f;
+        } else {
+            float aFlashPercent = ((float)mFlashTimer) / ((float)mFlashTime);
+            float aFlashCos = aFlashPercent * (PI2 * ((float)mFlashCycles));
+            while (aFlashCos > PI2) {
+                aFlashCos -= PI2;
+            }
+            mFlashFade = cosf(aFlashCos);
+        }
+    }
+    if (mFlashing == false) {
+        if (mFlashFade > 0.0f) {
+            mFlashFade *= 0.96f;
+            mFlashFade -= 0.05f;
+            if (mFlashFade < 0.0f) {
+                mFlashFade = 0.0f;
+            }
+        }
+    }
+
+
+
+
+    if (mIsFrozen) {
+        return;
+    }
+
+    if (mIsLeader == false) {
+        mConsecutivePathingFailures = 0;
+    }
+
     float aMaxFrame = (float)gApp->mNinja.mSequenceFrameCount;
     if (mIsWalking) {
         mFrame += 1.25f;
@@ -91,7 +139,6 @@ void Unit::Update() {
             mSleepTimer = 0;
             mIsSleeping = false;
         }
-
     }
 
     if (mIsSleeping == false) {
@@ -103,7 +150,7 @@ void Unit::Update() {
             }
         }
     }
-
+    
     if (mIsWalking) {
         float aTargetRotation = FaceTarget(mMoveStartX, mMoveStartY, mX, mY);
         mRotation = aTargetRotation; //+= DistanceBetweenAngles(mRotation, aTargetRotation) / 3.0f;
@@ -146,7 +193,16 @@ void Unit::Update() {
 
             if (aGoToNextSegment) {
                 if (AttemptToAdvanceToNextPathSegment(aOvershoot)) {
+                    mConsecutivePathingFailures = 0;
                     gArena->UnitDidFinishWalkingStep(this);
+                } else {
+                    if (gArena->Deploy(mGroup)) {
+                        printf("Avoiding HALT condition, repathing...\n");
+                        mConsecutivePathingFailures = 0;
+                    } else {
+                        printf("Hitting halt condition...\n");
+                        mGroup->Halt();
+                    }
                 }
             }
         } else {
@@ -169,6 +225,16 @@ void Unit::Draw() {
     }
 
     gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 0.5f, 0.0f);
+    if (mFlashFade > 0.0f) {
+        //Graphics::SetColor(1.0f, 0.75f, 0.0f, mFlashFade);
+        Graphics::MonocolorEnable(1.0f, 0.75f, 0.0f);
+        Graphics::SetColor(mFlashFade);
+
+        gApp->mNinja.Draw(mRotation, mFrame, mX, mY, 0.5f, 0.0f);
+        Graphics::SetColor();
+        Graphics::MonocolorDisable();
+    }
+
     
     if (mIsLeader) {
         Graphics::SetColor(0.5f);
@@ -189,10 +255,16 @@ void Unit::Draw() {
 
 void Unit::DrawGridPosInfo(float pShift) {
     FString aGridString = FString("[") + FString(mGridX) + FString(",")
-     + FString(mGridY) + FString(",") + FString(mGridZ) + FString("]");
+    + FString(mGridY) + FString(",") + FString(mGridZ) + FString("]");
     gApp->mSysFont.Center(aGridString.c(), mX, mY - 24.0f + pShift, 0.45f);
 }
 
+void Unit::Flash(int pFlashTime, int pFlashCycles) {
+    mFlashTime = pFlashTime;
+    mFlashTimer = 0;
+    mFlashCycles = pFlashCycles;
+    mFlashing = true;
+}
 
 bool Unit::ShouldResignLeadership() {
 
@@ -230,8 +302,8 @@ void Unit::AttemptCopyPathFromUnit(Unit *pUnit) {
 }
 
 void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMovePercent) {
-    PathNode *aPrevNode = gArena->GetGridNode(mGridX, mGridY, mGridZ);
-    PathNode *aNode = gArena->GetGridNode(pGridX, pGridY, pGridZ);
+    PathNode *aPrevNode = gGrid->GetGridNode(mGridX, mGridY, mGridZ);
+    PathNode *aNode = gGrid->GetGridNode(pGridX, pGridY, pGridZ);
 
     if (aPrevNode == NULL || aNode == NULL) {
         printf("Fatal Error: Node [%lX] Or Prev Node [%lX] is NULL...\n", (unsigned long)aPrevNode, (unsigned long)aNode);
@@ -239,7 +311,7 @@ void Unit::FollowToNextPathSegment(int pGridX, int pGridY, int pGridZ, float pMo
         return;
     }
 
-    printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
+    //printf("FollowToNextPathSegment Prev:(%d %d %d) G:(%d %d %d) N:(%d %d %d)\n", mPrevGridX, mPrevGridY, mPrevGridZ, mGridX, mGridY, mGridZ, pGridX, pGridY, pGridZ);
     
     mPrevGridX = mGridX;mPrevGridY = mGridY;mPrevGridZ = mGridZ;
     mGridX = pGridX;mGridY = pGridY;mGridZ = pGridZ;
@@ -287,8 +359,8 @@ bool Unit::AttemptToAdvanceToNextPathSegment(float pMoveAmount) {
         int aNextGridY = mPath->mPathY[mPathIndex + 1];
         int aNextGridZ = mPath->mPathZ[mPathIndex + 1];
 
-        PathNode *aNode = gArena->GetGridNode(mGridX, mGridY, mGridZ);
-        PathNode *aNextNode = gArena->GetGridNode(aNextGridX, aNextGridY, aNextGridZ);
+        PathNode *aNode = gGrid->GetGridNode(mGridX, mGridY, mGridZ);
+        PathNode *aNextNode = gGrid->GetGridNode(aNextGridX, aNextGridY, aNextGridZ);
 
         if (gArena->CanUnitWalkToAdjacentGridPosition(this, aNextGridX, aNextGridY, aNextGridZ) == false) {
             //printf("Unit - Unable to walk to next desired location...\n");
@@ -367,6 +439,17 @@ void Unit::ForceCompleteCurrentWalkPathSegment() {
     }
 }
 
+void Unit::Halt() {
+    ForceCompleteCurrentWalkPathSegment();
+    mIsWalking = false;
+    mDidStartWalking = false;
+    mConsecutivePathingFailures = 0;
+    if (mPath) {
+        mPath->Reset();
+    }
+}
+
+
 void Unit::RefreshStepPercent() {
     float aStepDiffX = (mMoveEndX - mMoveStartX);
     float aStepDiffY = (mMoveEndY - mMoveStartY);
@@ -396,8 +479,8 @@ void Unit::PlaceOnGrid(PathNode *pStartNode, PathNode *pDestinationNode, MapTile
 
     mStartNode = pStartNode;
     
-    mX = gArena->GetUnitGridX(mGridX, mGridY, mGridZ);
-    mY = gArena->GetUnitGridY(mGridX, mGridY, mGridZ);
+    mX = gGrid->GetUnitGridX(mGridX, mGridY, mGridZ);
+    mY = gGrid->GetUnitGridY(mGridX, mGridY, mGridZ);
     
     mMoveStartX = mX;
     mMoveStartY = mY;

@@ -1,5 +1,5 @@
 //
-//  GameTile.h
+//  MapTile.h
 //  Mustache
 //
 //  Created by Nick Raptis on 6/15/13.
@@ -9,7 +9,20 @@
 #ifndef GAME_TILE_HPP
 #define GAME_TILE_HPP
 
+//MAX_TILE_GRID_WIDTH
+//MAX_TILE_GRID_HEIGHT
+//MAX_UNIT_GRID_WIDTH
+//MAX_UNIT_GRID_HEIGHT
+
+#define MAX_TILE_GRID_WIDTH 20
+#define MAX_TILE_GRID_HEIGHT 20
+
 #define SUBDIVISIONS_PER_TILE   4
+
+#define MAX_UNIT_GRID_WIDTH (SUBDIVISIONS_PER_TILE * MAX_TILE_GRID_WIDTH)
+#define MAX_UNIT_GRID_HEIGHT (SUBDIVISIONS_PER_TILE * MAX_TILE_GRID_HEIGHT)
+
+#define GRID_DEPTH 3
 
 #define TILE_TYPE_NORMAL        0
 #define TILE_TYPE_RAMP_U        1
@@ -22,11 +35,11 @@
 #include "FXML.h"
 #include "PathNode.hpp"
 
-class GameTile : public PathNode {
+class MapTile : public PathNode {
 public:
     
-    GameTile();
-    virtual ~GameTile();
+    MapTile();
+    virtual ~MapTile();
 
     void                                SetUp(int pGridX, int pGridY, int pGridZ);
 

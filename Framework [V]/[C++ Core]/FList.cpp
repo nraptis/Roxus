@@ -321,43 +321,36 @@ void FList::RemoveLast(void *pItem) {
 }
 
 
-void FList::RemoveAllBefore(int pIndex)
-{
-    if(pIndex >= (mCount - 1))
-    {
+void FList::RemoveAllBefore(int pIndex) {
+    if (pIndex >= (mCount - 1)) {
         mCount = 0;
-    }
-    else if(pIndex <= 0)
-    {
+    } else if(pIndex <= 0) {
         //Do Nothing
-    }
-    else
-    {
+    } else {
         int aNewCount = mCount - pIndex;
-        
-        for(int i = 0;i<aNewCount;i++)
-        {
+        for (int i = 0;i<aNewCount;i++) {
             mData[i]=mData[i+pIndex];
         }
         mCount = aNewCount;
     }
-    
 }
 
-void FList::RemoveAllAfter(int pIndex)
-{
-    if(pIndex >= (mCount - 1))
-    {
+void FList::RemoveAllAtOrBefore(int pIndex) {
+    RemoveAllBefore(pIndex + 1);
+}
+
+void FList::RemoveAllAfter(int pIndex) {
+    if (pIndex >= (mCount - 1)) {
         //Do Nothing
-    }
-    else if(pIndex < 0)
-    {
+    } else if(pIndex < 0) {
         mCount = 0;
+    } else {
+        mCount = pIndex + 1;
     }
-    else
-    {
-        mCount=pIndex+1;
-    }
+}
+
+void FList::RemoveAllAtOrAfter(int pIndex) {
+    RemoveAllAfter(pIndex - 1);
 }
 
 

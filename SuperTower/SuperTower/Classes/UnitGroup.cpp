@@ -51,13 +51,12 @@ bool UnitGroup::ContainsUnit(Unit *pUnit) {
 }
 
 void UnitGroup::AddUnit(Unit *pUnit) {
-
     if (pUnit != NULL) {
-
-    if (mUnitList.Exists(pUnit) == false) {
-        mUnitList.Add(pUnit);
-        Refresh();
-    }
+        pUnit->mConsecutivePathingFailures = 0;
+        if (mUnitList.Exists(pUnit) == false) {
+            mUnitList.Add(pUnit);
+            Refresh();
+        }
         pUnit->mGroup = this;
     }
 }
@@ -78,14 +77,18 @@ void UnitGroup::SetDeploySpeed(float pSpeed) {
     }
 }
 
+void UnitGroup::Halt() {
+    EnumList(Unit, aUnit, mUnitList) {
+        aUnit->Halt();
+    }
+}
+
 void UnitGroup::DrawConnections(bool pSelected) {
-    
     if (mUnitList.mCount <= 0) { return; }
     Unit *aPrev = (Unit *)(mUnitList.First());
-    
     for (int i=1;i<mUnitList.mCount;i++) {
         Unit *aUnit = (Unit *)(mUnitList.mData[i]);
-        
+
         float aPrevX = aPrev->mX;
         float aPrevY = aPrev->mY;
         
@@ -97,7 +100,7 @@ void UnitGroup::DrawConnections(bool pSelected) {
         } else {
             Graphics::SetColor(0.55f, 0.55f, 0.55f, 0.85f);
         }
-            
+
         Graphics::DrawLine(aPrevX, aPrevY, aX, aY, 3.0f);
         
         aPrev = aUnit;
@@ -105,23 +108,16 @@ void UnitGroup::DrawConnections(bool pSelected) {
     
     for (int i=0;i<mUnitList.mCount;i++) {
         Unit *aUnit = (Unit *)(mUnitList.mData[i]);
-        
         float aX = aUnit->mX;
         float aY = aUnit->mY;
-        
         if (pSelected) {
             Graphics::SetColor(0.88f, 0.88f, 0.25f, 0.75f);
             Graphics::OutlineRect(aX - 7.0f, aY - 7.0f, 15.0f, 15.0f, 3.0f);
-            
         } else {
             Graphics::SetColor(0.66f, 0.66f, 0.25f, 0.75f);
             Graphics::OutlineRect(aX - 4.0f, aY - 4.0f, 9.0f, 9.0f, 2.0f);
         }
-        
     }
-    
-    
-    
 }
 
 

@@ -1,5 +1,5 @@
 //
-//  EditorEditorGameArena.h
+//  EditorEditorMapArena.h
 //  Mustache
 //
 //  Created by Nick Raptis on 6/21/13.
@@ -9,7 +9,7 @@
 #ifndef EDITOR_GAME_ARENA_H
 #define EDITOR_GAME_ARENA_H
 
-#include "GameArena.hpp"
+#include "MapArena.hpp"
 
 #define EDITOR_MODE_TILES 0
 #define EDITOR_MODE_PATH 1
@@ -19,11 +19,11 @@
 #define EDITOR_TILE_TYPE_BLANK 2
 #define EDITOR_TILE_TYPE_BLOCK 3
 
-class EditorGameArena : public GameArena {
+class EditorMapArena : public MapArena {
 public:
     
-    EditorGameArena();
-    virtual ~EditorGameArena();
+    EditorMapArena();
+    virtual ~EditorMapArena();
 
     virtual void                                Update();
     virtual void                                Draw();
@@ -53,6 +53,6 @@ public:
 
 };
 
-extern EditorGameArena *gEditor;
+extern EditorMapArena *gEditor;
 
 #endif

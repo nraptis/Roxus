@@ -8,6 +8,7 @@
 
 #include "UnitPath.hpp"
 #include "MapArena.hpp"
+#include "MapGrid.hpp"
 #include "FSpline.h"
 
 UnitPath::UnitPath() {
@@ -28,8 +29,8 @@ UnitPath::~UnitPath() {
 }
 
 void UnitPath::ComputePath(MapArena *pArena) {
-    PathNode *aStartNode = pArena->GetGridNode(mStartX, mStartY, mStartZ);
-    PathNode *aEndNode = pArena->GetGridNode(mEndX, mEndY, mEndZ);
+    PathNode *aStartNode = gGrid->GetGridNode(mStartX, mStartY, mStartZ);
+    PathNode *aEndNode = gGrid->GetGridNode(mEndX, mEndY, mEndZ);
 
 
     gArena->mUnitPathFinder.FindPath(aStartNode, aEndNode);
@@ -77,11 +78,11 @@ void UnitPath::DrawMarkers() {
             aGridY = mPathY[i];
             aGridZ = mPathZ[i];
 
-            float aPreviousCenterX = gArena->GetUnitGridX(aPrevGridX, aPrevGridY, aPrevGridZ);
-            float aPreviousCenterY = gArena->GetUnitGridY(aPrevGridX, aPrevGridY, aPrevGridZ);
+            float aPreviousCenterX = gGrid->GetUnitGridX(aPrevGridX, aPrevGridY, aPrevGridZ);
+            float aPreviousCenterY = gGrid->GetUnitGridY(aPrevGridX, aPrevGridY, aPrevGridZ);
             
-            float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
-            float aCenterY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
+            float aCenterX = gGrid->GetUnitGridX(aGridX, aGridY, aGridZ);
+            float aCenterY = gGrid->GetUnitGridY(aGridX, aGridY, aGridZ);
 
             Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.75f);
             Graphics::DrawLine(aPreviousCenterX, aPreviousCenterY, aCenterX, aCenterY, 2.0f);
@@ -97,8 +98,8 @@ void UnitPath::DrawMarkers() {
             aGridX = mPathX[i];
             aGridY = mPathY[i];
             aGridZ = mPathZ[i];
-            float aCenterX = gArena->GetUnitGridX(aGridX, aGridY, aGridZ);
-            float aCenterY = gArena->GetUnitGridY(aGridX, aGridY, aGridZ);
+            float aCenterX = gGrid->GetUnitGridX(aGridX, aGridY, aGridZ);
+            float aCenterY = gGrid->GetUnitGridY(aGridX, aGridY, aGridZ);
             if (gApp->mDarkMode) {
                 Graphics::SetColor(0.25f, 0.25f, 0.25f, 0.125f);
             } else {
@@ -114,10 +115,10 @@ void UnitPath::DrawMarkers() {
         }
     }
 
-    float aX1 = gArena->GetUnitGridX(mStartX, mStartY, mStartZ);
-    float aY1 = gArena->GetUnitGridY(mStartX, mStartY, mStartZ);
-    float aX2 = gArena->GetUnitGridX(mEndX, mEndY, mEndZ);
-    float aY2 = gArena->GetUnitGridY(mEndX, mEndY, mEndZ);
+    float aX1 = gGrid->GetUnitGridX(mStartX, mStartY, mStartZ);
+    float aY1 = gGrid->GetUnitGridY(mStartX, mStartY, mStartZ);
+    float aX2 = gGrid->GetUnitGridX(mEndX, mEndY, mEndZ);
+    float aY2 = gGrid->GetUnitGridY(mEndX, mEndY, mEndZ);
 
     if (mLength < 2) {
         if (gApp->mDarkMode) {

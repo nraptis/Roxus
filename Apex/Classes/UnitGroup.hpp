@@ -33,6 +33,21 @@ public:
 
     bool                            ContainsUnit(Unit *pUnit);
 
+    void                            SetNeedsRepath();
+
+    //Try to only call this when you are at or near the end of a
+    //path segment, this will cancel all units from walking and snap
+    //them into position...
+    void                            Halt();
+
+
+    //Assuming we are not yet deployed and want a ubiquitous speed...
+    void                            SetDeploySpeed(float pSpeed);
+
+    //mTestSingleGroupSpawnSpeed = 2.0f;
+    //mTestDragGroupSpawnSpeed = 0.85f;
+
+
     void                            AddUnit(Unit *pUnit);
     bool                            RemoveUnit(Unit *pUnit);
     

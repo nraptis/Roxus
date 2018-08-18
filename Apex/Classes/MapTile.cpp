@@ -1,15 +1,15 @@
 //
-//  GameTile.cpp
+//  MapTile.cpp
 //  Mustache
 //
 //  Created by Nick Raptis on 6/15/13.
 //  Copyright (c) 2013 Darkswarm LLC. All rights reserved.
 //
 
-#include "GameTile.hpp"
-#include "GameArena.hpp"
+#include "MapTile.hpp"
+#include "MapArena.hpp"
 
-GameTile::GameTile() {
+MapTile::MapTile() {
     mTileType = TILE_TYPE_NORMAL;
     mDisabled = false;
     ResetGrid();
@@ -20,9 +20,9 @@ GameTile::GameTile() {
     mLeft = 0.0f;
 }
 
-GameTile::~GameTile() { }
+MapTile::~MapTile() { }
 
-void GameTile::ResetGrid() {
+void MapTile::ResetGrid() {
     for (int aGridX = 0;aGridX<(SUBDIVISIONS_PER_TILE + 1);aGridX++) {
         for (int aGridY = 0;aGridY<(SUBDIVISIONS_PER_TILE + 1);aGridY++) {
             mGrid[aGridX][aGridY] = 0;
@@ -30,7 +30,7 @@ void GameTile::ResetGrid() {
     }
 }
 
-void GameTile::SetUp(int pGridX, int pGridY, int pGridZ) {
+void MapTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;
@@ -38,11 +38,15 @@ void GameTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileSize + (gTileSize / 2.0f);
 }
 
-void GameTile::Update() {
+void MapTile::Update() {
     
 }
 
-void GameTile::Draw() {
+void MapTile::Draw() {
+
+    if (mDisabled) {
+        return;
+    }
 
     FSprite *aAccessory = 0;
     FSprite *aTile = 0;
@@ -91,20 +95,20 @@ void GameTile::Draw() {
     */
 }
 
-bool GameTile::IsBlocked() {
+bool MapTile::IsBlocked() {
     bool aResult = PathNode::IsBlocked();
     if (mTileType == TILE_TYPE_BLOCKED) { aResult = true; }
     return aResult;
 }
 
-bool GameTile::IsNormal() {
+bool MapTile::IsNormal() {
     bool aResult = true;
     if (IsBlocked()) { aResult = false; }
     if (mTileType != TILE_TYPE_NORMAL) { aResult = false; }
     return aResult;
 }
 
-bool GameTile::IsRamp() {
+bool MapTile::IsRamp() {
     bool aResult = false;
     if (mTileType == TILE_TYPE_RAMP_U) { aResult = true; }
     if (mTileType == TILE_TYPE_RAMP_R) { aResult = true; }
@@ -113,7 +117,7 @@ bool GameTile::IsRamp() {
     return aResult;
 }
 
-bool GameTile::PlacementAllowed() {
+bool MapTile::PlacementAllowed() {
     bool aResult = false;
     if (mTileType == TILE_TYPE_NORMAL) {
         if (mBlocked == false) {
@@ -123,7 +127,7 @@ bool GameTile::PlacementAllowed() {
     return aResult;
 }
 
-FXMLTag *GameTile::Save() {
+FXMLTag *MapTile::Save() {
     FXMLTag *aTag = new FXMLTag("tile");
     aTag->AddParam("grid_x", FString(mGridX).c());
     aTag->AddParam("grid_y", FString(mGridY).c());
@@ -132,7 +136,7 @@ FXMLTag *GameTile::Save() {
     return aTag;
 }
 
-void GameTile::Load(FXMLTag *pTag) {
+void MapTile::Load(FXMLTag *pTag) {
     if (pTag) {
         mGridX = FString(pTag->GetParamValue("grid_x")).ToInt();
         mGridY = FString(pTag->GetParamValue("grid_y")).ToInt();

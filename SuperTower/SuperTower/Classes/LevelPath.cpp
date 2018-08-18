@@ -8,6 +8,7 @@
 
 #include "LevelPath.hpp"
 #include "MapArena.hpp"
+#include "MapGrid.hpp"
 #include "FSpline.h"
 
 LevelPath::LevelPath() {
@@ -34,8 +35,8 @@ LevelPath::~LevelPath() {
 }
 
 void LevelPath::ComputePath(MapArena *pArena) {
-    MapTile *aStartTile = pArena->GetTile(mStartX, mStartY, mStartZ);
-    MapTile *aEndTile = pArena->GetTile(mEndX, mEndY, mEndZ);
+    MapTile *aStartTile = gGrid->GetTile(mStartX, mStartY, mStartZ);
+    MapTile *aEndTile = gGrid->GetTile(mEndX, mEndY, mEndZ);
     gArena->mTilePathFinder.FindPath(aStartTile, aEndTile);
     PathNodeConnection *aConnection = gArena->mTilePathFinder.mPathEnd;
     if (aConnection) {

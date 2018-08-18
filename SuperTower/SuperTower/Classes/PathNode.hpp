@@ -37,6 +37,7 @@ public:
     unsigned int                mCostH;
     unsigned int                mCostTotal;
 
+    //unsigned int                mDisabled;
     //PathNodeConnection          *mHashTableNext;
 
     //The open list and closed list can sometimes intersect...
@@ -51,6 +52,7 @@ public:
 
     void                                HardReset();
 
+    void                                Unblock();
 
     void                                DrawConnections();
 
@@ -60,16 +62,16 @@ public:
     bool                                mBlocked;
 
     //"Occupied" is something that changes based on towers and units.
-    bool                                mOccupied;
+    bool                                mOccupiedByTower;
+    bool                                mOccupiedByUnit;
+    bool                                mOccupiedByItem;
 
     int                                 mGridX;
     int                                 mGridY;
     int                                 mGridZ;
-
+    
     float                               mCenterX;
     float                               mCenterY;
-
-
 
     PathNodeConnection                  mPathConnection[NODE_CONNECTION_COUNT];
     int                                 mPathConnectionCount;
