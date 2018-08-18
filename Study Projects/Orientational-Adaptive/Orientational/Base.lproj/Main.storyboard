@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Coin View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="CoinViewController" customModule="Orientational" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0pd-ER-lVi">
+                                <rect key="frame" x="47" y="101.66666666666669" width="281" height="609"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MlT-Rf-A9k">
+                                        <rect key="frame" x="0.0" y="0.0" width="609" height="281"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btc.png" translatesAutoresizingMaskIntoConstraints="NO" id="mrb-DC-R2M">
+                                                <rect key="frame" x="0.0" y="0.0" width="281.33333333333331" height="281"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="mrb-DC-R2M" secondAttribute="height" multiplier="1:1" id="bP5-JZ-14j"/>
+                                                </constraints>
+                                            </imageView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="any-fj-yTn">
+                                                <rect key="frame" x="328.33333333333326" y="0.0" width="280.66666666666674" height="281"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btc.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ddj-gZ-wk6">
+                                                        <rect key="frame" x="0.0" y="0.0" width="280.66666666666669" height="281"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Ddj-gZ-wk6" secondAttribute="height" multiplier="512:512" id="flo-hK-DlL"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="Ddj-gZ-wk6" firstAttribute="centerY" secondItem="any-fj-yTn" secondAttribute="centerY" id="fng-mH-slB"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="mrb-DC-R2M" firstAttribute="width" relation="lessThanOrEqual" secondItem="MlT-Rf-A9k" secondAttribute="width" multiplier="0.5" id="B8t-ws-pTc"/>
+                                            <constraint firstItem="any-fj-yTn" firstAttribute="top" secondItem="mrb-DC-R2M" secondAttribute="top" id="DVJ-DI-Lgg"/>
+                                            <constraint firstItem="Ddj-gZ-wk6" firstAttribute="height" relation="lessThanOrEqual" secondItem="MlT-Rf-A9k" secondAttribute="height" id="KFB-vR-IbQ"/>
+                                            <constraint firstItem="mrb-DC-R2M" firstAttribute="centerY" secondItem="MlT-Rf-A9k" secondAttribute="centerY" id="a8G-Ly-R4K"/>
+                                            <constraint firstAttribute="trailing" secondItem="any-fj-yTn" secondAttribute="trailing" id="dZh-CW-gra"/>
+                                            <constraint firstItem="mrb-DC-R2M" firstAttribute="leading" secondItem="MlT-Rf-A9k" secondAttribute="leading" id="iIC-7d-JKa"/>
+                                            <constraint firstItem="Ddj-gZ-wk6" firstAttribute="width" relation="lessThanOrEqual" secondItem="MlT-Rf-A9k" secondAttribute="width" multiplier="0.5" id="qV2-Pe-uuX"/>
+                                            <constraint firstItem="mrb-DC-R2M" firstAttribute="height" relation="lessThanOrEqual" secondItem="MlT-Rf-A9k" secondAttribute="height" id="x33-Sc-dTS"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zfu-ng-5vv">
+                                        <rect key="frame" x="0.0" y="0.0" width="281" height="609"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btc.png" translatesAutoresizingMaskIntoConstraints="NO" id="FQY-KU-IRP">
+                                                <rect key="frame" x="0.0" y="0.0" width="281" height="280.66666666666669"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="FQY-KU-IRP" secondAttribute="height" multiplier="1:1" id="rP5-sy-WQP"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btc.png" translatesAutoresizingMaskIntoConstraints="NO" id="x64-08-uXr">
+                                                <rect key="frame" x="-0.33333333333334281" y="328" width="281" height="281"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="x64-08-uXr" secondAttribute="height" multiplier="1:1" id="Zxd-uG-k4v"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="x64-08-uXr" firstAttribute="width" relation="lessThanOrEqual" secondItem="Zfu-ng-5vv" secondAttribute="width" id="176-ce-PpO"/>
+                                            <constraint firstItem="x64-08-uXr" firstAttribute="centerX" secondItem="Zfu-ng-5vv" secondAttribute="centerX" id="CbC-Sq-Vqp"/>
+                                            <constraint firstItem="FQY-KU-IRP" firstAttribute="height" relation="lessThanOrEqual" secondItem="Zfu-ng-5vv" secondAttribute="height" multiplier="0.5" id="P8a-l2-OO1"/>
+                                            <constraint firstItem="FQY-KU-IRP" firstAttribute="centerX" secondItem="Zfu-ng-5vv" secondAttribute="centerX" id="TJ4-gM-qtT"/>
+                                            <constraint firstItem="x64-08-uXr" firstAttribute="height" relation="lessThanOrEqual" secondItem="Zfu-ng-5vv" secondAttribute="height" multiplier="0.5" id="ZDy-9e-XTh"/>
+                                            <constraint firstAttribute="bottom" secondItem="x64-08-uXr" secondAttribute="bottom" id="h4V-13-j1J"/>
+                                            <constraint firstItem="FQY-KU-IRP" firstAttribute="top" secondItem="Zfu-ng-5vv" secondAttribute="top" id="oRl-GE-c2z"/>
+                                            <constraint firstItem="FQY-KU-IRP" firstAttribute="width" relation="lessThanOrEqual" secondItem="Zfu-ng-5vv" secondAttribute="width" id="yKS-Aw-qar"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Zfu-ng-5vv" firstAttribute="leading" secondItem="0pd-ER-lVi" secondAttribute="leading" id="4uu-KZ-9Zt"/>
+                                    <constraint firstAttribute="bottom" secondItem="Zfu-ng-5vv" secondAttribute="bottom" id="5bM-9H-0Vw"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zfu-ng-5vv" secondAttribute="trailing" id="E9D-dR-WTJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="MlT-Rf-A9k" secondAttribute="bottom" id="WOh-P6-5GS"/>
+                                    <constraint firstItem="MlT-Rf-A9k" firstAttribute="leading" secondItem="0pd-ER-lVi" secondAttribute="leading" id="kaz-6k-o6N"/>
+                                    <constraint firstItem="MlT-Rf-A9k" firstAttribute="top" secondItem="0pd-ER-lVi" secondAttribute="top" id="lOy-p6-Lug"/>
+                                    <constraint firstAttribute="trailing" secondItem="MlT-Rf-A9k" secondAttribute="trailing" id="mFT-o5-8WZ"/>
+                                    <constraint firstItem="Zfu-ng-5vv" firstAttribute="top" secondItem="0pd-ER-lVi" secondAttribute="top" id="p9F-hi-l0w"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="MlT-Rf-A9k"/>
+                                        <exclude reference="Zfu-ng-5vv"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="subviews">
+                                        <include reference="MlT-Rf-A9k"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=regular">
+                                    <mask key="subviews">
+                                        <include reference="MlT-Rf-A9k"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="subviews">
+                                        <include reference="Zfu-ng-5vv"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <mask key="subviews">
+                                        <include reference="Zfu-ng-5vv"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0pd-ER-lVi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="H6e-JO-evk"/>
+                            <constraint firstItem="0pd-ER-lVi" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.75" id="KCB-B6-T0s"/>
+                            <constraint firstItem="0pd-ER-lVi" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.75" id="nRa-Sq-tKU"/>
+                            <constraint firstItem="0pd-ER-lVi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="uGZ-Yd-Q0Y"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="container" destination="0pd-ER-lVi" id="o26-nw-vVs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="24.384236453201972" y="31.199999999999999"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="btc.png" width="512" height="512"/>
+    </resources>
+</document>
