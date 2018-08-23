@@ -39,22 +39,40 @@ PathNode::PathNode() {
     mCenterY = 0.0f;
     mPathConnectionCount = 0;
     mBlocked = false;
-    mOccupied = false;
-    PathReset();
+
+    mOccupiedByTower = false;
+    mOccupiedByUnit = false;
+    mOccupiedByItem = false;
 }
 
 PathNode::~PathNode() { }
 
+void PathNode::Unblock() {
+    mBlocked = false;
+
+    //mOccupied = false;
+
+    mOccupiedByTower = false;
+    mOccupiedByUnit = false;
+    mOccupiedByItem = false;
+}
+
 void PathNode::HardReset() {
     mBlocked = false;
-    mOccupied = false;
+    mOccupiedByTower = false;
+    mOccupiedByUnit = false;
+    mOccupiedByItem = false;
     mPathConnectionCount = 0;
 }
 
 bool PathNode::IsBlocked() {
     bool aResult = false;
     if (mBlocked) { aResult = true; }
-    if (mOccupied) { aResult = true; }
+
+    if (mOccupiedByTower) { aResult = true; }
+    if (mOccupiedByUnit) { aResult = true; }
+    if (mOccupiedByItem) { aResult = true; }
+
     return aResult;
 }
 
@@ -81,5 +99,9 @@ void PathNode::ConnectTo(PathNode *pNode, int pCost) {
 
 void PathNode::PathReset() {
     mPathConnectionCount = 0;
-    mOccupied = false;
+
+    mOccupiedByTower = false;
+    mOccupiedByUnit = false;
+    mOccupiedByItem = false;
+
 }

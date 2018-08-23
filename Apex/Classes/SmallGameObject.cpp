@@ -9,6 +9,7 @@
 #include "SmallGameObject.hpp"
 #include "GLApp.hpp"
 #include "MapArena.hpp"
+#include "MapGrid.hpp"
 
 SmallGameObject::SmallGameObject() {
     mX = 0.0f;
@@ -37,8 +38,8 @@ void SmallGameObject::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridY = pGridY;
     mGridZ = pGridZ;
     mDrawZ = pGridZ;
-    mX = gArena->GetUnitGridX(mGridX, mGridY, mGridZ);
-    mY = gArena->GetUnitGridY(mGridX, mGridY, mGridZ);
+    mX = gGrid->GetUnitGridX(mGridX, mGridY, mGridZ);
+    mY = gGrid->GetUnitGridY(mGridX, mGridY, mGridZ);
 }
 
 

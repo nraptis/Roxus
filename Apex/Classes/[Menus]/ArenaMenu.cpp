@@ -84,7 +84,7 @@ ArenaMenu::ArenaMenu() : ToolMenu() {
 
     mUnitGroupDragSpawnSpeedSlider = new UISlider();
     mUnitGroupDragSpawnSpeedSlider->SetValue(&gArena->mTestDragGroupSpawnSpeed);
-    mUnitGroupDragSpawnSpeedSlider->SetRange(0.25f, 360.0f);
+    mUnitGroupDragSpawnSpeedSlider->SetRange(0.25f, 5.0);
     mUnitGroupDragCreationPanel->AddSection(mUnitGroupDragSpawnSpeedSlider);
 
 
@@ -101,7 +101,7 @@ ArenaMenu::ArenaMenu() : ToolMenu() {
 
     mUnitGroupSingleSpawnSpeedSlider = new UISlider();
     mUnitGroupSingleSpawnSpeedSlider->SetValue(&gArena->mTestSingleGroupSpawnSpeed);
-    mUnitGroupSingleSpawnSpeedSlider->SetRange(0.25f, 360.0f);
+    mUnitGroupSingleSpawnSpeedSlider->SetRange(0.25f, 4.0);
     mUnitGroupSingleCreationPanel->AddSection(mUnitGroupSingleSpawnSpeedSlider);
 
 

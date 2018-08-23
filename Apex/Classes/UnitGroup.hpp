@@ -33,8 +33,6 @@ public:
 
     bool                            ContainsUnit(Unit *pUnit);
 
-    void                            SetNeedsRepath();
-
     //Try to only call this when you are at or near the end of a
     //path segment, this will cancel all units from walking and snap
     //them into position...

@@ -11,6 +11,7 @@
 #include "PGMainCanvas.hpp"
 #include "FApp.hpp"
 #include "EditorMapArena.hpp"
+#include "MapGrid.hpp"
 
 EditorMainMenu::EditorMainMenu() : ToolMenu() {
     mName = "EditorMainMenu";
@@ -262,17 +263,17 @@ EditorMainMenu::EditorMainMenu() : ToolMenu() {
 
     mSliderTunnelOpacity = new UISlider();
     mSliderTunnelOpacity->SetText("Tunnels:");
-    mSliderTunnelOpacity->SetValue(&gEditor->mTileOpacity[0]);
+    mSliderTunnelOpacity->SetValue(&gGrid->mTileOpacity[0]);
     mPanelTiles->AddSection(mSliderTunnelOpacity);
 
     mSliderTileOpacity = new UISlider();
     mSliderTileOpacity->SetText("Tiles:");
-    mSliderTileOpacity->SetValue(&gEditor->mTileOpacity[1]);
+    mSliderTileOpacity->SetValue(&gGrid->mTileOpacity[1]);
     mPanelTiles->AddSection(mSliderTileOpacity);
 
     mSliderBridgeOpacity = new UISlider();
     mSliderBridgeOpacity->SetText("Bridges:");
-    mSliderBridgeOpacity->SetValue(&gEditor->mTileOpacity[2]);
+    mSliderBridgeOpacity->SetValue(&gGrid->mTileOpacity[2]);
     mPanelTiles->AddSection(mSliderBridgeOpacity);
     
 
@@ -313,13 +314,13 @@ void EditorMainMenu::Notify(void *pSender, const char *pNotification) {
             gWorldContainer->mGestureContainer->BaseLayout();
         }
 
-        if (pSender == mButtonClearTunnels) { gEditor->ClearTiles(0); }
-        if (pSender == mButtonClearTiles) { gEditor->ClearTiles(1); }
-        if (pSender == mButtonClearBridges) { gEditor->ClearTiles(2); }
+        if (pSender == mButtonClearTunnels) { gGrid->ClearTiles(0); }
+        if (pSender == mButtonClearTiles) { gGrid->ClearTiles(1); }
+        if (pSender == mButtonClearBridges) { gGrid->ClearTiles(2); }
 
-        if (pSender == mButtonFloodTunnels) { gEditor->Flood(0); }
-        if (pSender == mButtonFloodTiles) { gEditor->Flood(1); }
-        if (pSender == mButtonFloodBridges) { gEditor->Flood(2); }
+        if (pSender == mButtonFloodTunnels) { gGrid->Flood(0); }
+        if (pSender == mButtonFloodTiles) { gGrid->Flood(1); }
+        if (pSender == mButtonFloodBridges) { gGrid->Flood(2); }
         
         if (pSender == mButtonAddPath) { gEditor->AddPath(); }
 
