@@ -1,0 +1,36 @@
+<game_arena grid_width_active="6" grid_height_active="8" grid_buffer_h="1" grid_buffer_v="1">
+	<tile_list>
+		<tile grid_x="0" grid_y="0" grid_z="1" type="0"/>
+		<tile grid_x="0" grid_y="1" grid_z="1" type="0"/>
+		<tile grid_x="0" grid_y="2" grid_z="1" type="0"/>
+		<tile grid_x="0" grid_y="5" grid_z="1" type="0"/>
+		<tile grid_x="0" grid_y="6" grid_z="1" type="0"/>
+		<tile grid_x="1" grid_y="0" grid_z="1" type="0"/>
+		<tile grid_x="1" grid_y="1" grid_z="1" type="0"/>
+		<tile grid_x="1" grid_y="2" grid_z="1" type="0"/>
+		<tile grid_x="1" grid_y="4" grid_z="1" type="0"/>
+		<tile grid_x="1" grid_y="5" grid_z="1" type="0"/>
+		<tile grid_x="1" grid_y="6" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="0" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="1" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="2" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="3" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="4" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="5" grid_z="1" type="0"/>
+		<tile grid_x="2" grid_y="6" grid_z="1" type="0"/>
+		<tile grid_x="3" grid_y="1" grid_z="1" type="0"/>
+		<tile grid_x="3" grid_y="2" grid_z="1" type="0"/>
+		<tile grid_x="3" grid_y="3" grid_z="1" type="0"/>
+		<tile grid_x="3" grid_y="4" grid_z="1" type="0"/>
+		<tile grid_x="3" grid_y="5" grid_z="1" type="0"/>
+		<tile grid_x="3" grid_y="6" grid_z="1" type="0"/>
+		<tile grid_x="4" grid_y="5" grid_z="1" type="0"/>
+		<tile grid_x="4" grid_y="6" grid_z="1" type="0"/>
+		<tile grid_x="5" grid_y="5" grid_z="1" type="0"/>
+		<tile grid_x="5" grid_y="6" grid_z="1" type="0"/>
+	</tile_list>
+	<path_list>
+		<path start_x="0" start_y="11" start_z="1" end_x="17" end_y="11" end_z="1"/>
+		<path start_x="0" start_y="10" start_z="1" end_x="17" end_y="10" end_z="1"/>
+	</path_list>
+</game_arena>

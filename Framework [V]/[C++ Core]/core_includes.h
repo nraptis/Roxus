@@ -8,6 +8,15 @@
 #define ENV_IPHONE 2
 #define ENV_ANDROID 3
 
+#ifndef _max
+#define _max(a,b) (((a) > (b)) ? (a) : (b))
+#endif
+#ifndef _min
+#define _min(a,b) (((a) < (b)) ? (a) : (b))
+#endif
+#ifndef _abs
+#define _abs(x) ((x) > 0) ? (x) : -(x)
+#endif
 
 #define LANDSCAPE_MODE 1
 //#undef LANDSCAPE_MODE
@@ -18,6 +27,8 @@
 #include "os_core_includes.h"
 #include "os_core_outlets.h"
 #include "os_core_sound.h"
+#include "os_core_graphics.h"
+
 #include "core_graphics.h"
 
 #include <string.h>

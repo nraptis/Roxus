@@ -8,6 +8,7 @@
 
 #include "FApp.hpp"
 #include "core_includes.h"
+#include "core_app_shell.h"
 
 FApp *gAppBase = 0;
 
@@ -27,10 +28,18 @@ FApp::FApp()
     mSelectedInputWindow = 0;
     
     mTimeSinceLastInteraction = 0;
-
+    
+    mThrottleLock = -1;
+    
     mWindowMain.mRoot.mName = "root-main";
     mWindowModal.mRoot.mName = "root-modal";
     mWindowTools.mRoot.mName = "root-tools";
+    
+    mSkipDrawTick = 0;
+    mUpdateMultiplier = 1;
+    mFPS = 60;
+    mUpdatesPerSecond = 100.0f;
+    RecoverTime();
 }
 
 FApp::~FApp()
@@ -87,7 +96,7 @@ void FApp::BaseUpdate() {
     if (mDidInitialize == false) {
         BaseInitialize();
     }
-
+    
     if (mDidLoad == false) {
         gTouch.Reset();
         return;
@@ -475,3 +484,232 @@ void FApp::BaseMemoryWarning(bool pSevere) {
     mWindowModal.MemoryWarning(pSevere);
     mWindowTools.MemoryWarning(pSevere);
 }
+
+bool FApp::ShouldQuit() {
+    return false;
+}
+
+void FApp::Throttle() {
+    ThrottleLock();
+    
+    //Update frame controller...
+    
+    ThrottleUnlock();
+}
+
+void FApp::ThrottleLock() {
+    if (os_thread_lock_exists(mThrottleLock) == false) {
+        mThrottleLock = os_create_thread_lock();
+    }
+    os_lock_thread(mThrottleLock);
+}
+
+void FApp::ThrottleUnlock() {
+    os_unlock_thread(mThrottleLock);
+}
+
+void FApp::MainRunLoop() {
+    
+    //For now we just load in main thread...
+    BaseLoad();
+    BaseLoadComplete();
+    
+    //Go to main running loop...
+    while (!ShouldQuit()) {
+        printf("Throttle...\n");
+        Throttle();
+    }
+}
+
+void FApp::RecoverTime() {
+    mFrame.mBaseUpdateTime = os_system_time();
+    mFrame.mCurrentUpdateNumber = 0;
+    mFrame.mBreakUpdate = true;
+    mFrame.mDesiredUpdate = 0;
+}
+
+void FApp::ThrottleUpdate() {
+    AppShellUpdate();
+}
+
+void FApp::ThrottleDraw() {
+    
+    
+    AppShellDraw();
+    
+    
+}
+
+void FApp::FrameController() {
+    static unsigned int aLastDrawTime = 0;
+    
+    
+    //TODO: Windows app running in the background...
+    //What do we want to do here? LOL!
+    //
+    // If the App is minimized, we don't do anything here but sleep and Pump and SystemProcess
+    //
+    /*
+    if (mActive == false) {
+        if (os_updates_in_background()) {
+            if (mIdleWhenInBackground) {
+#ifndef AppRunsInThread
+                OS_Core::Pump();
+#endif
+                System_Process();
+                if (mNeedBackgroundDraw)
+                {
+                    ThrottleDraw();
+                    mNeedBackgroundDraw=false;
+                }
+                else OS_Core::Sleep(200);
+            }
+        } else {
+            
+            //System_Process();
+            //OS_Core::Sleep(20);
+            os_sleep(20);
+            return;
+        }
+    }
+    */
+    
+    //
+    // Frame controller for static number of updates/sec
+    //
+    {
+        
+        /////////////////////////////////////////////////////////////////
+        //
+        // Main control loop... calls Update() and Draw() appropriately
+        //
+        /////////////////////////////////////////////////////////////////
+        
+        mFrame.mDesiredUpdate = (float)(os_system_time() - mFrame.mBaseUpdateTime);
+        mFrame.mDesiredUpdate /= 10;
+        mFrame.mDesiredUpdate *= (float)mUpdatesPerSecond / 100.0f;
+        
+        if (mFrame.mDesiredUpdate < mFrame.mCurrentUpdateNumber) {
+            CatchUp();
+        }
+        
+        mFrame.mBreakUpdate=false;
+        bool aShouldDraw = false;
+        int aUpdateCheck = (int)mFrame.mDesiredUpdate - mFrame.mCurrentUpdateNumber;
+        unsigned int aFrameStart = os_system_time();
+        
+        if (aUpdateCheck > 0) {
+            int aAccum = 0;
+            //
+            // Update until we've reached our desired update number...
+            //
+            while (mFrame.mCurrentUpdateNumber < (int)mFrame.mDesiredUpdate && !mFrame.mBreakUpdate) {
+                aShouldDraw=true;
+                
+                
+                //if (OS_Core::WantShutdown()) break;
+                if (ShouldQuit()) {
+                    break;
+                    //System_Process();
+                }
+                
+                
+                //
+                // Process the actual update
+                //
+                mFrame.mCurrentUpdateNumber++;
+                ThrottleUpdate();
+                //mOnscreenKeyboardChanged=false;
+                
+                if (mUpdateMultiplier>1)
+                {
+                    for (int aCount=1;aCount<mUpdateMultiplier;aCount++)
+                    {
+                        mFrame.mCurrentUpdateNumber++;
+                        ThrottleUpdate();
+                    }
+                }
+                else
+                {
+                    //
+                    // If we're updating too much, we want to force drawing at 4FPS.
+                    // This will affect game framerate, but the alternative is to leave
+                    // the program unresponsive.  We do a catchup so we don't end up in
+                    // super speed mode.
+                    if ( ++aAccum > (mUpdatesPerSecond / 4)) {
+                        CatchUp();
+                        break;
+                    }
+                }
+                
+                //if (mInBackground && mIdleWhenInBackground) break;
+                //OS_Core::Sleep(0);
+            }
+            
+            //*
+            {
+                
+                //
+                // If we've finished our updates, draw!
+                // (But only draw if something happened, or
+                // the draw would be completely redundant)
+                //
+                static unsigned int aLastDraw = 0;
+                
+                //TODO: VSync?
+                //if (mLoadComplete) if (!Graphics_Core::IsTimeBeforeVSync(aLastDraw,aLastDrawTime)) aShouldDraw=false;
+                
+                if (mSkipDrawTick > 0) {
+                    mSkipDrawTick--;
+                    aShouldDraw = false;
+                }
+                
+                if (aShouldDraw) {
+                    unsigned int aBeforeDraw = os_system_time();
+                    
+                    ThrottleDraw();
+                    
+                    aLastDraw = os_system_time();
+                    
+                    aLastDrawTime=_max(0, aLastDraw - aBeforeDraw);
+                    
+                    //
+                    // Calculate FPS...
+                    // This gets clipped down to 60, the vertical refresh, because
+                    // when we lower the app's update time, the FPS goes through the
+                    // roof.  I am not sure why this happens at this point... I would
+                    // think it was from skipped ThrottleUpdate calls, but if we skip
+                    // those, then ShouldDraw shouldn't be happening at all...
+                    //
+                    unsigned int aFrameTime = _max(0, os_system_time() - aFrameStart);
+                    
+                    if (aFrameTime > 0) {
+                        mFPS = _min(60, 1000 / aFrameTime);
+                    }
+                    
+                    //TODO:
+                    //
+                    // If we're loading, draw less frequently.
+                    //
+                    //if (!mLoadComplete) mSkipDraw=5;
+                }
+            }
+        }
+    }
+    
+    
+    if ((mActive == false) && (true)) {
+        RecoverTime();
+    }
+    
+    //if (mInBackground && mIdleWhenInBackground) RecoverTime();
+    
+}
+
+
+
+
+
+
+
+

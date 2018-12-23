@@ -325,15 +325,15 @@ public:
     static void                             BlendDisable();
     
     
-    static void										BlendSetAlpha();
+    static void							    BlendSetAlpha();
     static void										BlendSetAdditive();
     static void										BlendSetPremultiplied();
     static void										BlendSetSubtract();
     
-    static void										BlendSetInvert1();
-    static void										BlendSetInvert2();
-    static void										BlendSetGhost1();
-    static void										BlendSetGhost2();
+    static void						        BlendSetInvert1();
+    static void								BlendSetInvert2();
+    static void								BlendSetGhost1();
+    static void								BlendSetGhost2();
     
     
     

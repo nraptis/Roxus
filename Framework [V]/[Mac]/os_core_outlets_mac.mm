@@ -23,29 +23,98 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <pthread.h>
+#include <sys/utsname.h>
+
+//#import "ios.h"
+//#import "OS_Core.h"
+//#import "graphics_core.h"
+#import <mach/mach.h>
+#import <mach/mach_host.h>
+#import <mach/mach_time.h>
+
 
 
 using namespace std;
-bool os_fileExists(const char *pFilePath)
-{
-    FString aPath;
-    aPath.Set(pFilePath);
-    
-    
-    //NSString *documentsDirectory = [paths objectAtIndex:0];
-    //NSString *pdfPath = [[documentsDirectory stringByAppendingPathComponent:@"aimprojectdownloads" ] stringByAppendingPathComponent:entry.articleTitle];
-    
-    return [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithUTF8String:(aPath.c())]];
-    
-    
-    //struct stat buf;
-    //int aFileStat = stat(pFilePath, &buf);
-    //if((0 != aFileStat) || !(buf.st_mode & S_IFMT))return false;
-    //return true;
+
+
+void os_sleep(int pTime) {
+    usleep(pTime * 1000);
 }
 
-bool os_is_portrait()
-{
+
+bool os_updates_in_background() {
+    return true;
+}
+
+bool os_draws_in_background() {
+    return true;
+}
+
+
+//
+// Thread locks...
+//
+class ThreadLockContainer {
+public:
+    NSRecursiveLock* mLock;
+    ThreadLockContainer() {
+        mLock = [NSRecursiveLock new];
+    }
+    ~ThreadLockContainer() {
+        [mLock unlock];
+        mLock = NULL;
+    }
+};
+FList gThreadLockList;
+
+int os_create_thread_lock() {
+    ThreadLockContainer *aContainer = new ThreadLockContainer();
+    int aResult = gThreadLockList.mCount;
+    gThreadLockList.Add(aContainer);
+    return aResult;
+}
+
+bool os_thread_lock_exists(int pLockIndex) {
+    if (pLockIndex >= 0 && pLockIndex < gThreadLockList.mCount) {
+        return true;
+    }
+    return false;
+}
+
+void os_delete_thread_lock(int pLockIndex) {
+    if (pLockIndex >= 0 && pLockIndex < gThreadLockList.mCount) {
+        ThreadLockContainer *aContainer = ((ThreadLockContainer *)gThreadLockList[pLockIndex]);
+        gThreadLockList.RemoveAtIndex(pLockIndex);
+        delete aContainer;
+    }
+}
+
+void os_delete_all_thread_locks() {
+    FreeList(ThreadLockContainer, gThreadLockList);
+}
+
+void os_lock_thread(int pLockIndex) {
+    ThreadLockContainer *aContainer = ((ThreadLockContainer *)gThreadLockList[pLockIndex]);
+    if (aContainer != NULL) {
+        [aContainer->mLock lock];
+    }
+}
+
+void os_unlock_thread(int pLockIndex) {
+    ThreadLockContainer *aContainer = ((ThreadLockContainer *)gThreadLockList[pLockIndex]);
+    if (aContainer != NULL) {
+        [aContainer->mLock unlock];
+    }
+}
+
+bool os_fileExists(const char *pFilePath) {
+    FString aPath;
+    aPath.Set(pFilePath);
+    return [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithUTF8String:(aPath.c())]];
+}
+
+bool os_is_portrait() {
 #ifdef ORIENTATION_LANDSCAPE
     return false;
 #else
@@ -59,10 +128,17 @@ void os_log(const char *pMessage)
     //NSLog(@"%s", pMessage);
 }
 
-unsigned long os_system_time()
-{
-    unsigned long aResult = (unsigned long)(CFAbsoluteTimeGetCurrent() * 10000.0f);
-    return aResult;
+unsigned int os_system_time() {
+    const int64_t aMillion = 1000 * 1000;
+    static mach_timebase_info_data_t aInfo;
+    if (aInfo.denom == 0) {
+        mach_timebase_info(&aInfo);
+    }
+        return (int)((mach_absolute_time()*aInfo.numer)/(aMillion*aInfo.denom));
+    //}
+    
+    //unsigned long aResult = (unsigned long)(CFAbsoluteTimeGetCurrent() * 10000.0f);
+    //return aResult;
 }
 
 unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
@@ -70,89 +146,19 @@ unsigned char *os_read_file(const char *pFileName, unsigned int &pLength)
     unsigned char *aResult = 0;
     pLength = 0;
     
-    if(os_fileExists(pFileName))
-    {
+    if (os_fileExists(pFileName)) {
         FString aPath;
         aPath.Set(pFileName);
         
-        
         NSData *aData = [NSData dataWithContentsOfFile: [NSString stringWithUTF8String:(aPath.c())]];
-        
-        if(aData != nil)
-        {
+        if (aData != nil) {
             pLength = (unsigned int)([aData length]);
             if (pLength > 0) {
                 unsigned char *aFileData = (unsigned char *)[aData bytes];
                 aResult = new unsigned char[pLength];
                 memcpy(aResult, aFileData, pLength);
-                
-                
             }
-            
-            
-            
         }
-        
-        
-        
-        
-        
-        
-        
-        /*
-         
-         
-         
-         
-         //unsigned char * pBuffer = NULL;
-         //CCAssert(pszFileName != NULL && pSize != NULL && pszMode != NULL, "Invalid parameters.");
-         
-         
-         //*pSize = 0;
-         
-         // read the file from hardware
-         
-         //std::string fullPath = fullPathForFilename(pszFileName);
-         //FILE *fp = fopen(pFileName, pszMode);
-         FILE *aFile = fopen(pFileName, "r");
-         
-         //EXP
-         
-         if(aFile)
-         {
-         
-         //CC_BREAK_IF(!fp);
-         
-         fseek(aFile,0,SEEK_END);
-         pLength = ((int)(ftell(aFile)));
-         
-         if(pLength <= 0)
-         {
-         pLength = 0;
-         }
-         else
-         {
-         
-         //*pSize = ftell(fp);
-         fseek(aFile,0,SEEK_SET);
-         aResult = new unsigned char[pLength];
-         
-         //pLength = (int)(
-         fread(aResult,sizeof(unsigned char), pLength, aFile);//);
-         
-         if(aResult != 0)
-         {
-         for(int i=0;(i<8) && (i<pLength);i++)
-         {
-         Log("Read File[%d] = [%d]\n", i, (int)((aResult[i])));
-         }
-         
-         }
-         
-         fclose(aFile);
-         }
-         }
-         */
     }
     
     return aResult;

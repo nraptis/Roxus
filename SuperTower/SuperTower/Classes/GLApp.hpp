@@ -24,6 +24,78 @@ class Game;
 class TilePathFinder;
 class WorldContainer;
 
+#include <unordered_map>
+
+using namespace std;
+class DepthBucket {
+public:
+    DepthBucket() { }
+    
+    unordered_map <int, bool> mMap;
+    vector<int> mHeap;
+    
+    bool Contains(int pHeight) {
+        return mMap[pHeight];
+    }
+    
+    void Add(int pHeight) {
+        
+        mHeap.push_back(pHeight);
+        
+        int aSwapHold = 0;
+        unsigned int aBubbleIndex = mHeap.size() - 1;
+        unsigned int aParentIndex = (aBubbleIndex - 1) / 2;
+        
+        while (aBubbleIndex > 0 && mHeap[aBubbleIndex] > mHeap[aParentIndex]) {
+            aSwapHold = mHeap[aBubbleIndex];
+            mHeap[aBubbleIndex] = mHeap[aParentIndex];
+            mHeap[aParentIndex] = aSwapHold;
+            aBubbleIndex = aParentIndex;
+            aParentIndex = (aBubbleIndex - 1) / 2;
+        }
+    }
+    
+    int Pop() {
+        
+        if (mHeap.size() <= 0) {
+            return -1;
+        }
+        
+        int aResult = mHeap[0];
+        
+        int aSwapHold = 0;
+        
+        unsigned int aBubbleIndex = 0;
+        unsigned int aLeftChild = 2 * aBubbleIndex + 1;
+        unsigned int aRightChild = aLeftChild + 1;
+        unsigned int aMinChild = aLeftChild;
+        
+        while (aLeftChild < mHeap.size()) {
+            if (aRightChild < (mHeap.size()) && mHeap[aRightChild] > mHeap[aLeftChild]) {
+                aMinChild = aRightChild;
+            }
+            if (mHeap[aMinChild] > mHeap[aBubbleIndex]) {
+                aSwapHold = mHeap[aMinChild];
+                mHeap[aMinChild] = mHeap[aBubbleIndex];
+                mHeap[aBubbleIndex] = aSwapHold;
+                aBubbleIndex = aMinChild;
+                aLeftChild = (aBubbleIndex * 2) + 1;
+                aRightChild = aLeftChild + 1;
+                aMinChild = aLeftChild;
+            } else {
+                aLeftChild = mHeap.size();
+            }
+        }
+        
+        mHeap.pop_back();
+        
+        return aResult;
+    }
+    
+    
+};
+
+
 class GLApp : public FApp {
 public:
     GLApp();

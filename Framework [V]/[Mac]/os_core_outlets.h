@@ -1,5 +1,5 @@
-#ifndef APP_OUTLETS_WIN_H
-#define APP_OUTLETS_WIN_H
+#ifndef APP_OUTLETS_MAX_H
+#define APP_OUTLETS_MAX_H
 
 #define Log printf
 
@@ -10,7 +10,21 @@ class FString;
 bool os_fileExists(const char *pFilePath);
 //bool os_fileExists(FString pFilePath);
 
-unsigned long os_system_time();
+
+void os_sleep(int pTime);
+
+unsigned int os_system_time();
+
+bool os_updates_in_background();
+bool os_draws_in_background();
+
+
+int os_create_thread_lock();
+bool os_thread_lock_exists(int pLockIndex);
+void os_delete_thread_lock(int pLockIndex);
+void os_delete_all_thread_locks();
+void os_lock_thread(int pLockIndex);
+void os_unlock_thread(int pLockIndex);
 
 unsigned char *os_read_file(const char *pFileName, unsigned int &pLength);
 bool os_write_file(const char *pFileName, unsigned char *pData, unsigned int pLength);
@@ -28,5 +42,4 @@ void os_exportPNGImage(unsigned int *pData, const char *pFilePath, int pWidth, i
 void os_exportJPEGImage(unsigned int *pData, const char *pFilePath, int pWidth, int pHeight, float pQuality);
 void os_exportToPhotoLibrary(unsigned int *pData, int pWidth, int pHeight);
 
-
-#endif // JNIAPI_H
+#endif

@@ -44,17 +44,17 @@ WorldContainer::WorldContainer() {
         AddChild(mEditorMenu);
     } else {
         mArena = new MapArena();
-
-        if ((gEnvironment != ENV_IPHONE) && (gEnvironment != ENV_ANDROID)) {
-            mTestMenu = new WorldMenu(this);
-            AddChild(mTestMenu);
-        }
-
-        mTimelineMenu = new TimelineMenu();
-        AddChild(mTimelineMenu);
         
-        mArenaMenu = new ArenaMenu();
-        AddChild(mArenaMenu);
+        if ((gEnvironment != ENV_IPHONE) && (gEnvironment != ENV_ANDROID)) {
+            //mTestMenu = new WorldMenu(this);
+            //AddChild(mTestMenu);
+        }
+        
+        //mTimelineMenu = new TimelineMenu();
+        //AddChild(mTimelineMenu);
+        
+        //mArenaMenu = new ArenaMenu();
+        //AddChild(mArenaMenu);
     }
 }
 

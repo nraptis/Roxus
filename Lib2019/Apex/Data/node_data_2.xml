@@ -1,0 +1,32 @@
+<node world_x="1123024890" world_y="1139998719" parent_index="-1" object_rotation="0" object_scale="1065353216" object_scale_x="1065353216" object_scale_y="1065353216" is_particle_source="true" is_color_node="false" is_selectable="true" is_visible="true" blend_type="0">
+	<color r="1065353216" g="1065353216" b="1065353216" a="1065353216"/>
+	<tracking type="0" side_x="1" side_y="1" offset_x="0" offset_y="0" match_xform="false" auto_adjust="false"/>
+	<motion_path count="0" circular="false">
+		<path_node_list/>
+		<path_triangle_list/>
+	</motion_path>
+	<motion_path_abs count="0" circular="false">
+		<path_node_list/>
+		<path_triangle_list/>
+	</motion_path_abs>
+	<particle_template>
+		<meta sprite_path="tile_metal_7_buried_1"/>
+		<source type="0" rect_width="1133903872" rect_height="1128792064" radius="1110966272" count="1" count_r="0" wave_count="1" wave_count_r="0" wave_interval="8" wave_interval_r="0" start_delay_r="0"/>
+		<position offset_x="0" offset_y="0" offset_x_r="0" offset_y_r="0"/>
+		<frames frame_speed="1065353216" frame_speed_r="0" frame_start_random="false" frame_loop="true"/>
+		<scale scale="1065353216" scale_r="0" speed="0" speed_add="0" speed_r="0" accel="1065353216"/>
+		<rotation speed_inv_r="false" rotation="0" rotation_r="0" speed="0" speed_r="0" accel="1065353216"/>
+		<speed x="0" y="0" x_r="0" y_r="0" accel="1065353216" gravity_x="0" gravity_y="0" gravity_y_add="0"/>
+		<directional_speed angle="0" angle_r="0" magnitude="0" magnitude_r="0" push="0" push_r="0"/>
+		<delayed_triggers alpha_speed_add_time="0" alpha_speed_add="0" scale_speed_add_time="0" scale_speed_add="0"/>
+		<colors>
+			<base r="1065353216" g="1065353216" b="1065353216" a="1065353216"/>
+			<base_extra r="0" g="0" b="0" a="1008981770"/>
+			<base_r r="0" g="0" b="0" a="0"/>
+			<speed r="0" g="0" b="0" a="1008981770"/>
+			<speed_r r="0" g="0" b="0" a="0"/>
+		</colors>
+		<polygons count="0"/>
+		<point_clouds count="0"/>
+	</particle_template>
+</node>

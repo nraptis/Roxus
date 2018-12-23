@@ -18,19 +18,17 @@ protected:
     bool                                        mDidLoadStart;
     bool                                        mDidLoad;
     bool                                        mDidUpdate;
-
-public:
-
-
-    virtual void                                Initialize(){}
     
-
+public:
+    
+    virtual void                                Initialize() { }
+    
     virtual void                                SetDeviceSize(float pWidth, float pHeight) { }
     
-
 	virtual void                                SetVirtualFrame(float pX, float pY, float pWidth, float pHeight) { }
-    virtual void                                Load(){}
-    virtual void                                LoadComplete(){}
+    
+    virtual void                                Load() {}
+    virtual void                                LoadComplete() {}
 
     virtual void                                Update(){}
     virtual void                                Draw(){}
@@ -53,13 +51,8 @@ public:
 
     bool                                        mActive;
 
-    virtual void                                MemoryWarning(bool pSevere){}
-
-    //FViewController                             mViewController;
-    //FViewController                             mViewControllerModal;
-    //FViewController                             mViewControllerTools;
-    //FViewController                             *mViewControllerTouch;
-
+    virtual void                                MemoryWarning(bool pSevere) { }
+    
     FWindow                                     mWindowMain;
     FWindow                                     mWindowModal;
     FWindow                                     mWindowTools;
@@ -113,12 +106,45 @@ public:
     void                                        BaseMouseMove(float pX, float pY);
     void                                        BaseMouseUp(float pX, float pY, int pButton);
     void                                        BaseMouseWheel(int pDirection);
-
-
     
-
-
-
+    
+    void                                        MainRunLoop();
+    
+    int                                         mThrottleLock;
+    
+    bool                                        ShouldQuit();
+    
+    void                                        FrameController();
+    
+    void                                        Throttle();
+    void                                        ThrottleLock();
+    void                                        ThrottleUnlock();
+    
+    void                                        ThrottleUpdate();
+    void                                        ThrottleDraw();
+    
+    //
+    // Control stuff...
+    //
+    
+    float                                       mUpdatesPerSecond;
+    int                                         mUpdateMultiplier;
+    
+    int                                         mSkipDrawTick;
+    
+    void                                        RecoverTime();
+    inline void                                 CatchUp() { RecoverTime(); }
+    
+    struct Frame
+    {
+        unsigned int                            mBaseUpdateTime;
+        int                                     mCurrentUpdateNumber;
+        bool                                    mBreakUpdate;
+        float                                   mDesiredUpdate;
+    }                                           mFrame;
+    
+    int                                         mFPS;
+    
 };
 
 extern FApp *gAppBase;

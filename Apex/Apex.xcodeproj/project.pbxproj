@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D446D9F21C06292003A3AEB /* os_core_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D446D9D21C06292003A3AEB /* os_core_graphics.cpp */; };
 		50183DF020F2C4B100C776FA /* FScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D8220F2C4B100C776FA /* FScrollView.cpp */; };
 		50183DF120F2C4B100C776FA /* FScrollViewPaged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D8420F2C4B100C776FA /* FScrollViewPaged.cpp */; };
 		50183DF220F2C4B100C776FA /* FView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50183D8620F2C4B100C776FA /* FView.cpp */; };
@@ -145,6 +146,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D446D9D21C06292003A3AEB /* os_core_graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = os_core_graphics.cpp; sourceTree = "<group>"; };
+		0D446D9E21C06292003A3AEB /* os_core_graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = os_core_graphics.h; sourceTree = "<group>"; };
 		50183D8220F2C4B100C776FA /* FScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollView.cpp; sourceTree = "<group>"; };
 		50183D8320F2C4B100C776FA /* FScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FScrollView.h; sourceTree = "<group>"; };
 		50183D8420F2C4B100C776FA /* FScrollViewPaged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FScrollViewPaged.cpp; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 		50183D9020F2C4B100C776FA /* [Mac] */ = {
 			isa = PBXGroup;
 			children = (
+				0D446D9D21C06292003A3AEB /* os_core_graphics.cpp */,
+				0D446D9E21C06292003A3AEB /* os_core_graphics.h */,
 				50183D9120F2C4B100C776FA /* os_core_app_shell.h */,
 				50183D9220F2C4B100C776FA /* os_core_app_shell_mac.mm */,
 				50183D9320F2C4B100C776FA /* os_core_includes.cpp */,
@@ -623,56 +628,56 @@
 		507CF712212D9FB100926278 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				507CF713212D9FB100926278 /* TowerDetailMenu.h */,
-				507CF714212D9FB100926278 /* PathNode.hpp */,
-				507CF715212D9FB100926278 /* MapTile.hpp */,
-				507CF716212D9FB100926278 /* TowerBullet.h */,
-				507CF717212D9FB100926278 /* UnitPath.cpp */,
-				507CF718212D9FB100926278 /* SpriteSequenceNested.h */,
-				507CF719212D9FB100926278 /* MapArena.cpp */,
-				507CF71A212D9FB100926278 /* GLApp.hpp */,
-				507CF71B212D9FB100926278 /* WorldContainer.cpp */,
-				507CF71C212D9FB100926278 /* UnitGroup.hpp */,
-				507CF71D212D9FB100926278 /* SmallGameObject.cpp */,
-				507CF71E212D9FB100926278 /* LevelPath.hpp */,
-				507CF71F212D9FB100926278 /* WorldGestureContainer.cpp */,
-				507CF720212D9FB100926278 /* Tower.cpp */,
-				507CF721212D9FB100926278 /* WorldTransformContainer.cpp */,
-				507CF722212D9FB100926278 /* NodePathFinder.hpp */,
-				507CF723212D9FB100926278 /* Unit.hpp */,
-				507CF724212D9FB100926278 /* MapGrid.hpp */,
-				507CF725212D9FB100926278 /* [Menus] */,
-				507CF72C212D9FB100926278 /* TowerDetailMenu.cpp */,
-				507CF72D212D9FB100926278 /* LargeGameObject.hpp */,
-				507CF72E212D9FB100926278 /* AnimatedLevelPath.cpp */,
-				507CF72F212D9FB100926278 /* [[Playground]] */,
-				507CF76B212D9FB100926278 /* TowerPickerMenu.h */,
-				507CF76C212D9FB100926278 /* LevelPath.cpp */,
-				507CF76D212D9FB100926278 /* TowerBullet.cpp */,
-				507CF76E212D9FB100926278 /* WorldGestureContainer.hpp */,
-				507CF76F212D9FB100926278 /* Tower.hpp */,
-				507CF770212D9FB100926278 /* TowerPickerMenuButton.cpp */,
-				507CF771212D9FB100926278 /* WorldTransformContainer.hpp */,
-				507CF772212D9FB100926278 /* NodePathFinder.cpp */,
-				507CF773212D9FB100926278 /* MapGrid.cpp */,
-				507CF774212D9FB100926278 /* Unit.cpp */,
-				507CF775212D9FB100926278 /* LargeGameObject.cpp */,
-				507CF776212D9FB100926278 /* AnimatedLevelPath.hpp */,
-				507CF777212D9FB100926278 /* Util_ScreenFrame.cpp */,
-				507CF778212D9FB100926278 /* PathNode.cpp */,
-				507CF779212D9FB100926278 /* MapTile.cpp */,
-				507CF77A212D9FB100926278 /* UnitPath.hpp */,
-				507CF77B212D9FB100926278 /* TowerPickerMenuButton.h */,
 				507CF77C212D9FB100926278 /* [[Editor]] */,
-				507CF781212D9FB100926278 /* MapArena.hpp */,
-				507CF782212D9FB100926278 /* SpriteSequenceNested.cpp */,
+				507CF72F212D9FB100926278 /* [[Playground]] */,
+				507CF725212D9FB100926278 /* [Menus] */,
+				507CF72E212D9FB100926278 /* AnimatedLevelPath.cpp */,
+				507CF776212D9FB100926278 /* AnimatedLevelPath.hpp */,
 				507CF783212D9FB100926278 /* GLApp.cpp */,
-				507CF784212D9FB100926278 /* TowerPickerMenu.cpp */,
-				507CF785212D9FB100926278 /* Util_ScreenFrame.h */,
-				507CF786212D9FB100926278 /* WorldContainer.hpp */,
+				507CF71A212D9FB100926278 /* GLApp.hpp */,
+				507CF775212D9FB100926278 /* LargeGameObject.cpp */,
+				507CF72D212D9FB100926278 /* LargeGameObject.hpp */,
+				507CF76C212D9FB100926278 /* LevelPath.cpp */,
+				507CF71E212D9FB100926278 /* LevelPath.hpp */,
+				507CF719212D9FB100926278 /* MapArena.cpp */,
+				507CF781212D9FB100926278 /* MapArena.hpp */,
+				507CF773212D9FB100926278 /* MapGrid.cpp */,
+				507CF724212D9FB100926278 /* MapGrid.hpp */,
+				507CF779212D9FB100926278 /* MapTile.cpp */,
+				507CF715212D9FB100926278 /* MapTile.hpp */,
+				507CF772212D9FB100926278 /* NodePathFinder.cpp */,
+				507CF722212D9FB100926278 /* NodePathFinder.hpp */,
+				507CF778212D9FB100926278 /* PathNode.cpp */,
+				507CF714212D9FB100926278 /* PathNode.hpp */,
 				507CF787212D9FB100926278 /* PriorityQueue.hpp */,
+				507CF71D212D9FB100926278 /* SmallGameObject.cpp */,
 				507CF788212D9FB100926278 /* SmallGameObject.hpp */,
+				507CF782212D9FB100926278 /* SpriteSequenceNested.cpp */,
+				507CF718212D9FB100926278 /* SpriteSequenceNested.h */,
+				507CF720212D9FB100926278 /* Tower.cpp */,
+				507CF76F212D9FB100926278 /* Tower.hpp */,
+				507CF76D212D9FB100926278 /* TowerBullet.cpp */,
+				507CF716212D9FB100926278 /* TowerBullet.h */,
+				507CF72C212D9FB100926278 /* TowerDetailMenu.cpp */,
+				507CF713212D9FB100926278 /* TowerDetailMenu.h */,
+				507CF784212D9FB100926278 /* TowerPickerMenu.cpp */,
+				507CF76B212D9FB100926278 /* TowerPickerMenu.h */,
+				507CF770212D9FB100926278 /* TowerPickerMenuButton.cpp */,
+				507CF77B212D9FB100926278 /* TowerPickerMenuButton.h */,
+				507CF774212D9FB100926278 /* Unit.cpp */,
+				507CF723212D9FB100926278 /* Unit.hpp */,
 				507CF789212D9FB100926278 /* UnitGroup.cpp */,
+				507CF71C212D9FB100926278 /* UnitGroup.hpp */,
+				507CF717212D9FB100926278 /* UnitPath.cpp */,
+				507CF77A212D9FB100926278 /* UnitPath.hpp */,
+				507CF777212D9FB100926278 /* Util_ScreenFrame.cpp */,
+				507CF785212D9FB100926278 /* Util_ScreenFrame.h */,
+				507CF71B212D9FB100926278 /* WorldContainer.cpp */,
+				507CF786212D9FB100926278 /* WorldContainer.hpp */,
+				507CF71F212D9FB100926278 /* WorldGestureContainer.cpp */,
+				507CF76E212D9FB100926278 /* WorldGestureContainer.hpp */,
+				507CF721212D9FB100926278 /* WorldTransformContainer.cpp */,
+				507CF771212D9FB100926278 /* WorldTransformContainer.hpp */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -921,6 +926,7 @@
 				507CF7BE212D9FB100926278 /* SpriteSequenceNested.cpp in Sources */,
 				507CF7B4212D9FB100926278 /* TowerPickerMenuButton.cpp in Sources */,
 				507CF7AA212D9FB100926278 /* UIStepper.cpp in Sources */,
+				0D446D9F21C06292003A3AEB /* os_core_graphics.cpp in Sources */,
 				5056908021164BAF0030A968 /* FQuad.cpp in Sources */,
 				507CF7A4212D9FB100926278 /* UIButton.cpp in Sources */,
 				5056907E21164BAF0030A968 /* FTextureCache.cpp in Sources */,

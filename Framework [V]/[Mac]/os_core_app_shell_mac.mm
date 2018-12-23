@@ -2,6 +2,7 @@
 #include "os_core_includes.h"
 #include "core_includes.h"
 #include "os_core_app_shell.h"
+#include "FApp.hpp"
 
 static int gOpenGLWindow = 0;
 
@@ -92,9 +93,7 @@ void os_core_refreshModifierKeys() {
     }
 }
 
-
-void os_core_render()
-{
+void os_core_render() {
     AppShellUpdate();
     AppShellDraw();
     
@@ -267,8 +266,8 @@ int os_core_main(int argc, char **argv) {
     AppShellSetVirtualFrame(gVirtualX, gVirtualY, gVirtualWidth, gVirtualHeight);
     
     
-    AppShellLoad();
-    AppShellLoadComplete();
+    //AppShellLoad();
+    //AppShellLoadComplete();
     
     glutDisplayFunc(os_core_render);
     glutIdleFunc(os_core_idle);
@@ -282,8 +281,9 @@ int os_core_main(int argc, char **argv) {
     glutSpecialUpFunc(os_core_keyUpSpecial);
     glutMotionFunc(os_core_mouseMove);
     
-    glutMainLoop();
+    gAppBase->MainRunLoop();
     
+    glutMainLoop();
     glutDestroyWindow(gOpenGLWindow);
 
     return 0;

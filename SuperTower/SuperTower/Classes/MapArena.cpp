@@ -147,6 +147,14 @@ void MapArena::UpdateBody() {
     
     RefreshUnitGroups();
 
+    EnumList(Unit, aUnit, mUnitList) {
+        if (aUnit->mGroup == NULL) {
+            printf("Fata Error: Ungrouped unit...\n");
+        }
+        if (aUnit->mGroup->mUnitList.mCount <= 0) {
+            printf("Fata Error: Unit has an empty group, illegal assignment...\n");
+        }
+    }
 
     //An important step, here we want to take any unit which is not
     //sleeping and does not have a path / or is not walking, and then

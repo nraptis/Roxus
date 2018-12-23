@@ -295,13 +295,13 @@ void AppShellLoadComplete()
     if(gAppBase)(gAppBase)->BaseLoadComplete();
 }
 
-void AppShellUpdate()
-{
-    if(gAppBase)gAppBase->BaseUpdate();
+void AppShellUpdate() {
+    if (gAppBase) {
+        gAppBase->BaseUpdate();
+    }
 }
 
-void AppShellDraw()
-{
+void AppShellDraw() {
     if (gAppBase) {
         (gAppBase)->BaseDraw();
     }

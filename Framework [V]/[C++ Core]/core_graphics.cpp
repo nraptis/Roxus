@@ -73,6 +73,8 @@ void core_graphics_initialize()
     Graphics::TextureEnable();
     Graphics::EnableTextureCoordinateArray();
     Graphics::EnableVertexArray();
+    
+    
 }
 
 void SetAdditive(bool pState)

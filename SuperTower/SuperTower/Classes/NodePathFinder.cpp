@@ -300,8 +300,7 @@ bool NodePathFinder::FindPath(PathNode *pStart, PathNode *pEnd) {
             }
         }
     }
-
-    //$1,000,000.
+    
     return aResult;
 }
 

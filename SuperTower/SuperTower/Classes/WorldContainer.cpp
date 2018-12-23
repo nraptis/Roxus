@@ -46,15 +46,15 @@ WorldContainer::WorldContainer() {
         mArena = new MapArena();
 
         if ((gEnvironment != ENV_IPHONE) && (gEnvironment != ENV_ANDROID)) {
-            mTestMenu = new WorldMenu(this);
-            AddChild(mTestMenu);
+            //mTestMenu = new WorldMenu(this);
+            //AddChild(mTestMenu);
         }
 
-        mTimelineMenu = new TimelineMenu();
-        AddChild(mTimelineMenu);
+        //mTimelineMenu = new TimelineMenu();
+        //AddChild(mTimelineMenu);
         
-        mArenaMenu = new ArenaMenu();
-        AddChild(mArenaMenu);
+        //mArenaMenu = new ArenaMenu();
+        //AddChild(mArenaMenu);
     }
 }
 

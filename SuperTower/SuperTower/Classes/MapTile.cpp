@@ -34,7 +34,7 @@ void MapTile::SetUp(int pGridX, int pGridY, int pGridZ) {
     mGridX = pGridX;
     mGridY = pGridY;
     mGridZ = pGridZ;
-    mCenterX = CX(pGridX, pGridZ);// (float)pGridX * gTileSize + (gTileSize / 2.0f);
+    mCenterX = CX(pGridX, pGridZ);//(float)pGridX * gTileSize + (gTileSize / 2.0f);
     mCenterY = CY(pGridY, pGridZ);//(float)pGridY * gTileSize + (gTileSize / 2.0f);
 }
 
