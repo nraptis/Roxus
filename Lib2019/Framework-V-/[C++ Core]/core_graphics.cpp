@@ -798,14 +798,10 @@ bool Graphics::TextureValid(FTexture *pTexture)
     return aResult;
 }
 
-void Graphics::TextureSetData(int pIndex, unsigned int *pData, int pWidth, int pHeight)
-{
+void Graphics::TextureSetData(int pIndex, unsigned int *pData, int pWidth, int pHeight) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-    
     TextureBind(pIndex);
-    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pWidth, pHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pData);
 }
 

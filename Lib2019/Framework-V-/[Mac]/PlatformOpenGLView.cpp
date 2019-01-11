@@ -373,6 +373,12 @@ void PlatformOpenGLView::Kill() {
     //release();
 }
 
+void PlatformOpenGLView::SetContext() {
+    
+    glfwMakeContextCurrent(_mainWindow);
+    
+}
+
 void PlatformOpenGLView::Prerender() {
     
 }

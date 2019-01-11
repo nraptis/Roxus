@@ -6,7 +6,7 @@
 class FList;
 class FString;
 
-
+void os_detach_thread(void (*theFunction)(void *theArg), void* theArg);
 
 bool os_fileExists(const char *pFilePath);
 

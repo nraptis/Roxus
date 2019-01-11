@@ -563,7 +563,7 @@ void FApp::Throttle() {
         mIsLoading = true;
         mIsLoadingComplete = false;
         mTriggerLoadComplete = false;
-        void *aArgs = (void*)0xDEADBABE;
+        void *aArgs = (void*)0xDEADE7E7;
         os_detach_thread(mLoadFunc, aArgs);
         mLoadFunc = NULL;
     }
@@ -620,7 +620,8 @@ void FApp::ThrottleDraw() {
     //os_execute_on_main_thread(aFunc);
     
     //void (*aFunc)() = ThrottleDrawThread;
-    os_execute_on_main_thread(ThrottleDrawThread);
+    //os_execute_on_main_thread(ThrottleDrawThread);
+    ThrottleDrawThread();
     
     /*
     Graphics::ThreadLock();

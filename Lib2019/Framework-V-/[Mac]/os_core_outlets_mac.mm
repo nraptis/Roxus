@@ -49,6 +49,13 @@
 
 using namespace std;
 
+void os_detach_thread(void (*theFunction)(void *theArg), void* theArg) {
+    pthread_t aThread;
+    pthread_attr_t aAttr;
+    pthread_attr_init(&aAttr);
+    pthread_attr_setdetachstate(&aAttr, PTHREAD_CREATE_DETACHED);
+    pthread_create(&aThread,&aAttr,(void*(*)(void*))theFunction,theArg);
+}
 
 void os_execute_on_main_thread(void (*pFunc)()) {
     printf("os_execute_on_main_thread - BANNED\n");

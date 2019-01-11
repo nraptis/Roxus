@@ -91,6 +91,7 @@ public:
     virtual void Kill();
     virtual bool IsReady();
     
+    virtual void SetContext();
     virtual void PollEvents();
     virtual void Prerender();
     virtual void Render();

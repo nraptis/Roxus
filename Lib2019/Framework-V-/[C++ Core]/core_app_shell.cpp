@@ -292,9 +292,10 @@ void AppShellLoadThread() {
     if(gAppBase)(gAppBase)->BaseLoad();
 }
 
-void AppShellLoad()
-{
-    os_execute_on_main_thread(AppShellLoadThread);
+void AppShellLoad() {
+    if(gAppBase)(gAppBase)->BaseLoad();
+    //os_execute_on_main_thread(AppShellLoadThread);
+    
 }
 
 void AppShellLoadComplete()
